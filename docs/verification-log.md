@@ -47,3 +47,11 @@
 - Rollback dry-run re-verified after amendment (moved=0 skipped=2697 warned=0).
 - Force-push NOT executed: destructive remote op, needs explicit owner confirmation. Safe sequence proposed: tag archive/origin-main-pre-ir2 at 4b7634b6 + push tag, then push --force.
 
+
+## Wakeword rename (2026-10-04, feat/wakeword-rename)
+
+- git mv tools/wakewords/hey_hermes.tflite -> tools/wakewords/hey_vael.tflite (history preserved).
+- SHA-256 before: 744FDD81FEDC28FF1B9268BAEE20876CDF9BF1BC6F06BC2ED5C9CBEBC1A44B1D; after: identical (match verified).
+- File-path refs updated (3): tools/wake_word.py _bundled_wakeword_path (+honest comment; _BUNDLED_MODEL_NAME kept as hey_hermes so config default + aliases + engine labels keep working), tools/wakewords/README.md (filename + label note), website/docs/user-guide/features/wake-word.md (filename).
+- Intentionally unchanged: default model name 'hey_hermes' (config compat), _BUNDLED_MODEL_ALIASES, engine labels, all 'hey hermes' phrase strings (desktop/TUI/locales/tests/docs), synthetic test paths (/models/hey_hermes.tflite passthrough), historical docs/ir2-mapping/* records.
+

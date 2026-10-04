@@ -86,9 +86,14 @@ _BUNDLED_MODEL_NAME = "hey_hermes"
 _BUNDLED_MODEL_ALIASES = frozenset({"", "hey_hermes", "hey hermes", "hermes"})
 
 
+# Model filename is vael; wake phrase is still "hey hermes"
+# until the model is regenerated (docs/open-items.md, P2).
+_BUNDLED_MODEL_FILE = "hey_vael.tflite"
+
+
 def _bundled_wakeword_path() -> str:
-    """Path to the shipped hey_hermes.tflite — pyopen-wakeword runs TFLite only."""
-    return os.path.join(os.path.dirname(__file__), "wakewords", f"{_BUNDLED_MODEL_NAME}.tflite")
+    """Path to the shipped hey_vael.tflite — pyopen-wakeword runs TFLite only."""
+    return os.path.join(os.path.dirname(__file__), "wakewords", _BUNDLED_MODEL_FILE)
 
 
 def load_wake_word_config() -> Dict[str, Any]:

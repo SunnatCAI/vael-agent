@@ -197,7 +197,7 @@ don't have the single-frame-spike problem and ignore `confirmation_frames`
 The `openwakeword` provider name now selects
 [pyopen-wakeword](https://github.com/rhasspy/pyopen-wakeword). Its wheel includes
 the TFLite library and shared feature models. Hermes uses the bundled
-`hey_hermes.tflite` model by default. ONNX wake models and the
+`hey_vael.tflite` model by default. ONNX wake models and the
 `inference_framework` setting are no longer supported.
 
 ### Surfaces (CLI, TUI, GUI)

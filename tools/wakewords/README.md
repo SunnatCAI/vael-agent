@@ -1,6 +1,6 @@
 # Bundled wake-word models
 
-`hey_hermes.tflite` — the on-device "Hey Hermes" hotword model. This is the
+`hey_vael.tflite` — the on-device "Hey Hermes" hotword model. This is the
 default detector for the wake word feature (see
 `website/docs/user-guide/features/wake-word.md`); no training or setup is
 required to say "hey hermes".
@@ -11,7 +11,8 @@ required to say "hey hermes".
 - **Provenance:** trained with the openWakeWord training pipeline (synthetic
   TTS-generated speech), which produces the `.tflite` artifact. Redistribution
   is permitted under the openWakeWord license.
-- **Label:** the model registers as `hey_hermes` (matches the filename).
+- **Label:** the model registers as `hey_hermes` (the label comes from the
+  weights; only the file was renamed to `hey_vael.tflite`).
 - **Runtime:** the `pyopen-wakeword` wheel includes the shared
   melspectrogram and embedding models. Starting this engine requires no
   model download. Identical model files alone do not establish identical
