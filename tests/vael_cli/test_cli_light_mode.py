@@ -183,6 +183,21 @@ class TestSkinConfigHook:
         assert skin.get_color("banner_text") == "#1A1A1A"
         assert skin.get_color("response_border") == "#9A6B00"
 
+    def test_skin_light_palette_flips_a_fill_with_its_foreground(self, cli_mod, monkeypatch):
+        """A fill and the text on it must change polarity together: the keyed light palette
+        answers for both, where the hex remap could only darken one side."""
+        from vael_cli.skin_engine import SkinConfig
+
+        skin = SkinConfig(
+            name="test",
+            colors={"status_bar_bg": "#101010", "status_bar_text": "#EEEEEE"},
+            light_colors={"status_bar_bg": "#F0F0F0", "status_bar_text": "#222222"},
+        )
+        cli_mod._LIGHT_MODE_CACHE = True
+        assert (skin.get_color("status_bar_bg"), skin.get_color("status_bar_text")) == ("#F0F0F0", "#222222")
+        cli_mod._LIGHT_MODE_CACHE = False
+        assert (skin.get_color("status_bar_bg"), skin.get_color("status_bar_text")) == ("#101010", "#EEEEEE")
+
     def test_skin_color_passthrough_in_dark_mode(self, cli_mod, monkeypatch):
         from vael_cli.skin_engine import SkinConfig
 

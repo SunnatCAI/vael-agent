@@ -1,6 +1,8 @@
-"""Tests for banner skills display — terminal-width-aware truncation."""
+"""Tests for the hero layout's skills display — terminal-width-aware truncation. (The journal
+layout shows counted groups instead; see ``test_banner_journal.py``.)"""
 
 import os
+from types import SimpleNamespace
 from unittest.mock import patch
 
 from rich.console import Console
@@ -19,6 +21,7 @@ def _build_banner_with_skills(skills_by_category, term_width=160):
         ),
         patch.object(banner, "get_available_skills", return_value=skills_by_category),
         patch.object(banner, "get_update_result", return_value=None),
+        patch.object(banner, "_active_skin", return_value=SimpleNamespace(banner_hero="[dim]art[/]", banner_logo="")),
         patch.object(tools.mcp_tool_discovery, "get_mcp_status", return_value=[]),
         patch("shutil.get_terminal_size", return_value=os.terminal_size((term_width, 50))),
     ):

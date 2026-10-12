@@ -1,4 +1,4 @@
-"""Welcome banner, ASCII art, skills summary, and update check for the CLI."""
+"""Welcome page, skills summary, and update check for the CLI."""
 import json
 import logging
 import os
@@ -65,33 +65,10 @@ def _skin_color(key: str, fallback: str) -> str:
     return _quiet(lambda: _active_skin().get_color(key, fallback), fallback)
 
 
-# === ASCII Art & Branding ===
+# === Branding ===
 
 from vael_cli import __release_date__ as RELEASE_DATE
 from vael_cli.version_info import get_version_info
-
-VAEL_AGENT_LOGO = """[bold #FFD700]██╗   ██╗ █████╗ ███████╗██╗            █████╗  ██████╗ ███████╗███╗   ██╗████████╗[/]
-[bold #FFD700]██║   ██║██╔══██╗██╔════╝██║           ██╔══██╗██╔════╝ ██╔════╝████╗  ██║╚══██╔══╝[/]
-[#FFBF00]██║   ██║███████║█████╗  ██║     █████╗███████║██║  ███╗█████╗  ██╔██╗ ██║   ██║[/]
-[#FFBF00]╚██╗ ██╔╝██╔══██║██╔══╝  ██║     ╚════╝██╔══██║██║   ██║██╔══╝  ██║╚██╗██║   ██║[/]
-[#CD7F32] ╚████╔╝ ██║  ██║███████╗███████╗      ██║  ██║╚██████╔╝███████╗██║ ╚████║   ██║[/]
-[#CD7F32]  ╚═══╝  ╚═╝  ╚═╝╚══════╝╚══════╝      ╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚═╝  ╚═══╝   ╚═╝[/]"""
-
-VAEL_CADUCEUS = """[#CD7F32]⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⡀⠀⣀⣀⠀⢀⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀[/]
-[#CD7F32]⠀⠀⠀⠀⠀⠀⢀⣠⣴⣾⣿⣿⣇⠸⣿⣿⠇⣸⣿⣿⣷⣦⣄⡀⠀⠀⠀⠀⠀⠀[/]
-[#FFBF00]⠀⢀⣠⣴⣶⠿⠋⣩⡿⣿⡿⠻⣿⡇⢠⡄⢸⣿⠟⢿⣿⢿⣍⠙⠿⣶⣦⣄⡀⠀[/]
-[#FFBF00]⠀⠀⠉⠉⠁⠶⠟⠋⠀⠉⠀⢀⣈⣁⡈⢁⣈⣁⡀⠀⠉⠀⠙⠻⠶⠈⠉⠉⠀⠀[/]
-[#FFD700]⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣴⣿⡿⠛⢁⡈⠛⢿⣿⣦⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀[/]
-[#FFD700]⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠿⣿⣦⣤⣈⠁⢠⣴⣿⠿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀[/]
-[#FFBF00]⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉⠻⢿⣿⣦⡉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀[/]
-[#FFBF00]⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⢷⣦⣈⠛⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀[/]
-[#CD7F32]⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣴⠦⠈⠙⠿⣦⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀[/]
-[#CD7F32]⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠸⣿⣤⡈⠁⢤⣿⠇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀[/]
-[#B8860B]⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠛⠷⠄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀[/]
-[#B8860B]⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⠑⢶⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀[/]
-[#B8860B]⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⠁⢰⡆⠈⡿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀[/]
-[#B8860B]⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠳⠈⣡⠞⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀[/]
-[#B8860B]⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀[/]"""
 
 # === Skills scanning ===
 
@@ -318,18 +295,21 @@ def get_update_result(timeout: float = 0.5) -> Optional[int]:
     return _update_result
 
 
-def _format_update_notice(behind: int) -> str:
-    """Render the update warning line for a non-zero ``behind`` result."""
+def _update_notice_parts(behind: int) -> tuple:
+    """``(text, command)`` for a non-zero ``behind`` result; ``command`` may be empty."""
     from vael_cli.config import get_managed_update_command, recommended_update_command
     if behind > 0:
-        return (
-            f"[bold yellow]⚠ {behind} {_plural(behind, 'commit')} behind[/]"
-            f"[dim yellow] — run [bold]{recommended_update_command()}[/bold] to update[/]")
+        return f"{behind} {_plural(behind, 'commit')} behind", recommended_update_command()
     # UPDATE_AVAILABLE_NO_COUNT (nix): an update exists but we don't know by how much, nor how
     # the user installed (nix run, profile, system flake, home-manager).
-    managed_cmd = get_managed_update_command()
-    suffix = f"[dim yellow] — run [bold]{managed_cmd}[/bold][/]" if managed_cmd else ""
-    return f"[bold yellow]⚠ update available[/]{suffix}"
+    return "update available", get_managed_update_command() or ""
+
+
+def _format_update_notice(behind: int) -> str:
+    """Render the update warning line for a non-zero ``behind`` result."""
+    text, command = _update_notice_parts(behind)
+    suffix = f"[dim yellow] — run [bold]{command}[/bold]{' to update' if behind > 0 else ''}[/]" if command else ""
+    return f"[bold yellow]⚠ {text}[/]{suffix}"
 
 
 _deferred_update_notice_started = False
@@ -362,7 +342,11 @@ def _defer_update_notice(max_wait: float = 30.0) -> None:
 
     def _wait_and_print() -> None:
         if _update_check_done.wait(timeout=max_wait) and _update_result:
-            cprint(_render_markup_to_ansi(_format_update_notice(_update_result)))
+            if _uses_hero_layout(_quiet(_active_skin)):
+                cprint(_render_markup_to_ansi(_format_update_notice(_update_result)))
+            else:
+                from vael_cli.journal import notice_ansi
+                cprint(notice_ansi("update", *_update_notice_parts(_update_result)))
     _daemon("update-notice", _wait_and_print)  # never break the session over an update notice
 
 
@@ -606,54 +590,49 @@ def _route_model_for_banner(provider: Any) -> str:
     return GUEST_MODEL if free_tier_route() else ""
 
 
-def _banner_left_lines(model: str, cwd: str, session_id, context_length, provider, *, accent: str, dim: str,
-                       context_pinned: bool = False) -> list:
-    """Model / cwd / session lines under the hero art. ``context_pinned`` marks a
+def _banner_model_state(model: str, provider: Any, context_length, context_pinned: bool = False):
+    """What the session will answer with, for either layout. ``context_pinned`` marks a
     ``model.context_length`` pin so the user can tell it apart from provider metadata (#66168)."""
-    def _dim_sep(label: str) -> str:
-        return f" [dim {dim}]·[/] [dim {dim}]{label}[/]"
-    lines = []
+    from vael_cli.banner_journal import ModelState
     pin = " (pinned)" if context_pinned else ""
-    ctx_str = _dim_sep(f"{_format_context_length(context_length)} context{pin}") if context_length else ""
-    nous_str = _dim_sep("Nous Research")
+    context = f"{_format_context_length(context_length)} context{pin}" if context_length else ""
     if not (model or "").strip():
         # Credentials resolve lazily on the first message; the banner prints first. Ask the route
-        # the same question so a fresh free-tier install shows its model, not a red "unconfigured".
+        # the same question so a fresh free-tier install shows its model, not "not ready".
         model = _quiet(lambda: _route_model_for_banner(provider), "") or model
     if (provider or "").strip().lower() == "moa":
         # MoA virtual provider: ``model`` is a preset name; show it with its aggregator.
-        agg_label = _quiet(lambda: _moa_aggregator_label(model), "")
-        agg_str = _dim_sep(f"agg {agg_label}") if agg_label else ""
-        lines.append(f"[{accent}]MoA: {_short_label(model)}[/]{agg_str}{ctx_str}{nous_str}")
-    elif not (model or "").strip() or (model or "").strip().lower() == "unknown":
+        return ModelState("moa", _short_label(model), _quiet(lambda: _moa_aggregator_label(model), ""), context)
+    if not (model or "").strip() or (model or "").strip().lower() == "unknown":
+        return ModelState("none")
+    return ModelState("model", _short_label(model.split("/")[-1].removesuffix(".gguf")), "", context)
+
+
+def _banner_left_lines(state, cwd: str, session_id, *, accent: str, dim: str) -> list:
+    """Model / cwd / session lines under a skin's hero art."""
+    def _dim_sep(label: str) -> str:
+        return f" [dim {dim}]·[/] [dim {dim}]{label}[/]" if label else ""
+    lines = []
+    if state.kind == "moa":
+        agg = f"agg {state.aggregator}" if state.aggregator else ""
+        lines.append(f"[{accent}]MoA: {state.name}[/]{_dim_sep(agg)}{_dim_sep(state.context)}")
+    elif state.kind == "none":
         # Unconfigured install: the clearest place to say what is wrong and how to fix it.
         lines.append(f"[bold red]no model configured[/] [dim {dim}]— run /model or vael setup[/]")
     else:
-        model_short = model.split("/")[-1].removesuffix(".gguf")
-        lines.append(f"[{accent}]{_short_label(model_short)}[/]{ctx_str}{nous_str}")
+        lines.append(f"[{accent}]{state.name}[/]{_dim_sep(state.context)}")
     if os.getenv("VAEL_YOLO_MODE"):
         lines.append(f"[bold red]⚠ YOLO mode[/] [dim {dim}]— all approval prompts bypassed[/]")
     lines.append(f"[dim {dim}]{cwd}[/]")
     if session_id:
-        lines.append(f"[dim {_skin_color('session_border', '#8B8682')}]Session: {session_id}[/]")
+        lines.append(f"[dim {_skin_color('session_border', '#5E6B66')}]Session: {session_id}[/]")
     return lines
 
 
 def _banner_tool_lines(
-    tools: list, unavailable_toolsets: list, get_toolset_for_tool, *,
-    lazy_tools: set, disabled_tools: set, accent: str, dim: str, text: str) -> list:
+    toolsets_dict: Dict[str, list], *, lazy_tools: set, disabled_tools: set, accent: str, dim: str, text: str) -> list:
     """"Available Tools" section: up to 8 toolsets, each truncated to ~42 columns."""
     lines = [f"[bold {accent}]Available Tools[/]"]
-    toolsets_dict: Dict[str, list] = {}
-    for tool in tools:
-        tool_name = tool["function"]["name"]
-        toolset = _display_toolset_name(get_toolset_for_tool(tool_name) or "other")
-        toolsets_dict.setdefault(toolset, []).append(tool_name)
-    for item in unavailable_toolsets:
-        names = toolsets_dict.setdefault(_display_toolset_name(item.get("id", item.get("name", "unknown"))), [])
-        for tool_name in item.get("tools", []):
-            if tool_name not in names:
-                names.append(tool_name)
 
     def _color_tool(name: Optional[str]) -> str:
         if name is None:  # truncation marker
@@ -684,20 +663,35 @@ def _banner_skill_lines(skills_by_category: Dict[str, List[str]], skills_enabled
     return lines
 
 
+def _uses_hero_layout(skin) -> bool:
+    """A skin that ships its own art keeps the framed hero panel; every other skin gets the journal."""
+    return bool(getattr(skin, "banner_hero", None) or getattr(skin, "banner_logo", None))
+
+
+def _toolsets_for_banner(tools: list, unavailable_toolsets: list, get_toolset_for_tool) -> Dict[str, list]:
+    """``toolset -> tool names`` for the enabled tools plus the toolsets that could not load."""
+    toolsets: Dict[str, list] = {}
+    for tool in tools:
+        tool_name = tool["function"]["name"]
+        toolsets.setdefault(_display_toolset_name(get_toolset_for_tool(tool_name) or "other"), []).append(tool_name)
+    for item in unavailable_toolsets:
+        names = toolsets.setdefault(_display_toolset_name(item.get("id", item.get("name", "unknown"))), [])
+        names.extend(n for n in item.get("tools", []) if n not in names)
+    return toolsets
+
+
 def build_welcome_banner(
     console: "Console", model: str, cwd: str, tools: List[dict] = None, enabled_toolsets: List[str] = None,
     session_id: str = None, get_toolset_for_tool=None, context_length: int = None, provider: str = None,
     availability: Dict[str, Any] = None, skills_by_category: Dict[str, List[str]] = None,
     context_pinned: bool = False,
 ):
-    """Build and print a welcome banner with caduceus on left and info on right.
+    """Print the welcome page: the journal, or the framed hero panel for a skin that ships art.
 
     When ``provider == "moa"``, ``model`` is a MoA preset name and the aggregator is rendered.
     Passing a precomputed ``availability`` together with ``get_toolset_for_tool`` avoids any
     ``model_tools`` import (banner snapshot replay).
     """
-    from rich.panel import Panel
-    from rich.table import Table
     if get_toolset_for_tool is None:
         from model_tools import get_toolset_for_tool
     tools = tools or []
@@ -705,25 +699,11 @@ def build_welcome_banner(
     if availability is None:
         availability = compute_toolset_availability(enabled_toolsets)
     _enabled_ts = {str(t) for t in enabled_toolsets}
-    # Resolve skin colors once for the entire banner
-    accent = _skin_color("banner_accent", "#FFBF00")
-    dim = _skin_color("banner_dim", "#B8860B")
-    text = _skin_color("banner_text", "#FFF8DC")
-    # Use skin's custom caduceus art if provided
     _bskin = _quiet(_active_skin)
-    left_lines = ["", getattr(_bskin, "banner_hero", None) or VAEL_CADUCEUS, ""]
-    left_lines += _banner_left_lines(model, cwd, session_id, context_length, provider, accent=accent, dim=dim,
-                                     context_pinned=context_pinned)
-    right_lines = _banner_tool_lines(
-        tools, availability.get("unavailable_toolsets", []), get_toolset_for_tool,
-        lazy_tools=set(availability.get("lazy_tools", [])), disabled_tools=set(availability.get("disabled_tools", [])),
-        accent=accent, dim=dim, text=text)
-    # MCP Servers section (only if configured) — see ``_mcp_configured`` for why the cheap probe.
+    state = _banner_model_state(model, provider, context_length, context_pinned)
+    unavailable = availability.get("unavailable_toolsets", [])
+    # MCP servers (only if configured) — see ``_mcp_configured`` for why the cheap probe.
     mcp_status = _quiet(_probe_mcp_status, []) if _mcp_configured() else []
-    if mcp_status:
-        right_lines += ["", f"[bold {accent}]MCP Servers[/]"]
-        right_lines.extend(_mcp_server_line(srv, dim=dim, text=text) for srv in mcp_status)
-    right_lines += ["", f"[bold {accent}]Available Skills[/]"]
     # The skills catalog is only reachable when the `skills` toolset is enabled (skill_view /
     # skill_manage). When disabled (Blank Slate) the agent cannot load any skill, so advertising
     # the on-disk catalog would be misleading — reflect the real state.
@@ -732,47 +712,98 @@ def build_welcome_banner(
         skills_by_category = {}
     elif skills_by_category is None:
         skills_by_category = get_available_skills()
+    # Show active profile name when not 'default'. Never break the banner over a profiles.py bug.
+    _profile_name = _quiet(_active_profile_name)
+    profile = _profile_name if _profile_name and _profile_name != "default" else None
+    # Flag the codex_app_server runtime so users understand why tool counts may not match what's
+    # reachable (codex builds its own tool list inside the spawned subprocess).
+    codex_runtime = bool(_quiet(_codex_runtime_active, False))
+    # Update check — NEVER block the banner on it: the prefetch does git/network work that rarely
+    # finishes before render, so a blocking wait adds its full timeout to every startup. If not
+    # ready, a daemon thread prints the same notice above the prompt when it lands.
+    def _update_behind():
+        behind = get_update_result(timeout=0.05)
+        if behind is None and not _update_check_done.is_set():
+            _defer_update_notice()
+        return behind or None
+    behind = _quiet(_update_behind)  # Never break the banner over an update check
+    release_info = get_latest_release_tag()
+    if _uses_hero_layout(_bskin):
+        _print_hero_banner(
+            console, _bskin, state, cwd, session_id, tools=tools,
+            toolsets=_toolsets_for_banner(tools, unavailable, get_toolset_for_tool), availability=availability,
+            mcp_status=mcp_status, skills_by_category=skills_by_category, skills_enabled=_skills_enabled,
+            profile=profile, codex_runtime=codex_runtime, behind=behind, release_info=release_info)
+        return
+    from vael_cli import banner_journal
+    agent_name = getattr(_bskin, "get_branding", lambda _key, fallback: fallback)("agent_name", "VAEL Agent")
+    version, _, build = format_banner_version_label().removeprefix("VAEL Agent ").partition(" · ")
+    # An enabled toolset that did not load is named and flagged, and adds nothing to the counts;
+    # the availability notices printed after the page say why.
+    not_loaded = {_display_toolset_name(item.get("id", item.get("name", "unknown"))) for item in unavailable}
+    update_text, update_command = _update_notice_parts(behind) if behind else ("", "")
+    banner_journal.render(console, banner_journal.Welcome(
+        agent_name=agent_name, version=version, build=build,
+        release_url=release_info[1] if release_info else None, cwd=cwd, session_id=session_id,
+        profile=profile, model=state, yolo=bool(os.getenv("VAEL_YOLO_MODE")),
+        toolsets=_toolsets_for_banner(tools, [], get_toolset_for_tool), not_loaded=not_loaded,
+        tool_count=len(tools), codex_runtime=codex_runtime,
+        skills=skills_by_category, skills_enabled=_skills_enabled, mcp=mcp_status,
+        terminal_backend=(os.getenv("TERMINAL_ENV") or "local").strip().lower(),
+        update_text=update_text, update_command=update_command))
+
+
+def _print_hero_banner(
+    console: "Console", skin, state, cwd: str, session_id, *, tools: list, toolsets: Dict[str, list],
+    availability: Dict[str, Any], mcp_status: list, skills_by_category: Dict[str, List[str]],
+    skills_enabled: bool, profile: Optional[str], codex_runtime: bool, behind: Optional[int], release_info,
+) -> None:
+    """The framed panel for a skin that ships art: hero on the left, inventory on the right."""
+    from rich.panel import Panel
+    from rich.table import Table
+    # Resolve skin colors once for the entire banner
+    accent = _skin_color("banner_accent", "#18AA7F")
+    dim = _skin_color("banner_dim", "#7C8B85")
+    text = _skin_color("banner_text", "#D3DCD7")
+    hero = getattr(skin, "banner_hero", None)
+    left_lines = (["", hero, ""] if hero else []) + _banner_left_lines(
+        state, cwd, session_id, accent=accent, dim=dim)
+    right_lines = _banner_tool_lines(
+        toolsets, lazy_tools=set(availability.get("lazy_tools", [])),
+        disabled_tools=set(availability.get("disabled_tools", [])), accent=accent, dim=dim, text=text)
+    if mcp_status:
+        right_lines += ["", f"[bold {accent}]MCP Servers[/]"]
+        right_lines.extend(_mcp_server_line(srv, dim=dim, text=text) for srv in mcp_status)
+    right_lines += ["", f"[bold {accent}]Available Skills[/]"]
     total_skills = sum(len(s) for s in skills_by_category.values())
-    right_lines += _banner_skill_lines(skills_by_category, _skills_enabled, dim=dim, text=text)
+    right_lines += _banner_skill_lines(skills_by_category, skills_enabled, dim=dim, text=text)
     right_lines.append("")
     mcp_connected = sum(1 for s in mcp_status if s["connected"])
     summary_parts = [f"{len(tools)} tools", f"{total_skills} skills"]
     if mcp_connected:
         summary_parts.append(f"{mcp_connected} MCP servers")
     summary_parts.append("/help for commands")
-    # Flag the codex_app_server runtime so users understand why tool counts may not match what's
-    # reachable (codex builds its own tool list inside the spawned subprocess).
-    if _quiet(_codex_runtime_active, False):
+    if codex_runtime:
         right_lines.append(f"[bold {accent}]Runtime:[/] [{text}]codex app-server[/] "
                            f"[dim {dim}](terminal/file ops/MCP run inside codex)[/]")
-    # Show active profile name when not 'default'. Never break the banner over a profiles.py bug.
-    _profile_name = _quiet(_active_profile_name)
-    if _profile_name and _profile_name != "default":
-        right_lines.append(f"[bold {accent}]Profile:[/] [{text}]{_profile_name}[/]")
+    if profile:
+        right_lines.append(f"[bold {accent}]Profile:[/] [{text}]{profile}[/]")
     right_lines.append(f"[dim {dim}]{' · '.join(summary_parts)}[/]")
-    # Update check — NEVER block the banner on it: the prefetch does git/network work that rarely
-    # finishes before render, so a blocking wait adds its full timeout to every startup. If not
-    # ready, a daemon thread prints the same notice above the prompt when it lands.
-    def _update_line():
-        behind = get_update_result(timeout=0.05)
-        if behind is None and not _update_check_done.is_set():
-            _defer_update_notice()
-        elif behind is not None and behind != 0:
-            right_lines.append(_format_update_notice(behind))
-    _quiet(_update_line)  # Never break the banner over an update check
+    if behind:
+        right_lines.append(_format_update_notice(behind))
     layout_table = Table.grid(padding=(0, 2))
     layout_table.add_column("left", justify="left")
     layout_table.add_column("right", justify="left")
     layout_table.add_row("\n".join(left_lines), "\n".join(right_lines))
     version_label = format_banner_version_label()
-    release_info = get_latest_release_tag()
     if release_info:
         version_label = f"[link={release_info[1]}]{version_label}[/link]"
     outer_panel = Panel(
-        layout_table, title=f"[bold {_skin_color('banner_title', '#FFD700')}]{version_label}[/]",
-        border_style=_skin_color("banner_border", "#CD7F32"), padding=(0, 2))
+        layout_table, title=f"[bold {_skin_color('banner_title', '#F2F6F4')}]{version_label}[/]",
+        border_style=_skin_color("banner_border", "#2E6F5B"), padding=(0, 2))
     console.print()
-    if shutil.get_terminal_size().columns >= 95:
-        console.print(getattr(_bskin, "banner_logo", None) or VAEL_AGENT_LOGO)
+    logo = getattr(skin, "banner_logo", None)
+    if logo and shutil.get_terminal_size().columns >= 95:
+        console.print(logo)
         console.print()
     console.print(outer_panel)

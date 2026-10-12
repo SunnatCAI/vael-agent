@@ -55,6 +55,16 @@ def _attach_agent(
 
 
 class TestCLIStatusBar:
+    def test_a_fresh_unconfigured_session_shows_no_placeholders(self):
+        """Before a model, a context window or a first turn exist there is nothing to measure, so
+        the bar names the missing model and leaves the empty segments out."""
+        cli_obj = _make_cli(model="")
+
+        text = cli_obj._build_status_bar_text(width=120)
+
+        assert text.startswith("no model")
+        assert "--" not in text and "░" not in text and "unknown" not in text
+
     def test_session_title_is_right_aligned_after_it_is_queued(self):
         cli_obj = _make_cli()
         cli_obj._pending_title = "weekly-digest"
@@ -141,7 +151,7 @@ class TestCLIStatusBar:
 
         text = cli_obj._build_status_bar_text(width=120)
 
-        assert "🗜️ 3" in text
+        assert "≡ 3" in text
 
 
 
@@ -326,7 +336,7 @@ class TestStatusBarFieldConfig:
         assert "claude-sonnet-4-20250514" in text
         assert "15m" in text
         assert "12.4K/200K" not in text
-        assert "🗜️" not in text
+        assert "≡" not in text
         assert "%" not in text
 
 
@@ -362,7 +372,7 @@ class TestStatusBarFieldConfig:
         frag_texts = [text for _, text in frags]
         assert any("claude-sonnet-4-20250514" in t for t in frag_texts)
         assert any("15m" in t for t in frag_texts)
-        assert not any("🗜️" in t for t in frag_texts)
+        assert not any("≡" in t for t in frag_texts)
         assert not any("12.4K" in t for t in frag_texts)
 
 
@@ -370,7 +380,7 @@ class TestStatusBarFieldConfig:
         text = self._cli_with_fields([])
         assert "claude-sonnet-4-20250514" in text
         assert "12.4K/200K" in text
-        assert "🗜️" in text
+        assert "≡" in text
 
 
 

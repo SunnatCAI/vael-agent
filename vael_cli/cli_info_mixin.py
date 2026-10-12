@@ -568,11 +568,37 @@ class CLIInfoMixin:
             print(f"    {t('cli.gateway_status.step_config', path=f'{display_vael_home()}/config.yaml')}")
             print()
 
+    def _journal(self):
+        """A ``Journal`` over the command-safe console, or ``None`` when the active skin ships its
+        own art and so keeps the framed hero layout (``banner._uses_hero_layout``)."""
+        from cli import ChatConsole
+        from vael_cli.banner import _active_skin, _quiet, _uses_hero_layout
+        from vael_cli.journal import Journal
+        if _uses_hero_layout(_quiet(_active_skin)):
+            return None
+        if getattr(self, "_app", None):
+            chat = ChatConsole()
+            return Journal(chat.measuring_console(), printer=chat)
+        return Journal(self.console)
+
+    def _journal_note(self, label: str, value: str, command: str = "", *, state: str = "") -> bool:
+        """Print one journal row; ``False`` when the hero layout is active and the caller should
+        print its framed-layout line instead."""
+        journal = self._journal()
+        if journal is None:
+            return False
+        hint = journal.cmd(command) if command else None
+        journal.print(*journal.rows(label, journal.dim(value) if not state else value, hint,
+                                    state=state, stamp=bool(state)))
+        return True
+
     def _print_random_tip(self) -> None:
         """Best-effort discovery tip (startup + /clear); never raises."""
         try:
             from vael_cli.tips import get_random_tip
             _tip = get_random_tip()
+            if self._journal_note("tip", _tip):
+                return
             try:
                 from vael_cli.skin_engine import get_active_skin
                 _tip_color = get_active_skin().get_color("banner_dim", "#B8860B")

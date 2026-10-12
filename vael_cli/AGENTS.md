@@ -115,7 +115,9 @@ set/get/unset <NAME>` route any bare name registered in `OPTIONAL_ENV_VARS` / `_
 
 ## Skin engine (`vael_cli/skin_engine.py`)
 
-Skins are **pure data** (`SkinConfig`); no code change to add one. `init_skin_from_config()` reads
+Skins are **pure data** (`SkinConfig`); no code change to add one. A skin with `banner_hero` /
+`banner_logo` gets the framed hero panel; every other skin gets the journal welcome page
+(`journal.py` rows, laid out by `banner_journal.py`), whose margin reuses `status_bar_*` colours. `init_skin_from_config()` reads
 `display.skin` at startup; `get_active_skin()` (cached), `set_active_skin(name)` (`/skin`),
 `load_skin(name)` (user `~/.vael/skins/*.yaml` → built-ins → default; missing values inherit
 from `default`). Built-ins in `_BUILTIN_SKINS`: `default`, `ares`, `mono`, `slate`. Keys: `colors.*`
