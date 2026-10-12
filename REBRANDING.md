@@ -24,15 +24,18 @@ Hermes Agent → VAEL Agent rename. Status: the mechanical rename (the former
 resolver's `OFFICIAL_REPOSITORY`, the installers' default clone URL, the
 desktop bootstrap's raw script URL and the desktop app's publish target.
 An install whose `origin` is that repository is no longer treated as a fork,
-so the updater does not offer to add Hermes as `upstream`.
+so the updater does not offer to add Hermes as `upstream`. The reinstall
+hints printed by `vael update` and `vael uninstall`, and `scripts/install.cmd`,
+use the installer scripts in that repository
+(`raw.githubusercontent.com/sunnatilla0717/vael-agent/main/scripts/install.{sh,ps1}`).
 
 Still upstream's, and so not usable for VAEL until it has its own: the
 release-channel records host (`hermes-assets.nousresearch.com`; its records
 name upstream's repository and are refused for this one, and only `main`
 falls back to following the branch when no record exists), the hosted
-installer one-liner
-(`hermes-agent.nousresearch.com/install.sh`, which installs Hermes) and the
-Docker image name.
+installer one-liner where docs and the desktop app's remote-host hint still
+show it (`hermes-agent.nousresearch.com/install.sh`, which installs Hermes)
+and the Docker image name.
 
 ## What still says `hermes`, on purpose
 

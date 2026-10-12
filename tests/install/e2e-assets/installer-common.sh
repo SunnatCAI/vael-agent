@@ -4,6 +4,9 @@ arm_source_redirect() {
   local repo="$1" work="$2" serve="$3"
   local https='https://github.com/sunnatilla0717/vael-agent.git'
   local ssh='git@github.com:sunnatilla0717/vael-agent.git'
+  # Releases cut before the rename clone from upstream; redirect those too.
+  local legacy_https='https://github.com/NousResearch/hermes-agent.git'
+  local legacy_ssh='git@github.com:NousResearch/hermes-agent.git'
   local actual real_git quoted_git cfg="$work/gitconfig" shim="$work/shim"
   actual="$(git -C "$repo" remote get-url origin)"
   real_git="$(command -v git)"
@@ -15,7 +18,7 @@ arm_source_redirect() {
   export VAEL_E2E_REAL_GIT="$real_git"
   # A global file survives install.sh replacing GIT_CONFIG_COUNT/KEY_n/VALUE_n.
   printf '' > "$cfg"
-  for url in "$actual" "$https" "$ssh"; do
+  for url in "$actual" "$https" "$ssh" "$legacy_https" "$legacy_ssh"; do
     "$real_git" config --file "$cfg" --add "url.file://$serve.insteadOf" "$url"
   done
   export GIT_CONFIG_GLOBAL="$cfg"

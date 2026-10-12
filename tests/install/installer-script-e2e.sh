@@ -286,10 +286,13 @@ assert_redirect_is_transport_only() {
   # channel resolution is concerned.
   local official_https='https://github.com/sunnatilla0717/vael-agent.git'
   local official_ssh='git@github.com:sunnatilla0717/vael-agent.git'
+  # A release cut before the rename has upstream as its official origin.
+  local legacy_https='https://github.com/NousResearch/hermes-agent.git'
+  local legacy_ssh='git@github.com:NousResearch/hermes-agent.git'
   local configured observed
   configured="$(git -C "$INSTALL_DIR" config --get remote.origin.url)"
   case "$configured" in
-    "$official_https"|"$official_ssh") ;;
+    "$official_https"|"$official_ssh"|"$legacy_https"|"$legacy_ssh") ;;
     *) fail "origin is configured as '$configured', not an official URL — the redirect is not transport-only" ;;
   esac
   # `git` on PATH is the shim here (it reports the official origin so fork

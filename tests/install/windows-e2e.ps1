@@ -252,6 +252,8 @@ function Set-GitRedirect {
 	insteadOf = $actualGitUrl
     insteadOf = $RepoUrlHttps
     insteadOf = $RepoUrlSsh
+    insteadOf = https://github.com/NousResearch/hermes-agent.git
+    insteadOf = git@github.com:NousResearch/hermes-agent.git
 "@ | Set-Content -LiteralPath $gitCfg -Encoding ASCII
     $env:GIT_CONFIG_GLOBAL = $gitCfg
 
@@ -1473,8 +1475,11 @@ function Assert-RedirectIsTransportOnly {
     # `git config --get remote.origin.url`. If the configured URL ever looked
     # like the rehearsal source, channel resolution would fail and this leg
     # would be testing a fork install rather than the real user path.
+    # A release cut before the rename has upstream as its official origin.
     $official = @('https://github.com/sunnatilla0717/vael-agent.git',
-                  'git@github.com:sunnatilla0717/vael-agent.git')
+                  'git@github.com:sunnatilla0717/vael-agent.git',
+                  'https://github.com/NousResearch/hermes-agent.git',
+                  'git@github.com:NousResearch/hermes-agent.git')
     $configured = (Invoke-Git @('-C', $InstallDir, 'config', '--get', 'remote.origin.url') | Out-String).Trim()
     Assert-True ($official -contains $configured) "origin stays configured as an official URL (got '$configured')"
     $real = if ($env:VAEL_E2E_REAL_GIT) { $env:VAEL_E2E_REAL_GIT } else { 'git' }

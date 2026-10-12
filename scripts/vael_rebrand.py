@@ -59,8 +59,12 @@ LOCAL_HOST = re.compile(
     re.I,
 )
 
-# Placeholder GitHub owners used by tests; their URLs must agree with the renamed "owner/repo" literals.
-PLACEHOLDER_REPO = re.compile(r"github\.com[/:](example|fixture|fork|owner|org|acme|user|your-org|your-user)/", re.I)
+# GitHub URLs that are not a third party's: placeholder owners used by tests (their URLs must agree
+# with the renamed "owner/repo" literals) and templated owners ($REPO_ID/$SHA/scripts/...), which
+# point into this repository, where the paths were renamed.
+PLACEHOLDER_REPO = re.compile(
+    r"github(usercontent)?\.com[/:]((example|fixture|fork|owner|org|acme|user|your-org|your-user)/|[$<{%])", re.I
+)
 
 # Spans matched here keep their text. Each entry is an external contract.
 PROTECT = [

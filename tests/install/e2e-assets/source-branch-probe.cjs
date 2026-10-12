@@ -13,6 +13,9 @@ function sourceProbeGit(userData, realGit, stagedUrl, platform = process.platfor
   const args = [
     `url.${stagedUrl}.insteadOf=https://github.com/sunnatilla0717/vael-agent.git`,
     `url.${stagedUrl}.insteadOf=git@github.com:sunnatilla0717/vael-agent.git`,
+    // releases cut before the rename clone from upstream
+    `url.${stagedUrl}.insteadOf=https://github.com/NousResearch/hermes-agent.git`,
+    `url.${stagedUrl}.insteadOf=git@github.com:NousResearch/hermes-agent.git`,
   ]
   if (platform === 'win32') {
     const quote = value => `"${value.replace(/"/g, '""')}"`
@@ -162,6 +165,8 @@ if (process.env.VAEL_E2E_SOURCE_ROOT && process.env.VAEL_E2E_SOURCE_GIT) {
         return spawn.call(this, process.env.VAEL_E2E_SOURCE_REAL_GIT, [
           '-c', `url.${staged}.insteadOf=https://github.com/sunnatilla0717/vael-agent.git`,
           '-c', `url.${staged}.insteadOf=git@github.com:sunnatilla0717/vael-agent.git`,
+          '-c', `url.${staged}.insteadOf=https://github.com/NousResearch/hermes-agent.git`,
+          '-c', `url.${staged}.insteadOf=git@github.com:NousResearch/hermes-agent.git`,
           ...args,
         ], options)
       }
