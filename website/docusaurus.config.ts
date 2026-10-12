@@ -4,7 +4,7 @@ import type * as Preset from '@docusaurus/preset-classic';
 import relativeDocLinks from './src/remark/relativeDocLinks';
 
 const config: Config = {
-  title: 'Hermes Agent',
+  title: 'VAEL Agent',
   tagline: 'The self-improving AI agent',
   favicon: 'img/favicon.ico',
 
@@ -12,7 +12,7 @@ const config: Config = {
   baseUrl: '/docs/',
 
   organizationName: 'NousResearch',
-  projectName: 'hermes-agent',
+  projectName: 'vael-agent',
 
   onBrokenLinks: 'warn',
 
@@ -58,7 +58,7 @@ const config: Config = {
           {
             // Moved when the Plugins subcategory was created under
             // Developer Guide > Extending (docs restructure, July 2026)
-            from: '/guides/build-a-hermes-plugin',
+            from: '/guides/build-a-vael-plugin',
             to: '/developer-guide/plugins',
           },
           {
@@ -97,7 +97,7 @@ const config: Config = {
   ],
 
   themeConfig: {
-    image: 'img/hermes-agent-banner.png',
+    image: 'img/vael-agent-banner.png',
     // Algolia DocSearch (replaces @easyops-cn/docusaurus-search-local).
     // The local plugin shipped a ~16 MB client-side lunr index that every
     // visitor downloaded and hydrated before their first result; DocSearch
@@ -109,7 +109,7 @@ const config: Config = {
     algolia: {
       appId: '2JLBVEYZN5',
       apiKey: '9629ec26628d1a126535fd5ef408990d',
-      indexName: 'hermes docs',
+      indexName: 'vael docs',
       contextualSearch: true,
     },
     colorMode: {
@@ -123,9 +123,9 @@ const config: Config = {
       },
     },
     navbar: {
-      title: 'Hermes Agent',
+      title: 'VAEL Agent',
       logo: {
-        alt: 'Hermes Agent',
+        alt: 'VAEL Agent',
         src: 'img/logo.png',
         srcDark: 'img/logo-dark.png',
       },

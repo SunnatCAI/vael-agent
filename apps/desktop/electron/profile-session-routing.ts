@@ -629,7 +629,7 @@ export function pathWithRemoteOwnerScope(path: string, scope: string): string {
     return path
   }
 
-  const url = new URL(path, 'http://hermes.local')
+  const url = new URL(path, 'http://vael.local')
   url.searchParams.set('profile', scoped)
 
   return `${url.pathname}${url.search}${url.hash}`
@@ -643,7 +643,7 @@ export async function fetchRemoteProfileSessions(
 ): Promise<SessionListResponse> {
   const params = new URLSearchParams(searchParams)
   // #64999: a per-profile override can point at a MULTI-profile backend — one
-  // `hermes serve` hosting several profiles — and an unscoped /api/sessions
+  // `vael serve` hosting several profiles — and an unscoped /api/sessions
   // reads whichever profile the backend process was launched under. Name the
   // scope so the rows provably belong to it; the remote's own stamps then
   // carry the authoritative identity (main.ts no longer relabels).

@@ -5,7 +5,7 @@
  * Session B streams (provider held) -> user opens A -> user returns to B. The
  * return issues a REST page read (/api/sessions/B/messages) that races the
  * live message.complete. Both orders are forced deterministically: the REST
- * read is parked in main (ipcMain 'hermes:api' wrapper) until the test opens
+ * read is parked in main (ipcMain 'vael:api' wrapper) until the test opens
  * it, and the provider stream is parked on a gate. No sleeps.
  *
  * complete-before-hydrate was red on base (reply rendered twice: committed row
@@ -47,7 +47,7 @@ for (const order of ['complete-before-hydrate', 'hydrate-before-complete'] as co
   test(`switch back while away session completes: ${order}`, async () => {
     const provider = await startScriptedProvider()
     const sandbox = createCoreSandbox('race')
-    writeProviderHome(sandbox.hermesHome, provider.url)
+    writeProviderHome(sandbox.vaelHome, provider.url)
     const { app, page } = await launchCoreApp(coreAppEnv(sandbox))
     const ws = recordWebSockets(page)
 
@@ -87,14 +87,14 @@ for (const order of ['complete-before-hydrate', 'hydrate-before-complete'] as co
           // Electron keeps invoke handlers in a private map; if that ever moves,
           // fail loudly here rather than silently not gating.
           const handlers = (ipcMain as any)._invokeHandlers as Map<string, (...args: any[]) => Promise<any>> | undefined
-          const original = handlers?.get('hermes:api')
+          const original = handlers?.get('vael:api')
 
           if (!original) {
             return false
           }
 
-          ipcMain.removeHandler('hermes:api')
-          ipcMain.handle('hermes:api', async (event: any, request: any) => {
+          ipcMain.removeHandler('vael:api')
+          ipcMain.handle('vael:api', async (event: any, request: any) => {
             const p = String(request?.path ?? '')
 
             if (p.includes(`/api/sessions/${b}`) && !g.__gateOpen) {
@@ -108,7 +108,7 @@ for (const order of ['complete-before-hydrate', 'hydrate-before-complete'] as co
           return true
         }, b)
 
-        expect(wrapped, 'hermes:api handler wrapped for gating').toBe(true)
+        expect(wrapped, 'vael:api handler wrapped for gating').toBe(true)
       }
 
       await page.evaluate(id => {

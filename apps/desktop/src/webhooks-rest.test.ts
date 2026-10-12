@@ -1,13 +1,13 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import { deleteWebhook } from './hermes'
+import { deleteWebhook } from './vael'
 
 describe('Webhook REST parity helpers', () => {
   let api: ReturnType<typeof vi.fn>
 
   beforeEach(() => {
     api = vi.fn().mockResolvedValue({})
-    Object.defineProperty(window, 'hermesDesktop', {
+    Object.defineProperty(window, 'vaelDesktop', {
       configurable: true,
       value: { api }
     })
@@ -15,7 +15,7 @@ describe('Webhook REST parity helpers', () => {
 
   afterEach(() => {
     vi.restoreAllMocks()
-    Reflect.deleteProperty(window, 'hermesDesktop')
+    Reflect.deleteProperty(window, 'vaelDesktop')
   })
 
   it('encodes the name when deleting a subscription', async () => {

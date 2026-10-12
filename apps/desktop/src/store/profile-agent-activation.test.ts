@@ -1,7 +1,7 @@
 import { atom } from 'nanostores'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import type { HermesConnection } from '@/global'
+import type { VaelConnection } from '@/global'
 
 import { deferred } from '../test/deferred'
 
@@ -37,7 +37,7 @@ vi.mock('@/store/gateway', () => ({
   ensureGatewayForProfile,
   openGatewayForProfile
 }))
-vi.mock('@/hermes', () => ({
+vi.mock('@/vael', () => ({
   getProfiles: vi.fn(async () => ({ profiles: [] })),
   setApiRequestProfile: vi.fn()
 }))
@@ -56,16 +56,16 @@ const {
   setCurrentProvider
 } = await import('./session')
 
-const agentConn = (over: Partial<HermesConnection> = {}): HermesConnection =>
-  ({ baseUrl: 'https://homelab.invalid', mode: 'remote', profile: 'research', ...over }) as HermesConnection
+const agentConn = (over: Partial<VaelConnection> = {}): VaelConnection =>
+  ({ baseUrl: 'https://homelab.invalid', mode: 'remote', profile: 'research', ...over }) as VaelConnection
 
-const localConn = (over: Partial<HermesConnection> = {}): HermesConnection =>
-  ({ baseUrl: '', mode: 'local', profile: 'default', ...over }) as HermesConnection
+const localConn = (over: Partial<VaelConnection> = {}): VaelConnection =>
+  ({ baseUrl: '', mode: 'local', profile: 'default', ...over }) as VaelConnection
 
-const getConnection = vi.fn<(profile?: string | null) => Promise<HermesConnection>>()
+const getConnection = vi.fn<(profile?: string | null) => Promise<VaelConnection>>()
 
 const getConnectionFor =
-  vi.fn<(payload: { connectionId?: null | string; profile?: null | string }) => Promise<HermesConnection>>()
+  vi.fn<(payload: { connectionId?: null | string; profile?: null | string }) => Promise<VaelConnection>>()
 
 beforeEach(() => {
   const localStorage = window.localStorage
@@ -78,7 +78,7 @@ beforeEach(() => {
   $gateway.set({ id: 'live-socket' })
   $activeGatewayProfile.set('default')
   $connection.set(localConn())
-  vi.stubGlobal('window', { hermesDesktop: { getConnection, getConnectionFor }, localStorage })
+  vi.stubGlobal('window', { vaelDesktop: { getConnection, getConnectionFor }, localStorage })
   setComposerSelectionOwner('homelab', 'default')
 })
 
@@ -392,7 +392,7 @@ describe('ensureGatewayAgent commit hook (beforeActivate) — the Sessions switc
     vi.useFakeTimers()
 
     try {
-      getConnectionFor.mockImplementationOnce(() => new Promise<HermesConnection>(() => undefined))
+      getConnectionFor.mockImplementationOnce(() => new Promise<VaelConnection>(() => undefined))
 
       const activation = ensureGatewayAgent('homelab', 'research')
       await vi.advanceTimersByTimeAsync(20_000)

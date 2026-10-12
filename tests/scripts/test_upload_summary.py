@@ -8,7 +8,7 @@ from scripts.releases.r2_scope import R2Scope
 
 
 BASE = "https://hermes-assets.nousresearch.com"
-KEY = "releases/commit/" + "a" * 40 + "/HermesBundled-1.2.3-win-x64.msix"
+KEY = "releases/commit/" + "a" * 40 + "/VaelBundled-1.2.3-win-x64.msix"
 
 
 @pytest.fixture(autouse=True)

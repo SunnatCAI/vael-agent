@@ -1,4 +1,5 @@
-import { Box, Text, useInput } from '@hermes/ink'
+import { useStore } from '@nanostores/react'
+import { Box, Text, useInput } from '@vael/ink'
 import type {
   ConnectionOperationTarget,
   ConnectionRespondParams,
@@ -7,8 +8,7 @@ import type {
   ConnectionTargetEnvField,
   ConnectionTargetState,
   ConnectorsConnectResult
-} from '@hermes/shared/gateway-events'
-import { useStore } from '@nanostores/react'
+} from '@vael/shared/gateway-events'
 import { useEffect, useMemo, useRef, useState } from 'react'
 
 import type { ConnectionOperationSnapshot } from '../app/connectionOperationStore.js'

@@ -107,7 +107,7 @@ export const ELITE_LAYOUT_ID = 'terminal-deck'
 
 export const LAYOUTS: Array<{ description: string; id: string; mode: InterfaceMode; name: string; tree: MiniNode }> = [
   {
-    description: 'For talking to Hermes.',
+    description: 'For talking to VAEL.',
     id: 'sidebar-left',
     mode: 'simple',
     name: 'Basic',

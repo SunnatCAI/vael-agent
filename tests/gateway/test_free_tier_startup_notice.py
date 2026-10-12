@@ -10,8 +10,8 @@ from unittest.mock import AsyncMock
 import gateway.run as gateway_run
 from gateway.config import HomeChannel, Platform
 from gateway.platforms.base import SendResult
-from hermes_cli import anon_auth
-from hermes_cli.auth import _auth_store_lock, _load_auth_store, _save_auth_store
+from vael_cli import anon_auth
+from vael_cli.auth import _auth_store_lock, _load_auth_store, _save_auth_store
 from tests.gateway.restart_test_helpers import make_restart_runner
 
 
@@ -45,9 +45,9 @@ def _account_state() -> dict:
 
 @pytest.fixture
 def nous_runner(tmp_path, monkeypatch):
-    monkeypatch.setattr(gateway_run, "_hermes_home", tmp_path)
-    monkeypatch.setenv("HERMES_SHARED_AUTH_DIR", str(tmp_path / "shared-store"))
-    monkeypatch.setenv("HERMES_GUEST_ONBOARDING", "1")
+    monkeypatch.setattr(gateway_run, "_vael_home", tmp_path)
+    monkeypatch.setenv("VAEL_SHARED_AUTH_DIR", str(tmp_path / "shared-store"))
+    monkeypatch.setenv("VAEL_GUEST_ONBOARDING", "1")
     # Provider precedence gates the line and is answered from persisted state only (no network at boot).
     for var in ("OPENROUTER_API_KEY", "OPENAI_API_KEY", "ANTHROPIC_API_KEY", "NOUS_API_KEY"):
         monkeypatch.delenv(var, raising=False)

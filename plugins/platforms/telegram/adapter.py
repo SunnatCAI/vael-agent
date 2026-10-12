@@ -13,7 +13,7 @@ import time
 from contextvars import ContextVar
 from datetime import datetime, timezone
 from typing import Any, Awaitable, Callable, Dict, Iterator, List, Optional, Set
-from hermes_cli import setup_platforms
+from vael_cli import setup_platforms
 
 logger = logging.getLogger(__name__)
 
@@ -301,7 +301,7 @@ def _video_thumbnail_jpeg(path: str, duration: Optional[int]) -> Optional[str]:
         if not shutil.which("ffmpeg"):
             return None
         seek = max(1, int((duration or 3) * 0.25))
-        fd, out = tempfile.mkstemp(suffix=".jpg", prefix="hermes-tg-thumb-")
+        fd, out = tempfile.mkstemp(suffix=".jpg", prefix="vael-tg-thumb-")
         os.close(fd)
         proc = subprocess.run(
             ["ffmpeg", "-y", "-ss", str(seek), "-i", path, "-frames:v", "1",
@@ -583,8 +583,8 @@ class TelegramAdapter(BasePlatformAdapter):
         self._update_admission = None
         # Completed update IDs survive adapter replacement and restarts (update_admission.py).
         # Resolved now: secondary profiles construct adapters inside their own home scope.
-        from hermes_constants import get_hermes_home
-        self._update_receipt_dir = get_hermes_home()
+        from vael_constants import get_vael_home
+        self._update_receipt_dir = get_vael_home()
         self._update_receipts_loaded: set = set()
         self._update_receipts_dirty: set = set()
         self._update_receipt_flush: Optional[asyncio.Task] = None
@@ -616,7 +616,7 @@ class TelegramAdapter(BasePlatformAdapter):
         self._telegram_typing_retrigger_interval: float = self._coerce_float_extra(
             "typing_retrigger_min_interval_seconds", 2.0, min_value=0.0, max_value=30.0)
         # Buffer album/photo bursts into a single MessageEvent instead of self-interrupting turns.
-        self._media_batch_delay_seconds = env_float("HERMES_TELEGRAM_MEDIA_BATCH_DELAY_SECONDS", 0.8)
+        self._media_batch_delay_seconds = env_float("VAEL_TELEGRAM_MEDIA_BATCH_DELAY_SECONDS", 0.8)
         self._pending_photo_batches: Dict[str, MessageEvent] = {}
         self._pending_photo_batch_tasks: Dict[str, asyncio.Task] = {}
         self._media_group_events: Dict[str, MessageEvent] = {}
@@ -624,10 +624,10 @@ class TelegramAdapter(BasePlatformAdapter):
         # Aggregate client-side splits of long messages into one MessageEvent; bounds are conservative
         # for Telegram's ~1 edit/s flood envelope.
         self._text_batch_delay_seconds = self._env_float_clamped(
-            "HERMES_TELEGRAM_TEXT_BATCH_DELAY_SECONDS", self._TEXT_BATCH_DEFAULT_DELAY_S,
+            "VAEL_TELEGRAM_TEXT_BATCH_DELAY_SECONDS", self._TEXT_BATCH_DEFAULT_DELAY_S,
             min_value=0.08, max_value=self._TEXT_BATCH_MAX_DELAY_S)
         self._text_batch_split_delay_seconds = self._env_float_clamped(
-            "HERMES_TELEGRAM_TEXT_BATCH_SPLIT_DELAY_SECONDS", self._TEXT_BATCH_DEFAULT_SPLIT_DELAY_S,
+            "VAEL_TELEGRAM_TEXT_BATCH_SPLIT_DELAY_SECONDS", self._TEXT_BATCH_DEFAULT_SPLIT_DELAY_S,
             min_value=self._text_batch_delay_seconds, max_value=self._TEXT_BATCH_MAX_SPLIT_DELAY_S)
         self._drop_delayed_deliveries = False
         # Held across disconnect: PTB advances the offset before our drop-guard runs, so Telegram won't
@@ -1107,7 +1107,7 @@ class TelegramAdapter(BasePlatformAdapter):
 
     @staticmethod
     def _dm_topic_fallback(metadata: Optional[Dict[str, Any]]) -> bool:
-        """True for Hermes private-chat topic lanes (``telegram_dm_topic_reply_fallback``)."""
+        """True for VAEL private-chat topic lanes (``telegram_dm_topic_reply_fallback``)."""
         return bool(metadata and metadata.get("telegram_dm_topic_reply_fallback"))
 
     @classmethod
@@ -1138,15 +1138,15 @@ class TelegramAdapter(BasePlatformAdapter):
         """Telegram send kwargs for forum and direct-message topic routing.
 
         Forum topics use ``message_thread_id``; native Bot API DM topics opt in via explicit ``direct_messages_topic_id``
-        metadata; Hermes private-chat topic lanes are marked ``telegram_dm_topic_reply_fallback``. Anchor-less synthetic sends
-        prefer the Hermes topic's ``message_thread_id`` (the native DM-topic id renders in a different chat lane).
+        metadata; VAEL private-chat topic lanes are marked ``telegram_dm_topic_reply_fallback``. Anchor-less synthetic sends
+        prefer the VAEL topic's ``message_thread_id`` (the native DM-topic id renders in a different chat lane).
         ``reply_to_mode="off"`` suppresses the anchor but keeps ``message_thread_id``.
 
         Live replies send the private topic thread id together with a reply anchor. Synthetic/resumed sends
         without an anchor (loop wakeups, background-process notifications, queued follow-ups after a gateway
-        restart) prefer the Hermes topic's ``message_thread_id`` so they stay in the active topic lane
+        restart) prefer the VAEL topic's ``message_thread_id`` so they stay in the active topic lane
         (#87051); ``direct_messages_topic_id`` is only used when no topic thread resolves, since the native
-        DM-topic id does not match the Hermes topic lane and can render the message in a different chat
+        DM-topic id does not match the VAEL topic lane and can render the message in a different chat
         lane.
         """
         fallback = cls._dm_topic_fallback(metadata)
@@ -1154,9 +1154,9 @@ class TelegramAdapter(BasePlatformAdapter):
             if reply_to_message_id is None:
                 reply_to_message_id = cls._metadata_reply_to_message_id(metadata)
             if reply_to_message_id is None:
-                # Anchor-less synthetic send: prefer the Hermes topic thread id (see docstring).
+                # Anchor-less synthetic send: prefer the VAEL topic thread id (see docstring).
                 # Anchor-less synthetic sends (loop wakeups, watch notifications, restart-resumed
-                # follow-ups) must stay in the active topic lane: prefer the Hermes topic thread id when it
+                # follow-ups) must stay in the active topic lane: prefer the VAEL topic thread id when it
                 # resolves (#87051). Routing via direct_messages_topic_id here sent these to a different
                 # lane than the topic the session runs in.
                 thread_message_id = cls._message_thread_id_for_send(thread_id)
@@ -1204,7 +1204,7 @@ class TelegramAdapter(BasePlatformAdapter):
     def _prune_stale_dm_topic_binding(self, chat_id: Any, thread_id: Any, *, metadata: Optional[Dict[str, Any]] = None) -> None:
         """Drop the stale ``telegram_dm_topic_bindings`` row for a topic Telegram confirmed deleted, else
         ``_recover_telegram_topic_thread_id`` keeps steering inbound to the dead thread. Best-effort.
-        Rows are namespaced by profile: the send's ``hermes_profile`` wins over the adapter's stamp.
+        Rows are namespaced by profile: the send's ``vael_profile`` wins over the adapter's stamp.
 
         Without this prune the recovery logic in ``gateway.run._recover_telegram_topic_thread_id`` keeps
         steering future inbound messages to the dead thread (the bug behind #31501 — tool progress,
@@ -1212,7 +1212,7 @@ class TelegramAdapter(BasePlatformAdapter):
         topic). Best-effort: we never raise from a send-fallback path — a failed cleanup must not turn into
         a failed user-facing send.
         Under ``gateway.profile_routes`` the transport adapter may not be the profile that wrote the
-        binding, so the send's ``hermes_profile`` metadata wins over the adapter's own profile stamp;
+        binding, so the send's ``vael_profile`` metadata wins over the adapter's own profile stamp;
         single-profile bots fall back to ``"default"``. See #76423.
         """
         if chat_id is None or thread_id is None:
@@ -1221,7 +1221,7 @@ class TelegramAdapter(BasePlatformAdapter):
         if db is None or not hasattr(db, "delete_telegram_topic_binding"):
             return
         try:
-            profile_name = (metadata or {}).get("hermes_profile") or getattr(self, "_hermes_profile_name", None) or "default"
+            profile_name = (metadata or {}).get("vael_profile") or getattr(self, "_vael_profile_name", None) or "default"
             removed = db.delete_telegram_topic_binding(chat_id=str(chat_id), thread_id=str(thread_id), profile_name=profile_name)
         except Exception:
             logger.debug(
@@ -2550,8 +2550,8 @@ class TelegramAdapter(BasePlatformAdapter):
         message = (
             "Telegram polling could not recover after %d retries (%ds total wait). "
             "The previous gateway session is still held open on Telegram's servers, "
-            "or another process is using the same bot token. To recover: ensure no other Hermes or OpenClaw instance is running "
-            "with this token, then restart the gateway with 'hermes gateway restart'."
+            "or another process is using the same bot token. To recover: ensure no other VAEL or OpenClaw instance is running "
+            "with this token, then restart the gateway with 'vael gateway restart'."
             % (MAX_CONFLICT_RETRIES, sum(10 + i * 10 for i in range(1, MAX_CONFLICT_RETRIES + 1))))
         logger.error("[%s] %s Original error: %s", self.name, message, _redact_telegram_error_text(error))
         # Snapshot whether WE transition to fatal: a concurrent retry task suspended past the entry
@@ -2678,12 +2678,12 @@ class TelegramAdapter(BasePlatformAdapter):
     def _persist_dm_topic_thread_id(self, chat_id: int, topic_name: str, thread_id: int, replace_existing: bool = False) -> None:
         """Save a newly created thread_id back into config.yaml so it survives restarts."""
         try:
-            from hermes_constants import get_hermes_home
-            config_path = get_hermes_home() / "config.yaml"
+            from vael_constants import get_vael_home
+            config_path = get_vael_home() / "config.yaml"
             if not config_path.exists():
                 logger.warning("[%s] Config file not found at %s, cannot persist thread_id", self.name, config_path)
                 return
-            from hermes_cli.config import atomic_config_write, read_user_config_raw
+            from vael_cli.config import atomic_config_write, read_user_config_raw
             config = read_user_config_raw(config_path)
             # platforms.telegram.extra.dm_topics — create the path for topics not predeclared in config.yaml.
             dm_topics = config.setdefault("platforms", {}).setdefault("telegram", {}).setdefault("extra", {}).setdefault("dm_topics", [])
@@ -2774,7 +2774,7 @@ class TelegramAdapter(BasePlatformAdapter):
         """Register the command menu (from COMMAND_REGISTRY) in every scope — Telegram picks the
         narrowest matching one per chat type; forum topics are handled lazily by _ensure_forum_commands."""
         from telegram import BotCommand, BotCommandScopeAllPrivateChats, BotCommandScopeAllGroupChats, BotCommandScopeDefault
-        from hermes_cli.commands_platforms import telegram_menu_commands, telegram_menu_max_commands
+        from vael_cli.commands_platforms import telegram_menu_commands, telegram_menu_max_commands
         if not self._bot:
             return
         # Telegram allows 100 commands but has an undocumented ~4KB payload limit; default cap 60.
@@ -2849,7 +2849,7 @@ class TelegramAdapter(BasePlatformAdapter):
         if handler is None:
             return
         try:
-            from hermes_cli.lifecycle import has_hook
+            from vael_cli.lifecycle import has_hook
             if not has_hook("gateway_platform_event"):
                 return
             event = self._normalize_platform_event(update)
@@ -3023,11 +3023,11 @@ class TelegramAdapter(BasePlatformAdapter):
         direct DNS; the getUpdates request is instrumented for polling-progress tracking."""
         # PTB's pool_timeout=1s default trips "Pool timeout" on flaky networks; safer defaults + env overrides.
         request_kwargs = {
-            "connection_pool_size": env_int("HERMES_TELEGRAM_HTTP_POOL_SIZE", 512),
-            "pool_timeout": env_float("HERMES_TELEGRAM_HTTP_POOL_TIMEOUT", 8.0),
-            "connect_timeout": env_float("HERMES_TELEGRAM_HTTP_CONNECT_TIMEOUT", 10.0),
-            "read_timeout": env_float("HERMES_TELEGRAM_HTTP_READ_TIMEOUT", 20.0),
-            "write_timeout": env_float("HERMES_TELEGRAM_HTTP_WRITE_TIMEOUT", 20.0),
+            "connection_pool_size": env_int("VAEL_TELEGRAM_HTTP_POOL_SIZE", 512),
+            "pool_timeout": env_float("VAEL_TELEGRAM_HTTP_POOL_TIMEOUT", 8.0),
+            "connect_timeout": env_float("VAEL_TELEGRAM_HTTP_CONNECT_TIMEOUT", 10.0),
+            "read_timeout": env_float("VAEL_TELEGRAM_HTTP_READ_TIMEOUT", 20.0),
+            "write_timeout": env_float("VAEL_TELEGRAM_HTTP_WRITE_TIMEOUT", 20.0),
             # PTB routes file requests to media_write_timeout; httpx budgets it per socket write (stall
             # tolerance, not bandwidth), so 60s rides out congested-link buffer stalls.
             "media_write_timeout": 60.0,
@@ -3062,10 +3062,10 @@ class TelegramAdapter(BasePlatformAdapter):
                 kwargs["limits"] = _pool_limits
             return kwargs
 
-        disable_fallback = os.getenv("HERMES_TELEGRAM_DISABLE_FALLBACK_IPS", "").strip().lower() in {"1", "true", "yes", "on"}
+        disable_fallback = os.getenv("VAEL_TELEGRAM_DISABLE_FALLBACK_IPS", "").strip().lower() in {"1", "true", "yes", "on"}
         fallback_ips = [] if disable_fallback else self._fallback_ips()
         if not fallback_ips and not disable_fallback:
-            discovery_timeout = self._env_float_clamped("HERMES_TELEGRAM_FALLBACK_DISCOVERY_TIMEOUT", 5.0, min_value=0.0)
+            discovery_timeout = self._env_float_clamped("VAEL_TELEGRAM_FALLBACK_DISCOVERY_TIMEOUT", 5.0, min_value=0.0)
             logger.warning("[%s] Discovering Telegram API fallback IPs via DNS-over-HTTPS…", self.name)
             try:
                 fallback_ips = await _await_with_thread_deadline(discover_fallback_ips(), timeout=discovery_timeout)
@@ -3116,7 +3116,7 @@ class TelegramAdapter(BasePlatformAdapter):
         """``app.initialize()`` with a bounded retry ladder; rebuilds ``self._app``/``self._bot`` from
         ``builder`` after each failed attempt; OSError when the per-attempt or total watchdog expires."""
         _max_connect = 8
-        _init_timeout = env_float("HERMES_TELEGRAM_INIT_TIMEOUT", 30.0)  # per attempt
+        _init_timeout = env_float("VAEL_TELEGRAM_INIT_TIMEOUT", 30.0)  # per attempt
         # Total watchdog: bounds the whole connect loop even if the retry loop silently stalls.
         _total_deadline = asyncio.get_running_loop().time() + _init_timeout * _max_connect + 120.0
         _timed_out = f"Telegram initialization timed out after {_max_connect} attempts ({_init_timeout:.0f}s each)"
@@ -3126,8 +3126,8 @@ class TelegramAdapter(BasePlatformAdapter):
                 if asyncio.get_running_loop().time() >= _total_deadline:
                     raise OSError(
                         f"{_timed_out} — total connect watchdog deadline ({_init_timeout * _max_connect + 120.0:.0f}s) exceeded. "
-                        f"Check network connectivity to api.telegram.org or set HERMES_TELEGRAM_HTTP_CONNECT_TIMEOUT / "
-                        f"HERMES_TELEGRAM_INIT_TIMEOUT to a lower value.")
+                        f"Check network connectivity to api.telegram.org or set VAEL_TELEGRAM_HTTP_CONNECT_TIMEOUT / "
+                        f"VAEL_TELEGRAM_INIT_TIMEOUT to a lower value.")
                 logger.warning("[%s] Connecting to Telegram (attempt %d/%d)…", self.name, _attempt + 1, _max_connect)
                 # On timeout the (possibly shielded) initialize() task is abandoned; release the half-built
                 # app's httpx client so it isn't leaked across the ladder.
@@ -3140,7 +3140,7 @@ class TelegramAdapter(BasePlatformAdapter):
                 if _attempt >= _max_connect - 1:
                     raise OSError(
                         f"{_timed_out}. Check network connectivity to api.telegram.org "
-                        f"or set HERMES_TELEGRAM_HTTP_CONNECT_TIMEOUT to a lower value.")
+                        f"or set VAEL_TELEGRAM_HTTP_CONNECT_TIMEOUT to a lower value.")
                 wait = min(2 ** _attempt, 15)
                 logger.warning(
                     "[%s] Connect attempt %d/%d timed out after %.0fs — retrying in %ds", self.name, _attempt + 1,
@@ -4378,7 +4378,7 @@ class TelegramAdapter(BasePlatformAdapter):
     @staticmethod
     def _provider_get_label():
         try:
-            from hermes_cli.providers import get_label
+            from vael_cli.providers import get_label
         except ImportError:
             def get_label(slug):
                 return slug
@@ -4497,7 +4497,7 @@ class TelegramAdapter(BasePlatformAdapter):
         """Paginated top-level provider keyboard folding provider families (Kimi/Moonshot, MiniMax, xAI…)
         into one ``mpg:<gid>`` button via the shared ``group_providers`` fold; singles are ``mp:<slug>``."""
         try:
-            from hermes_cli.models_catalog_static import group_providers
+            from vael_cli.models_catalog_static import group_providers
         except Exception:
             group_providers = None
         by_slug = {p.get("slug"): p for p in providers}
@@ -4646,7 +4646,7 @@ class TelegramAdapter(BasePlatformAdapter):
                 return
             idx, model_id, provider_slug, callback = sel
             try:
-                from hermes_cli.model_selection_guards import combined_selection_warning
+                from vael_cli.model_selection_guards import combined_selection_warning
                 # Pricing lookup may hit models.dev on a cache miss — keep it off the event loop.
                 warning = await asyncio.to_thread(combined_selection_warning, model_id, provider=provider_slug)
             except Exception:
@@ -4663,7 +4663,7 @@ class TelegramAdapter(BasePlatformAdapter):
         elif data.startswith("mpg:"):  # provider group selected: show member providers
             group_id = data[4:]
             try:
-                from hermes_cli.models_catalog_static import PROVIDER_GROUPS
+                from vael_cli.models_catalog_static import PROVIDER_GROUPS
                 _label, _desc, member_slugs = PROVIDER_GROUPS.get(group_id, ("", "", []))
             except Exception:
                 _label, member_slugs = "", []
@@ -4975,8 +4975,8 @@ class TelegramAdapter(BasePlatformAdapter):
         word = t("platform.telegram.prompt.affirm_word" if answer == "y" else "platform.telegram.prompt.negate_word")
         await self._edit_md_quiet(query, f"☤ {t('platform.telegram.prompt.update_answered', answer=f'*{word}*')}")
         try:
-            from hermes_constants import get_hermes_home
-            response_path = get_hermes_home() / ".update_response"
+            from vael_constants import get_vael_home
+            response_path = get_vael_home() / ".update_response"
             tmp = response_path.with_suffix(".tmp")
             tmp.write_text(answer, encoding="utf-8")
             tmp.replace(response_path)
@@ -4984,7 +4984,7 @@ class TelegramAdapter(BasePlatformAdapter):
         except Exception as exc:
             logger.error("Failed to write update response from callback: %s", exc)
 
-    # `gt:<verb>` -> (script in ~/.hermes/scripts/gmail-triage/, extra-args, success-label, is_state). The callback
+    # `gt:<verb>` -> (script in ~/.vael/scripts/gmail-triage/, extra-args, success-label, is_state). The callback
     # `arg` is always the first positional arg. is_state=True keeps the keyboard tappable (sticky sender rule);
     # False strips it on success (per-email one-shot).
     # The success label is a ``platform.telegram.gmail_triage.*`` catalog key, resolved per tap.
@@ -5014,15 +5014,15 @@ class TelegramAdapter(BasePlatformAdapter):
             await query.answer(text=_toast("platform.telegram.gmail_triage.unknown_verb", verb=verb))
             return
         script_name, extra_args, success_key, is_state_verb = entry
-        from hermes_constants import get_hermes_home
-        script_path = get_hermes_home() / "scripts" / "gmail-triage" / script_name
+        from vael_constants import get_vael_home
+        script_path = get_vael_home() / "scripts" / "gmail-triage" / script_name
         if not script_path.exists():
             await query.answer(text=_toast("platform.telegram.gmail_triage.script_missing", script=script_name))
             logger.error("[%s] gmail-triage script missing: %s", self.name, script_path)
             return
         success = False
         try:
-            # A user script under HERMES_HOME the agent can write: scrubbed like cron and quick-command scripts.
+            # A user script under VAEL_HOME the agent can write: scrubbed like cron and quick-command scripts.
             from tools.environments.local import build_subprocess_env
             proc = await asyncio.create_subprocess_exec(
                 str(script_path), arg, *extra_args, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE,
@@ -6104,7 +6104,7 @@ class TelegramAdapter(BasePlatformAdapter):
         bot_username = self._current_bot_username()
         bot_id = getattr(self._bot, "id", None)
         expected = f"@{bot_username}" if bot_username else None
-        # Server-side MessageEntity values are authoritative: raw substrings like "foo@hermes_bot.example"
+        # Server-side MessageEntity values are authoritative: raw substrings like "foo@vael_bot.example"
         # or handles inside URLs/code are not mentions.
         for source_text, entities in self._entity_sources(message):
             for entity in entities:
@@ -6445,7 +6445,7 @@ class TelegramAdapter(BasePlatformAdapter):
         # Learn the live handle BEFORE any mention gate routes on it, then drop our own echoed messages.
         # Filter out the bot's own messages (returned by getUpdates in some environments like
         # groups/supergroups where the bot can see its own messages). Without this, outbound messages are
-        # counted as incoming unread in the Hermes inbox (#52363). Otherwise a BotFather rename leaves the
+        # counted as incoming unread in the VAEL inbox (#52363). Otherwise a BotFather rename leaves the
         # stale handle in place and the exclusive-mention gate reads a message addressed to us as one
         # addressed to some other bot.
         self._observe_bot_identity_from_message(message)
@@ -6489,7 +6489,7 @@ class TelegramAdapter(BasePlatformAdapter):
                 if chat_id in self._forum_command_registered:
                     return
                 from telegram import BotCommandScopeChat
-                from hermes_cli.commands_platforms import telegram_menu_commands, telegram_menu_max_commands
+                from vael_cli.commands_platforms import telegram_menu_commands, telegram_menu_max_commands
                 menu_commands, _ = await asyncio.to_thread(
                     telegram_menu_commands, max_commands=telegram_menu_max_commands())
                 bot_commands = self._bot_commands(menu_commands)
@@ -6951,7 +6951,7 @@ class TelegramAdapter(BasePlatformAdapter):
     def _reload_dm_topics_from_config(self) -> None:
         """Re-read dm_topics from config.yaml so externally created topics work without restart."""
         try:
-            from hermes_cli.config import load_config_readonly  # canonical loader: managed overlay + ${VAR}
+            from vael_cli.config import load_config_readonly  # canonical loader: managed overlay + ${VAR}
             dm_topics = load_config_readonly().get("platforms", {}).get("telegram", {}).get("extra", {}).get("dm_topics", [])
             if not dm_topics:
                 self._dm_topics_config = []
@@ -7231,12 +7231,12 @@ class TelegramAdapter(BasePlatformAdapter):
 # into this bundled plugin. Mirrors the Discord (#24356) / Slack migrations: a register(ctx) entry point
 # plus hook implementations that replace the per-platform core touchpoints (the Platform.TELEGRAM branch in
 # gateway/run.py, the telegram_cfg YAML→env/extra block in gateway/config.py, the _setup_telegram wizard +
-# _PLATFORMS["telegram"] static dict in hermes_cli/{setup,gateway}.py, and the _send_telegram dispatch in
+# _PLATFORMS["telegram"] static dict in vael_cli/{setup,gateway}.py, and the _send_telegram dispatch in
 # tools/send_message_tool.py). Telegram uses the generic token connected check, so no is_connected override
 # is needed. ──────────────────────────────────────────────────────────────────────────
 def _resolve_notifications_mode() -> str:
     """Notification mode (all/important) from env, else config.yaml display.platforms.telegram.notifications."""
-    mode = os.getenv("HERMES_TELEGRAM_NOTIFICATIONS", "")
+    mode = os.getenv("VAEL_TELEGRAM_NOTIFICATIONS", "")
     if not mode:
         try:
             from gateway.config import load_gateway_config
@@ -7268,7 +7268,7 @@ def _is_connected(config) -> bool:
     not enough or the plugin-enable pass would enable Telegram on any machine with it installed."""
     token = getattr(config, "token", None)
     if not token:
-        import hermes_cli.gateway as gateway_mod
+        import vael_cli.gateway as gateway_mod
         token = gateway_mod.get_env_value("TELEGRAM_BOT_TOKEN") or ""
     return bool(str(token).strip())
 
@@ -7289,7 +7289,7 @@ async def _standalone_send(pconfig, chat_id, message, *, thread_id=None, media_f
 
 def interactive_setup() -> None:
     """Configure Telegram credentials and allowlist via the CLI setup wizard (lazy import)."""
-    from hermes_cli import setup as _setup_mod
+    from vael_cli import setup as _setup_mod
     setup_platforms._setup_telegram()
 
 
@@ -7371,7 +7371,7 @@ def _apply_yaml_config(yaml_cfg: dict, telegram_cfg: dict) -> dict | None:
 
 
 def register(ctx) -> None:
-    """Plugin entry point — called by the Hermes plugin system."""
+    """Plugin entry point — called by the VAEL plugin system."""
     ctx.register_platform(
         name="telegram", label="Telegram", adapter_factory=_build_adapter, check_fn=telegram_deps_present,
         ensure_deps_fn=check_telegram_requirements, is_connected=_is_connected, required_env=["TELEGRAM_BOT_TOKEN"],

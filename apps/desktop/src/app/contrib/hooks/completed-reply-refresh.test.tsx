@@ -1,8 +1,8 @@
 import { useAuiState } from '@assistant-ui/react'
-import type { GatewayEvent } from '@hermes/shared'
 import { useStore } from '@nanostores/react'
 import { QueryClient } from '@tanstack/react-query'
 import { act, cleanup, render, screen } from '@testing-library/react'
+import type { GatewayEvent } from '@vael/shared'
 import { useCallback, useRef } from 'react'
 import { afterEach, beforeEach, expect, it, vi } from 'vitest'
 
@@ -12,7 +12,6 @@ import { mergeOlderTranscriptPage } from '@/app/chat/transcript-backfill'
 import { useMessageStream } from '@/app/session/hooks/use-message-stream'
 import { useSessionStateCache } from '@/app/session/hooks/use-session-state-cache'
 import { stubThreadEnvironment } from '@/components/assistant-ui/test-utils'
-import { getLatestSessionMessages } from '@/hermes'
 import { chatMessageText, toChatMessages } from '@/lib/chat-messages'
 import { resetLiveSync } from '@/store/live-sync'
 import {
@@ -31,7 +30,8 @@ import {
   restoreSessionTodosFromSnapshot,
   setSessionTodos
 } from '@/store/todos'
-import type { SessionMessage } from '@/types/hermes'
+import type { SessionMessage } from '@/types/vael'
+import { getLatestSessionMessages } from '@/vael'
 
 import {
   hydrateStoredSessionTranscript,
@@ -40,7 +40,7 @@ import {
   useBackgroundSync
 } from './use-background-sync'
 
-vi.mock('@/hermes', async original => ({
+vi.mock('@/vael', async original => ({
   ...(await original<Record<string, unknown>>()),
   getLatestSessionMessages: vi.fn()
 }))
@@ -136,7 +136,7 @@ function Harness({
     ...cache,
     queryClient,
     hydrateFromStoredSession: fallback ? hydrate : noop,
-    refreshHermesConfig: noop,
+    refreshVaelConfig: noop,
     refreshSessions: noop
   })
   refresh = useCallback(
@@ -170,7 +170,7 @@ function Harness({
     refreshActiveTranscript: refresh,
     refreshCronJobs: noop,
     refreshCurrentModel: noop,
-    refreshHermesConfig: noop,
+    refreshVaelConfig: noop,
     refreshMessagingSessions: noop,
     refreshSessions: noop,
     requestGateway: async () => ({ sessions: [] }) as never,

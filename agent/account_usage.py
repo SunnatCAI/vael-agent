@@ -9,10 +9,10 @@ from typing import TYPE_CHECKING, Any, Callable, Optional
 import httpx
 
 from agent.anthropic_credentials import _is_oauth_token, resolve_anthropic_token
-from hermes_cli.auth import AuthError, _read_codex_tokens, resolve_codex_runtime_credentials
-from hermes_cli.auth_codex import _codex_pool_route_base_url
-from hermes_cli.runtime_provider import resolve_runtime_provider
-from hermes_time import safe_strftime
+from vael_cli.auth import AuthError, _read_codex_tokens, resolve_codex_runtime_credentials
+from vael_cli.auth_codex import _codex_pool_route_base_url
+from vael_cli.runtime_provider import resolve_runtime_provider
+from vael_time import safe_strftime
 
 if TYPE_CHECKING:
     from typing import TypeGuard
@@ -45,7 +45,7 @@ class AccountUsageSnapshot:
     details: tuple[str, ...] = ()
     unavailable_reason: Optional[str] = None
     # Exact decoded provider response body (no headers/credentials) for integrations that need
-    # fields Hermes does not normalize yet. Only populated by providers that fetch a JSON body.
+    # fields VAEL does not normalize yet. Only populated by providers that fetch a JSON body.
     raw: Optional[dict] = None
 
     @property
@@ -139,7 +139,7 @@ def build_nous_credits_snapshot(account_info) -> Optional[AccountUsageSnapshot]:
     """NousPortalAccountInfo → /usage snapshot: dollar magnitudes + renewal date + portal CTA, plus a ``% used``
     gauge when the portal supplies ``monthly_credits``. Fail-open → None."""
     try:
-        from hermes_cli.nous_account import nous_portal_topup_url
+        from vael_cli.nous_account import nous_portal_topup_url
         if account_info is None or not getattr(account_info, "logged_in", False):
             return None
         access = getattr(account_info, "paid_service_access_info", None)
@@ -181,7 +181,7 @@ def build_nous_credits_snapshot(account_info) -> Optional[AccountUsageSnapshot]:
 def _nous_logged_in() -> bool:
     """Cheap local auth-state check: a Nous access token is present. Fail-open False."""
     try:
-        from hermes_cli.auth import get_provider_auth_state
+        from vael_cli.auth import get_provider_auth_state
         tok = (get_provider_auth_state("nous") or {}).get("access_token")
         return isinstance(tok, str) and bool(tok.strip())
     except Exception:
@@ -198,7 +198,7 @@ def _fetch_portal_account(timeout: float):
     and never blocks the caller or process exit; its eventual exception is
     drained so GC never logs "exception was never retrieved"."""
     import contextvars
-    from hermes_cli.nous_account import get_nous_portal_account_info
+    from vael_cli.nous_account import get_nous_portal_account_info
     from tools.daemon_pool import DaemonThreadPoolExecutor
 
     context = contextvars.copy_context()
@@ -216,7 +216,7 @@ def _fetch_portal_account(timeout: float):
 def nous_credits_lines(*, markdown: bool = False, timeout: float = 10.0) -> list[str]:
     """Rendered Nous-credits /usage lines, or [] when there's nothing to show. Independent of any live agent
     (logged-in gate, then a bounded portal fetch); shared by CLI ``_show_usage`` and the TUI ``session.usage`` RPC.
-    Fail-open: any hiccup or timeout → []. HERMES_DEV_CREDITS_FIXTURE renders from the fixture instead of the portal."""
+    Fail-open: any hiccup or timeout → []. VAEL_DEV_CREDITS_FIXTURE renders from the fixture instead of the portal."""
     try:
         from agent.credits_tracker import dev_fixture_credits_state
         fixture = dev_fixture_credits_state()
@@ -257,7 +257,7 @@ def _snapshot_from_credits_state(state) -> Optional[AccountUsageSnapshot]:
                 details.append(f"{label}: ${value}")
         if getattr(state, "paid_access", True) is False:
             details.append(_DEPLETED_LINE)
-        return _nous_snapshot(windows, details, ["(dev fixture — HERMES_DEV_CREDITS_FIXTURE)"], source="dev-fixture")
+        return _nous_snapshot(windows, details, ["(dev fixture — VAEL_DEV_CREDITS_FIXTURE)"], source="dev-fixture")
     except (AttributeError, TypeError):
         return None
 
@@ -288,7 +288,7 @@ def build_credits_view(*, markdown: bool = False, timeout: float = 10.0) -> Cred
         return not_logged_in
     if account is None or not getattr(account, "logged_in", False):
         return not_logged_in
-    from hermes_cli.nous_account import nous_portal_topup_url
+    from vael_cli.nous_account import nous_portal_topup_url
     balance_lines = [
         line
         for line in render_account_usage_lines(build_nous_credits_snapshot(account), markdown=markdown)
@@ -522,7 +522,7 @@ def _codex_reset_outcome(body: dict, available: int) -> CodexResetRedeemResult:
         # Quota is restored upstream — lift persisted pool cooldowns so the credential isn't frozen behind a
         # stale ``last_error_reset_at``.
         try:
-            from hermes_cli.auth import clear_codex_pool_quota_cooldowns
+            from vael_cli.auth import clear_codex_pool_quota_cooldowns
             clear_codex_pool_quota_cooldowns()
         except Exception:
             logger.debug("Failed to clear Codex pool cooldowns after reset redemption", exc_info=True)
@@ -543,7 +543,7 @@ def redeem_codex_reset_credit(
     try:
         token, resolved_base_url, account_id = _resolve_codex_usage_credentials(base_url, api_key)
     except Exception:
-        return _unavailable("No Codex credentials available. Run `hermes auth` to sign in with your ChatGPT account.")
+        return _unavailable("No Codex credentials available. Run `vael auth` to sign in with your ChatGPT account.")
     redeem_request_id = str(uuid.uuid4())
     try:
         for attempt in range(2):
@@ -579,7 +579,7 @@ def redeem_codex_reset_credit(
         code = exc.response.status_code
         if code in (401, 403):
             return _unavailable(f"Codex backend rejected the request (HTTP {code}). Reset credits require ChatGPT-account "
-                                "(OAuth) auth — run `hermes auth` and sign in with your ChatGPT account.")
+                                "(OAuth) auth — run `vael auth` and sign in with your ChatGPT account.")
         return _unavailable(f"Codex backend error (HTTP {code}) — try again shortly.")
     except Exception as exc:
         return _unavailable(f"Could not reach the Codex backend: {exc}")

@@ -3,9 +3,9 @@ import { useCallback } from 'react'
 
 import { refChipLabel } from '@/components/assistant-ui/directive-text'
 import { useContributions } from '@/contrib/react/use-contributions'
-import type { HermesGateway } from '@/hermes'
 import { cachedPathCompletion, hasCachedPathCompletion } from '@/lib/slash-completion-cache'
 import { normalize } from '@/lib/text'
+import type { VaelGateway } from '@/vael'
 
 import type { ComposerAtCompletionSource } from '../contrib'
 import { COMPOSER_AREAS } from '../contrib'
@@ -124,7 +124,7 @@ function classify(entry: CompletionEntry): {
  *  contributed sources (composer.atCompletions — e.g. Bot Mode agent handles)
  *  merged ahead of the path results. */
 export function useAtCompletions(options: {
-  gateway: HermesGateway | null
+  gateway: VaelGateway | null
   sessionId: string | null
   cwd: string | null
 }): { adapter: Unstable_TriggerAdapter; loading: boolean } {

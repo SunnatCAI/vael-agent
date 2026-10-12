@@ -16,7 +16,7 @@ These tests pin the typed path:
 from types import SimpleNamespace
 
 import pytest
-import hermes_yaml as yaml
+import vael_yaml as yaml
 
 from gateway.config import Platform
 from gateway.platforms.event import MessageEvent, MessageType
@@ -42,7 +42,7 @@ def _make_event(text):
 
 
 def _fake_switch_result():
-    from hermes_cli.model_switch import ModelSwitchResult
+    from vael_cli.model_switch import ModelSwitchResult
 
     return ModelSwitchResult(
         success=True,
@@ -60,7 +60,7 @@ def _fake_warning():
     return SimpleNamespace(
         message=(
             "!!! EXPENSIVE MODEL WARNING !!!\n"
-            "openai/gpt-5.5-pro has known pricing above Hermes' safety threshold.\n"
+            "openai/gpt-5.5-pro has known pricing above VAEL's safety threshold.\n"
             "did you mean to select openai/gpt-5.5?"
         ),
     )
@@ -69,24 +69,24 @@ def _fake_warning():
 def _setup_isolated_home(tmp_path, monkeypatch, *, warn):
     import gateway.run as gateway_run
 
-    hermes_home = tmp_path / ".hermes"
-    hermes_home.mkdir()
-    cfg_path = hermes_home / "config.yaml"
+    vael_home = tmp_path / ".vael"
+    vael_home.mkdir()
+    cfg_path = vael_home / "config.yaml"
     cfg_path.write_text(
         yaml.safe_dump({"model": {"default": "old-model", "provider": "openrouter"}, "providers": {}}),
         encoding="utf-8",
     )
 
-    monkeypatch.setattr(gateway_run, "_hermes_home", hermes_home)
+    monkeypatch.setattr(gateway_run, "_vael_home", vael_home)
     monkeypatch.setattr("agent.models_dev.fetch_models_dev", lambda: {})
     monkeypatch.setattr(
-        "hermes_cli.model_switch.switch_model",
+        "vael_cli.model_switch.switch_model",
         lambda **kw: _fake_switch_result(),
     )
-    monkeypatch.setattr("hermes_constants.get_hermes_home", lambda: hermes_home)
-    monkeypatch.setattr("hermes_cli.config.get_hermes_home", lambda: hermes_home)
+    monkeypatch.setattr("vael_constants.get_vael_home", lambda: vael_home)
+    monkeypatch.setattr("vael_cli.config.get_vael_home", lambda: vael_home)
     monkeypatch.setattr(
-        "hermes_cli.model_cost_guard.expensive_model_warning",
+        "vael_cli.model_cost_guard.expensive_model_warning",
         (lambda *a, **kw: _fake_warning()) if warn else (lambda *a, **kw: None),
     )
     return cfg_path

@@ -116,13 +116,13 @@ export {
 } from './reconnect-backoff'
 export { skillInvocationText } from './skill-scaffold'
 export {
-  type HermesSkin,
   SKIN_BRANDING_TOKENS,
   SKIN_COLOR_TOKENS,
   type SkinBranding,
   type SkinBrandingToken,
   type SkinColors,
-  type SkinColorToken
+  type SkinColorToken,
+  type VaelSkin
 } from './skin'
 export {
   type AliasCommandDispatchResponse,
@@ -176,14 +176,14 @@ export {
   type WindowsBackgroundMaterial
 } from './translucency'
 export {
-  buildHermesWebSocketUrl,
+  buildVaelWebSocketUrl,
   type GatewayAuthMode,
   GatewayReauthRequiredError,
   type GatewayWsConnection,
   type GatewayWsUrlResult,
-  type HermesWebSocketUrlOptions,
   isGatewayReauthRequired,
   resolveGatewayWsUrl,
   type ResolveGatewayWsUrlDeps,
+  type VaelWebSocketUrlOptions,
   type WebSocketAuthParam
 } from './websocket-url'

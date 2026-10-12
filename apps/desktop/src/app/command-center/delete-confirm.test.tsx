@@ -2,9 +2,9 @@ import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/re
 import { MemoryRouter } from 'react-router'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import type * as HermesApi from '@/hermes'
-import type { SessionInfo } from '@/hermes'
 import { $sessions } from '@/store/session'
+import type * as VaelApi from '@/vael'
+import type { SessionInfo } from '@/vael'
 
 import { CommandCenterView } from './index'
 
@@ -15,14 +15,14 @@ import { CommandCenterView } from './index'
 // gated behind the shared ConfirmDialog: no onDeleteSession call on the trash
 // click alone, the call only after an explicit confirm, and never on cancel.
 
-vi.mock('@/hermes', async importOriginal => ({
-  ...(await importOriginal<typeof HermesApi>()),
+vi.mock('@/vael', async importOriginal => ({
+  ...(await importOriginal<typeof VaelApi>()),
   getActionStatus: vi.fn(() => Promise.resolve({ running: false })),
   getLogs: vi.fn(() => Promise.resolve({ lines: [] })),
   getStatus: vi.fn(() => Promise.resolve({})),
   getUsageAnalytics: vi.fn(() => Promise.resolve({})),
   restartGateway: vi.fn(),
-  updateHermes: vi.fn()
+  updateVael: vi.fn()
 }))
 vi.mock('@/lib/session-export', () => ({ exportSession: vi.fn() }))
 vi.mock('./maintenance', () => ({ MaintenancePanel: () => null }))

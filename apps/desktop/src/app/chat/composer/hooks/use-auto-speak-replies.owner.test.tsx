@@ -3,9 +3,9 @@ import { atom } from 'nanostores'
 import type { ReactNode } from 'react'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 
-import { setApiRequestConnection, setApiRequestProfile } from '@/hermes'
 import { clearVoiceClientConfigCache } from '@/lib/voice-client-direct'
 import { $autoSpeakReplies } from '@/store/voice-prefs'
+import { setApiRequestConnection, setApiRequestProfile } from '@/vael'
 
 import { ComposerScopeProvider, MAIN_COMPOSER_SCOPE } from '../scope'
 
@@ -25,7 +25,7 @@ describe('useAutoSpeakReplies — owner-routed synthesis', () => {
     setApiRequestConnection(null)
     setApiRequestProfile(null)
     clearVoiceClientConfigCache()
-    Reflect.deleteProperty(window, 'hermesDesktop')
+    Reflect.deleteProperty(window, 'vaelDesktop')
   })
 
   it('synthesizes a Bot reply with the scope owner (connection, profile), not the active scope', async () => {
@@ -33,7 +33,7 @@ describe('useAutoSpeakReplies — owner-routed synthesis', () => {
       path.startsWith('/api/audio/voice-config') ? { ok: false } : { audio: '' }
     )
 
-    Object.defineProperty(window, 'hermesDesktop', { configurable: true, value: { api } })
+    Object.defineProperty(window, 'vaelDesktop', { configurable: true, value: { api } })
     setApiRequestConnection('gw-active')
     setApiRequestProfile('research')
     $autoSpeakReplies.set(true)

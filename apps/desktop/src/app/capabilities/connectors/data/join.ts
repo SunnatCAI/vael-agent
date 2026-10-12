@@ -7,11 +7,11 @@ import type {
   McpRuntimeStatus,
   McpServerRuntimeRow,
   McpServerSummary
-} from '@hermes/shared'
+} from '@vael/shared'
 
-import type { McpCatalogEntry } from '@/hermes'
 import { connectorTitle } from '@/lib/connector-tools'
 import { type McpServers, serverEnabled } from '@/lib/mcp-servers'
+import type { McpCatalogEntry } from '@/vael'
 
 import { canAuthenticate } from '../../mcp/mcp-status'
 import { toolRows } from '../derive-tools'

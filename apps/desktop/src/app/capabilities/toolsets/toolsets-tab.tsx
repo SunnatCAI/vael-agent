@@ -1,16 +1,16 @@
-import { compactNumber } from '@hermes/shared'
 import { useStore } from '@nanostores/react'
+import { compactNumber } from '@vael/shared'
 import { useCallback, useMemo, useState } from 'react'
 
 import { CountSkeleton } from '@/components/ui/skeleton'
-import { type ProfileScope, setToolsetEnabled } from '@/hermes'
 import { useI18n } from '@/i18n'
 import { isDesktopToolsetVisible } from '@/lib/desktop-toolsets'
 import { Codecs, persistentAtom } from '@/lib/persisted'
 import { queryClient } from '@/lib/query-client'
 import { invalidateSlashCompletions } from '@/lib/slash-completion-cache'
 import { notify, notifyError } from '@/store/notifications'
-import type { ToolsetInfo } from '@/types/hermes'
+import type { ToolsetInfo } from '@/types/vael'
+import { type ProfileScope, setToolsetEnabled } from '@/vael'
 
 import {
   CapRow,
@@ -30,7 +30,7 @@ import { filteredToolsets, toolsetCalls, TOOLSETS_QUERY_KEY, toolsetsQueryKey } 
 
 // Sort direction for the Tools list — persisted so the tab remembers
 // most/least-used across navigations and restarts.
-const $toolsetsSortDesc = persistentAtom('hermes.desktop.capabilities.toolsetsSortDesc', true, Codecs.bool)
+const $toolsetsSortDesc = persistentAtom('vael.desktop.capabilities.toolsetsSortDesc', true, Codecs.bool)
 
 interface ToolsetsTabProps {
   /** The scope's toolset list, straight from the shell's query. */

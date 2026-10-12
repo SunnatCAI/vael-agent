@@ -32,7 +32,7 @@ DEFAULT_DATASETS = [
     "NousResearch/hermes-agent-megascience-sft1",
     "NousResearch/Hermes-Agent-Thinking-GLM-4.7-SFT2",
     "NousResearch/Hermes-Agent-Thinking-GLM-4.7-SFT1",
-    "NousResearch/terminal-tasks-glm-hermes-agent"
+    "NousResearch/terminal-tasks-glm-vael-agent"
 ]
 
 

@@ -2,7 +2,6 @@ import { QueryClient } from '@tanstack/react-query'
 import { act, cleanup, render, renderHook, waitFor } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import { getGlobalModelInfo } from '@/hermes'
 import { modelOptionsQueryKey } from '@/lib/model-options'
 import { $activeGatewayProfile } from '@/store/profile'
 import {
@@ -15,6 +14,7 @@ import {
   setCurrentProvider
 } from '@/store/session'
 import * as SessionStates from '@/store/session-states'
+import { getGlobalModelInfo } from '@/vael'
 
 import { deferred } from '../../../test/deferred'
 
@@ -26,7 +26,7 @@ const notify = vi.fn()
 const notifyError = vi.fn()
 const dismissNotification = vi.fn()
 
-vi.mock('@/hermes', () => ({
+vi.mock('@/vael', () => ({
   getGlobalModelInfo: vi.fn(),
   setApiRequestProfile: vi.fn(),
   setGlobalModel: (...args: Parameters<typeof setGlobalModel>) => setGlobalModel(...args)

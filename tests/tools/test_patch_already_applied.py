@@ -44,7 +44,7 @@ class TestIsAlreadyApplied:
 
 @pytest.fixture
 def workdir(tmp_path, monkeypatch):
-    monkeypatch.setenv("HERMES_HOME", str(tmp_path / ".hermes"))
+    monkeypatch.setenv("VAEL_HOME", str(tmp_path / ".vael"))
     return tmp_path
 
 

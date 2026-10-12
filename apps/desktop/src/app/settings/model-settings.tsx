@@ -1,6 +1,6 @@
-import type { ModelOptionProvider } from '@hermes/shared'
-import { DEFAULT_REASONING_EFFORT, isReasoningEffort, REASONING_EFFORT_VALUES } from '@hermes/shared'
 import { useStore } from '@nanostores/react'
+import type { ModelOptionProvider } from '@vael/shared'
+import { DEFAULT_REASONING_EFFORT, isReasoningEffort, REASONING_EFFORT_VALUES } from '@vael/shared'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import { Button } from '@/components/ui/button'
@@ -8,24 +8,6 @@ import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Switch } from '@/components/ui/switch'
-import {
-  getAuxiliaryModels,
-  getGlobalModelInfo,
-  getGlobalModelOptions,
-  getMoaModels,
-  getRecommendedDefaultModel,
-  saveHermesConfig,
-  saveMoaModels,
-  setEnvVar,
-  setModelAssignment
-} from '@/hermes'
-import type {
-  AuxiliaryModelsResponse,
-  AuxiliaryTaskAssignment,
-  MoaConfigResponse,
-  MoaModelSlot,
-  StaleAuxAssignment
-} from '@/hermes'
 import { useI18n } from '@/i18n'
 import { isCodeSkewRestartRequired } from '@/lib/code-skew-error'
 import { AlertTriangle, Cpu, Loader2 } from '@/lib/icons'
@@ -36,8 +18,26 @@ import { $customModels, withCustomModels } from '@/store/custom-models'
 import { setMainModelAssignment } from '@/store/model-assignment'
 import { notify, notifyError, readableError } from '@/store/notifications'
 import { startManualLocalEndpoint, startManualOnboarding, startManualProviderOAuth } from '@/store/onboarding'
+import {
+  getAuxiliaryModels,
+  getGlobalModelInfo,
+  getGlobalModelOptions,
+  getMoaModels,
+  getRecommendedDefaultModel,
+  saveMoaModels,
+  saveVaelConfig,
+  setEnvVar,
+  setModelAssignment
+} from '@/vael'
+import type {
+  AuxiliaryModelsResponse,
+  AuxiliaryTaskAssignment,
+  MoaConfigResponse,
+  MoaModelSlot,
+  StaleAuxAssignment
+} from '@/vael'
 
-import { hermesConfigCacheWriter, invalidateHermesConfig, useHermesConfigRecord } from '../hooks/use-config-record'
+import { invalidateVaelConfig, useVaelConfigRecord, vaelConfigCacheWriter } from '../hooks/use-config-record'
 import { useOnProfileSwitch } from '../hooks/use-on-profile-switch'
 import { PanelEmpty } from '../overlays/panel'
 
@@ -94,14 +94,14 @@ const isFastTier = (tier: unknown): boolean =>
   )
 
 // A provider row is "ready" to pick a model from when it reports models. The
-// backend now surfaces the full `hermes model` universe (every canonical
+// backend now surfaces the full `vael model` universe (every canonical
 // provider), so unconfigured providers come back with `authenticated:false`
 // and an empty `models` list — those need a setup step before a model exists.
 function isProviderReady(p?: ModelOptionProvider): boolean {
   return !!p && (p.authenticated !== false || (p.models?.length ?? 0) > 0)
 }
 
-// Mirrors `_AUX_TASK_SLOTS` in hermes_cli/web_server.py. Friendly labels and
+// Mirrors `_AUX_TASK_SLOTS` in vael_cli/web_server.py. Friendly labels and
 // hints make the assignments readable; raw task keys (vision, mcp, …) are
 // opaque to most users.
 interface AuxTaskMeta {
@@ -259,8 +259,8 @@ export function ModelSettings({ onMainModelChanged, scopeProfile, subpage }: Mod
   const [newMoaPresetName, setNewMoaPresetName] = useState('')
   // agent.* defaults round-trip through the shared config cache (read → write
   // back the whole record), so a save here shows in the MCP/model surfaces.
-  const { data: config, writeScope } = useHermesConfigRecord(scopeProfile)
-  const setConfig = useMemo(() => hermesConfigCacheWriter(scopeProfile), [scopeProfile])
+  const { data: config, writeScope } = useVaelConfigRecord(scopeProfile)
+  const setConfig = useMemo(() => vaelConfigCacheWriter(scopeProfile), [scopeProfile])
   const [applying, setApplying] = useState(false)
   const [editingAuxTask, setEditingAuxTask] = useState<null | string>(null)
 
@@ -373,7 +373,7 @@ export function ModelSettings({ onMainModelChanged, scopeProfile, subpage }: Mod
 
         // The config record loads via its own shared query; a model switch can
         // change it server-side (aux slots), so nudge that cache to refetch.
-        void invalidateHermesConfig(scopeProfile)
+        void invalidateVaelConfig(scopeProfile)
       } catch (err) {
         if (profileEpoch.current === epoch) {
           setCaughtError(err, m.loadFailed)
@@ -652,7 +652,7 @@ export function ModelSettings({ onMainModelChanged, scopeProfile, subpage }: Mod
       setConfig(next)
 
       try {
-        await saveHermesConfig(setNested({}, key, value), writeScope ?? scopeProfile)
+        await saveVaelConfig(setNested({}, key, value), writeScope ?? scopeProfile)
       } catch (err) {
         setConfig(prev)
         notifyError(err, m.defaultsFailed)
@@ -681,7 +681,7 @@ export function ModelSettings({ onMainModelChanged, scopeProfile, subpage }: Mod
       setApiKeyDraft('')
 
       // Pick a sensible default for the freshly-activated provider (mirrors
-      // `hermes model` curation). Best-effort — fall through to the refreshed
+      // `vael model` curation). Best-effort — fall through to the refreshed
       // model list if it fails.
       let nextModel = ''
 
@@ -911,7 +911,7 @@ export function ModelSettings({ onMainModelChanged, scopeProfile, subpage }: Mod
     setSkewRestart(false)
 
     try {
-      await window.hermesDesktop?.recycleBackend?.(scopeProfile)
+      await window.vaelDesktop?.recycleBackend?.(scopeProfile)
       await refresh({ replaceSelection: true })
     } catch (err) {
       setCaughtError(err, m.restartFailed)
@@ -1016,7 +1016,7 @@ export function ModelSettings({ onMainModelChanged, scopeProfile, subpage }: Mod
             <p className="mt-2 text-xs text-muted-foreground">
               {selectedProviderRow?.auth_type === 'api_key'
                 ? `${selectedProviderRow?.name} needs an API key — set it up to choose a model.`
-                : `${selectedProviderRow?.name} signs in through your browser — Hermes runs the flow for you.`}
+                : `${selectedProviderRow?.name} signs in through your browser — VAEL runs the flow for you.`}
             </p>
           )}
           {config && mainModel && (reasoningSupported || fastSupported) && (

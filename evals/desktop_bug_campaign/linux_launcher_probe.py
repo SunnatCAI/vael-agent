@@ -27,10 +27,10 @@ def main():
     args.output.mkdir(parents=True, exist_ok=True)
     root = Path(tempfile.mkdtemp(prefix="linux-launcher-", dir=args.output))
     env = {"PATH": "/usr/bin:/bin", "HOME": str(root / "home"),
-           "HERMES_HOME": str(root / "home/.hermes"),
+           "VAEL_HOME": str(root / "home/.vael"),
            "XDG_DATA_HOME": str(root / "xdg"), "LANG": "C.UTF-8",
-           "HERMES_NONINTERACTIVE": "1"}
-    Path(env["HERMES_HOME"]).mkdir(parents=True)
+           "VAEL_NONINTERACTIVE": "1"}
+    Path(env["VAEL_HOME"]).mkdir(parents=True)
     venv_dir = root / "venv"
     venv.EnvBuilder(with_pip=False, symlinks=True).create(venv_dir)
     python = venv_dir / "bin/python"
@@ -41,15 +41,15 @@ def main():
     assert python.is_symlink() and python.resolve() != python
     install = (
         "import sys,json; from pathlib import Path; "
-        "from hermes_cli.linux_desktop_entry import install_desktop_entry; "
-        f"sys.argv[0]={str(repo / 'hermes')!r}; "
+        "from vael_cli.linux_desktop_entry import install_desktop_entry; "
+        f"sys.argv[0]={str(repo / 'vael')!r}; "
         f"p=install_desktop_entry(Path({str(repo)!r})); "
         "print(json.dumps({'path':str(p),'text':p.read_text(),'python':sys.executable}))"
     )
     rows: dict = {"source_sha": args.source_sha or subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=repo, text=True).strip(),
             "root": str(root), "lexical_python": str(python), "base_python": str(python.resolve())}
-    rows["venv_import"] = run([str(python), "-I", "-c", "import ruamel.yaml,hermes_cli.main; print(ruamel.yaml.__version__)"], env, "/")
-    rows["base_import_negative"] = run([str(python.resolve()), "-I", "-c", "import ruamel.yaml,hermes_cli.main"], env, "/")
+    rows["venv_import"] = run([str(python), "-I", "-c", "import ruamel.yaml,vael_cli.main; print(ruamel.yaml.__version__)"], env, "/")
+    rows["base_import_negative"] = run([str(python.resolve()), "-I", "-c", "import ruamel.yaml,vael_cli.main"], env, "/")
     rows["install"] = run([str(python), "-c", install], env, "/")
     assert rows["install"]["returncode"] == 0, rows["install"]
     installed = json.loads(rows["install"]["stdout"].splitlines()[-1])
@@ -62,9 +62,9 @@ def main():
     original = entry.read_bytes()
     rows["second_install"] = run([str(python), "-c", install], env, "/")
     rows["stable_rewrite"] = entry.read_bytes() == original
-    custom = original.replace(b"Name=Hermes\n", b"Name=Hermes custom\n").replace(b"Terminal=false", b"Terminal=true")
+    custom = original.replace(b"Name=VAEL\n", b"Name=VAEL custom\n").replace(b"Terminal=false", b"Terminal=true")
     entry.write_bytes(custom)
-    config = Path(env["HERMES_HOME"]) / "config.yaml"
+    config = Path(env["VAEL_HOME"]) / "config.yaml"
     config.write_text("desktop:\n  manage_launcher_entry: false\n")
     rows["custom_install"] = run([str(python), "-c", install], env, "/")
     rows["custom_preserved"] = entry.read_bytes() == custom

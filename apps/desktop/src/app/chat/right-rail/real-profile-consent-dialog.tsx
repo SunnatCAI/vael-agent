@@ -11,8 +11,7 @@ import {
   DialogHeader,
   DialogTitle
 } from '@/components/ui/dialog'
-import type { HermesConnection } from '@/global'
-import { saveHermesConfigRecord } from '@/hermes'
+import type { VaelConnection } from '@/global'
 import { useI18n } from '@/i18n'
 import { Check, Globe } from '@/lib/icons'
 import { notify, notifyError } from '@/store/notifications'
@@ -24,8 +23,9 @@ import {
   releaseRealProfilePrompt
 } from '@/store/real-profile-consent'
 import { $connection } from '@/store/session'
+import { saveVaelConfigRecord } from '@/vael'
 
-import { hermesConfigCacheWriter, useHermesConfigRecord } from '../../hooks/use-config-record'
+import { useVaelConfigRecord, vaelConfigCacheWriter } from '../../hooks/use-config-record'
 
 interface RealProfileConsentDialogProps {
   /** The Browser tab this pane renders — used only to claim the prompt so
@@ -36,7 +36,7 @@ interface RealProfileConsentDialogProps {
 interface RealProfilePromptGate {
   claim: null | string
   configLoaded: boolean
-  connection: HermesConnection | null
+  connection: VaelConnection | null
   dismissed: boolean
   enabled: boolean
   muted: boolean
@@ -87,8 +87,8 @@ export function RealProfileConsentDialog({ tabId }: RealProfileConsentDialogProp
   const muted = useStore($realProfilePromptMuted)
   const claim = useStore($realProfilePromptClaim)
   const connection = useStore($connection)
-  const { data: config, writeScope } = useHermesConfigRecord()
-  const setConfig = hermesConfigCacheWriter()
+  const { data: config, writeScope } = useVaelConfigRecord()
+  const setConfig = vaelConfigCacheWriter()
   const [busy, setBusy] = useState(false)
 
   useEffect(() => {
@@ -117,7 +117,7 @@ export function RealProfileConsentDialog({ tabId }: RealProfileConsentDialogProp
     try {
       // Sparse patch: PUT /api/config deep-merges, and echoing the cached
       // snapshot would overwrite keys other surfaces changed since it loaded.
-      await saveHermesConfigRecord({ browser: { use_real_profile: true } }, writeScope)
+      await saveVaelConfigRecord({ browser: { use_real_profile: true } }, writeScope)
 
       notify({ kind: 'info', title: copy.enabledTitle, message: copy.enabledMessage })
     } catch (err) {

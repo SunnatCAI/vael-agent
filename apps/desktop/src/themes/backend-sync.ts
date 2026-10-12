@@ -1,7 +1,7 @@
 /**
- * Live skin sync from the Hermes backend.
+ * Live skin sync from the VAEL backend.
  *
- * The backend resolves the active skin (built-in or `$HERMES_HOME/skins/*.yaml`)
+ * The backend resolves the active skin (built-in or `$VAEL_HOME/skins/*.yaml`)
  * and announces it on `gateway.ready` / `skin.changed`, and answers `config.get
  * skin` with the same payload. `ingestBackendSkin` folds that into the desktop:
  *
@@ -12,11 +12,11 @@
  *      `$pendingSkinApply`, which the ThemeProvider drains through `setTheme`.
  *
  * `gateway.ready` seeds the baseline WITHOUT applying, so a fresh connect never
- * stomps the user's persisted desktop theme; only a genuine name change (Hermes
+ * stomps the user's persisted desktop theme; only a genuine name change (VAEL
  * authoring/activating a skin from a prompt, or `/skin` elsewhere) repaints.
  */
 
-import type { HermesSkin } from '@hermes/shared/skin'
+import type { VaelSkin } from '@vael/shared/skin'
 import { atom } from 'nanostores'
 
 import { readJson, writeJson } from '@/lib/storage'
@@ -29,12 +29,12 @@ import { type DesktopTheme, isValidTheme } from './types'
 // resolve a persisted skin pick synchronously, like a built-in or a user
 // install. Without it the stored name failed `resolveTheme` on every launch
 // and the app silently painted the default until the next `skin.changed`.
-const BACKEND_THEMES_KEY = 'hermes-desktop-backend-themes-v1'
+const BACKEND_THEMES_KEY = 'vael-desktop-backend-themes-v1'
 
 // Electron reads the active local `display.skin` before it creates the
 // renderer. Seed it alongside the existing cache so an unreachable primary
 // gateway cannot leave a first-time custom skin unknown to the theme registry.
-const localSkinPayload = typeof window === 'undefined' ? null : (window.hermesDesktop?.localSkin ?? null)
+const localSkinPayload = typeof window === 'undefined' ? null : (window.vaelDesktop?.localSkin ?? null)
 const localSkin = localSkinPayload?.skin ?? null
 export const localDisplaySkinName = (localSkin?.name ?? '').trim() || null
 export const localDisplaySkinProfile = localDisplaySkinName
@@ -46,7 +46,7 @@ export const localDisplaySkinProfile = localDisplaySkinName
 const cacheable = (name: string) => !BUILTIN_THEMES[name] && !RETIRED_SKINS.has(name)
 
 // Dropped entries are written back out, so a stale shadow (the reverted #130015
-// build cached the CLI `default` skin as a second "Classic Hermes") is gone from
+// build cached the CLI `default` skin as a second "Classic VAEL") is gone from
 // disk on the first launch, not only hidden until the next registry change.
 const readCached = (): Record<string, DesktopTheme> => {
   const stored = Object.entries(readJson<Record<string, unknown>>(BACKEND_THEMES_KEY) ?? {})
@@ -98,7 +98,7 @@ export function __resetBackendSkinSync(): void {
  * records the baseline; `apply: true` (runtime change / poll) repaints on a name
  * change. Built-in names keep the desktop's own palette but can still be applied.
  */
-export function ingestBackendSkin(skin: HermesSkin | undefined | null, { apply }: { apply: boolean }): void {
+export function ingestBackendSkin(skin: VaelSkin | undefined | null, { apply }: { apply: boolean }): void {
   const name = (skin && typeof skin === 'object' ? (skin.name ?? '') : '').trim()
 
   if (!name) {
@@ -114,7 +114,7 @@ export function ingestBackendSkin(skin: HermesSkin | undefined | null, { apply }
   // Built-in names (mono/slate/…) already have a hand-tuned desktop palette — we
   // never shadow it, but the name is still a valid apply target.
   if (cacheable(name)) {
-    const theme = skinToDesktopTheme(skin as HermesSkin)
+    const theme = skinToDesktopTheme(skin as VaelSkin)
 
     if (!theme) {
       return

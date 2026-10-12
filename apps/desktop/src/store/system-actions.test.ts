@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import type * as HermesApi from '@/hermes'
 import { registerGatewayReconnect } from '@/store/gateway-reconnect'
+import type * as VaelApi from '@/vael'
 
 // The REST layer is the only seam these flows own; the confirm dialog and
 // notifications stay real. getStatus answers a standalone gateway so
@@ -9,8 +9,8 @@ import { registerGatewayReconnect } from '@/store/gateway-reconnect'
 const getActionStatus = vi.fn()
 const restartGateway = vi.fn()
 
-vi.mock('@/hermes', async importOriginal => ({
-  ...(await importOriginal<typeof HermesApi>()),
+vi.mock('@/vael', async importOriginal => ({
+  ...(await importOriginal<typeof VaelApi>()),
   getActionStatus: (name: string, timeout?: number) => getActionStatus(name, timeout),
   getStatus: async () => ({}),
   restartGateway: () => restartGateway()

@@ -2,7 +2,7 @@
 function Invoke-SourceBuild([scriptblock]$Action) {
     $saved = @{}
     $names = @('GITHUB_SHA', 'GITHUB_REF', 'GITHUB_REF_NAME', 'GITHUB_HEAD_REF', 'GITHUB_BASE_REF',
-        'HERMES_BUILD_COMMIT', 'HERMES_PAYLOAD_TAG', 'HERMES_PAYLOAD_VERSION', 'HERMES_DESKTOP_VARIANT')
+        'VAEL_BUILD_COMMIT', 'VAEL_PAYLOAD_TAG', 'VAEL_PAYLOAD_VERSION', 'VAEL_DESKTOP_VARIANT')
     # The env: drive, not [Environment]::SetEnvironmentVariable: on .NET/Unix the latter only
     # updates the managed copy, so a child spawned afterwards still inherits the old value.
     # Test-Path first: under $ErrorActionPreference = 'Stop' a missing item would otherwise

@@ -1,7 +1,6 @@
-import { resolveGatewayWsUrl } from '@hermes/shared'
+import { resolveGatewayWsUrl } from '@vael/shared'
 
 import type { OwnerScope } from '@/api/client'
-import { getApiRequestConnection, getApiRequestProfile, speakText } from '@/hermes'
 import { directTtsConfig, type DirectTtsConfig, synthesizeSpeechClientDirect } from '@/lib/voice-client-direct'
 import { RECONNECT_ATTEMPT_TIMEOUT_MS, withTimeout } from '@/lib/with-timeout'
 import {
@@ -10,6 +9,7 @@ import {
   type VoicePlaybackSource,
   type VoicePlaybackState
 } from '@/store/voice-playback'
+import { getApiRequestConnection, getApiRequestProfile, speakText } from '@/vael'
 
 import { cutSentences, sanitizeTextForSpeech } from './speech-text'
 
@@ -126,7 +126,7 @@ export function stopVoicePlayback() {
 /** Exported for tests: the (connection, profile) routing contract below is
  *  exactly what broke in the desktop-remote voice report — keep it pinned. */
 export async function resolveSpeakStreamUrl(owner?: OwnerScope): Promise<null | string> {
-  const desktop = window.hermesDesktop
+  const desktop = window.vaelDesktop
 
   if (!desktop?.getConnection) {
     return null

@@ -1,6 +1,6 @@
-import type { ModelOptionProvider, ModelOptionsResult } from '@hermes/shared'
 import { useStore } from '@nanostores/react'
 import { useQuery } from '@tanstack/react-query'
+import type { ModelOptionProvider, ModelOptionsResult } from '@vael/shared'
 import { useEffect, useMemo, useState } from 'react'
 
 import { Button } from '@/components/ui/button'
@@ -11,7 +11,6 @@ import { GlyphSpinner } from '@/components/ui/glyph-spinner'
 import { HighlightMatches } from '@/components/ui/highlight-matches'
 import { RowButton } from '@/components/ui/row-button'
 import { Switch } from '@/components/ui/switch'
-import type { HermesGateway } from '@/hermes'
 import { useI18n } from '@/i18n'
 import { Plus, Search, X } from '@/lib/icons'
 import { modelOptionsQueryKey, requestModelOptions } from '@/lib/model-options'
@@ -38,9 +37,10 @@ import {
   toggleModelVisibility
 } from '@/store/model-visibility'
 import { $collapsedProviders, toggleCollapsedProvider } from '@/store/provider-collapse'
+import type { VaelGateway } from '@/vael'
 
 interface ModelVisibilityDialogProps {
-  gw?: HermesGateway
+  gw?: VaelGateway
   onOpenChange: (open: boolean) => void
   onOpenProviders: () => void
   open: boolean

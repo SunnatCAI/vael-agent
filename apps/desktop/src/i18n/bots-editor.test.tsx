@@ -1,24 +1,24 @@
-import type * as HermesSdk from '@hermes/plugin-sdk'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { act, cleanup, fireEvent, render, screen } from '@testing-library/react'
+import type * as VaelSdk from '@vael/plugin-sdk'
 import { afterEach, beforeAll, expect, it, vi } from 'vitest'
 
 import { I18nProvider, useI18n } from '@/i18n'
 import type { I18nContextValue } from '@/i18n'
 import { registerPluginLocales } from '@/i18n/plugin-i18n'
-import { $imagenAvailable } from '@/plugins/hermes-bots/avatar-image'
-import { CreateAgentDialog } from '@/plugins/hermes-bots/create-dialog'
-import { EditProfileDialog } from '@/plugins/hermes-bots/edit-profile-dialog'
-import { BOTS_LOCALES } from '@/plugins/hermes-bots/i18n'
-import { translateBotsIn } from '@/plugins/hermes-bots/i18n-test-helper'
+import { $imagenAvailable } from '@/plugins/vael-bots/avatar-image'
+import { CreateAgentDialog } from '@/plugins/vael-bots/create-dialog'
+import { EditProfileDialog } from '@/plugins/vael-bots/edit-profile-dialog'
+import { BOTS_LOCALES } from '@/plugins/vael-bots/i18n'
+import { translateBotsIn } from '@/plugins/vael-bots/i18n-test-helper'
 
 const mocks = vi.hoisted(() => ({
   request: vi.fn(async (_method: string) => ({ skills: [], toolsets: [], mcp_servers: [] })),
   connections: vi.fn(async () => [])
 }))
 
-vi.mock('@hermes/plugin-sdk', async importOriginal => {
-  const sdk = await importOriginal<typeof HermesSdk>()
+vi.mock('@vael/plugin-sdk', async importOriginal => {
+  const sdk = await importOriginal<typeof VaelSdk>()
 
   return { ...sdk, host: { ...sdk.host, request: mocks.request, connections: mocks.connections } }
 })
@@ -32,7 +32,7 @@ function Controls() {
 }
 
 function mount(children: React.ReactNode) {
-  dispose = registerPluginLocales('hermes-bots', BOTS_LOCALES)
+  dispose = registerPluginLocales('vael-bots', BOTS_LOCALES)
 
   return render(
     <I18nProvider configClient={null} initialLocale="zh">

@@ -1,6 +1,6 @@
 // The desktop product identity — THE single source for every name-shaped
-// value a variant owns. HERMES_DESKTOP_VARIANT=light builds "Hermes
-// Light", the remote-only client; everything else is full "Hermes".
+// value a variant owns. VAEL_DESKTOP_VARIANT=light builds "VAEL
+// Light", the remote-only client; everything else is full "VAEL".
 //
 // Consumed at build time by electron-builder.config.cjs (packaging
 // identity). electron/product-identity.ts is the typed runtime accessor.
@@ -9,22 +9,22 @@
 'use strict'
 
 const variants = {
-  '': { display: 'Hermes', kebab: 'hermes', pascal: 'Hermes' },
+  '': { display: 'VAEL', kebab: 'vael', pascal: 'VAEL' },
   light: {
-    display: 'Hermes Light',
-    kebab: 'hermes-light',
-    pascal: 'HermesLight'
+    display: 'VAEL Light',
+    kebab: 'vael-light',
+    pascal: 'VaelLight'
   },
   bundled: {
-    display: 'Hermes Agent',
-    kebab: 'hermes-bundled',
-    pascal: 'HermesBundled'
+    display: 'VAEL Agent',
+    kebab: 'vael-bundled',
+    pascal: 'VaelBundled'
   }
 }
 
-const variant = process.env.HERMES_DESKTOP_VARIANT || ''
+const variant = process.env.VAEL_DESKTOP_VARIANT || ''
 if (!['', 'light', 'bundled', 'store'].includes(variant)) {
-  throw new Error(`Unknown HERMES_DESKTOP_VARIANT ${variant}. expected one of (empty), light, bundled, store`)
+  throw new Error(`Unknown VAEL_DESKTOP_VARIANT ${variant}. expected one of (empty), light, bundled, store`)
 }
 
 // 'store' is a Store-submission packaging identity layered on the bundled
@@ -40,11 +40,11 @@ const name = variants[store ? 'bundled' : (variant || '')]
 // stable tags write latest.yml / light.yml. Keyed on the payload tag so
 // the one release workflow serves both channels — a canary build can
 // never overwrite the stable feed file, and vice versa.
-const canary = /\+canary\.20\d{6}T\d{6}Z$/.test(process.env.HERMES_PAYLOAD_TAG || '')
+const canary = /\+canary\.20\d{6}T\d{6}Z$/.test(process.env.VAEL_PAYLOAD_TAG || '')
 
 // Nonstable installs own their package family and local desktop state. The
 // seven-character commit suffix also names the CLI and fits MSIX's name cap.
-const buildCommitEnv = process.env.HERMES_BUILD_COMMIT || ''
+const buildCommitEnv = process.env.VAEL_BUILD_COMMIT || ''
 const buildCommit = /^[a-f0-9]{40}$/.test(buildCommitEnv) ? buildCommitEnv.slice(0, 7) : null
 const displayName = buildCommit
   ? `${name.display} ${buildCommit}`
@@ -54,7 +54,7 @@ const displayName = buildCommit
 
 const kebabSuffix = buildCommit ? `-${buildCommit}` : canary ? '-canary' : ''
 const pascalSuffix = buildCommit ? `Commit${buildCommit}` : canary ? 'Canary' : ''
-const cliName = `${light ? 'hermes-light' : 'hermes'}${kebabSuffix}`
+const cliName = `${light ? 'vael-light' : 'vael'}${kebabSuffix}`
 if (store && (canary || buildCommit)) {
   throw new Error('Store packaging is only eligible for stable releases')
 }
@@ -79,7 +79,7 @@ const identity = {
         storeMsix: {
           // Partner Center publisher identity (the account's publisher ID) —
           // validated + re-signed by the Store on submission.
-          identityName: 'NousResearchInc.HermesAgent',
+          identityName: 'NousResearchInc.VaelAgent',
           publisher: 'CN=EE6D86E4-606F-4E38-B940-AD7248C9D519',
           publisherDisplayName: 'Nous Research Inc.'
         }

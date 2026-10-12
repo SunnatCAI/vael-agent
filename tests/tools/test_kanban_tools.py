@@ -1,7 +1,7 @@
 """Tests for the Kanban tool surface (tools/kanban_tools.py).
 
 Verifies:
-  - Tools are gated on HERMES_KANBAN_TASK: a normal chat session sees
+  - Tools are gated on VAEL_KANBAN_TASK: a normal chat session sees
     zero kanban tools in its schema; a worker session sees the kanban set.
   - Each handler's happy path.
   - Error paths (missing required args, bad metadata type, etc).
@@ -18,18 +18,18 @@ import pytest
 # ---------------------------------------------------------------------------
 
 def test_kanban_tools_hidden_without_env_var(monkeypatch, tmp_path):
-    """Normal `hermes chat` sessions (no HERMES_KANBAN_TASK) must have
+    """Normal `vael chat` sessions (no VAEL_KANBAN_TASK) must have
     zero kanban_* tools in their schema."""
-    monkeypatch.delenv("HERMES_KANBAN_TASK", raising=False)
-    home = tmp_path / ".hermes"
+    monkeypatch.delenv("VAEL_KANBAN_TASK", raising=False)
+    home = tmp_path / ".vael"
     home.mkdir()
-    monkeypatch.setenv("HERMES_HOME", str(home))
+    monkeypatch.setenv("VAEL_HOME", str(home))
 
     from tools.registry import invalidate_check_fn_cache, registry
     from toolsets import resolve_toolset
 
     invalidate_check_fn_cache()
-    schema = registry.get_definitions(set(resolve_toolset("hermes-cli")), quiet=True)
+    schema = registry.get_definitions(set(resolve_toolset("vael-cli")), quiet=True)
     names = {s["function"].get("name") for s in schema if "function" in s}
     kanban = {n for n in names if n and n.startswith("kanban_")}
     assert kanban == set(), (
@@ -43,18 +43,18 @@ def test_kanban_tools_hidden_without_env_var(monkeypatch, tmp_path):
 
 @pytest.fixture
 def worker_env(monkeypatch, tmp_path):
-    """Simulate being a worker: HERMES_HOME isolated, HERMES_KANBAN_TASK set
+    """Simulate being a worker: VAEL_HOME isolated, VAEL_KANBAN_TASK set
     after we've created the task."""
-    home = tmp_path / ".hermes"
+    home = tmp_path / ".vael"
     home.mkdir()
-    monkeypatch.setenv("HERMES_HOME", str(home))
-    monkeypatch.setenv("HERMES_PROFILE", "test-worker")
-    monkeypatch.delenv("HERMES_SESSION_ID", raising=False)
+    monkeypatch.setenv("VAEL_HOME", str(home))
+    monkeypatch.setenv("VAEL_PROFILE", "test-worker")
+    monkeypatch.delenv("VAEL_SESSION_ID", raising=False)
     from pathlib import Path as _Path
     monkeypatch.setattr(_Path, "home", lambda: tmp_path)
 
-    from hermes_cli import kanban_db as kb
-    from hermes_cli import kanban_db_connect as kbc
+    from vael_cli import kanban_db as kb
+    from vael_cli import kanban_db_connect as kbc
     kb._INITIALIZED_PATHS.clear()
     kb.init_db()
     conn = kbc.connect()
@@ -64,10 +64,10 @@ def worker_env(monkeypatch, tmp_path):
         run_id = kb._current_run_id(conn, tid)
     finally:
         conn.close()
-    monkeypatch.setenv("HERMES_KANBAN_TASK", tid)
+    monkeypatch.setenv("VAEL_KANBAN_TASK", tid)
     # A real dispatcher always pins the worker's run id; simulate that so the
     # run-lifecycle tools can prove ownership (see test_unbound_worker_cannot_mutate_card).
-    monkeypatch.setenv("HERMES_KANBAN_RUN_ID", str(run_id))
+    monkeypatch.setenv("VAEL_KANBAN_RUN_ID", str(run_id))
     return tid
 
 
@@ -84,9 +84,9 @@ def test_show_defaults_to_env_task_id(worker_env):
 
 def test_list_filters_tasks(monkeypatch, worker_env):
     """kanban_list gives orchestrators filtered board discovery."""
-    monkeypatch.delenv("HERMES_KANBAN_TASK", raising=False)
-    from hermes_cli import kanban_db as kb
-    from hermes_cli import kanban_db_connect as kbc
+    monkeypatch.delenv("VAEL_KANBAN_TASK", raising=False)
+    from vael_cli import kanban_db as kb
+    from vael_cli import kanban_db_connect as kbc
     conn = kbc.connect()
     try:
         a = kb.create_task(conn, title="alpha", assignee="factory", priority=5)
@@ -124,8 +124,8 @@ def test_complete_happy_path(worker_env):
     assert d["ok"] is True
     assert d["task_id"] == worker_env
     # Verify via kernel
-    from hermes_cli import kanban_db as kb
-    from hermes_cli import kanban_db_connect as kbc
+    from vael_cli import kanban_db as kb
+    from vael_cli import kanban_db_connect as kbc
     conn = kbc.connect()
     try:
         run = kb.latest_run(conn, worker_env)
@@ -140,8 +140,8 @@ def test_complete_retry_with_empty_created_cards_succeeds(worker_env):
     """After a phantom rejection, retrying kanban_complete with
     created_cards=[] (the documented escape hatch) must complete the
     task. Regression for #22923."""
-    from hermes_cli import kanban_db as kb
-    from hermes_cli import kanban_db_connect as kbc
+    from vael_cli import kanban_db as kb
+    from vael_cli import kanban_db_connect as kbc
     from tools import kanban_tools as kt
 
     # Hit the gate first.
@@ -171,9 +171,9 @@ def test_complete_reports_registered_attachments(worker_env):
     workers narrated "registered at completion: none" even when the rows landed.
     The completion result must report the card's durable attachment set, in the
     same shape the readback tool returns."""
-    from hermes_cli import kanban_db as kb
-    from hermes_cli import kanban_db_connect as kbc
-    from hermes_cli import kanban_db_workspace as kbw
+    from vael_cli import kanban_db as kb
+    from vael_cli import kanban_db_connect as kbc
+    from vael_cli import kanban_db_workspace as kbw
     from tools import kanban_tools as kt
 
     with kbc.connect() as conn:
@@ -200,16 +200,16 @@ def test_request_review_rejects_unknown_reviewer_without_mutation(monkeypatch, w
     """#106163: a non-profile ``reviewer`` (e.g. the literal "reviewer") must be
     refused with an error the model sees, leaving the task running under the
     implementer — never parked in ``review`` on an assignee nobody can spawn."""
-    from hermes_cli import kanban_db as kb
-    from hermes_cli import kanban_db_connect as kbc
+    from vael_cli import kanban_db as kb
+    from vael_cli import kanban_db_connect as kbc
     from tools import kanban_tools as kt
 
-    (tmp_path / ".hermes" / "profiles" / "verifier").mkdir(parents=True)
-    (tmp_path / ".hermes" / "profiles" / "verifier" / "config.yaml").write_text("{}\n", encoding="utf-8")  # identity marker
+    (tmp_path / ".vael" / "profiles" / "verifier").mkdir(parents=True)
+    (tmp_path / ".vael" / "profiles" / "verifier" / "config.yaml").write_text("{}\n", encoding="utf-8")  # identity marker
     with kbc.connect() as conn:
         before = kb.get_task(conn, worker_env)
         before_events = kb.list_events(conn, worker_env)
-    monkeypatch.setenv("HERMES_KANBAN_RUN_ID", str(before.current_run_id))
+    monkeypatch.setenv("VAEL_KANBAN_RUN_ID", str(before.current_run_id))
 
     out = json.loads(kt._handle_request_review({"summary": "Ready for review.", "reviewer": "reviewer"}))
 
@@ -221,14 +221,14 @@ def test_request_review_rejects_unknown_reviewer_without_mutation(monkeypatch, w
 
 
 def test_request_review_accepts_installed_profile(monkeypatch, worker_env, tmp_path):
-    from hermes_cli import kanban_db as kb
-    from hermes_cli import kanban_db_connect as kbc
+    from vael_cli import kanban_db as kb
+    from vael_cli import kanban_db_connect as kbc
     from tools import kanban_tools as kt
 
-    (tmp_path / ".hermes" / "profiles" / "verifier").mkdir(parents=True)
-    (tmp_path / ".hermes" / "profiles" / "verifier" / "config.yaml").write_text("{}\n", encoding="utf-8")  # identity marker
+    (tmp_path / ".vael" / "profiles" / "verifier").mkdir(parents=True)
+    (tmp_path / ".vael" / "profiles" / "verifier" / "config.yaml").write_text("{}\n", encoding="utf-8")  # identity marker
     with kbc.connect() as conn:
-        monkeypatch.setenv("HERMES_KANBAN_RUN_ID", str(kb.get_task(conn, worker_env).current_run_id))
+        monkeypatch.setenv("VAEL_KANBAN_RUN_ID", str(kb.get_task(conn, worker_env).current_run_id))
 
     out = json.loads(kt._handle_request_review({"summary": "Ready for review.", "reviewer": "verifier"}))
 
@@ -243,13 +243,13 @@ def test_unbound_worker_cannot_mutate_card(monkeypatch, worker_env):
     on every run-lifecycle mutation. ``expected_run_id=None`` would silently skip
     the run-ownership CAS in kanban_db, so an unbound stale worker could complete
     a card a live successor owns (regression for #116239)."""
-    from hermes_cli import kanban_db as kb
-    from hermes_cli import kanban_db_connect as kbc
+    from vael_cli import kanban_db as kb
+    from vael_cli import kanban_db_connect as kbc
     from tools import kanban_tools as kt
 
-    # Worker is scoped to the task (HERMES_KANBAN_TASK set by the fixture) but
+    # Worker is scoped to the task (VAEL_KANBAN_TASK set by the fixture) but
     # has NO run id — the unbound state the dispatcher never produces.
-    monkeypatch.delenv("HERMES_KANBAN_RUN_ID", raising=False)
+    monkeypatch.delenv("VAEL_KANBAN_RUN_ID", raising=False)
 
     for handler, args in [
         (kt._handle_complete, {"summary": "stale worker says done"}),
@@ -271,7 +271,7 @@ def test_unbound_worker_cannot_mutate_card(monkeypatch, worker_env):
     # fires on the unbound state, never on the legitimate dispatcher path.
     with kbc.connect() as conn:
         run_id = kb.get_task(conn, worker_env).current_run_id
-    monkeypatch.setenv("HERMES_KANBAN_RUN_ID", str(run_id))
+    monkeypatch.setenv("VAEL_KANBAN_RUN_ID", str(run_id))
     out = json.loads(kt._handle_complete({"summary": "bound worker done"}))
     assert out.get("ok") is True
     with kbc.connect() as conn:
@@ -279,14 +279,14 @@ def test_unbound_worker_cannot_mutate_card(monkeypatch, worker_env):
 
 
 def test_malformed_run_id_refused_but_nonlifecycle_allowed(monkeypatch, worker_env):
-    """A malformed (non-integer) HERMES_KANBAN_RUN_ID is treated as unbound and
+    """A malformed (non-integer) VAEL_KANBAN_RUN_ID is treated as unbound and
     refuses run-lifecycle mutations, while non-lifecycle tools (heartbeat /
     attach) that do not terminate a run stay available to the worker."""
-    from hermes_cli import kanban_db as kb
-    from hermes_cli import kanban_db_connect as kbc
+    from vael_cli import kanban_db as kb
+    from vael_cli import kanban_db_connect as kbc
     from tools import kanban_tools as kt
 
-    monkeypatch.setenv("HERMES_KANBAN_RUN_ID", "not-an-int")
+    monkeypatch.setenv("VAEL_KANBAN_RUN_ID", "not-an-int")
 
     # Run-lifecycle mutations are refused on a malformed run id.
     out = json.loads(kt._handle_complete({"summary": "stale worker says done"}))
@@ -305,16 +305,16 @@ def test_complete_goal_mode_rejected_by_judge(monkeypatch, tmp_path):
     """Goal-mode tasks must pass the auxiliary judge before completion.
     Regression for #38367: workers bypassing the judge via early kanban_complete."""
     from pathlib import Path as _Path
-    from hermes_cli import kanban_db as kb
-    from hermes_cli import kanban_db_connect as kbc
+    from vael_cli import kanban_db as kb
+    from vael_cli import kanban_db_connect as kbc
     from tools import kanban_tools as kt
 
-    # Set up isolated HERMES_HOME
-    home = tmp_path / ".hermes"
+    # Set up isolated VAEL_HOME
+    home = tmp_path / ".vael"
     home.mkdir()
-    monkeypatch.setenv("HERMES_HOME", str(home))
-    monkeypatch.setenv("HERMES_PROFILE", "test-worker")
-    monkeypatch.delenv("HERMES_SESSION_ID", raising=False)
+    monkeypatch.setenv("VAEL_HOME", str(home))
+    monkeypatch.setenv("VAEL_PROFILE", "test-worker")
+    monkeypatch.delenv("VAEL_SESSION_ID", raising=False)
     monkeypatch.setattr(_Path, "home", lambda: tmp_path)
 
     kb._INITIALIZED_PATHS.clear()
@@ -329,8 +329,8 @@ def test_complete_goal_mode_rejected_by_judge(monkeypatch, tmp_path):
         run_id = kb._current_run_id(conn, goal_task_id)
     finally:
         conn.close()
-    monkeypatch.setenv("HERMES_KANBAN_TASK", goal_task_id)
-    monkeypatch.setenv("HERMES_KANBAN_RUN_ID", str(run_id))
+    monkeypatch.setenv("VAEL_KANBAN_TASK", goal_task_id)
+    monkeypatch.setenv("VAEL_KANBAN_RUN_ID", str(run_id))
 
     # Mock the judge to reject the completion. The gate only runs when a
     # judge is reachable, so force the availability probe True as well.
@@ -364,8 +364,8 @@ def test_block_happy_path(worker_env):
     out = kt._handle_block({"reason": "need clarification"})
     d = json.loads(out)
     assert d["ok"] is True
-    from hermes_cli import kanban_db as kb
-    from hermes_cli import kanban_db_connect as kbc
+    from vael_cli import kanban_db as kb
+    from vael_cli import kanban_db_connect as kbc
     conn = kbc.connect()
     try:
         assert kb.get_task(conn, worker_env).status == "blocked"
@@ -374,8 +374,8 @@ def test_block_happy_path(worker_env):
 
 
 def test_schedule_parks_current_worker_with_reason(worker_env):
-    from hermes_cli import kanban_db as kb
-    from hermes_cli import kanban_db_connect as kbc
+    from vael_cli import kanban_db as kb
+    from vael_cli import kanban_db_connect as kbc
     from tools import kanban_tools  # noqa: F401 — ensure registration
     from tools.registry import registry
 
@@ -399,8 +399,8 @@ def test_schedule_parks_current_worker_with_reason(worker_env):
 
 
 def test_schedule_rejects_invalid_reason_and_unowned_contexts(monkeypatch, worker_env):
-    from hermes_cli import kanban_db as kb
-    from hermes_cli import kanban_db_connect as kbc
+    from vael_cli import kanban_db as kb
+    from vael_cli import kanban_db_connect as kbc
     from tools import kanban_tools as kt
 
     with kbc.connect() as conn:
@@ -423,17 +423,17 @@ def test_schedule_rejects_invalid_reason_and_unowned_contexts(monkeypatch, worke
 
 
 def _make_goal_mode_worker_env(monkeypatch, tmp_path):
-    """Set up an isolated HERMES_HOME with one claimed goal_mode task,
+    """Set up an isolated VAEL_HOME with one claimed goal_mode task,
     matching the pattern used by the kanban_complete judge gate tests."""
     from pathlib import Path as _Path
-    from hermes_cli import kanban_db as kb
-    from hermes_cli import kanban_db_connect as kbc
+    from vael_cli import kanban_db as kb
+    from vael_cli import kanban_db_connect as kbc
 
-    home = tmp_path / ".hermes"
+    home = tmp_path / ".vael"
     home.mkdir()
-    monkeypatch.setenv("HERMES_HOME", str(home))
-    monkeypatch.setenv("HERMES_PROFILE", "test-worker")
-    monkeypatch.delenv("HERMES_SESSION_ID", raising=False)
+    monkeypatch.setenv("VAEL_HOME", str(home))
+    monkeypatch.setenv("VAEL_PROFILE", "test-worker")
+    monkeypatch.delenv("VAEL_SESSION_ID", raising=False)
     monkeypatch.setattr(_Path, "home", lambda: tmp_path)
 
     kb._INITIALIZED_PATHS.clear()
@@ -448,8 +448,8 @@ def _make_goal_mode_worker_env(monkeypatch, tmp_path):
         run_id = kb._current_run_id(conn, goal_task_id)
     finally:
         conn.close()
-    monkeypatch.setenv("HERMES_KANBAN_TASK", goal_task_id)
-    monkeypatch.setenv("HERMES_KANBAN_RUN_ID", str(run_id))
+    monkeypatch.setenv("VAEL_KANBAN_TASK", goal_task_id)
+    monkeypatch.setenv("VAEL_KANBAN_RUN_ID", str(run_id))
     return goal_task_id
 
 
@@ -458,8 +458,8 @@ def test_block_goal_mode_rejects_missing_kind(monkeypatch, tmp_path):
     to use it as an unguarded escape from the goal loop (Issue #38696,
     sibling of the kanban_complete judge gate / Issue #38367)."""
     from tools import kanban_tools as kt
-    from hermes_cli import kanban_db as kb
-    from hermes_cli import kanban_db_connect as kbc
+    from vael_cli import kanban_db as kb
+    from vael_cli import kanban_db_connect as kbc
 
     tid = _make_goal_mode_worker_env(monkeypatch, tmp_path)
     out = kt._handle_block({"reason": "giving up"})
@@ -478,8 +478,8 @@ def test_block_goal_mode_rejects_disallowed_kind(monkeypatch, tmp_path):
     """`capability` / `transient` are valid kinds in general but must not
     let a goal_mode worker exit the loop without going through the judge."""
     from tools import kanban_tools as kt
-    from hermes_cli import kanban_db as kb
-    from hermes_cli import kanban_db_connect as kbc
+    from vael_cli import kanban_db as kb
+    from vael_cli import kanban_db_connect as kbc
 
     tid = _make_goal_mode_worker_env(monkeypatch, tmp_path)
     for kind in ("capability", "transient"):
@@ -498,8 +498,8 @@ def test_schedule_goal_mode_refused(monkeypatch, tmp_path):
     """``scheduled`` ends the goal loop like ``blocked``, so a goal_mode worker
     must not use kanban_schedule to exit without the completion judge."""
     from tools import kanban_tools as kt
-    from hermes_cli import kanban_db as kb
-    from hermes_cli import kanban_db_connect as kbc
+    from vael_cli import kanban_db as kb
+    from vael_cli import kanban_db_connect as kbc
 
     tid = _make_goal_mode_worker_env(monkeypatch, tmp_path)
     d = json.loads(kt._handle_schedule({"reason": "waiting for CI"}))
@@ -513,8 +513,8 @@ def test_schedule_goal_mode_refused(monkeypatch, tmp_path):
 
 
 def test_schedule_exposed_to_codex_runtime_workers():
-    """Codex app-server workers only reach Hermes tools named in EXPOSED_TOOLS."""
-    from agent.transports.hermes_tools_mcp_server import EXPOSED_TOOLS
+    """Codex app-server workers only reach VAEL tools named in EXPOSED_TOOLS."""
+    from agent.transports.vael_tools_mcp_server import EXPOSED_TOOLS
 
     assert "kanban_schedule" in EXPOSED_TOOLS
 
@@ -541,8 +541,8 @@ def test_heartbeat_extends_claim_expires(worker_env):
     static while last_heartbeat_at advanced.
     """
     import time as _time
-    from hermes_cli import kanban_db as kb
-    from hermes_cli import kanban_db_connect as kbc
+    from vael_cli import kanban_db as kb
+    from vael_cli import kanban_db_connect as kbc
     from tools import kanban_tools as kt
 
     # Rewind claim_expires into the past so any forward movement is
@@ -596,8 +596,8 @@ def test_worker_the_dispatcher_never_recorded_keeps_its_claim_or_never_starts(mo
     pid. The worker registers itself, so the expired claim is extended, not handed to a second worker;
     a worker that starts only after its run was reclaimed is told not to work the card."""
     import os as _os
-    from hermes_cli import kanban_db as kb
-    from hermes_cli import kanban_db_connect as kbc
+    from vael_cli import kanban_db as kb
+    from vael_cli import kanban_db_connect as kbc
     from tools import kanban_tools as kt
 
     assert kt.register_current_worker_from_env() is True
@@ -613,8 +613,8 @@ def test_worker_the_dispatcher_never_recorded_keeps_its_claim_or_never_starts(mo
         _expire_claim(conn, late)
         assert kb.release_stale_claims(conn) == 1
         kb.claim_task(conn, late)
-    monkeypatch.setenv("HERMES_KANBAN_TASK", late)
-    monkeypatch.setenv("HERMES_KANBAN_RUN_ID", str(stale_run))
+    monkeypatch.setenv("VAEL_KANBAN_TASK", late)
+    monkeypatch.setenv("VAEL_KANBAN_RUN_ID", str(stale_run))
     assert kt.register_current_worker_from_env() is False
     with kbc.connect_closing() as conn:
         assert kb.get_task(conn, late).worker_pid is None
@@ -623,8 +623,8 @@ def test_worker_the_dispatcher_never_recorded_keeps_its_claim_or_never_starts(mo
 def test_reclaim_loses_to_a_worker_registering_mid_sweep(monkeypatch, worker_env):
     """The worker registers between the stale-claim SELECT and its UPDATE: the claim stays its own."""
     import os as _os
-    from hermes_cli import kanban_db as kb
-    from hermes_cli import kanban_db_connect as kbc
+    from vael_cli import kanban_db as kb
+    from vael_cli import kanban_db_connect as kbc
     from tools import kanban_tools as kt
 
     real_terminate = kb._terminate_reclaimed_worker
@@ -645,11 +645,11 @@ def test_comment_rejects_caller_supplied_author(worker_env):
     """Reject an undeclared author override before a worker can forge a comment."""
     from tools import kanban_tools as kt
     out = kt._handle_comment({
-        "task_id": worker_env, "body": "hi", "author": "hermes-system",
+        "task_id": worker_env, "body": "hi", "author": "vael-system",
     })
     assert "author" in json.loads(out)["error"]
-    from hermes_cli import kanban_db as kb
-    from hermes_cli import kanban_db_connect as kbc
+    from vael_cli import kanban_db as kb
+    from vael_cli import kanban_db_connect as kbc
     conn = kbc.connect()
     try:
         assert kb.list_comments(conn, worker_env) == []
@@ -672,8 +672,8 @@ def test_create_happy_path(worker_env):
     assert d["task_id"]
     assert d["status"] == "todo"  # parent isn't done yet
     assert d["gated"] is True and d["gated_by"] == worker_env
-    from hermes_cli import kanban_db as kb
-    from hermes_cli import kanban_db_connect as kbc
+    from vael_cli import kanban_db as kb
+    from vael_cli import kanban_db_connect as kbc
     conn = kbc.connect()
     try:
         child = kb.get_task(conn, d["task_id"])
@@ -691,8 +691,8 @@ def test_create_explicit_scratch_ignores_ambient_board_project(
     """#106342: an explicit scratch / empty project wins over the project the
     session's current board (and, when scoped, the target board itself) carries.
     Omitting both still inherits the target board's project."""
-    from hermes_cli import kanban_db as kb
-    from hermes_cli import projects_db as pdb
+    from vael_cli import kanban_db as kb
+    from vael_cli import projects_db as pdb
     from tools import kanban_tools as kt
 
     repo = tmp_path / "repo"
@@ -713,8 +713,8 @@ def test_create_explicit_scratch_ignores_ambient_board_project(
 
 
 def test_link_running_child_allows_owner_but_rejects_foreign(monkeypatch, worker_env):
-    from hermes_cli import kanban_db as kb
-    from hermes_cli import kanban_db_connect as kbc
+    from vael_cli import kanban_db as kb
+    from vael_cli import kanban_db_connect as kbc
     from tools import kanban_tools as kt
 
     with kbc.connect() as conn:
@@ -724,7 +724,7 @@ def test_link_running_child_allows_owner_but_rejects_foreign(monkeypatch, worker
         foreign_child = kb.create_task(conn, title="foreign worker")
         assert kb.claim_task(conn, foreign_child, claimer="other") is not None
 
-    monkeypatch.setenv("HERMES_KANBAN_RUN_ID", str(own_run_id))
+    monkeypatch.setenv("VAEL_KANBAN_RUN_ID", str(own_run_id))
     own = json.loads(kt._handle_link({"parent_id": own_parent, "child_id": worker_env}))
     foreign = json.loads(kt._handle_link(
         {"parent_id": foreign_parent, "child_id": foreign_child},
@@ -738,9 +738,9 @@ def test_link_running_child_allows_owner_but_rejects_foreign(monkeypatch, worker
 
 
 def test_unblock_happy_path(monkeypatch, worker_env):
-    monkeypatch.delenv("HERMES_KANBAN_TASK", raising=False)
-    from hermes_cli import kanban_db as kb
-    from hermes_cli import kanban_db_connect as kbc
+    monkeypatch.delenv("VAEL_KANBAN_TASK", raising=False)
+    from vael_cli import kanban_db as kb
+    from vael_cli import kanban_db_connect as kbc
     conn = kbc.connect()
     try:
         tid = kb.create_task(conn, title="blocked", assignee="worker")
@@ -762,16 +762,16 @@ def test_unblock_happy_path(monkeypatch, worker_env):
 
 
 def test_unblock_with_pending_parents_returns_todo(monkeypatch, tmp_path):
-    monkeypatch.delenv("HERMES_KANBAN_TASK", raising=False)
-    home = tmp_path / ".hermes"
+    monkeypatch.delenv("VAEL_KANBAN_TASK", raising=False)
+    home = tmp_path / ".vael"
     home.mkdir()
-    monkeypatch.setenv("HERMES_HOME", str(home))
-    monkeypatch.setenv("HERMES_PROFILE", "orchestrator")
+    monkeypatch.setenv("VAEL_HOME", str(home))
+    monkeypatch.setenv("VAEL_PROFILE", "orchestrator")
     from pathlib import Path as _Path
     monkeypatch.setattr(_Path, "home", lambda: tmp_path)
 
-    from hermes_cli import kanban_db as kb
-    from hermes_cli import kanban_db_connect as kbc
+    from vael_cli import kanban_db as kb
+    from vael_cli import kanban_db_connect as kbc
     kb._INITIALIZED_PATHS.clear()
     kb.init_db()
     conn = kbc.connect()
@@ -831,8 +831,8 @@ def test_worker_lifecycle_through_tools(worker_env):
     assert comp["ok"]
 
     # Verify final state
-    from hermes_cli import kanban_db as kb
-    from hermes_cli import kanban_db_connect as kbc
+    from vael_cli import kanban_db as kb
+    from vael_cli import kanban_db_connect as kbc
     conn = kbc.connect()
     try:
         parent = kb.get_task(conn, worker_env)
@@ -865,7 +865,7 @@ def test_worker_lifecycle_through_tools(worker_env):
 # Worker task-ownership enforcement (regression tests for #19534)
 # ---------------------------------------------------------------------------
 #
-# A worker process has HERMES_KANBAN_TASK set to its own task id. The
+# A worker process has VAEL_KANBAN_TASK set to its own task id. The
 # destructive tools (kanban_complete, kanban_block, kanban_heartbeat,
 # kanban_unblock) must refuse to operate
 # on any OTHER task id, even if the caller supplies an explicit `task_id`
@@ -873,15 +873,15 @@ def test_worker_lifecycle_through_tools(worker_env):
 # kanban_comment / kanban_create / kanban_link on other tasks, so those
 # are unrestricted.
 #
-# Orchestrator profiles (no HERMES_KANBAN_TASK in env) are intentionally
+# Orchestrator profiles (no VAEL_KANBAN_TASK in env) are intentionally
 # exempt — their job is routing, and they sometimes close out child
 # tasks on behalf of the child.
 
 
 def test_worker_complete_rejects_foreign_task_id(worker_env):
     """A worker cannot complete a task that isn't its own (#19534)."""
-    from hermes_cli import kanban_db as kb
-    from hermes_cli import kanban_db_connect as kbc
+    from vael_cli import kanban_db as kb
+    from vael_cli import kanban_db_connect as kbc
     conn = kbc.connect()
     try:
         other = kb.create_task(conn, title="sibling")
@@ -913,8 +913,8 @@ def test_worker_can_comment_on_foreign_task(worker_env):
     so a future change accidentally adding ``_enforce_worker_task_ownership``
     to ``_handle_comment`` would fail CI immediately.
     """
-    from hermes_cli import kanban_db as kb
-    from hermes_cli import kanban_db_connect as kbc
+    from vael_cli import kanban_db as kb
+    from vael_cli import kanban_db_connect as kbc
     conn = kbc.connect()
     try:
         other = kb.create_task(conn, title="sibling")
@@ -930,7 +930,7 @@ def test_worker_can_comment_on_foreign_task(worker_env):
     assert d.get("ok") is True, f"cross-task comment must succeed: {d}"
 
     # The comment lands on the foreign task, attributed to the worker's
-    # HERMES_PROFILE — never to a caller-controlled string.
+    # VAEL_PROFILE — never to a caller-controlled string.
     conn = kbc.connect()
     try:
         comments = kb.list_comments(conn, other)
@@ -949,8 +949,8 @@ def test_worker_unblock_rejects_foreign_task_id(worker_env):
     cross-task-ownership refusal. Either is fine — the property we're
     pinning is "worker cannot mutate foreign task via kanban_unblock".
     """
-    from hermes_cli import kanban_db as kb
-    from hermes_cli import kanban_db_connect as kbc
+    from vael_cli import kanban_db as kb
+    from vael_cli import kanban_db_connect as kbc
     conn = kbc.connect()
     try:
         other = kb.create_task(conn, title="blocked sibling", assignee="peer")
@@ -974,17 +974,17 @@ def test_worker_unblock_rejects_foreign_task_id(worker_env):
 
 
 def test_orchestrator_complete_any_task_allowed(monkeypatch, tmp_path):
-    """Orchestrator profiles (no HERMES_KANBAN_TASK) can still complete
+    """Orchestrator profiles (no VAEL_KANBAN_TASK) can still complete
     any task via explicit task_id. The check only applies to workers."""
-    monkeypatch.delenv("HERMES_KANBAN_TASK", raising=False)
-    home = tmp_path / ".hermes"
+    monkeypatch.delenv("VAEL_KANBAN_TASK", raising=False)
+    home = tmp_path / ".vael"
     home.mkdir()
-    monkeypatch.setenv("HERMES_HOME", str(home))
+    monkeypatch.setenv("VAEL_HOME", str(home))
     from pathlib import Path as _P
     monkeypatch.setattr(_P, "home", lambda: tmp_path)
 
-    from hermes_cli import kanban_db as kb
-    from hermes_cli import kanban_db_connect as kbc
+    from vael_cli import kanban_db as kb
+    from vael_cli import kanban_db_connect as kbc
     kb._INITIALIZED_PATHS.clear()
     kb.init_db()
     conn = kbc.connect()
@@ -1007,8 +1007,8 @@ def test_orchestrator_complete_any_task_allowed(monkeypatch, tmp_path):
 # When a worker calls kanban_create from inside a session that has a
 # persistent delivery channel, the originating session should be
 # subscribed to the new task's completion/block events automatically.
-# - Gateway sessions: HERMES_SESSION_PLATFORM + HERMES_SESSION_CHAT_ID set.
-# - TUI sessions: HERMES_SESSION_KEY (or HERMES_SESSION_ID) set, with
+# - Gateway sessions: VAEL_SESSION_PLATFORM + VAEL_SESSION_CHAT_ID set.
+# - TUI sessions: VAEL_SESSION_KEY (or VAEL_SESSION_ID) set, with
 #   the platform/chat_id ContextVars intentionally empty.
 # - CLI / cron / test sessions: no delivery channel -> no subscription.
 # - Config gate kanban.auto_subscribe_on_create: false -> no subscription
@@ -1016,8 +1016,8 @@ def test_orchestrator_complete_any_task_allowed(monkeypatch, tmp_path):
 # ---------------------------------------------------------------------------
 
 def _list_subs_for_task(task_id):
-    from hermes_cli import kanban_db_connect as kbc
-    from hermes_cli import kanban_db_notify as kbn
+    from vael_cli import kanban_db_connect as kbc
+    from vael_cli import kanban_db_notify as kbn
     conn = kbc.connect()
     try:
         return list(kbn.list_notify_subs(conn, task_id))
@@ -1050,12 +1050,12 @@ def test_create_subscribes_gateway_session(monkeypatch, worker_env):
     to its own kanban_create result, and the response surfaces the
     ``subscribed`` flag so the orchestrator can react."""
     from tools import kanban_tools as kt
-    monkeypatch.setenv("HERMES_SESSION_PLATFORM", "telegram")
-    monkeypatch.setenv("HERMES_SESSION_CHAT_ID", "chat-42")
-    monkeypatch.setenv("HERMES_SESSION_THREAD_ID", "thread-7")
-    monkeypatch.setenv("HERMES_SESSION_USER_ID", "user-9")
-    monkeypatch.setenv("HERMES_SESSION_USER_ID_ALT", "alt-user-9")
-    monkeypatch.setenv("HERMES_SESSION_CHAT_TYPE", "forum")
+    monkeypatch.setenv("VAEL_SESSION_PLATFORM", "telegram")
+    monkeypatch.setenv("VAEL_SESSION_CHAT_ID", "chat-42")
+    monkeypatch.setenv("VAEL_SESSION_THREAD_ID", "thread-7")
+    monkeypatch.setenv("VAEL_SESSION_USER_ID", "user-9")
+    monkeypatch.setenv("VAEL_SESSION_USER_ID_ALT", "alt-user-9")
+    monkeypatch.setenv("VAEL_SESSION_CHAT_TYPE", "forum")
 
     out = kt._handle_create({
         "title": "auto-sub gateway",
@@ -1080,16 +1080,16 @@ def test_create_subscribes_gateway_session(monkeypatch, worker_env):
 
 def test_create_subscribes_tui_session_via_session_key(monkeypatch, worker_env):
     """TUI / desktop sessions don't have a platform/chat_id (single
-    local channel), but the parent process exports HERMES_SESSION_KEY.
+    local channel), but the parent process exports VAEL_SESSION_KEY.
     We should still auto-subscribe, with platform='tui' and
     chat_id=<key>."""
     from tools import kanban_tools as kt
-    monkeypatch.delenv("HERMES_SESSION_PLATFORM", raising=False)
-    monkeypatch.delenv("HERMES_SESSION_CHAT_ID", raising=False)
-    monkeypatch.delenv("HERMES_SESSION_THREAD_ID", raising=False)
-    monkeypatch.delenv("HERMES_SESSION_USER_ID", raising=False)
-    monkeypatch.setenv("HERMES_SESSION_KEY", "tui-session-abc")
-    monkeypatch.delenv("HERMES_SESSION_ID", raising=False)
+    monkeypatch.delenv("VAEL_SESSION_PLATFORM", raising=False)
+    monkeypatch.delenv("VAEL_SESSION_CHAT_ID", raising=False)
+    monkeypatch.delenv("VAEL_SESSION_THREAD_ID", raising=False)
+    monkeypatch.delenv("VAEL_SESSION_USER_ID", raising=False)
+    monkeypatch.setenv("VAEL_SESSION_KEY", "tui-session-abc")
+    monkeypatch.delenv("VAEL_SESSION_ID", raising=False)
 
     out = kt._handle_create({
         "title": "auto-sub tui",
@@ -1112,10 +1112,10 @@ def test_create_does_not_subscribe_in_cli_session(monkeypatch, worker_env):
     """CLI / cron / test sessions have no persistent delivery channel.
     _maybe_auto_subscribe returns False and no row is written."""
     from tools import kanban_tools as kt
-    monkeypatch.delenv("HERMES_SESSION_PLATFORM", raising=False)
-    monkeypatch.delenv("HERMES_SESSION_CHAT_ID", raising=False)
-    monkeypatch.delenv("HERMES_SESSION_KEY", raising=False)
-    monkeypatch.delenv("HERMES_SESSION_ID", raising=False)
+    monkeypatch.delenv("VAEL_SESSION_PLATFORM", raising=False)
+    monkeypatch.delenv("VAEL_SESSION_CHAT_ID", raising=False)
+    monkeypatch.delenv("VAEL_SESSION_KEY", raising=False)
+    monkeypatch.delenv("VAEL_SESSION_ID", raising=False)
 
     out = kt._handle_create({
         "title": "no sub cli",
@@ -1134,16 +1134,16 @@ def test_create_respects_auto_subscribe_on_create_false(monkeypatch, worker_env,
     channel. This is the knob that addresses the upstream design
     concern from PR #19718 (reverted in #19721) — users who want
     explicit kanban_notify-subscribe calls per task get that."""
-    # worker_env already created <tmp>/.hermes; use a fresh sibling
+    # worker_env already created <tmp>/.vael; use a fresh sibling
     # home to avoid mkdir() colliding with the worker's directory.
-    home = tmp_path / "gate-home" / ".hermes"
+    home = tmp_path / "gate-home" / ".vael"
     home.mkdir(parents=True)
     (home / "config.yaml").write_text(
         "kanban:\n  auto_subscribe_on_create: false\n"
     )
-    monkeypatch.setenv("HERMES_HOME", str(home))
-    monkeypatch.setenv("HERMES_SESSION_PLATFORM", "discord")
-    monkeypatch.setenv("HERMES_SESSION_CHAT_ID", "channel-1")
+    monkeypatch.setenv("VAEL_HOME", str(home))
+    monkeypatch.setenv("VAEL_SESSION_PLATFORM", "discord")
+    monkeypatch.setenv("VAEL_SESSION_CHAT_ID", "channel-1")
 
     from tools import kanban_tools as kt
     out = kt._handle_create({
@@ -1163,10 +1163,10 @@ def test_maybe_auto_subscribe_swallows_add_notify_sub_failure(monkeypatch, worke
     kanban_create. The function returns False and the parent create
     still succeeds with subscribed=False."""
     from tools import kanban_tools as kt
-    monkeypatch.setenv("HERMES_SESSION_PLATFORM", "telegram")
-    monkeypatch.setenv("HERMES_SESSION_CHAT_ID", "chat-42")
+    monkeypatch.setenv("VAEL_SESSION_PLATFORM", "telegram")
+    monkeypatch.setenv("VAEL_SESSION_CHAT_ID", "chat-42")
 
-    from hermes_cli import kanban_db_notify as kbn
+    from vael_cli import kanban_db_notify as kbn
 
     def _boom(*a, **kw):
         raise RuntimeError("simulated DB failure")
@@ -1205,12 +1205,12 @@ def test_attach_url_rejects_non_http_scheme(worker_env):
 def default_url_guard(monkeypatch):
     """Force the SSRF guard to its secure default for this test.
 
-    Clears HERMES_ALLOW_PRIVATE_URLS and resets url_safety's process-lifetime
+    Clears VAEL_ALLOW_PRIVATE_URLS and resets url_safety's process-lifetime
     cache on both sides so a prior test's opt-in can't leak in.
     """
     from tools import url_safety
 
-    monkeypatch.delenv("HERMES_ALLOW_PRIVATE_URLS", raising=False)
+    monkeypatch.delenv("VAEL_ALLOW_PRIVATE_URLS", raising=False)
     url_safety._reset_allow_private_cache()
     yield
     url_safety._reset_allow_private_cache()
@@ -1219,8 +1219,8 @@ def default_url_guard(monkeypatch):
 def _assert_attach_url_blocked(worker_env, url):
     """Call kanban_attach_url with ``url`` and assert the SSRF guard fired
     (clean tool error, no attachment row, no network fetch needed)."""
-    from hermes_cli import kanban_db as kb
-    from hermes_cli import kanban_db_connect as kbc
+    from vael_cli import kanban_db as kb
+    from vael_cli import kanban_db_connect as kbc
     from tools import kanban_tools as kt
 
     out = kt._handle_attach_url({"url": url})
@@ -1296,8 +1296,8 @@ def test_attach_url_happy_path_public_host(worker_env, default_url_guard, monkey
 
     import httpx
 
-    from hermes_cli import kanban_db as kb
-    from hermes_cli import kanban_db_connect as kbc
+    from vael_cli import kanban_db as kb
+    from vael_cli import kanban_db_connect as kbc
     from tools import kanban_tools as kt
 
     _fake_public_dns(monkeypatch, {"files.example.com": "93.184.216.34"})

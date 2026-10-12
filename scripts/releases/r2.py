@@ -441,7 +441,7 @@ def _stream_and_hash(url: str, creds: dict[str, str], now: str, algorithm: str):
 
 def channel_for_tag(tag: str) -> str:
     """Return the release channel encoded by a canonical tag."""
-    from hermes_cli.update_channel import is_canary_tag
+    from vael_cli.update_channel import is_canary_tag
 
     return "canary" if is_canary_tag(tag) else "stable"
 
@@ -814,7 +814,7 @@ def get_object(
 
 def canary_doomed_keys(keys: list[str], cutoff: str) -> list[str]:
     """Keys whose own canary date (YYYYMMDD in the name) is before `cutoff`."""
-    from hermes_cli.update_channel import _CANARY_TAG_RE
+    from vael_cli.update_channel import _CANARY_TAG_RE
 
     tag_re = re.compile(_CANARY_TAG_RE.pattern.strip("^$"))
     doomed = []
@@ -1027,7 +1027,7 @@ def main(argv: list[str] | None = None) -> None:
         i += 1
 
     if cmd == "put":
-        tag = args.get("tag") or os.environ.get("HERMES_PAYLOAD_TAG")
+        tag = args.get("tag") or os.environ.get("VAEL_PAYLOAD_TAG")
         key, file = args.get("key"), args.get("file")
         if not tag or not key or not file:
             print(USAGE, file=sys.stderr)

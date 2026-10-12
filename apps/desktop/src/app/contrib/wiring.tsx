@@ -94,7 +94,7 @@ import { $titlebarAppActionsSide, titlebarAppActionsClusterCounts } from '@/stor
 import { armWakeWord, stopClientCapture } from '@/store/wake-word'
 import { isAuxiliaryWindow, isBrowserWindow, isHudWindow } from '@/store/windows'
 import { useSkinCommand } from '@/themes/use-skin-command'
-import type { SessionInfo } from '@/types/hermes'
+import type { SessionInfo } from '@/types/vael'
 
 import { closeWorkspaceTab } from '../chat/close-tab'
 import { requestComposerInsert } from '../chat/composer/focus'
@@ -103,7 +103,7 @@ import { CommandPalette } from '../command-palette'
 import { triggerAndRefreshCronJobs } from '../cron/cron-actions'
 import { useGatewayBoot } from '../gateway/hooks/use-gateway-boot'
 import { useGatewayRequest } from '../gateway/hooks/use-gateway-request'
-import { useHermesConfigRecord } from '../hooks/use-config-record'
+import { useVaelConfigRecord } from '../hooks/use-config-record'
 import { useKeybinds } from '../hooks/use-keybinds'
 import { useHudHandoff } from '../hud/handoff'
 import { ModelPickerOverlay } from '../model-picker-overlay'
@@ -129,7 +129,6 @@ import { SessionSwitcher } from '../session-switcher'
 import { useBackgroundQueueDrain } from '../session/hooks/use-background-queue-drain'
 import { useContextSuggestions } from '../session/hooks/use-context-suggestions'
 import { useCwdActions } from '../session/hooks/use-cwd-actions'
-import { useHermesConfig } from '../session/hooks/use-hermes-config'
 import { useMessageStream } from '../session/hooks/use-message-stream'
 import { useModelControls } from '../session/hooks/use-model-controls'
 import { usePreviewRouting } from '../session/hooks/use-preview-routing'
@@ -139,6 +138,7 @@ import { useSessionActions } from '../session/hooks/use-session-actions'
 import { useSessionListActions } from '../session/hooks/use-session-list-actions'
 import { useSessionStateCache } from '../session/hooks/use-session-state-cache'
 import { useTranscriptPeerSync } from '../session/hooks/use-transcript-peer-sync'
+import { useVaelConfig } from '../session/hooks/use-vael-config'
 import { startWorkspaceSession } from '../session/workspace-session-target'
 import { PluginInstallModal } from '../settings/plugin-install-modal'
 import { useOverlayRouting } from '../shell/hooks/use-overlay-routing'
@@ -237,7 +237,7 @@ export function ContribWiring({ children }: { children: ReactNode }) {
     navigate(routeRequest.path)
   }, [navigate, routeRequest])
 
-  // "Restart Hermes" from a toast: recycle the local backend the user is
+  // "Restart VAEL" from a toast: recycle the local backend the user is
   // looking at (same IPC the Models page uses), then let the boot hook re-dial.
   // A remote/cloud connection has no local process to recycle — there the
   // only meaningful "restart" is re-dialing the connection.
@@ -251,14 +251,14 @@ export function ContribWiring({ children }: { children: ReactNode }) {
 
     if (backendRestartRequest > 0) {
       if ($connection.get()?.mode === 'remote') {
-        void reconnectGateway().catch(err => notifyError(err, translateNow('notifications.errors.restartHermesFailed')))
+        void reconnectGateway().catch(err => notifyError(err, translateNow('notifications.errors.restartVaelFailed')))
 
         return
       }
 
-      void window.hermesDesktop
+      void window.vaelDesktop
         ?.recycleBackend?.(normalizeProfileKey($activeGatewayProfile.get()))
-        .catch(err => notifyError(err, translateNow('notifications.errors.restartHermesFailed')))
+        .catch(err => notifyError(err, translateNow('notifications.errors.restartVaelFailed')))
     }
   }, [backendRestartRequest])
 
@@ -442,7 +442,7 @@ export function ContribWiring({ children }: { children: ReactNode }) {
     requestGateway
   })
 
-  const { refreshHermesConfig, sttEnabled, voiceMaxRecordingSeconds } = useHermesConfig({ activeSessionIdRef })
+  const { refreshVaelConfig, sttEnabled, voiceMaxRecordingSeconds } = useVaelConfig({ activeSessionIdRef })
 
   const { applySavedMainModel, followDefaultModel, refreshCurrentModel, selectModel } = useModelControls({
     cacheOwnerConnectionId: activeConnectionId || undefined,
@@ -457,9 +457,9 @@ export function ContribWiring({ children }: { children: ReactNode }) {
   // don't have router access); listen and navigate to the settings keybinds tab.
   useEffect(() => {
     const onOpenKeybinds = () => navigate(`${SETTINGS_ROUTE}?tab=keybinds`)
-    window.addEventListener('hermes:open-keybinds', onOpenKeybinds)
+    window.addEventListener('vael:open-keybinds', onOpenKeybinds)
 
-    return () => window.removeEventListener('hermes:open-keybinds', onOpenKeybinds)
+    return () => window.removeEventListener('vael:open-keybinds', onOpenKeybinds)
   }, [navigate])
 
   // Dev-only: install the credit-notice demo trigger (Ctrl+Shift+C / ⌘K palette
@@ -527,7 +527,7 @@ export function ContribWiring({ children }: { children: ReactNode }) {
     activeSessionIdRef,
     hydrateFromStoredSession,
     queryClient,
-    refreshHermesConfig,
+    refreshVaelConfig,
     refreshSessions,
     sessionStateByRuntimeIdRef,
     updateSessionState
@@ -627,10 +627,10 @@ export function ContribWiring({ children }: { children: ReactNode }) {
     // backend. These refreshes carry intent tokens so an in-flight picker
     // click still wins.
     void refreshCurrentModel(true)
-    void refreshHermesConfig(true)
+    void refreshVaelConfig(true)
     void refreshActiveProfile()
     resetProjectTreeState()
-  }, [gatewayScope, refreshCurrentModel, refreshHermesConfig])
+  }, [gatewayScope, refreshCurrentModel, refreshVaelConfig])
 
   // New session anchored to a workspace. Seeds cwd + branch from the clicked
   // workspace; an explicit worktree path also drills the sidebar into that
@@ -935,7 +935,7 @@ export function ContribWiring({ children }: { children: ReactNode }) {
     onGatewayReady: g => {
       gatewayRef.current = g
     },
-    refreshHermesConfig,
+    refreshVaelConfig,
     refreshSessions
   })
 
@@ -955,7 +955,7 @@ export function ContribWiring({ children }: { children: ReactNode }) {
     const report = () => void reportPendingUpdateRun(requestGateway)
     report()
 
-    return window.hermesDesktop?.updates?.onPendingRun?.(report)
+    return window.vaelDesktop?.updates?.onPendingRun?.(report)
   }, [gatewayState, requestGateway])
 
   useDesktopMetrics({
@@ -991,7 +991,7 @@ export function ContribWiring({ children }: { children: ReactNode }) {
     refreshActiveTranscript,
     refreshCronJobs,
     refreshCurrentModel,
-    refreshHermesConfig,
+    refreshVaelConfig,
     refreshMessagingSessions,
     refreshSessions,
     requestGateway,
@@ -1006,7 +1006,7 @@ export function ContribWiring({ children }: { children: ReactNode }) {
   // display.resume_last_session gates the cold-start restore. `undefined` while
   // the record is still loading holds the restore latch open; a failed fetch
   // falls back to the historical behavior (resume).
-  const configRecord = useHermesConfigRecord()
+  const configRecord = useVaelConfigRecord()
 
   const resumeLastSession = configRecord.isPending
     ? undefined
@@ -1301,7 +1301,7 @@ export function ContribWiring({ children }: { children: ReactNode }) {
   const titlebarToolsRight = titlebarToolsRightCss(nativeOverlayWidth, titlebarChrome)
   // WSLg: Electron's native overlay drifts its hit-region under RAIL, so the
   // renderer paints its own min/max/close (main decides via customWindowControls).
-  const customWindowControls = connection?.customWindowControls ?? window.hermesDesktop?.windowControls?.custom ?? false
+  const customWindowControls = connection?.customWindowControls ?? window.vaelDesktop?.windowControls?.custom ?? false
   const appActionsSide = useStore($titlebarAppActionsSide)
   const interfaceMode = useStore($interfaceMode)
   const shownTool = shownInMode(interfaceMode)
@@ -1369,7 +1369,7 @@ export function ContribWiring({ children }: { children: ReactNode }) {
         <DesktopOnboardingOverlay
           enabled={gatewayState === 'open'}
           onCompleted={() => {
-            void refreshHermesConfig()
+            void refreshVaelConfig()
             void refreshCurrentModel()
             void queryClient.invalidateQueries({ queryKey: ['model-options'] })
           }}
@@ -1420,7 +1420,7 @@ export function ContribWiring({ children }: { children: ReactNode }) {
             gateway={gateway}
             onClose={closeOverlayToPreviousRoute}
             onConfigSaved={() => {
-              void refreshHermesConfig()
+              void refreshVaelConfig()
               void refreshCurrentModel()
               void queryClient.invalidateQueries({ queryKey: ['model-options'] })
             }}

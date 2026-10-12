@@ -1,4 +1,4 @@
-import { LOCALE_ENDONYMS, RTL_LOCALES } from '@hermes/shared/i18n'
+import { LOCALE_ENDONYMS, RTL_LOCALES } from '@vael/shared/i18n'
 
 import { normalize } from '@/lib/text'
 

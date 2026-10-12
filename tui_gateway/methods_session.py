@@ -68,7 +68,7 @@ def _new_runtime_ids(params: dict) -> tuple[str, str]:
 
 
 def _profile_build_scope(profile_home):
-    """Bind HERMES_HOME + secret + terminal scope for an agent build: the same composition a turn
+    """Bind VAEL_HOME + secret + terminal scope for an agent build: the same composition a turn
     binds (``_session_profile_runtime_scope``). Home alone leaves ``get_secret()`` on the LAUNCH
     ``.env``; home + secrets alone leaves ``_make_agent``'s terminal probing on the launch process's
     ambient ``TERMINAL_*`` (a ``terminal.backend: docker`` secondary built a ``local`` agent)."""
@@ -87,14 +87,14 @@ def _make_agent_in_context(sid: str, key: str, **kwargs):
 def _profile_session_db(profile_home):
     """``(db, owns)``: a DEDICATED handle on ``profile_home``'s state.db, else the shared launch db."""
     if profile_home:
-        from hermes_state_registry import acquire
+        from vael_state_registry import acquire
         return acquire(Path(profile_home) / "state.db"), True
     return _get_db(), False
 
 
 def _release_db(db) -> None:
     with contextlib.suppress(Exception):
-        from hermes_state_registry import release_or_close
+        from vael_state_registry import release_or_close
         release_or_close(db)
 
 
@@ -126,7 +126,7 @@ def _session_row_summary(row: dict, *, tip_row: dict | None = None, resolved_id=
             **({} if db is None else _live_count_field(db, row["id"] if resolved_id is None else resolved_id))}
 
 
-from hermes_state_sessions import INTERNAL_LISTING_SOURCES
+from vael_state_sessions import INTERNAL_LISTING_SOURCES
 
 # Hidden from human listings (kanban workers, tool integrations, one-shot runs); see INTERNAL_LISTING_SOURCES.
 _LISTING_DENY_SOURCES = frozenset(INTERNAL_LISTING_SOURCES)
@@ -164,7 +164,7 @@ def _snapshot_sessions(rid):
 def _pet_display_cfg() -> dict:
     """``display.pet`` config block, ``{}`` when config is unreadable."""
     try:
-        from hermes_cli.config import load_config
+        from vael_cli.config import load_config
         cfg = load_config()
         display = cfg.get("display", {}) if isinstance(cfg.get("display"), dict) else {}
         return display.get("pet", {}) if isinstance(display.get("pet"), dict) else {}
@@ -212,7 +212,7 @@ def _active_pet():
 
 def _billing_call(rid, fn, extra: dict | None = None) -> dict:
     """Portal call → ok; BillingError → serialized envelope, else generic; ``extra`` rides both ERROR envelopes."""
-    from hermes_cli.nous_billing import BillingError
+    from vael_cli.nous_billing import BillingError
     try:
         return _ok(rid, fn())
     except BillingError as exc:
@@ -274,7 +274,7 @@ def _persist_branch(db, new_key: str, parent_key: str, title: str, history: list
             db.set_auto_title(new_key, title, source=title_source)
         sync_flushed_message_markers(history, rows)
     except Exception as exc:
-        from hermes_state_errors import is_disk_full_error
+        from vael_state_errors import is_disk_full_error
         if compensate and not is_disk_full_error(exc):
             try:
                 db.delete_session(new_key)
@@ -340,7 +340,7 @@ def _create_overrides(params: dict) -> tuple:
     reasoning_override = None
     if effort := _str_param(params, "reasoning_effort"):
         with contextlib.suppress(Exception):
-            from hermes_constants import parse_reasoning_effort
+            from vael_constants import parse_reasoning_effort
             reasoning_override = parse_reasoning_effort(effort)
     service_tier_override = None
     if "fast" in params:
@@ -351,7 +351,7 @@ def _create_overrides(params: dict) -> tuple:
 def _create_session(rid, params: dict, *, copy_parent_history: bool = False) -> dict:
     """``session.create``; ``copy_parent_history`` (``session.branch_stored``) reads the parent's
     transcript server-side and omits it from the reply."""
-    # ``profile`` (app-global remote mode): stored so the build and every turn re-bind HERMES_HOME.
+    # ``profile`` (app-global remote mode): stored so the build and every turn re-bind VAEL_HOME.
     profile_home = _profile_home(profile := (params.get("profile") or "").strip() or None)
     # Reject an incoherent model×provider pair BEFORE any state exists: minting it only defers the
     # failure to the first turn's provider 404 (#96817). Custom/unknown providers stay permissive.
@@ -524,7 +524,7 @@ def _unarchive_recoverable(db, session_id: str) -> bool:
     the rare write escalates to a short-lived registry writer instead of writing on the reader."""
     if not getattr(db, "read_only", False):
         return db.unarchive_recoverable_session(session_id)
-    from hermes_state_registry import acquire
+    from vael_state_registry import acquire
     try:
         wdb = acquire(db.db_path)
     except Exception:
@@ -575,7 +575,7 @@ def _(rid, params: dict, db) -> dict:
         # surfaces that OWN hidden sessions (Bots pane, pickers).
         from pathlib import Path
 
-        from hermes_cli.session_listing import show_subagent_sessions
+        from vael_cli.session_listing import show_subagent_sessions
 
         # ``sessions.show_subagents`` (the store's own profile config) re-admits delegate runs (#97202).
         # A store without a path has no profile config to read, so it keeps the default shape.
@@ -858,7 +858,7 @@ def _resume_guard(ctx: _Resume) -> dict | None:
     """Refuse a runaway transcript before any history read (sessions.max_resume_messages). Deferred /
     omit_messages / lazy paths load the TIP segment only and are guarded tip-only (a lineage count rejected
     exactly the well-compressed chats). Metadata fallback for lightweight adaptor DBs; fails OPEN on errors."""
-    from hermes_state import SessionResumeTooLargeError, resolved_max_resume_messages
+    from vael_state import SessionResumeTooLargeError, resolved_max_resume_messages
     tip_only = ctx.lazy or ctx.omit_messages or (ctx.defer_history and not ctx.eager_build)
     try:
         if callable(safety_check := getattr(ctx.db, "assert_resume_safe", None)):
@@ -1029,7 +1029,7 @@ def _resume_eager(ctx: _Resume) -> dict:
                     session["composer_override_profile"] = (
                         model_config.get("composer_override_profile")
                         if stored_runtime_overrides.get("model_override") else None)
-                # Each turn re-binds HERMES_HOME (mid-turn memory/skills reads); lease claimed lazily on turn 1.
+                # Each turn re-binds VAEL_HOME (mid-turn memory/skills reads); lease claimed lazily on turn 1.
                 if ctx.profile_home is not None:
                     session["profile_home"] = str(ctx.profile_home)
                 session.update(display_history_prefix=display_history_prefix, active_session_lease=None)
@@ -1106,7 +1106,7 @@ def _(rid, params: dict) -> dict:
         return _err(rid, 4007, "session_key required")
     if not (raw := _str_param(params, "cwd")):
         return _err(rid, 4016, "cwd required")
-    from hermes_constants import translate_cwd_for_wsl_backend
+    from vael_constants import translate_cwd_for_wsl_backend
     # Snapshot under the lock — concurrent RPCs mutate _sessions.
     with _sessions_lock:
         live_sid, live = next(
@@ -1147,7 +1147,7 @@ def _(rid, params: dict) -> dict:
         return err
     current = str(params.get("current_session_id") or "")
     # ``_finalized`` sessions linger until the reaper pops them (they inflated the footer). Do NOT filter on
-    # the WS-detached sentinel: detached is attachable until grace-reap, and ``hermes --tui`` rides stdio.
+    # the WS-detached sentinel: detached is attachable until grace-reap, and ``vael --tui`` rides stdio.
     # Keep insertion order (focused must not jump).
     rows = [_session_live_item(sid, session, current) for sid, session in snapshot if not session.get("_finalized")]
     return _ok(rid, {"sessions": rows})
@@ -1171,7 +1171,7 @@ def _(rid, params: dict, session: dict) -> dict:
 @method("session.delete")
 def _(rid, params: dict) -> dict:
     """Delete a stored session + transcripts; refused while live here (FK trips on the agent's next flush)."""
-    from hermes_state_errors import SessionActiveWriteGuardError  # body runs on server.py globals
+    from vael_state_errors import SessionActiveWriteGuardError  # body runs on server.py globals
 
     if not (target := params.get("session_id", "")):
         return _err(rid, 4006, "session_id required")
@@ -1185,7 +1185,7 @@ def _(rid, params: dict) -> dict:
         if db is None:
             return _db_unavailable_error(rid, code=5036)
         try:
-            home = Path(profile_home) if profile_home is not None else get_hermes_home()
+            home = Path(profile_home) if profile_home is not None else get_vael_home()
             deleted = db.delete_session(target, sessions_dir=home / "sessions", exclude_active_write_guards=True)
         except SessionActiveWriteGuardError:
             return _err(rid, 4023, "cannot delete an active session")
@@ -1616,7 +1616,7 @@ def _(rid, params: dict, slug: str) -> dict:
     """Adopt a pet: install (if needed) + activate; writes ``display.pet.*`` to config."""
     from agent.pet import store
     from agent.pet.manifest import ManifestError
-    from hermes_cli.pets import _set_active
+    from vael_cli.pets import _set_active
     try:
         pet = store.install_pet(slug)
     except (store.PetStoreError, ManifestError) as exc:
@@ -1629,14 +1629,14 @@ def _(rid, params: dict, slug: str) -> dict:
 def _(rid, params: dict, slug: str) -> dict:
     """Uninstall a pet (delete its directory); if it was active, turn the display off."""
     from agent.pet import store
-    from hermes_cli.pets import _clear_active_if
+    from vael_cli.pets import _clear_active_if
     removed = store.remove_pet(slug)
     _pet_config_followup("pet.remove", _clear_active_if, slug)
     return _ok(rid, {"ok": removed, "slug": slug})
 
 
 def _pet_config_followup(what: str, fn, *args) -> None:
-    """Best-effort ``hermes_cli.pets`` active-slug update after a store op that already succeeded."""
+    """Best-effort ``vael_cli.pets`` active-slug update after a store op that already succeeded."""
     try:
         fn(*args)
     except Exception as exc:  # noqa: BLE001
@@ -1665,7 +1665,7 @@ def _(rid, params: dict, slug: str) -> dict:
     if not (new_slug := store.rename_pet(slug, name)):
         return _err(rid, 5031, "pet.rename failed")
     if new_slug != slug:
-        from hermes_cli.pets import _rename_active_if
+        from vael_cli.pets import _rename_active_if
         _pet_config_followup("pet.rename", _rename_active_if, slug, new_slug)
     return _ok(rid, {"ok": True, "slug": new_slug, "displayName": name})
 
@@ -1682,7 +1682,7 @@ def _(rid, params: dict, slug: str) -> dict:
 @_pet_method("pet.disable")
 def _(rid, params: dict) -> dict:
     """``display.pet.enabled=false`` from the desktop picker."""
-    from hermes_cli.pets import _set_enabled
+    from vael_cli.pets import _set_enabled
     _set_enabled(False)
     return _ok(rid, {"ok": True})
 
@@ -1690,7 +1690,7 @@ def _(rid, params: dict) -> dict:
 @_pet_method("pet.scale")
 def _(rid, params: dict) -> dict:
     """Persist ``display.pet.scale`` (clamped to engine bounds) from the desktop slider."""
-    from hermes_cli.pets import set_pet_scale
+    from vael_cli.pets import set_pet_scale
     scale, err = set_pet_scale(params.get("scale"))
     return _err(rid, 4004, err) if err else _ok(rid, {"ok": True, "scale": scale})
 
@@ -1850,7 +1850,7 @@ def _(rid, params: dict) -> dict:
     round-trip that could only fail."""
     try:
         from agent.billing_view import BillingState, build_billing_state
-        from hermes_cli.anon_auth import has_free_tier_account
+        from vael_cli.anon_auth import has_free_tier_account
         if has_free_tier_account():
             return _ok(rid, _serialize_billing_state(BillingState(logged_in=False), free_tier_account=True))
         return _ok(rid, _serialize_billing_state(build_billing_state()))
@@ -1869,7 +1869,7 @@ _billing_view("subscription.state", "agent.subscription_view", "build_subscripti
 def _(rid, params: dict) -> dict:
     """POST /api/billing/subscription/preview → chargeless effect quote. billing:manage."""
     from agent.subscription_view import subscription_change_preview_from_payload
-    from hermes_cli.nous_billing import post_subscription_preview
+    from vael_cli.nous_billing import post_subscription_preview
     if not (tier_id := params.get("subscription_type_id")):
         return _billing_invalid(rid, "subscription_type_id is required")
     return _billing_call(rid, lambda: _serialize_subscription_preview(
@@ -1878,12 +1878,12 @@ def _(rid, params: dict) -> dict:
 
 def _billing_route(name: str, call, *, invalid=None, message: str = "", error: str = "invalid_request",
                    idempotent: bool = False):
-    """Portal write route on ``hermes_cli.nous_billing`` (lazy; tests patch its functions): ``invalid(params)``
+    """Portal write route on ``vael_cli.nous_billing`` (lazy; tests patch its functions): ``invalid(params)``
     → ``_billing_invalid(message, error)``; ``call(nb, params, key)`` performs the request. ``idempotent``
     mints ``idempotency_key`` if absent and echoes it (also on error) so the TUI retries the SAME operation."""
     @method(name)
     def _(rid, params: dict) -> dict:
-        import hermes_cli.nous_billing as nb
+        import vael_cli.nous_billing as nb
         if invalid is not None and invalid(params):
             return _billing_invalid(rid, message, error=error)
         key = extra = None
@@ -1938,7 +1938,7 @@ def _(rid, params: dict) -> dict:
     sid = params.get("session_id") or ""
 
     def call():
-        from hermes_cli.auth import step_up_nous_billing_scope
+        from vael_cli.auth import step_up_nous_billing_scope
         granted = step_up_nous_billing_scope(
             open_browser=False,
             on_verification=lambda url, code: _emit(
@@ -1967,7 +1967,7 @@ def _try_get_session(db, key: str) -> dict:
 
 @_session_method("session.status")
 def _(rid, params: dict, session: dict) -> dict:
-    from hermes_cli.status_report import build_status_fields, status_lines
+    from vael_cli.status_report import build_status_fields, status_lines
     key = session.get("session_key") or params.get("session_id") or ""
     mirror = _metadata_mirror(session)
     # Under turn isolation the compute host owns the live route: a stale in-process agent object
@@ -1984,7 +1984,7 @@ def _(rid, params: dict, session: dict) -> dict:
     )
     project = _project_info_for_cwd(_display_session_cwd(session))
     lines = [
-        "Hermes TUI Status", "", *status_lines(fields, "session_id", "path"),
+        "VAEL TUI Status", "", *status_lines(fields, "session_id", "path"),
         *([f"Project: {project['name']}"] if project else []),
         *status_lines(fields, "title", "model", "created", "last_activity", "tokens", "agent_running")]
     return _ok(rid, {"output": "\n".join(lines)})
@@ -2169,14 +2169,14 @@ def _(rid, params: dict, session: dict) -> dict:
         return _save_via_compute_host(rid, params)
     agent = session["agent"]
     # Classic CLI /save: under the profile home, with the system prompt (dashboard parity). The SESSION's
-    # profile: this handler runs unscoped, so get_hermes_home() alone names the launch profile.
+    # profile: this handler runs unscoped, so get_vael_home() alone names the launch profile.
     home = session.get("profile_home")
-    saved_dir = (Path(home) if home else get_hermes_home()) / "sessions" / "saved"
+    saved_dir = (Path(home) if home else get_vael_home()) / "sessions" / "saved"
     try:
         saved_dir.mkdir(parents=True, exist_ok=True)
     except Exception as e:
         return _err(rid, 5011, f"failed to create save directory {saved_dir}: {e}")
-    path = saved_dir / f"hermes_conversation_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+    path = saved_dir / f"vael_conversation_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
     with session["history_lock"]:
         messages = list(session.get("history", []))
     # Prefer the agent's session_start (classic CLI export); else the gateway created_at.

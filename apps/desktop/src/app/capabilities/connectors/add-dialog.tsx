@@ -2,9 +2,9 @@ import { useState } from 'react'
 
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog'
-import type { ProfileScope } from '@/hermes'
 import { useI18n } from '@/i18n'
 import { notifyError } from '@/store/notifications'
+import type { ProfileScope } from '@/vael'
 
 import { McpJsonEditor } from '../mcp/mcp-editor'
 import type { McpServersController } from '../mcp/use-mcp-servers'

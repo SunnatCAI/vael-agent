@@ -6,7 +6,6 @@ import { afterAll, afterEach, beforeAll, describe, expect, it, vi } from 'vitest
 
 import { startSessionDrag } from '@/app/chat/session-drag'
 import type * as SessionDrag from '@/app/chat/session-drag'
-import type { SessionInfo } from '@/hermes'
 import type * as ChatRuntime from '@/lib/chat-runtime'
 import type * as GatewayStore from '@/store/gateway'
 import type * as ProjectsStore from '@/store/projects'
@@ -14,6 +13,7 @@ import type * as SessionStore from '@/store/session'
 import type * as SessionColorStore from '@/store/session-color'
 import type * as SessionStatesStore from '@/store/session-states'
 import type * as WindowsStore from '@/store/windows'
+import type { SessionInfo } from '@/vael'
 
 import { ReorderableList, useSortableBindings } from './reorderable-list'
 import { SidebarSessionRow } from './session-row'
@@ -56,7 +56,7 @@ vi.mock('@/components/pane-shell/tree/store', async importOriginal => {
     treeTabCloseTargets: vi.fn(() => null)
   }
 })
-vi.mock('@/hermes', async importOriginal => {
+vi.mock('@/vael', async importOriginal => {
   const actual = await importOriginal<Record<string, unknown>>()
 
   return { ...actual, renameSession: vi.fn() }

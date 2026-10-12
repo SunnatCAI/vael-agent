@@ -1,8 +1,8 @@
 /**
  * Regression tests for electron/cloud-boot-cascade.ts.
  *
- * A Hermes Cloud agent whose session cookie had expired failed at boot with
- * "Remote Hermes gateway uses OAuth, but you are not signed in" and latched,
+ * A VAEL Cloud agent whose session cookie had expired failed at boot with
+ * "Remote VAEL gateway uses OAuth, but you are not signed in" and latched,
  * although the portal session needed to silently re-mint it was live. These
  * pin the exact conditions under which boot is allowed to self-heal.
  *

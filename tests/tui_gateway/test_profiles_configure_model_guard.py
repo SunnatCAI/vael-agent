@@ -21,9 +21,9 @@ from pathlib import Path
 from types import SimpleNamespace
 
 import pytest
-import hermes_yaml as yaml
+import vael_yaml as yaml
 
-import hermes_cli.model_selection_guards as guards
+import vael_cli.model_selection_guards as guards
 import tui_gateway.server as srv
 
 GUARDED_MODEL = "muse-spark-1.2-contributor"
@@ -32,17 +32,17 @@ GUARD_MESSAGE = "CONTRIBUTOR TIER: this model may train on your data."
 
 @pytest.fixture
 def home(tmp_path, monkeypatch):
-    hermes_home = tmp_path / ".hermes"
-    hermes_home.mkdir()
-    monkeypatch.setenv("HERMES_HOME", str(hermes_home))
+    vael_home = tmp_path / ".vael"
+    vael_home.mkdir()
+    monkeypatch.setenv("VAEL_HOME", str(vael_home))
     # The profile write now validates through ``switch_model`` (catalog + credentials); these
     # tests pin the guard handshake, so echo the pick back as an accepted route.
-    from hermes_cli.model_switch import ModelSwitchResult
+    from vael_cli.model_switch import ModelSwitchResult
     monkeypatch.setattr(
-        "hermes_cli.model_switch.switch_model",
+        "vael_cli.model_switch.switch_model",
         lambda *, raw_input, explicit_provider, **_kw: ModelSwitchResult(
             success=True, new_model=raw_input, target_provider=explicit_provider))
-    return hermes_home
+    return vael_home
 
 
 @pytest.fixture

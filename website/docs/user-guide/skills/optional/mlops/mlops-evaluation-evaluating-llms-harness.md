@@ -14,7 +14,7 @@ lm-eval-harness: benchmark LLMs (MMLU, GSM8K, etc.).
 
 | | |
 |---|---|
-| Source | Optional — install with `hermes skills install official/mlops/evaluating-llms-harness` |
+| Source | Optional — install with `vael skills install official/mlops/evaluating-llms-harness` |
 | Path | `optional-skills/mlops/evaluation/evaluating-llms-harness` |
 | Version | `1.0.1` |
 | Author | Orchestra Research |
@@ -26,7 +26,7 @@ lm-eval-harness: benchmark LLMs (MMLU, GSM8K, etc.).
 ## Reference: full SKILL.md
 
 :::info
-The following is the complete skill definition that Hermes loads when this skill is triggered. This is what the agent sees as instructions when the skill is active.
+The following is the complete skill definition that VAEL loads when this skill is triggered. This is what the agent sees as instructions when the skill is active.
 :::
 
 # lm-evaluation-harness - LLM Benchmarking

@@ -1,17 +1,17 @@
 ---
 sidebar_position: 15
 title: "CLI Internals"
-description: "How hermes_cli is shaped: slash dispatch, config loaders, the skin engine, the transactional update pipeline, and process-identity rules"
+description: "How vael_cli is shaped: slash dispatch, config loaders, the skin engine, the transactional update pipeline, and process-identity rules"
 ---
 
 # CLI Internals
 
-Companion to `hermes_cli/AGENTS.md` (the rules) — this page holds the longer explanations.
+Companion to `vael_cli/AGENTS.md` (the rules) — this page holds the longer explanations.
 
 ## Update pipeline
 
 The stage-by-stage contract (`plan → snapshot → apply → restart-per-kind → verify → report`) and the
-field failure each stage guards are documented in `hermes_cli/AGENTS.md`; user-facing behaviour
+field failure each stage guards are documented in `vael_cli/AGENTS.md`; user-facing behaviour
 (receipts, `--plan`, snapshot modes) is in [Updating](../getting-started/updating.md).
 
 The systemd blunt-restart fallback waits for the unit's `TimeoutStopUSec` plus
@@ -39,7 +39,7 @@ classifying a process by `"serve" in cmdline` or similar. `kanban --preserve-cac
 subcommand. Rules:
 
 - Use the canonical matchers: `gateway.status.looks_like_gateway_command_line` (gateway run),
-  `hermes_cli.update_cmd._hermes_holder_subcommand` (top-level subcommand of any Hermes argv). Never
+  `vael_cli.update_cmd._vael_holder_subcommand` (top-level subcommand of any VAEL argv). Never
   hand-roll token scans.
 - Flag sets must be DERIVED from the parser (`_holder_value_flags()` introspects
   `build_top_level_parser()`), never hand-written lists — they drift.
@@ -61,25 +61,25 @@ subcommand. Rules:
 | Tool output prefix / per-tool emojis | `tool_prefix`, `tool_emojis` | `display.py` → `get_tool_emoji()` |
 | Agent name / welcome / response label / prompt symbol | `branding.agent_name`, `welcome`, `response_label`, `prompt_symbol` | `banner.py`, `cli.py` |
 
-Built-in skins (`_BUILTIN_SKINS` in `hermes_cli/skin_engine.py`): `default` (classic gold/kawaii),
+Built-in skins (`_BUILTIN_SKINS` in `vael_cli/skin_engine.py`): `default` (classic gold/kawaii),
 `ares` (crimson/bronze with custom spinner wings), `mono` (grayscale), `slate` (cool blue). Add a
 built-in as a dict entry `{"name", "description", "colors", "spinner", "branding", "tool_prefix"}`.
-User skins are `~/.hermes/skins/<name>.yaml` with the same keys, activated with `/skin <name>` or
+User skins are `~/.vael/skins/<name>.yaml` with the same keys, activated with `/skin <name>` or
 `display.skin: <name>`; the full YAML template is in the
 [Skins & Themes](../user-guide/features/skins.md) user guide.
 
 ## Profiles: multi-instance support
 
-Hermes supports profiles — fully isolated instances, each with its own `HERMES_HOME` (config, API
-keys, memory, sessions, skills, gateway). For single-profile commands (`hermes -p x <cmd>`),
-`_apply_profile_override()` in `hermes_cli/main.py` sets `HERMES_HOME` before any module imports, so
-every `get_hermes_home()` reference scopes to the active profile. The multiplex gateway and the
+VAEL supports profiles — fully isolated instances, each with its own `VAEL_HOME` (config, API
+keys, memory, sessions, skills, gateway). For single-profile commands (`vael -p x <cmd>`),
+`_apply_profile_override()` in `vael_cli/main.py` sets `VAEL_HOME` before any module imports, so
+every `get_vael_home()` reference scopes to the active profile. The multiplex gateway and the
 Desktop/dashboard `serve` backend serve several profiles from one process instead: the active
-profile is a contextvar override bound per activity, `os.environ["HERMES_HOME"]` stays the launch
+profile is a contextvar override bound per activity, `os.environ["VAEL_HOME"]` stays the launch
 profile's, and a module-level constant derived from the home freezes to that launch profile (see
 [Gateway Internals § Multiplexed profiles](./gateway-internals.md#multiplexed-profiles)). Profile
 operations are HOME-anchored (`_get_profiles_root()` returns
-`Path.home() / ".hermes" / "profiles"`, not `get_hermes_home() / "profiles"`) so
-`hermes -p coder profile list` sees all profiles regardless of which one is active — intentional.
+`Path.home() / ".vael" / "profiles"`, not `get_vael_home() / "profiles"`) so
+`vael -p coder profile list` sees all profiles regardless of which one is active — intentional.
 Profile-safe coding rules are in the root `AGENTS.md`; multiplex secret-scope rules in
 `gateway/AGENTS.md`.

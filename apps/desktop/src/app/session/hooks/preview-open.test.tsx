@@ -1,5 +1,5 @@
-import type { GatewayEvent } from '@hermes/shared'
 import { act, cleanup, render, waitFor } from '@testing-library/react'
+import type { GatewayEvent } from '@vael/shared'
 import { useEffect } from 'react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
@@ -78,7 +78,7 @@ describe('preview routing', () => {
     closeRightRail()
     window.localStorage.clear()
 
-    Object.defineProperty(window, 'hermesDesktop', {
+    Object.defineProperty(window, 'vaelDesktop', {
       configurable: true,
       value: { normalizePreviewTarget: vi.fn(async (target: string) => fileTarget(target)) }
     })
@@ -198,7 +198,7 @@ describe('preview routing', () => {
       })
 
       expect($previewTabs.get()).toHaveLength(0)
-      expect(window.hermesDesktop.normalizePreviewTarget).not.toHaveBeenCalled()
+      expect(window.vaelDesktop.normalizePreviewTarget).not.toHaveBeenCalled()
     })
 
     it('does not open a preview off the back of a tool result', async () => {
@@ -261,7 +261,7 @@ describe('preview routing', () => {
       await emitPreviewClose('https://example.com/dashboard')
 
       expect($previewTabs.get()).toHaveLength(0)
-      expect(window.localStorage.getItem('hermes.desktop.previewTabs.v2')).toBeNull()
+      expect(window.localStorage.getItem('vael.desktop.previewTabs.v2')).toBeNull()
     })
 
     it('does not remove a popped Browser tab through the persisted-url fallback', async () => {

@@ -1,11 +1,11 @@
-import { skillInvocationText } from '@hermes/shared'
+import { skillInvocationText } from '@vael/shared'
 
 import { splitLeadingAttachmentRefs } from '@/components/assistant-ui/reference-kinds'
 import { extractImageRefs } from '@/lib/embedded-images'
 import { parseErrorSurface } from '@/lib/error-surface'
 import { dedupeGeneratedImageEchoesInParts } from '@/lib/generated-images'
 import { isTodoToolName } from '@/lib/todos'
-import type { MessageReaction, SessionMessage } from '@/types/hermes'
+import type { MessageReaction, SessionMessage } from '@/types/vael'
 
 import {
   assistantTextPart,
@@ -167,7 +167,7 @@ const NOTICE_DISPLAY_KINDS = [
   'process_complete',
   'auto_continue',
   'personality_switch',
-  // Hermes closing a failed turn, not the model speaking.
+  // VAEL closing a failed turn, not the model speaking.
   'failed_turn'
 ] as const
 

@@ -1,6 +1,6 @@
 # nix/moduleCommon.nix — the code that the NixOS and Home Manager modules share
 #
-# `services.hermes-agent` is the same option set on both modules. Both modules
+# `services.vael-agent` is the same option set on both modules. Both modules
 # get their options, their renderers for config.yaml, .env and documents, and
 # their state setup from this file. A NixOS example works on Home Manager
 # without a change. An option added here appears on both modules at once.
@@ -10,7 +10,7 @@
 #   nixosModules.nix        the service user and group, stateDir,
 #                           addToSystemPackages, container mode, tmpfiles,
 #                           system.activationScripts, system systemd units
-#   homeManagerModules.nix  hermesHome, programs.hermes-agent (the CLI and
+#   homeManagerModules.nix  vaelHome, programs.vael-agent (the CLI and
 #                           the desktop application), home.activation,
 #                           systemd.user.services, launchd.agents
 #
@@ -29,8 +29,8 @@ let
   # More than one module can set `settings = { ... }`. recursiveUpdate joins
   # all of the definitions. Without it, only the last definition applies.
   deepConfigType = types.mkOptionType {
-    name = "hermes-config-attrs";
-    description = "Hermes YAML config (attrset), merged deeply via lib.recursiveUpdate.";
+    name = "vael-config-attrs";
+    description = "VAEL YAML config (attrset), merged deeply via lib.recursiveUpdate.";
     check = builtins.isAttrs;
     merge = _loc: defs: lib.foldl' lib.recursiveUpdate { } (map (d: d.value) defs);
   };
@@ -73,7 +73,7 @@ let
         default = null;
         description = ''
           Authentication method. Set to "oauth" for OAuth 2.1 PKCE flow
-          (remote MCP servers). Tokens are stored in $HERMES_HOME/mcp-tokens/.
+          (remote MCP servers). Tokens are stored in $VAEL_HOME/mcp-tokens/.
         '';
       };
 
@@ -234,14 +234,14 @@ let
       defaultWorkingDirectoryText,
     }:
     {
-      enable = lib.mkEnableOption "Hermes Agent";
+      enable = lib.mkEnableOption "VAEL Agent";
 
       # ── Package ────────────────────────────────────────────────────────
       package = mkOption {
         type = types.package;
         default = defaultPackage;
         defaultText = defaultPackageText;
-        description = "The hermes-agent package to use.";
+        description = "The vael-agent package to use.";
       };
 
       workingDirectory = mkOption {
@@ -271,12 +271,12 @@ let
         type = deepConfigType;
         default = { };
         description = ''
-          The Hermes configuration, as an attribute set. The module joins the
+          The VAEL configuration, as an attribute set. The module joins the
           definitions from all modules and writes the result to config.yaml.
 
           The merge into the config.yaml on disk is also a deep merge. These
           keys replace the keys on disk. The module keeps all other keys,
-          which includes the keys that `hermes config set` and the settings
+          which includes the keys that `vael config set` and the settings
           panes of the TUI and the desktop app write at runtime.
         '';
         example = literalExpression ''
@@ -299,13 +299,13 @@ let
         description = ''
           The paths to environment files that contain secrets, for example
           API keys and tokens. Activation adds the contents of these files to
-          $HERMES_HOME/.env. Hermes reads that file at each start, with
-          load_hermes_dotenv().
+          $VAEL_HOME/.env. VAEL reads that file at each start, with
+          load_vael_dotenv().
 
           Each activation writes .env again from the start. Thus a secret
           file cannot go into .env two times.
         '';
-        example = literalExpression ''[ config.sops.secrets."hermes/env".path ]'';
+        example = literalExpression ''[ config.sops.secrets."vael/env".path ]'';
       };
 
       environment = mkOption {
@@ -313,7 +313,7 @@ let
         default = { };
         description = ''
           Environment variables that are not secret. Activation writes them
-          to $HERMES_HOME/.env.
+          to $VAEL_HOME/.env.
 
           CAUTION: Do not put secrets in this option. All users can read the
           Nix store. Use environmentFiles for secrets.
@@ -326,7 +326,7 @@ let
         description = ''
           The path to a file that gives the first contents of auth.json, the
           OAuth credentials. The module copies the file only when auth.json
-          does not exist. Thus a token that Hermes refreshes at runtime stays
+          does not exist. Thus a token that VAEL refreshes at runtime stays
           after an activation.
         '';
       };
@@ -348,8 +348,8 @@ let
 
           Use this option for the project context that the agent reads from
           its working directory, for example AGENTS.md, notes and checklists.
-          Hermes reads SOUL.md and memories/ from HERMES_HOME, so put those
-          files in `hermesHomeFiles`.
+          VAEL reads SOUL.md and memories/ from VAEL_HOME, so put those
+          files in `vaelHomeFiles`.
 
           If you set this option, you must also set `workingDirectory`. The
           default of that option is different on each module. Thus an unset
@@ -363,16 +363,16 @@ let
         '';
       };
 
-      hermesHomeFiles = mkOption {
+      vaelHomeFiles = mkOption {
         type = documentsType;
         default = { };
         description = ''
-          Files that the module installs into HERMES_HOME. Each key is a path
+          Files that the module installs into VAEL_HOME. Each key is a path
           relative to that directory, and the module makes the necessary
           subdirectories. Each value is a string or a path.
 
-          Hermes reads SOUL.md and the memory files from HERMES_HOME and not
-          from the working directory. Declare those files here, or Hermes
+          VAEL reads SOUL.md and the memory files from VAEL_HOME and not
+          from the working directory. Declare those files here, or VAEL
           does not load them.
         '';
         example = literalExpression ''
@@ -420,16 +420,16 @@ let
         type = types.listOf types.package;
         default = [ ];
         description = ''
-          Directory-based plugin packages to symlink into the hermes plugins
+          Directory-based plugin packages to symlink into the vael plugins
           directory. Each package must contain a plugin.yaml and __init__.py
-          at its root. Hermes discovers these automatically on startup.
+          at its root. VAEL discovers these automatically on startup.
         '';
         example = literalExpression ''
           [
             (pkgs.fetchFromGitHub {
               owner = "stephenschoettler";
-              repo = "hermes-lcm";
-              name = "hermes-lcm";
+              repo = "vael-lcm";
+              name = "vael-lcm";
               rev = "v0.7.0";
               hash = "sha256-...";
             })
@@ -443,20 +443,20 @@ let
         description = ''
           Python packages to add to PYTHONPATH for entry-point plugin discovery.
           These are pip-packaged plugins that register via the
-          hermes_agent.plugins entry-point group. Each package must be built
-          with the same Python interpreter as hermes. The interpreter
+          vael_agent.plugins entry-point group. Each package must be built
+          with the same Python interpreter as vael. The interpreter
           major.minor is derived from pm/lock.json by nix/pythonLock.nix —
-          take packages from config.services.hermes-agent.package.python.pkgs so the set always
-          matches the interpreter hermes was built with.
+          take packages from config.services.vael-agent.package.python.pkgs so the set always
+          matches the interpreter vael was built with.
         '';
         example = literalExpression ''
           [
-            (config.services.hermes-agent.package.python.pkgs.buildPythonPackage {
-              pname = "rtk-hermes";
+            (config.services.vael-agent.package.python.pkgs.buildPythonPackage {
+              pname = "rtk-vael";
               version = "1.0.0";
               src = pkgs.fetchFromGitHub {
                 owner = "ogallotti";
-                repo = "rtk-hermes";
+                repo = "rtk-vael";
                 rev = "main";
                 hash = "sha256-...";
               };
@@ -473,7 +473,7 @@ let
           the sealed Python venv. These are resolved by uv alongside core
           dependencies — no PYTHONPATH patching or collision risk.
 
-          Use this for optional extras already declared in hermes-agent's
+          Use this for optional extras already declared in vael-agent's
           pyproject.toml (e.g. "honcho", "voice").
           Use extraPythonPackages for external packages not in pyproject.toml.
         '';
@@ -484,7 +484,7 @@ let
       extraArgs = mkOption {
         type = types.listOf types.str;
         default = [ ];
-        description = "Extra command-line arguments for `hermes gateway`.";
+        description = "Extra command-line arguments for `vael gateway`.";
       };
 
       restart = mkOption {
@@ -499,16 +499,16 @@ let
         description = "The systemd RestartSec= value. Darwin does not use this option.";
       };
 
-      # ── The backend: `hermes serve` or `hermes dashboard` ──────────────
-      # `hermes serve` and `hermes dashboard` are the same entry point,
-      # hermes_cli.main:cmd_dashboard, with one flag of difference. serve runs
+      # ── The backend: `vael serve` or `vael dashboard` ──────────────
+      # `vael serve` and `vael dashboard` are the same entry point,
+      # vael_cli.main:cmd_dashboard, with one flag of difference. serve runs
       # without a user interface. dashboard also serves the web application.
-      # Both give the /api/ws and /api/pty sockets that Hermes Desktop
+      # Both give the /api/ws and /api/pty sockets that VAEL Desktop
       # connects to. They are one process, and you can run only one of them.
       # Thus this option is an enum and not two booleans.
       #
       # The backend does not run the messaging gateway. web_server.py only
-      # controls an external gateway, with `hermes gateway restart`. It does
+      # controls an external gateway, with `vael gateway restart`. It does
       # not contain a gateway.
       backend = {
         mode = mkOption {
@@ -523,7 +523,7 @@ let
 
             - "none"      — no backend
             - "serve"     — the backend without a user interface. It gives
-                            the /api/ws and /api/pty sockets that Hermes
+                            the /api/ws and /api/pty sockets that VAEL
                             Desktop connects to.
             - "dashboard" — all that "serve" gives, and the browser admin
                             panel on the same port
@@ -635,8 +635,8 @@ let
             on one line.
 
             The backend reads the file at each start and gives the value to
-            HERMES_DASHBOARD_SESSION_TOKEN. That token authorizes the /api
-            routes and the /api/ws socket. Hermes Desktop presents the same
+            VAEL_DASHBOARD_SESSION_TOKEN. That token authorizes the /api
+            routes and the /api/ws socket. VAEL Desktop presents the same
             value, so the application reaches this backend and starts no
             second one.
 
@@ -647,7 +647,7 @@ let
             it mode 0600. Do not use a Nix path literal, because that copies
             the secret into the Nix store.
           '';
-          example = literalExpression ''config.sops.secrets."hermes/desktop-token".path'';
+          example = literalExpression ''config.sops.secrets."vael/desktop-token".path'';
         };
       };
     };
@@ -655,7 +655,7 @@ let
   # ── The removal of installPackage ───────────────────────────────────────
   # The programs./services. split replaced this option. It defaulted to true,
   # so a person who never named it still got the command line, and a silent
-  # removal leaves them with no `hermes` on the PATH and no message. The
+  # removal leaves them with no `vael` on the PATH and no message. The
   # module refuses the configuration with this text.
   #
   # A function, and not a literal in the module, so a check can call the same
@@ -664,14 +664,14 @@ let
   installPackageRemovedMessage =
     value:
     ''
-      services.hermes-agent.installPackage was removed. Hermes now
+      services.vael-agent.installPackage was removed. VAEL now
       separates the installation from the services, which is the
       Home Manager convention:
 
-        programs.hermes-agent.enable = ${lib.boolToString (value != false)};  # the hermes CLI, and HERMES_HOME for your shells
-        programs.hermes-agent.desktop.enable = true;  # the desktop application
+        programs.vael-agent.enable = ${lib.boolToString (value != false)};  # the vael CLI, and VAEL_HOME for your shells
+        programs.vael-agent.desktop.enable = true;  # the desktop application
 
-      `services.hermes-agent` keeps the state, the configuration and
+      `services.vael-agent` keeps the state, the configuration and
       the daemons. Remove `installPackage` and add the line above.
     '';
 
@@ -690,7 +690,7 @@ let
   # replace the default value.
   #
   # The file also carries the `_config_version` of the package. In managed
-  # mode Hermes refuses to write config.yaml, so it cannot stamp the version
+  # mode VAEL refuses to write config.yaml, so it cannot stamp the version
   # itself, and an unstamped file reads as version 0 at every boot. The build
   # reads the version from DEFAULT_CONFIG so it always matches the package.
   mkConfigFiles =
@@ -701,15 +701,15 @@ let
     }:
     let
       generated =
-        pkgs.runCommand "hermes-config.yaml"
+        pkgs.runCommand "vael-config.yaml"
           {
             settings = builtins.toJSON (lib.recursiveUpdate { terminal.cwd = workingDirectory; } cfg.settings);
             passAsFile = [ "settings" ];
           }
           ''
-            HOME=$TMPDIR ${(effectivePackage cfg).hermesVenv}/bin/python3 - "$settingsPath" > $out <<'PY'
+            HOME=$TMPDIR ${(effectivePackage cfg).vaelVenv}/bin/python3 - "$settingsPath" > $out <<'PY'
             import json, sys
-            from hermes_cli.config_defaults import DEFAULT_CONFIG
+            from vael_cli.config_defaults import DEFAULT_CONFIG
             with open(sys.argv[1]) as f:
                 settings = json.load(f)
             settings.setdefault("_config_version", DEFAULT_CONFIG["_config_version"])
@@ -728,7 +728,7 @@ let
   # install loop can copy each entry with `install -D`.
   mkDocumentTree =
     { pkgs, documents }:
-    pkgs.runCommand "hermes-documents" { } (
+    pkgs.runCommand "vael-documents" { } (
       ''
         mkdir -p $out
       ''
@@ -742,7 +742,7 @@ let
           if builtins.isPath value || lib.isStorePath value then
             "${mkdir}\ncp ${value} $out/${name}"
           else
-            "${mkdir}\ncat > $out/${name} <<'HERMES_DOC_EOF'\n${value}\nHERMES_DOC_EOF"
+            "${mkdir}\ncat > $out/${name} <<'VAEL_DOC_EOF'\n${value}\nVAEL_DOC_EOF"
         ) documents
       )
     );
@@ -755,12 +755,12 @@ let
   mkEnvScript =
     { pkgs, environment }:
     let
-      base = pkgs.writeText "hermes-env-base" (
+      base = pkgs.writeText "vael-env-base" (
         lib.concatStringsSep "\n" (lib.mapAttrsToList (k: v: "${k}=${v}") environment)
         + lib.optionalString (environment != { }) "\n"
       );
     in
-    pkgs.writeShellScript "hermes-env-merge" ''
+    pkgs.writeShellScript "vael-env-merge" ''
       set -eu
 
       dest="$1"
@@ -773,7 +773,7 @@ let
           printf '\n' >> "$dest"
           cat "$file" >> "$dest"
         else
-          echo "hermes-agent: WARNING cannot read environmentFile $file" >&2
+          echo "vael-agent: WARNING cannot read environmentFile $file" >&2
         fi
       done
     '';
@@ -794,7 +794,7 @@ let
     {
       pkgs,
       cfg,
-      hermesHome,
+      vaelHome,
       workingDirectory,
       # The value to write as terminal.cwd. It is different from
       # workingDirectory only in the container mode of NixOS. There the agent
@@ -807,7 +807,7 @@ let
       stateDirs ? [ ],
       # The module writes this value into the .managed marker. An
       # interactive shell reads the marker, because it does not see the
-      # HERMES_MANAGED variable of the service. The value tells the shell
+      # VAEL_MANAGED variable of the service. The value tells the shell
       # which system owns the install and which rebuild command to name.
       managedSystem ? "nixos",
     }:
@@ -832,7 +832,7 @@ let
       };
       homeDocumentTree = mkDocumentTree {
         inherit pkgs;
-        documents = cfg.hermesHomeFiles;
+        documents = cfg.vaelHomeFiles;
       };
 
       inst = "${run}install ${installFlags}";
@@ -846,67 +846,67 @@ let
         );
     in
     ''
-      # Directories. The service units and Hermes make most of these
+      # Directories. The service units and VAEL make most of these
       # directories when they first need them. Activation makes them here so
       # that the first activation sets the correct owner and mode, and does
       # not use the umask.
       ${run}mkdir -p ${
         lib.escapeShellArgs (
           [
-            hermesHome
+            vaelHome
             workingDirectory
           ]
-          ++ map (d: "${hermesHome}/${d}") stateDirs
+          ++ map (d: "${vaelHome}/${d}") stateDirs
         )
       }
 
-      # config.yaml: merge the Nix settings into the file on disk. Hermes
+      # config.yaml: merge the Nix settings into the file on disk. VAEL
       # writes this file at runtime. A read-only symlink to the Nix store
       # breaks each save from the application. The Nix keys replace the keys
       # on disk, and the module keeps all other keys.
       ${
         if cfg.configFile != null then
-          "${inst} -m ${modes.config} -D ${configFiles.effective} ${hermesHome}/config.yaml"
+          "${inst} -m ${modes.config} -D ${configFiles.effective} ${vaelHome}/config.yaml"
         else
           ''
-            ${run}${configFiles.mergeScript} ${configFiles.generated} ${hermesHome}/config.yaml
-            ${run}chmod ${modes.config} ${hermesHome}/config.yaml
+            ${run}${configFiles.mergeScript} ${configFiles.generated} ${vaelHome}/config.yaml
+            ${run}chmod ${modes.config} ${vaelHome}/config.yaml
           ''
       }
 
       # The managed-mode marker. It makes an interactive shell also refuse to
       # change the configuration that Nix owns.
-      ${inst} -m ${modes.managed} ${pkgs.writeText "hermes-managed" managedSystem} ${hermesHome}/.managed
+      ${inst} -m ${modes.managed} ${pkgs.writeText "vael-managed" managedSystem} ${vaelHome}/.managed
 
       ${lib.optionalString (cfg.environment != { } || cfg.environmentFiles != [ ]) ''
-        ${run}${envScript} ${hermesHome}/.env ${modes.env} ${lib.escapeShellArgs cfg.environmentFiles}
-        ${lib.optionalString (owner != null) "${run}chown ${owner} ${hermesHome}/.env"}
+        ${run}${envScript} ${vaelHome}/.env ${modes.env} ${lib.escapeShellArgs cfg.environmentFiles}
+        ${lib.optionalString (owner != null) "${run}chown ${owner} ${vaelHome}/.env"}
       ''}
 
       ${lib.optionalString (cfg.authFile != null) (
         if cfg.authFileForceOverwrite then
-          "${inst} -m ${modes.auth} ${cfg.authFile} ${hermesHome}/auth.json"
+          "${inst} -m ${modes.auth} ${cfg.authFile} ${vaelHome}/auth.json"
         else
           ''
-            if [ ! -e ${hermesHome}/auth.json ]; then
-              ${inst} -m ${modes.auth} ${cfg.authFile} ${hermesHome}/auth.json
+            if [ ! -e ${vaelHome}/auth.json ]; then
+              ${inst} -m ${modes.auth} ${cfg.authFile} ${vaelHome}/auth.json
             fi
           ''
       )}
 
       ${installDocuments documentTree workingDirectory cfg.documents}
-      ${installDocuments homeDocumentTree hermesHome cfg.hermesHomeFiles}
+      ${installDocuments homeDocumentTree vaelHome cfg.vaelHomeFiles}
 
       # Declarative plugins. Activation first deletes the old managed
       # symlinks. Thus a plugin that you remove from the configuration also
       # goes away from the plugins directory.
-      ${run}find ${hermesHome}/plugins -maxdepth 1 -type l -name 'nix-managed-*' -delete 2>/dev/null || true
+      ${run}find ${vaelHome}/plugins -maxdepth 1 -type l -name 'nix-managed-*' -delete 2>/dev/null || true
       ${lib.concatMapStringsSep "\n" (plugin: ''
         if [ ! -f ${plugin}/plugin.yaml ]; then
-          echo "hermes-agent: ERROR extraPlugins entry '${plugin}' has no plugin.yaml" >&2
+          echo "vael-agent: ERROR extraPlugins entry '${plugin}' has no plugin.yaml" >&2
           exit 1
         fi
-        ${run}ln -sfn ${plugin} ${hermesHome}/plugins/nix-managed-${lib.getName plugin}
+        ${run}ln -sfn ${plugin} ${vaelHome}/plugins/nix-managed-${lib.getName plugin}
       '') cfg.extraPlugins}
     '';
 
@@ -914,7 +914,7 @@ let
   gatewayArgv =
     cfg:
     [
-      "${effectivePackage cfg}/bin/hermes"
+      "${effectivePackage cfg}/bin/vael"
       "gateway"
     ]
     ++ cfg.extraArgs;
@@ -923,7 +923,7 @@ let
   backendCommand =
     cfg: host:
     [
-      "${effectivePackage cfg}/bin/hermes"
+      "${effectivePackage cfg}/bin/vael"
       cfg.backend.mode
       "--host"
       host
@@ -943,7 +943,7 @@ let
   # start time. launchd has no EnvironmentFile, so a script is the one shape
   # that works on both hosts.
   #
-  # `exec` on the last line keeps hermes as the MainPID of the unit. No shell
+  # `exec` on the last line keeps vael as the MainPID of the unit. No shell
   # stays in the cgroup, and the restart logic of systemd sees the real
   # process.
   backendLauncher =
@@ -951,7 +951,7 @@ let
     # The bind address is known only at start time, but escapeShellArgs quotes
     # each argument. Thus the command line is built with a placeholder, and the
     # placeholder becomes the shell variable after the quoting.
-    pkgs.writeShellScript "hermes-backend-launch" (
+    pkgs.writeShellScript "vael-backend-launch" (
       builtins.replaceStrings [ "@HOST@" ] [ ''"$_target"'' ] ''
         set -euo pipefail
 
@@ -964,16 +964,16 @@ let
           _token_file=${lib.escapeShellArg cfg.backend.sessionTokenFile}
 
           if [ ! -r "$_token_file" ]; then
-            echo "hermes-backend: cannot read the session token file '$_token_file'. The unit stops." >&2
-            echo "hermes-backend: backend.sessionTokenFile must name a runtime path that this user can read." >&2
+            echo "vael-backend: cannot read the session token file '$_token_file'. The unit stops." >&2
+            echo "vael-backend: backend.sessionTokenFile must name a runtime path that this user can read." >&2
             exit 1
           fi
 
-          HERMES_DASHBOARD_SESSION_TOKEN="$(${pkgs.coreutils}/bin/tr -d '\r\n' < "$_token_file")"
-          export HERMES_DASHBOARD_SESSION_TOKEN
+          VAEL_DASHBOARD_SESSION_TOKEN="$(${pkgs.coreutils}/bin/tr -d '\r\n' < "$_token_file")"
+          export VAEL_DASHBOARD_SESSION_TOKEN
 
-          if [ -z "$HERMES_DASHBOARD_SESSION_TOKEN" ]; then
-            echo "hermes-backend: the session token file '$_token_file' is empty. The unit stops." >&2
+          if [ -z "$VAEL_DASHBOARD_SESSION_TOKEN" ]; then
+            echo "vael-backend: the session token file '$_token_file' is empty. The unit stops." >&2
             exit 1
           fi
         ''}
@@ -994,12 +994,12 @@ let
                 fi
 
                 if [ "$_waited" -ge "$_timeout" ]; then
-                  echo "hermes-backend: '$_target' did not resolve after ''${_timeout}s. The unit stops." >&2
+                  echo "vael-backend: '$_target' did not resolve after ''${_timeout}s. The unit stops." >&2
                   exit 1
                 fi
 
                 if [ "$_waited" = 0 ]; then
-                  echo "hermes-backend: waits for '$_target' to resolve..." >&2
+                  echo "vael-backend: waits for '$_target' to resolve..." >&2
                 fi
                 ${pkgs.coreutils}/bin/sleep 2
                 _waited=$(( _waited + 2 ))
@@ -1021,13 +1021,13 @@ let
                 fi
 
                 if [ "$_waited" -ge "$_timeout" ]; then
-                  echo "hermes-backend: interface '$_iface' had no IPv4 address after ''${_timeout}s. The unit stops." >&2
-                  echo "hermes-backend: a fallback address can expose the backend more widely than you intend." >&2
+                  echo "vael-backend: interface '$_iface' had no IPv4 address after ''${_timeout}s. The unit stops." >&2
+                  echo "vael-backend: a fallback address can expose the backend more widely than you intend." >&2
                   exit 1
                 fi
 
                 if [ "$_waited" = 0 ]; then
-                  echo "hermes-backend: waits for an IPv4 address on '$_iface'..." >&2
+                  echo "vael-backend: waits for an IPv4 address on '$_iface'..." >&2
                 fi
                 ${pkgs.coreutils}/bin/sleep 2
                 _waited=$(( _waited + 2 ))
@@ -1035,7 +1035,7 @@ let
             ''
         }
 
-        echo "hermes-backend: binds to $_target:${toString cfg.backend.port} (from $_how)" >&2
+        echo "vael-backend: binds to $_target:${toString cfg.backend.port} (from $_how)" >&2
 
         exec ${lib.escapeShellArgs (backendCommand cfg "@HOST@")}
       ''
@@ -1054,24 +1054,24 @@ let
   backendDescription =
     cfg:
     if cfg.backend.mode == "dashboard" then
-      "Hermes Agent web dashboard and desktop backend"
+      "VAEL Agent web dashboard and desktop backend"
     else
-      "Hermes Agent backend for Hermes Desktop";
+      "VAEL Agent backend for VAEL Desktop";
 
-  # The environment that each Hermes process needs, from either module.
+  # The environment that each VAEL process needs, from either module.
   #
-  # managedSystem gives the value of HERMES_MANAGED. The CLI reads that
+  # managedSystem gives the value of VAEL_MANAGED. The CLI reads that
   # variable to refuse a configuration change that it cannot keep, and to
   # name the correct rebuild command. The answer is different on each module,
   # so each module gives its own value.
   processEnvironment =
     {
-      hermesHome,
+      vaelHome,
       managedSystem ? "true",
     }:
     {
-      HERMES_HOME = hermesHome;
-      HERMES_MANAGED = managedSystem;
+      VAEL_HOME = vaelHome;
+      VAEL_MANAGED = managedSystem;
     };
 
   processPath =
@@ -1116,9 +1116,9 @@ let
 
             ${optionPath}.workingDirectory = "/path/you/want";
 
-          To give Hermes an identity and a memory, use
-          ${optionPath}.hermesHomeFiles instead. Those files go to
-          HERMES_HOME. Hermes reads SOUL.md and memories/ only from there.
+          To give VAEL an identity and a memory, use
+          ${optionPath}.vaelHomeFiles instead. Those files go to
+          VAEL_HOME. VAEL reads SOUL.md and memories/ only from there.
         '';
       }
     ];
@@ -1152,7 +1152,7 @@ let
       }
     ];
 
-  # The subdirectories of HERMES_HOME that both modules make.
+  # The subdirectories of VAEL_HOME that both modules make.
   stateSubdirs = [
     "cron"
     "sessions"

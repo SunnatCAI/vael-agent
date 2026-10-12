@@ -1,1 +1,1 @@
-# Hermes plugins package
+# VAEL plugins package

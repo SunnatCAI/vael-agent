@@ -16,10 +16,14 @@ import re
 # new calls and written to disk. Non-prose delimiters, an explicit "not original content"
 # disclaimer, and per-instance counts keep a copied marker visibly wrong; the counts also make a
 # verbatim copy stale, which is why the marker must never be re-applied.
-_COMPRESSION_MARKER_PREFIX = "⟪HERMES-CONTEXT-COMPRESSION:"
+_COMPRESSION_MARKER_PREFIX = "⟪VAEL-CONTEXT-COMPRESSION:"
+# Sessions migrated by hand from a Hermes home replay markers minted under the old prefix. The
+# dispatch guard keeps recognising it — a copied one would write truncated content — but it is
+# never minted again.
+_LEGACY_COMPRESSION_MARKER_PREFIX = "⟪HERMES-CONTEXT-COMPRESSION:"
 _COMPRESSION_MARKER_TEMPLATE = (
     _COMPRESSION_MARKER_PREFIX
-    + " {omitted:,} of {total:,} chars omitted here by Hermes's context compressor. "
+    + " {omitted:,} of {total:,} chars omitted here by VAEL's context compressor. "
     "This is NOT part of the original tool call and must never be reproduced in new "
     "output — always write full, untruncated content.⟫"
 )
@@ -40,7 +44,8 @@ _COMPRESSION_MARKER_RE = re.compile(
 # count is present. Requiring that rendered count keeps the bare prefix/template
 # editable in source and documentation.
 _COMPRESSION_MARKER_ARTIFACT_RE = re.compile(
-    re.escape(_COMPRESSION_MARKER_PREFIX) + r"\s+" + _MARKER_COUNT_RE
+    "(?:" + re.escape(_COMPRESSION_MARKER_PREFIX) + "|" + re.escape(_LEGACY_COMPRESSION_MARKER_PREFIX) + ")"
+    + r"\s+" + _MARKER_COUNT_RE
 )
 
 # #121548 — every OTHER model-visible elision (turn text, summaries, skill bodies, diagnostics)

@@ -29,7 +29,7 @@ import {
   setVisibleModels
 } from '@/store/model-visibility'
 import { $defaultReasoningEffort } from '@/store/session'
-import type { LocalRuntimeJob } from '@/types/hermes'
+import type { LocalRuntimeJob } from '@/types/vael'
 
 import { ModelCatalogMenu, ModelMenuCloseContext, type ModelMenuController } from './model-catalog-menu'
 import { MODEL_MENU_ROW_AREA, type ModelMenuRowContribution } from './model-menu-row-decorations'
@@ -44,7 +44,7 @@ beforeAll(() => {
 const getGlobalModelOptions = vi.fn()
 const closeMenu = vi.fn()
 
-vi.mock('@/hermes', () => ({
+vi.mock('@/vael', () => ({
   getGlobalModelOptions: (...args: unknown[]) => getGlobalModelOptions(...args),
   // The menu kicks the app-level job poller on mount; echo the store so a
   // poll can't wipe the jobs a test staged (the real backend is authority,

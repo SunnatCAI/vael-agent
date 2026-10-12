@@ -71,14 +71,14 @@ class TestCacheRoundTrip:
 
 class TestCacheFileLocation:
     @pytest.mark.platforms("linux")
-    def test_cache_lives_under_hermes_home_cache_dir_with_0600(
+    def test_cache_lives_under_vael_home_cache_dir_with_0600(
         self, monkeypatch, tmp_path
     ):
-        # Real path (no _cache_path monkeypatch): HERMES_HOME/cache/…, 0o600,
+        # Real path (no _cache_path monkeypatch): VAEL_HOME/cache/…, 0o600,
         # matching the discovery-cache precedent in tools/registry.py.
-        import hermes_constants
+        import vael_constants
 
-        monkeypatch.setattr(hermes_constants, "get_hermes_home", lambda: tmp_path)
+        monkeypatch.setattr(vael_constants, "get_vael_home", lambda: tmp_path)
         path = msc._cache_path()
         assert path == tmp_path / "cache" / "mcp_schema_cache.json"
         msc.write_cache_entry("srv", "fp", tools=[], utility_tools=[])

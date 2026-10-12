@@ -1,9 +1,9 @@
 import { cleanup, render } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import type { SessionInfo } from '@/hermes'
 import type { SidebarListRow } from '@/lib/session-date-groups'
 import { $sessionListDensity } from '@/store/session-list-density'
+import type { SessionInfo } from '@/vael'
 
 import { SESSION_CARD_ROW_ESTIMATE_PX, sessionRowEstimate } from './session-row-details'
 import { VirtualSessionList } from './virtual-session-list'

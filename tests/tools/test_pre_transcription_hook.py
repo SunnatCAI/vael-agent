@@ -31,11 +31,11 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-import hermes_cli.plugins as plugins_mod
+import vael_cli.plugins as plugins_mod
 from tools import transcription_tools
 
 
-PROMPT = "Hermes, Teknium, Nous Research, kanban"
+PROMPT = "VAEL, Teknium, Nous Research, kanban"
 
 
 # ---------------------------------------------------------------------------
@@ -58,8 +58,8 @@ def _fake_hooks(monkeypatch, results):
         captured["kwargs"] = kw
         return list(results)
 
-    monkeypatch.setattr("hermes_cli.plugins.has_hook", lambda name: True)
-    monkeypatch.setattr("hermes_cli.plugins.invoke_hook", _invoke)
+    monkeypatch.setattr("vael_cli.plugins.has_hook", lambda name: True)
+    monkeypatch.setattr("vael_cli.plugins.invoke_hook", _invoke)
     return captured
 
 
@@ -70,8 +70,8 @@ def _no_hooks(monkeypatch):
             "invoke_hook must not be called when has_hook() is False"
         )
 
-    monkeypatch.setattr("hermes_cli.plugins.has_hook", lambda name: False)
-    monkeypatch.setattr("hermes_cli.plugins.invoke_hook", _boom)
+    monkeypatch.setattr("vael_cli.plugins.has_hook", lambda name: False)
+    monkeypatch.setattr("vael_cli.plugins.invoke_hook", _boom)
 
 
 def _dispatch_ctx(stt_config, provider):
@@ -406,7 +406,7 @@ class TestUnsupportedBackends:
             lambda: {"api_key": "xk-test", "base_url": None},
         )
         monkeypatch.setattr(
-            "tools.xai_http.hermes_xai_user_agent", lambda: "test-ua",
+            "tools.xai_http.vael_xai_user_agent", lambda: "test-ua",
         )
 
         response = MagicMock(status_code=200)
@@ -527,10 +527,10 @@ def test_real_fixture_plugins_thread_prompt_in_registration_order(
     import os
     from pathlib import Path
 
-    import hermes_yaml as yaml
+    import vael_yaml as yaml
 
-    hermes_home = Path(os.environ["HERMES_HOME"])
-    plugin_dir = hermes_home / "plugins" / "stt_vocab"
+    vael_home = Path(os.environ["VAEL_HOME"])
+    plugin_dir = vael_home / "plugins" / "stt_vocab"
     plugin_dir.mkdir(parents=True)
     (plugin_dir / "plugin.yaml").write_text("name: stt_vocab\n", encoding="utf-8")
     (plugin_dir / "__init__.py").write_text(
@@ -541,7 +541,7 @@ def test_real_fixture_plugins_thread_prompt_in_registration_order(
         f'lambda **kw: {{"prompt": "{PROMPT}"}})\n',
         encoding="utf-8",
     )
-    cfg_path = hermes_home / "config.yaml"
+    cfg_path = vael_home / "config.yaml"
     cfg_path.write_text(
         yaml.safe_dump({"plugins": {"enabled": ["stt_vocab"]}}),
         encoding="utf-8",

@@ -6,12 +6,12 @@ import { ROUTES_AREA, SIDEBAR_NAV_AREA, type SidebarNavContribution } from '@/ap
 import { createPluginContext } from '@/contrib/plugin'
 import { useContributions } from '@/contrib/react/use-contributions'
 import { registry } from '@/contrib/registry'
-import type { HermesConfigRecord } from '@/hermes'
 import { I18nProvider, useI18n } from '@/i18n'
 import type { I18nContextValue } from '@/i18n'
 import { setRuntimeI18nLocale } from '@/i18n/runtime'
 import { contributedKeybindHandler, keybindAction, KEYBINDS_AREA } from '@/lib/keybinds/actions'
 import { bindingsFor, resetBinding, setBinding } from '@/store/keybinds'
+import type { VaelConfigRecord } from '@/vael'
 
 import { KANBAN_LOCALES } from '../plugins/kanban/i18n'
 import plugin from '../plugins/kanban/plugin'
@@ -61,9 +61,9 @@ it('relabels Kanban after delayed config load and locale switches without replac
   const route = registry.getArea(ROUTES_AREA).find(c => c.id === 'kanban:page')
   const handler = contributedKeybindHandler('kanban.newTask')
   setBinding('kanban.newTask', ['mod+alt+k'])
-  let resolveConfig!: (config: HermesConfigRecord) => void
+  let resolveConfig!: (config: VaelConfigRecord) => void
 
-  const config = new Promise<HermesConfigRecord>(resolve => {
+  const config = new Promise<VaelConfigRecord>(resolve => {
     resolveConfig = resolve
   })
 

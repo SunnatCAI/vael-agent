@@ -1,4 +1,4 @@
-import type { OnboardingEnsureSetupProfileResult } from '@hermes/shared'
+import type { OnboardingEnsureSetupProfileResult } from '@vael/shared'
 import { useCallback } from 'react'
 
 import type { useSessionActions } from '@/app/session/hooks/use-session-actions'

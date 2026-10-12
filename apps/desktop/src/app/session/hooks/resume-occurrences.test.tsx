@@ -1,10 +1,9 @@
-import type { GatewayEvent } from '@hermes/shared'
 import { QueryClient } from '@tanstack/react-query'
 import { act, cleanup, renderHook } from '@testing-library/react'
+import type { GatewayEvent } from '@vael/shared'
 import { useRef } from 'react'
 import { afterEach, beforeEach, expect, it, vi } from 'vitest'
 
-import { getLatestSessionMessages } from '@/hermes'
 import { chatMessageText, toChatMessages } from '@/lib/chat-messages'
 import { resetInFlightTurnJournalStateForTests } from '@/lib/inflight-turn-journal'
 import { $activeGatewayProfile } from '@/store/profile'
@@ -19,13 +18,14 @@ import {
   setSessions
 } from '@/store/session'
 import { clearAllSessionStates } from '@/store/session-states'
-import type { SessionMessage, SessionResumeResult } from '@/types/hermes'
+import type { SessionMessage, SessionResumeResult } from '@/types/vael'
+import { getLatestSessionMessages } from '@/vael'
 
 import { useMessageStream } from './use-message-stream'
 import { useSessionActions } from './use-session-actions'
 import { useSessionStateCache } from './use-session-state-cache'
 
-vi.mock('@/hermes', async original => ({
+vi.mock('@/vael', async original => ({
   ...(await original<Record<string, unknown>>()),
   getLatestSessionMessages: vi.fn()
 }))
@@ -92,7 +92,7 @@ function mount(snapshot: SessionResumeResult) {
       ...cache,
       queryClient,
       hydrateFromStoredSession: noop,
-      refreshHermesConfig: noop,
+      refreshVaelConfig: noop,
       refreshSessions: noop
     })
 

@@ -1,6 +1,6 @@
 import { randomUUID } from 'node:crypto'
 
-import { Box, Text, useInput } from '@hermes/ink'
+import { Box, Text, useInput } from '@vael/ink'
 import { useRef, useState } from 'react'
 
 import type { BillingOverlayState } from '../app/interfaces.js'

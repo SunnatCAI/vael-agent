@@ -1,10 +1,9 @@
-import { JsonRpcGatewayError } from '@hermes/shared'
 import { act, cleanup, render, waitFor } from '@testing-library/react'
+import { JsonRpcGatewayError } from '@vael/shared'
 import type { MutableRefObject } from 'react'
 import { useEffect, useRef } from 'react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import { getLatestSessionMessages, getSession } from '@/hermes'
 import { en } from '@/i18n/en'
 import { textPart, toChatMessages } from '@/lib/chat-messages'
 import { createClientSessionState } from '@/lib/chat-runtime'
@@ -31,7 +30,8 @@ import {
 } from '@/store/session'
 import { dropSessionState, publishSessionState } from '@/store/session-states'
 import { $wakeWord, resetWakeWordState } from '@/store/wake-word'
-import type { SessionInfo } from '@/types/hermes'
+import type { SessionInfo } from '@/types/vael'
+import { getLatestSessionMessages, getSession } from '@/vael'
 
 import { clearSingleFlightSessionResumeState } from './single-flight-resume'
 import { SESSION_COMPRESS_TIMEOUT_MS } from './slash'
@@ -46,12 +46,12 @@ beforeEach(() => {
   clearSingleFlightSessionResumeState()
   // Queue mutations build on the persisted map, not the atom — a queue an
   // earlier test left in storage would otherwise sit ahead of this test's send.
-  window.localStorage.removeItem('hermes.desktop.composerQueue.v1')
+  window.localStorage.removeItem('vael.desktop.composerQueue.v1')
   vi.mocked(getLatestSessionMessages).mockReset()
   vi.mocked(getLatestSessionMessages).mockImplementation(async () => ({ messages: [], session_id: 'session' }))
 })
 
-vi.mock('@/hermes', () => ({
+vi.mock('@/vael', () => ({
   getLatestSessionMessages: vi.fn(async () => ({ messages: [], session_id: 'session' })),
   getProfiles: vi.fn(async () => ({ profiles: [] })),
   getSession: vi.fn(),
@@ -418,7 +418,7 @@ function renderedSeedTexts(seeds: Record<string, unknown>[]): string[] {
 
 // The HUD floats over the app the user is really working in, so the gateway
 // turns this flag into a per-turn hint: read the window underneath and work in
-// it, rather than reaching for Hermes's own browser and panes.
+// it, rather than reaching for VAEL's own browser and panes.
 describe('usePromptActions HUD surface', () => {
   afterEach(() => {
     cleanup()
@@ -2129,7 +2129,7 @@ describe('usePromptActions submit / queue drain semantics', () => {
   })
 
   it('pins prompt.submit to the active registry connection when the remote session row is untagged', async () => {
-    $connection.set({ connectionId: 'hermes01', mode: 'remote' } as never)
+    $connection.set({ connectionId: 'vael01', mode: 'remote' } as never)
     setSessions([sessionInfo({ id: 'stored-remote', profile: 'default' })])
 
     const ambientRequest = vi.fn(async () => ({}) as never)
@@ -3257,7 +3257,7 @@ describe('usePromptActions file attachment sync', () => {
     // not the original /Users/... path (which would dead-end as "outside the
     // allowed workspace").
     $connection.set({ mode: 'remote' } as never)
-    Object.defineProperty(window, 'hermesDesktop', {
+    Object.defineProperty(window, 'vaelDesktop', {
       configurable: true,
       value: { readFileDataUrl: vi.fn(async () => 'data:text/plain;base64,aGVsbG8=') }
     })
@@ -3270,8 +3270,8 @@ describe('usePromptActions file attachment sync', () => {
       if (method === 'file.attach') {
         return {
           attached: true,
-          path: '/remote/work/.hermes/desktop-attachments/report.txt',
-          ref_text: '@file:.hermes/desktop-attachments/report.txt',
+          path: '/remote/work/.vael/desktop-attachments/report.txt',
+          ref_text: '@file:.vael/desktop-attachments/report.txt',
           uploaded: true
         } as never
       }
@@ -3296,7 +3296,7 @@ describe('usePromptActions file attachment sync', () => {
     })
     expect(calls[1]?.params).toEqual({
       session_id: RUNTIME_SESSION_ID,
-      text: '@file:.hermes/desktop-attachments/report.txt\n\nconvert this to epub'
+      text: '@file:.vael/desktop-attachments/report.txt\n\nconvert this to epub'
     })
   })
 
@@ -3304,7 +3304,7 @@ describe('usePromptActions file attachment sync', () => {
     $connection.set({ mode: 'local' } as never)
     $currentCwd.set('/root')
     const readFileDataUrl = vi.fn(async () => 'data:text/plain;base64,aGVsbG8=')
-    Object.defineProperty(window, 'hermesDesktop', {
+    Object.defineProperty(window, 'vaelDesktop', {
       configurable: true,
       value: { readFileDataUrl }
     })
@@ -3323,8 +3323,8 @@ describe('usePromptActions file attachment sync', () => {
       if (method === 'file.attach') {
         return {
           attached: true,
-          path: '/root/.hermes/desktop-attachments/report.txt',
-          ref_text: '@file:.hermes/desktop-attachments/report.txt',
+          path: '/root/.vael/desktop-attachments/report.txt',
+          ref_text: '@file:.vael/desktop-attachments/report.txt',
           uploaded: true
         } as never
       }
@@ -3350,13 +3350,13 @@ describe('usePromptActions file attachment sync', () => {
     })
     expect(calls[1]).toEqual({
       method: 'prompt.submit',
-      params: { session_id: RUNTIME_SESSION_ID, text: '@file:.hermes/desktop-attachments/report.txt\n\nsummarize' }
+      params: { session_id: RUNTIME_SESSION_ID, text: '@file:.vael/desktop-attachments/report.txt\n\nsummarize' }
     })
   })
 
   it('uses image.attach_bytes for a Windows image when the local backend cwd is POSIX', async () => {
     const readFileDataUrl = vi.fn(async () => 'data:image/jpeg;base64,aGVsbG8=')
-    Object.defineProperty(window, 'hermesDesktop', {
+    Object.defineProperty(window, 'vaelDesktop', {
       configurable: true,
       value: { readFileDataUrl }
     })
@@ -3401,7 +3401,7 @@ describe('usePromptActions file attachment sync', () => {
     const hostPath = 'C:\\Users\\alice\\Pictures\\photo.jpg'
     const thumbnailUrl = 'data:image/jpeg;base64,dGh1bWJuYWls'
 
-    Object.defineProperty(window, 'hermesDesktop', {
+    Object.defineProperty(window, 'vaelDesktop', {
       configurable: true,
       value: { readFileDataUrl: vi.fn(async () => 'data:image/jpeg;base64,aGVsbG8=') }
     })
@@ -3470,7 +3470,7 @@ describe('usePromptActions file attachment sync', () => {
       resolveAttach = resolve
     })
 
-    Object.defineProperty(window, 'hermesDesktop', {
+    Object.defineProperty(window, 'vaelDesktop', {
       configurable: true,
       value: { readFileDataUrl: vi.fn(async () => 'data:image/jpeg;base64,aGVsbG8=') }
     })
@@ -3562,7 +3562,7 @@ describe('usePromptActions file attachment sync', () => {
     $connection.set({ mode: 'remote' } as never)
     const original = fileAttachment()
 
-    Object.defineProperty(window, 'hermesDesktop', {
+    Object.defineProperty(window, 'vaelDesktop', {
       configurable: true,
       value: { readFileDataUrl: vi.fn(async () => 'data:text/plain;base64,aGVsbG8=') }
     })
@@ -3571,7 +3571,7 @@ describe('usePromptActions file attachment sync', () => {
       if (method === 'file.attach') {
         return {
           attached: true,
-          ref_text: '@file:.hermes/desktop-attachments/report.txt',
+          ref_text: '@file:.vael/desktop-attachments/report.txt',
           uploaded: true
         } as never
       }
@@ -3597,7 +3597,7 @@ describe('usePromptActions file attachment sync', () => {
     $connection.set({ mode: 'local' } as never)
     $terminalBackend.set('docker')
     const readFileDataUrl = vi.fn(async () => 'data:text/plain;base64,aGVsbG8=')
-    Object.defineProperty(window, 'hermesDesktop', {
+    Object.defineProperty(window, 'vaelDesktop', {
       configurable: true,
       value: { readFileDataUrl }
     })
@@ -3610,8 +3610,8 @@ describe('usePromptActions file attachment sync', () => {
       if (method === 'file.attach') {
         return {
           attached: true,
-          path: '/root/.hermes/attachments/report.txt',
-          ref_text: '@file:/root/.hermes/attachments/report.txt',
+          path: '/root/.vael/attachments/report.txt',
+          ref_text: '@file:/root/.vael/attachments/report.txt',
           uploaded: true
         } as never
       }
@@ -3652,7 +3652,7 @@ describe('usePromptActions file attachment sync', () => {
     // path-less inline ref. See partitionDroppedFiles in use-composer-actions.
     $connection.set({ mode: 'remote' } as never)
     const readFileDataUrl = vi.fn(async () => 'data:application/pdf;base64,JVBERi0=')
-    Object.defineProperty(window, 'hermesDesktop', {
+    Object.defineProperty(window, 'vaelDesktop', {
       configurable: true,
       value: { readFileDataUrl }
     })
@@ -3691,7 +3691,7 @@ describe('usePromptActions file attachment sync', () => {
     $connection.set({ mode: 'local' } as never)
     $currentCwd.set('C:\\Users\\alice\\project')
     const readFileDataUrl = vi.fn(async () => 'data:text/plain;base64,c2hvdWxkLW5vdC1iZS1yZWFk')
-    Object.defineProperty(window, 'hermesDesktop', {
+    Object.defineProperty(window, 'vaelDesktop', {
       configurable: true,
       value: { readFileDataUrl }
     })
@@ -3749,10 +3749,10 @@ describe('usePromptActions eager-upload races', () => {
   it('joins an in-flight eager upload at submit instead of staging the file twice', async () => {
     // Drop-then-immediately-Enter: the drop kicks off an eager file.attach; if
     // submit doesn't join it, both calls stage the file and leave a duplicate
-    // under .hermes/desktop-attachments/. Submit must await the in-flight upload
+    // under .vael/desktop-attachments/. Submit must await the in-flight upload
     // and reuse its gateway-side ref.
     $connection.set({ mode: 'remote' } as never)
-    Object.defineProperty(window, 'hermesDesktop', {
+    Object.defineProperty(window, 'vaelDesktop', {
       configurable: true,
       value: { readFileDataUrl: vi.fn(async () => 'data:application/pdf;base64,JVBERi0=') }
     })
@@ -3769,7 +3769,7 @@ describe('usePromptActions eager-upload races', () => {
           releaseAttach = resolve
         })
 
-        return { attached: true, ref_text: '@file:.hermes/desktop-attachments/doc.pdf', uploaded: true } as never
+        return { attached: true, ref_text: '@file:.vael/desktop-attachments/doc.pdf', uploaded: true } as never
       }
 
       return {} as never
@@ -5110,7 +5110,7 @@ describe('usePromptActions new-chat first-send delivery (#63078)', () => {
     let releaseAttach: () => void = () => {}
 
     $connection.set({ mode: 'remote' } as never)
-    Object.defineProperty(window, 'hermesDesktop', {
+    Object.defineProperty(window, 'vaelDesktop', {
       configurable: true,
       value: { readFileDataUrl: vi.fn(async () => 'data:text/plain;base64,aGVsbG8=') }
     })
@@ -5197,7 +5197,7 @@ describe('usePromptActions new-chat first-send delivery (#63078)', () => {
     let releaseFileAttach: () => void = () => {}
 
     $connection.set({ mode: 'remote' } as never)
-    Object.defineProperty(window, 'hermesDesktop', {
+    Object.defineProperty(window, 'vaelDesktop', {
       configurable: true,
       value: { readFileDataUrl: vi.fn(async () => 'data:application/pdf;base64,JVBERi0=') }
     })
@@ -5223,7 +5223,7 @@ describe('usePromptActions new-chat first-send delivery (#63078)', () => {
 
         return {
           attached: true,
-          ref_text: '@file:.hermes/desktop-attachments/test.pdf',
+          ref_text: '@file:.vael/desktop-attachments/test.pdf',
           uploaded: true
         } as never
       }
@@ -5773,7 +5773,7 @@ describe('usePromptActions eager attachment upload (drop-time)', () => {
     // waiting for submit.
     $connection.set({ mode: 'remote' } as never)
     const readFileDataUrl = vi.fn(async () => 'data:application/pdf;base64,JVBERi0=')
-    Object.defineProperty(window, 'hermesDesktop', { configurable: true, value: { readFileDataUrl } })
+    Object.defineProperty(window, 'vaelDesktop', { configurable: true, value: { readFileDataUrl } })
 
     const calls: string[] = []
 
@@ -5783,7 +5783,7 @@ describe('usePromptActions eager attachment upload (drop-time)', () => {
       if (method === 'file.attach') {
         return {
           attached: true,
-          ref_text: '@file:.hermes/desktop-attachments/DEVIS_signed.pdf',
+          ref_text: '@file:.vael/desktop-attachments/DEVIS_signed.pdf',
           uploaded: true
         } as never
       }
@@ -5803,14 +5803,14 @@ describe('usePromptActions eager attachment upload (drop-time)', () => {
     await waitFor(() => expect($composerAttachments.get()[0]?.attachedSessionId).toBe(RUNTIME_SESSION_ID))
 
     const chip = $composerAttachments.get()[0]!
-    expect(chip.refText).toBe('@file:.hermes/desktop-attachments/DEVIS_signed.pdf')
+    expect(chip.refText).toBe('@file:.vael/desktop-attachments/DEVIS_signed.pdf')
     expect(chip.uploadState).toBeUndefined()
     expect(readFileDataUrl).toHaveBeenCalledWith('/Users/mahmoud/Downloads/DEVIS_signed.pdf')
   })
 
   it('flags the chip uploadState=error when the eager upload fails, keeping the path so submit can retry', async () => {
     $connection.set({ mode: 'remote' } as never)
-    Object.defineProperty(window, 'hermesDesktop', {
+    Object.defineProperty(window, 'vaelDesktop', {
       configurable: true,
       value: { readFileDataUrl: vi.fn(async () => 'data:application/pdf;base64,JVBERi0=') }
     })

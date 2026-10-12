@@ -21,7 +21,7 @@ _HISTORY = [
 
 @pytest.fixture
 def make_agent(tmp_path, monkeypatch):
-    monkeypatch.setenv("HERMES_HOME", str(tmp_path))
+    monkeypatch.setenv("VAEL_HOME", str(tmp_path))
 
     def _make(base_url, provider):
         agent = AIAgent(api_key="k", base_url=base_url, provider=provider, model="m", quiet_mode=True,

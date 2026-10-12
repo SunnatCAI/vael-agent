@@ -1,6 +1,6 @@
-import type { StaleAuxAssignment } from '@/hermes'
-import { getApiRequestProfile, profileScopeKey } from '@/hermes'
 import { readKey, writeKey } from '@/lib/storage'
+import type { StaleAuxAssignment } from '@/vael'
+import { getApiRequestProfile, profileScopeKey } from '@/vael'
 
 // Acknowledged stale-aux banner. The warning exists to catch a forgotten pin
 // silently billing a dead provider; a user with a deliberate cross-provider
@@ -11,7 +11,7 @@ import { readKey, writeKey } from '@/lib/storage'
 // — so any edit, a main switch, or a repointed base_url changes the
 // fingerprint and re-arms the banner; the silent-credit-burn protection is
 // never lost.
-const DISMISSED_STALE_AUX_KEY_BASE = 'hermes.desktop.staleAuxDismissal.v1'
+const DISMISSED_STALE_AUX_KEY_BASE = 'vael.desktop.staleAuxDismissal.v1'
 
 function dismissalKey(profile: null | string | undefined): string {
   const scope = profile ?? getApiRequestProfile() ?? undefined

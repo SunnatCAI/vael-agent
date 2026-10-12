@@ -7,12 +7,12 @@ import {
   type RunningProcess
 } from './package-process-reap'
 
-const ROOT = 'C:\\Program Files\\WindowsApps\\NousResearch.HermesBundled_0.21.20.25635_arm64__e60prshbsznhj'
+const ROOT = 'C:\\Program Files\\WindowsApps\\NousResearch.VaelBundled_0.21.20.25635_arm64__e60prshbsznhj'
 
 const GPG_AGENT: string = `${ROOT}\\app\\tools\\git\\gpg-agent.exe`
 const PAYLOAD_PYTHON: string = `${ROOT}\\app\\tools\\python\\python.exe`
-const MAIN_EXE: string = `${ROOT}\\app\\Hermes.exe`
-const TOOLS_ROOT: string = 'C:\\Hermes\\tools'
+const MAIN_EXE: string = `${ROOT}\\app\\VAEL.exe`
+const TOOLS_ROOT: string = 'C:\\VAEL\\tools'
 const STORE_NODE: string = `${TOOLS_ROOT}\\node\\node.exe`
 const DAEMON_CMDLINE: string = 'gpg-agent --daemon'
 
@@ -37,7 +37,7 @@ describe('isUnderInstallRoot', () => {
     // A bare startsWith would kill another package's processes here. The
     // separator check is the whole guard.
     const sibling =
-      'C:\\Program Files\\WindowsApps\\NousResearch.HermesBundled_0.21.20.256350_arm64__e60prshbsznhj\\app\\Hermes.exe'
+      'C:\\Program Files\\WindowsApps\\NousResearch.VaelBundled_0.21.20.256350_arm64__e60prshbsznhj\\app\\VAEL.exe'
 
     expect(isUnderInstallRoot(sibling, ROOT)).toBe(false)
   })

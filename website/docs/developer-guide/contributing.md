@@ -1,12 +1,12 @@
 ---
 sidebar_position: 4
 title: "Contributing"
-description: "How to contribute to Hermes Agent — dev setup, code style, PR process"
+description: "How to contribute to VAEL Agent — dev setup, code style, PR process"
 ---
 
 # Contributing
 
-Thank you for contributing to Hermes Agent! This guide covers setting up your dev environment, understanding the codebase, and getting your PR merged.
+Thank you for contributing to VAEL Agent! This guide covers setting up your dev environment, understanding the codebase, and getting your PR merged.
 
 ## Contribution Priorities
 
@@ -22,8 +22,8 @@ We value contributions in this order:
 
 ## Common contribution paths
 
-- Building a custom/local tool without modifying Hermes core? Start with [Build a Hermes Plugin](../developer-guide/plugins/index.md)
-- Building a new built-in core tool for Hermes itself? Start with [Adding Tools](./adding-tools.md)
+- Building a custom/local tool without modifying VAEL core? Start with [Build a VAEL Plugin](../developer-guide/plugins/index.md)
+- Building a new built-in core tool for VAEL itself? Start with [Adding Tools](./adding-tools.md)
 - Building a new skill? Start with [Creating Skills](./creating-skills.md)
 - Building a new inference provider? Start with [Adding Providers](./adding-providers.md)
 
@@ -50,18 +50,18 @@ Bash:
 
 ```bash
 source ./activate
-hermes --version
+vael --version
 ```
 
 PowerShell:
 
 ```powershell
 . .\activate.ps1
-hermes --version
+vael --version
 ```
 
-Run `hermes` for this checkout. Activation defines it as a function for this
-worktree, so it hides a global `hermes` alias and refuses outside the worktree.
+Run `vael` for this checkout. Activation defines it as a function for this
+worktree, so it hides a global `vael` alias and refuses outside the worktree.
 PM activation syncs tools and Python dependencies before adding them to the shell. It does
 not install JS workspaces or rewrite launchers and shell configuration. `deactivate` restores the prior shell environment and removes the function.
 
@@ -69,7 +69,7 @@ not install JS workspaces or rewrite launchers and shell configuration. `deactiv
 
 Use the [PM developer workflow](../reference/package-management.md#developer-workflow) to prepare Python 3.14 first.
 Run these commands from that checkout with its prepared Python. Keep the same
-development `HERMES_HOME`. PM must be able to start before it can build another
+development `VAEL_HOME`. PM must be able to start before it can build another
 environment. On Windows, initialize the native C++ build environment for your
 architecture before building source dependencies.
 
@@ -90,18 +90,18 @@ that disposable environment first. PM does not delete an existing destination.
 Do not run raw pip or uv commands to change a PM-built environment.
 
 To keep the test environment outside the checkout, replace `.venv` with a fresh absolute
-path. Set `HERMES_PYTHON` to that environment's interpreter:
+path. Set `VAEL_PYTHON` to that environment's interpreter:
 
-- POSIX: `export HERMES_PYTHON="/absolute/path/to/hermes-dev/bin/python"`
-- PowerShell: `$env:HERMES_PYTHON = 'C:\absolute\path\to\hermes-dev\Scripts\python.exe'`
+- POSIX: `export VAEL_PYTHON="/absolute/path/to/vael-dev/bin/python"`
+- PowerShell: `$env:VAEL_PYTHON = 'C:\absolute\path\to\vael-dev\Scripts\python.exe'`
 
 The canonical runner discovers repository `.venv` automatically. It clears
 `PYTHONPATH`, so pytest must be installed in the interpreter's own environment.
 This test environment does not replace PM's application selection or tool
 store. Do not point a bundled app at it or install into an MSIX payload.
 
-For an isolated development instance, select a disposable `HERMES_HOME` before
-starting the source command. Use `hermes setup` to configure it rather
+For an isolated development instance, select a disposable `VAEL_HOME` before
+starting the source command. Use `vael setup` to configure it rather
 than copying production credentials into the checkout.
 
 ### JavaScript workspaces and website
@@ -119,7 +119,7 @@ Native desktop dependencies can also require the platform build toolchain.
 
 Logos and icons are generated from `assets/nous-girl-*.svg` and
 `assets/backgrounds/`. `node scripts/generate-icons.mjs` renders them with the
-Hermes runtime Python (`HERMES_PYTHON`, else `python` on PATH): Pillow and
+VAEL runtime Python (`VAEL_PYTHON`, else `python` on PATH): Pillow and
 resvg-py are core dependencies. Do not commit generated PNG/ICO/ICNS outputs.
 
 ### Run tests
@@ -132,13 +132,13 @@ scripts/run_tests.sh tests/agent/ -v
 ```
 
 On Windows, run the script through Bash. When no local `.venv` or `venv`
-contains pytest, the runner accepts the explicit `HERMES_PYTHON` above. It
-clears credentials, isolates `HERMES_HOME`, and runs each test file in a separate
+contains pytest, the runner accepts the explicit `VAEL_PYTHON` above. It
+clears credentials, isolates `VAEL_HOME`, and runs each test file in a separate
 subprocess through `scripts/run_tests_parallel.py`. It does not use xdist.
-When `tests/conftest.py` redirects a production `HERMES_HOME` to a temporary
-session home, it sets the internal `HERMES_TEST_SANDBOX_HOME` marker. This lets
+When `tests/conftest.py` redirects a production `VAEL_HOME` to a temporary
+session home, it sets the internal `VAEL_TEST_SANDBOX_HOME` marker. This lets
 re-imported test fixtures recognize their own sandbox instead of flagging it as
-real-home I/O. Do not set this marker yourself; set `HERMES_HOME` for a
+real-home I/O. Do not set this marker yourself; set `VAEL_HOME` for a
 disposable development home and let the test runner isolate it.
 
 Run the relevant JS workspace checks for JS changes. Native install/update
@@ -151,7 +151,7 @@ See [Package management](../reference/package-management.md) for PM commands and
 - **Comments**: Only when explaining non-obvious intent, trade-offs, or API quirks
 - **Error handling**: Catch specific exceptions. Use `logger.warning()`/`logger.error()` with `exc_info=True` for unexpected errors
 - **Cross-platform**: Never assume Unix (see below)
-- **Profile-safe paths**: Never hardcode `~/.hermes` — use `get_hermes_home()` from `hermes_constants` for code paths and `display_hermes_home()` for user-facing messages. See [AGENTS.md](https://github.com/NousResearch/hermes-agent/blob/main/AGENTS.md#profiles-multi-instance-support) for full rules.
+- **Profile-safe paths**: Never hardcode `~/.vael` — use `get_vael_home()` from `vael_constants` for code paths and `display_vael_home()` for user-facing messages. See [AGENTS.md](https://github.com/NousResearch/hermes-agent/blob/main/AGENTS.md#profiles-multi-instance-support) for full rules.
 
 ## Cross-Platform Compatibility
 
@@ -194,7 +194,7 @@ Use `pathlib.Path` instead of string concatenation with `/`.
 
 ## Security Considerations
 
-Hermes has terminal access. Security matters.
+VAEL has terminal access. Security matters.
 
 ### Existing Protections
 
@@ -231,7 +231,7 @@ refactor/description   # Code restructuring
 ### Before Submitting
 
 1. **Run tests**: `scripts/run_tests.sh` for CI-parity. Use direct `python -m pytest ...` only when the wrapper is unavailable or you are intentionally debugging outside the wrapper.
-2. **Test manually**: Run `hermes` and exercise the code path you changed
+2. **Test manually**: Run `vael` and exercise the code path you changed
 3. **Check cross-platform impact**: Consider macOS, Linux, WSL2, and native Windows. If you touch file I/O, process management, terminal handling, subprocesses, or signals, run `scripts/check-windows-footguns.py`.
 4. **Keep PRs focused**: One logical change per PR
 
@@ -273,7 +273,7 @@ fix(security): prevent shell injection in sudo password piping
 
 ### Repo-local review checklists: `.agents/checks/*.md`
 
-Projects built on (or reviewed by) Hermes can keep reviewer checklists inside the repository under `.agents/checks/`. Each file is a focused, plain-markdown checklist that an agent loads before reviewing a change touching the matching area:
+Projects built on (or reviewed by) VAEL can keep reviewer checklists inside the repository under `.agents/checks/`. Each file is a focused, plain-markdown checklist that an agent loads before reviewing a change touching the matching area:
 
 ```
 .agents/
@@ -290,12 +290,12 @@ Conventions that make these work well:
 - **State the trigger at the top** — which paths or change types the checklist applies to — so an agent (or human) can skip irrelevant ones cheaply.
 - Keep them in version control next to the code they guard: they evolve with the codebase, and a PR that changes the rules changes the checklist in the same diff.
 
-When you ask Hermes to review a PR in a repository that has `.agents/checks/`, tell it (or teach it via a skill) to read the relevant checklists first and report against them. This gives review agents the project-specific bar that generic review prompts miss.
+When you ask VAEL to review a PR in a repository that has `.agents/checks/`, tell it (or teach it via a skill) to read the relevant checklists first and report against them. This gives review agents the project-specific bar that generic review prompts miss.
 
 ## Reporting Issues
 
 - Use [GitHub Issues](https://github.com/NousResearch/hermes-agent/issues)
-- Include: OS, Python version, Hermes version (`hermes --version`), full error traceback
+- Include: OS, Python version, VAEL version (`vael --version`), full error traceback
 - Include steps to reproduce
 - Check existing issues before creating duplicates
 - For security vulnerabilities, please report privately

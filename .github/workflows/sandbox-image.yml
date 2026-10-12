@@ -3,7 +3,7 @@ name: Sandbox desktop image
 # nousresearch/hermes-sandbox:desktop is the terminal-backend sandbox base
 # (nikolaik/python-nodejs) plus a display stack; Bot Screen, computer_use and
 # the bot's browser run inside it when terminal.backend is docker/ssh/etc.
-# It contains NO Hermes code, so it does not need to track main: it changes
+# It contains NO VAEL code, so it does not need to track main: it changes
 # when its Dockerfile changes, not when the agent changes.
 #
 # Triggers: a PR that edits the Dockerfile/smoke (build + smoke, no push),

@@ -2,15 +2,15 @@ import assert from 'node:assert/strict'
 
 import { test } from 'vitest'
 
-import { hasWindowsPathPrefix, isExternalVenvHolder, isHermesOwnedVenvDaemon } from './venv-holder-select'
+import { hasWindowsPathPrefix, isExternalVenvHolder, isVaelOwnedVenvDaemon } from './venv-holder-select'
 
-const SCRIPTS = 'C:\\Hermes\\venv\\Scripts'
+const SCRIPTS = 'C:\\VAEL\\venv\\Scripts'
 
 test('matches the hindsight daemon shim (exe under venv Scripts + hindsight cmdline)', () => {
   assert.equal(
-    isHermesOwnedVenvDaemon(
-      'C:\\Hermes\\venv\\Scripts\\pythonw.exe',
-      'C:\\Hermes\\venv\\Scripts\\pythonw.exe -m hindsight_api.main --daemon --idle-timeout 300 --port 9177',
+    isVaelOwnedVenvDaemon(
+      'C:\\VAEL\\venv\\Scripts\\pythonw.exe',
+      'C:\\VAEL\\venv\\Scripts\\pythonw.exe -m hindsight_api.main --daemon --idle-timeout 300 --port 9177',
       SCRIPTS
     ),
     true
@@ -19,95 +19,95 @@ test('matches the hindsight daemon shim (exe under venv Scripts + hindsight cmdl
 
 test('Windows path prefix match is ordinal case-insensitive', () => {
   assert.equal(
-    isHermesOwnedVenvDaemon(
-      'c:\\hermes\\venv\\scripts\\python.exe',
+    isVaelOwnedVenvDaemon(
+      'c:\\vael\\venv\\scripts\\python.exe',
       'python.exe -m hindsight_api.main --daemon',
-      'C:\\Hermes\\venv\\Scripts'
+      'C:\\VAEL\\venv\\Scripts'
     ),
     true
   )
 })
 
 test('excludes external venv holders that are not the hindsight daemon', () => {
-  // a user terminal running the hermes CLI from the venv — must NOT be killed
-  assert.equal(isHermesOwnedVenvDaemon('C:\\Hermes\\venv\\Scripts\\hermes.exe', 'hermes chat -q "hi"', SCRIPTS), false)
+  // a user terminal running the vael CLI from the venv — must NOT be killed
+  assert.equal(isVaelOwnedVenvDaemon('C:\\VAEL\\venv\\Scripts\\vael.exe', 'vael chat -q "hi"', SCRIPTS), false)
   // an unrelated python script using the venv interpreter
   assert.equal(
-    isHermesOwnedVenvDaemon('C:\\Hermes\\venv\\Scripts\\python.exe', 'python C:\\tools\\import.py', SCRIPTS),
+    isVaelOwnedVenvDaemon('C:\\VAEL\\venv\\Scripts\\python.exe', 'python C:\\tools\\import.py', SCRIPTS),
     false
   )
 })
 
 test('excludes exes outside the venv even when the cmdline mentions hindsight', () => {
   assert.equal(
-    isHermesOwnedVenvDaemon('C:\\Other\\pythonw.exe', 'pythonw -m hindsight_api.main --daemon', SCRIPTS),
+    isVaelOwnedVenvDaemon('C:\\Other\\pythonw.exe', 'pythonw -m hindsight_api.main --daemon', SCRIPTS),
     false
   )
 })
 
 test('prefix boundary: sibling dirs (ScriptsX) do not match', () => {
-  assert.equal(hasWindowsPathPrefix('C:\\Hermes\\venv\\ScriptsX\\python.exe', SCRIPTS), false)
-  assert.equal(hasWindowsPathPrefix('C:\\Hermes\\venv\\Scripts\\python.exe', SCRIPTS), true)
+  assert.equal(hasWindowsPathPrefix('C:\\VAEL\\venv\\ScriptsX\\python.exe', SCRIPTS), false)
+  assert.equal(hasWindowsPathPrefix('C:\\VAEL\\venv\\Scripts\\python.exe', SCRIPTS), true)
 })
 
 test('null/undefined fields never match', () => {
-  assert.equal(isHermesOwnedVenvDaemon(null, 'x', SCRIPTS), false)
-  assert.equal(isHermesOwnedVenvDaemon('C:\\Hermes\\venv\\Scripts\\pythonw.exe', null, SCRIPTS), false)
-  assert.equal(isHermesOwnedVenvDaemon(undefined, undefined, SCRIPTS), false)
+  assert.equal(isVaelOwnedVenvDaemon(null, 'x', SCRIPTS), false)
+  assert.equal(isVaelOwnedVenvDaemon('C:\\VAEL\\venv\\Scripts\\pythonw.exe', null, SCRIPTS), false)
+  assert.equal(isVaelOwnedVenvDaemon(undefined, undefined, SCRIPTS), false)
 })
 
 // --- isExternalVenvHolder (#62311) ------------------------------------------
 
-test('matches the autostart gateway shim (hermes.exe under venv Scripts)', () => {
+test('matches the autostart gateway shim (vael.exe under venv Scripts)', () => {
   assert.equal(
     isExternalVenvHolder(
-      'C:\\Hermes\\venv\\Scripts\\hermes.exe',
-      '"C:\\Hermes\\venv\\Scripts\\hermes.exe" gateway run --external-supervisor',
+      'C:\\VAEL\\venv\\Scripts\\vael.exe',
+      '"C:\\VAEL\\venv\\Scripts\\vael.exe" gateway run --external-supervisor',
       SCRIPTS
     ),
     true
   )
 })
 
-test('matches the dashboard scheduled task (python -m hermes_cli / -m hermes)', () => {
+test('matches the dashboard scheduled task (python -m vael_cli / -m vael)', () => {
   assert.equal(
     isExternalVenvHolder(
-      'C:\\Hermes\\venv\\Scripts\\python.exe',
-      '"C:\\Hermes\\venv\\Scripts\\python.exe" -m hermes_cli.main dashboard',
+      'C:\\VAEL\\venv\\Scripts\\python.exe',
+      '"C:\\VAEL\\venv\\Scripts\\python.exe" -m vael_cli.main dashboard',
       SCRIPTS
     ),
     true
   )
   assert.equal(
-    isExternalVenvHolder('C:\\Hermes\\venv\\Scripts\\pythonw.exe', 'pythonw.exe -m hermes serve', SCRIPTS),
+    isExternalVenvHolder('C:\\VAEL\\venv\\Scripts\\pythonw.exe', 'pythonw.exe -m vael serve', SCRIPTS),
     true
   )
 })
 
 test('never matches an unrelated process that merely borrows the venv interpreter', () => {
-  // a user's own script running on the venv python — NOT Hermes, must NOT be killed
+  // a user's own script running on the venv python — NOT VAEL, must NOT be killed
   assert.equal(
-    isExternalVenvHolder('C:\\Hermes\\venv\\Scripts\\python.exe', 'python C:\\tools\\import.py', SCRIPTS),
+    isExternalVenvHolder('C:\\VAEL\\venv\\Scripts\\python.exe', 'python C:\\tools\\import.py', SCRIPTS),
     false
   )
-  // hindsight daemon is selected by isHermesOwnedVenvDaemon, not here
+  // hindsight daemon is selected by isVaelOwnedVenvDaemon, not here
   assert.equal(
-    isExternalVenvHolder('C:\\Hermes\\venv\\Scripts\\pythonw.exe', 'pythonw -m hindsight_api.main --daemon', SCRIPTS),
+    isExternalVenvHolder('C:\\VAEL\\venv\\Scripts\\pythonw.exe', 'pythonw -m hindsight_api.main --daemon', SCRIPTS),
     false
   )
 })
 
-test('never matches a process outside the venv, even with hermes in the cmdline', () => {
+test('never matches a process outside the venv, even with vael in the cmdline', () => {
   // an editor / shell whose command line mentions the install root (#62445 regression guard)
   assert.equal(
-    isExternalVenvHolder('C:\\Windows\\System32\\cmd.exe', 'cmd /c cd C:\\Hermes\\venv\\Scripts && dir', SCRIPTS),
+    isExternalVenvHolder('C:\\Windows\\System32\\cmd.exe', 'cmd /c cd C:\\VAEL\\venv\\Scripts && dir', SCRIPTS),
     false
   )
-  assert.equal(isExternalVenvHolder('C:\\Other\\hermes.exe', 'hermes gateway run', SCRIPTS), false)
+  assert.equal(isExternalVenvHolder('C:\\Other\\vael.exe', 'vael gateway run', SCRIPTS), false)
 })
 
 test('sibling-dir and boundary safety for the external selector', () => {
-  assert.equal(isExternalVenvHolder('C:\\Hermes\\venv\\ScriptsX\\hermes.exe', 'hermes gateway run', SCRIPTS), false)
-  assert.equal(isExternalVenvHolder(null, 'hermes gateway run', SCRIPTS), false)
-  assert.equal(isExternalVenvHolder('C:\\Hermes\\venv\\Scripts\\hermes.exe', null, SCRIPTS), false)
+  assert.equal(isExternalVenvHolder('C:\\VAEL\\venv\\ScriptsX\\vael.exe', 'vael gateway run', SCRIPTS), false)
+  assert.equal(isExternalVenvHolder(null, 'vael gateway run', SCRIPTS), false)
+  assert.equal(isExternalVenvHolder('C:\\VAEL\\venv\\Scripts\\vael.exe', null, SCRIPTS), false)
 })

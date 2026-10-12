@@ -214,7 +214,7 @@ def test_foreground_refused_on_old_driver():
 def test_dispatcher_threads_delivery_mode_to_backend(grant_computer_use_approvals):
     """End-to-end through the tool dispatcher with the noop backend."""
     from tools.computer_use import tool as cu
-    with patch.dict(os.environ, {"HERMES_COMPUTER_USE_BACKEND": "noop"}, clear=False):
+    with patch.dict(os.environ, {"VAEL_COMPUTER_USE_BACKEND": "noop"}, clear=False):
         cu.reset_backend_for_tests()
         be = cu._get_backend()
         cu.handle_computer_use({"action": "click", "element": 5,
@@ -235,7 +235,7 @@ def _interactive_session(monkeypatch):
     from tools import approval
     from tools.approval_context import reset_current_session_key, set_current_session_key
 
-    monkeypatch.setenv("HERMES_INTERACTIVE", "1")
+    monkeypatch.setenv("VAEL_INTERACTIVE", "1")
     monkeypatch.setattr(approval, "save_permanent_allowlist", lambda patterns: None)
     keys: list[str] = []
 

@@ -1,3 +1,4 @@
+import { useStore } from '@nanostores/react'
 import {
   forceRedraw,
   type ScrollBoxHandle,
@@ -7,10 +8,9 @@ import {
   useSelection,
   useStdout,
   useTerminalTitle
-} from '@hermes/ink'
-import type { SessionControlSnapshot } from '@hermes/shared/gateway-events'
-import { JSON_RPC_METHOD_NOT_FOUND, type ServerRequest } from '@hermes/shared/json-rpc-channel'
-import { useStore } from '@nanostores/react'
+} from '@vael/ink'
+import type { SessionControlSnapshot } from '@vael/shared/gateway-events'
+import { JSON_RPC_METHOD_NOT_FOUND, type ServerRequest } from '@vael/shared/json-rpc-channel'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import { DASHBOARD_TUI_MODE, NATIVE_MODE, STARTUP_RESUME_ID } from '../config/env.js'
@@ -262,7 +262,7 @@ export function useMainApp(gw: GatewayClient) {
   const lastUserMsgRef = useRef(lastUserMsg)
   const recoverSidRef = useRef<null | string>(null)
   const recoveryAtRef = useRef<number[]>([])
-  // "Hermes stopped and could not be restarted" is said once per outage; reset on gateway.ready.
+  // "VAEL stopped and could not be restarted" is said once per outage; reset on gateway.ready.
   const gaveUpRef = useRef(false)
   const msgIdsRef = useRef(new WeakMap<Msg, string>())
   const msgIdSeqRef = useRef(0)
@@ -709,7 +709,7 @@ export function useMainApp(gw: GatewayClient) {
           tab: composeTabTitle(marker, ui.sessionTitle, '', ''),
           window: composeTabTitle(marker, ui.sessionTitle, model, tabCwd ? shortCwd(tabCwd, 24) : '')
         }
-      : 'Hermes'
+      : 'VAEL'
   )
 
   useEffect(() => {
@@ -1382,7 +1382,7 @@ export function useMainApp(gw: GatewayClient) {
   // randomly disappear when the live tail scrolls offscreen.
   const appProgress = useMemo(() => ({ showProgressArea }), [showProgressArea])
 
-  const cwd = ui.info?.cwd || process.env.HERMES_CWD || process.cwd()
+  const cwd = ui.info?.cwd || process.env.VAEL_CWD || process.cwd()
   const gitBranch = useGitBranch(cwd)
 
   const appStatus = useMemo(

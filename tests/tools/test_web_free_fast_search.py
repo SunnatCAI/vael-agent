@@ -70,12 +70,12 @@ def gateway_server(monkeypatch):
 
 
 def _write_home(home, monkeypatch, *, nous_state=None, config=None):
-    from hermes_cli.config import atomic_config_write
-    from hermes_cli.nous_account import reset_nous_portal_account_info_cache
+    from vael_cli.config import atomic_config_write
+    from vael_cli.nous_account import reset_nous_portal_account_info_cache
 
     home.mkdir(parents=True)
-    monkeypatch.setenv("HERMES_HOME", str(home))
-    monkeypatch.setenv("HERMES_GUEST_ONBOARDING", "1")
+    monkeypatch.setenv("VAEL_HOME", str(home))
+    monkeypatch.setenv("VAEL_GUEST_ONBOARDING", "1")
     monkeypatch.delenv("PERPLEXITY_API_KEY", raising=False)
     monkeypatch.delenv("TOOL_GATEWAY_USER_TOKEN", raising=False)
     atomic_config_write(home / "config.yaml", {"web": {"keyless_rescue": False}, **(config or {})})
@@ -147,7 +147,7 @@ def test_degraded_portal_lookup_does_not_grant_free_fast_search(monkeypatch, tmp
     """A token inside the JWT freshness window drops to the account API; when that lookup fails the
     snapshot is still stamped ``logged_in=True``, so entitlement must key on the error, not on
     ``logged_in`` alone."""
-    from hermes_cli.nous_account import get_nous_portal_account_info
+    from vael_cli.nous_account import get_nous_portal_account_info
     from tools.tool_backend_helpers import fast_search_entitled
 
     state = _nous_state(EXHAUSTED, "oauth", exp_offset=30)
@@ -174,7 +174,7 @@ def test_guest_on_a_stored_nous_selection_is_told_it_needs_an_account(monkeypatc
 
 def test_guest_whose_lookup_fails_is_still_told_it_needs_an_account(monkeypatch, tmp_path, gateway_server):
     """A failed lookup must not make a guest look like a registered identity in the refusal."""
-    from hermes_cli.nous_account import get_nous_portal_account_info
+    from vael_cli.nous_account import get_nous_portal_account_info
 
     state = _nous_state(ANON, "anonymous", exp_offset=30)
     state["portal_base_url"] = "http://127.0.0.1:9"  # closed port: the lookup cannot succeed
@@ -230,16 +230,16 @@ def test_direct_perplexity_key_beats_free_fast_search(monkeypatch, tmp_path, gat
 
 def test_free_fast_search_eligibility_follows_the_served_profile(monkeypatch, tmp_path, gateway_server):
     """Multiplex A→B→A: profile A holds a zero-credit Portal identity, B none; each answers from its own store."""
-    from hermes_cli.nous_account import reset_nous_portal_account_info_cache
+    from vael_cli.nous_account import reset_nous_portal_account_info_cache
     from agent.secret_scope import set_multiplex_active
     from gateway.run import _profile_runtime_scope
     from tools import web_tools
 
-    root = tmp_path / ".hermes"
+    root = tmp_path / ".vael"
     profile_a, profile_b = root / "profiles" / "a", root / "profiles" / "b"
     _write_home(profile_a, monkeypatch, nous_state=_nous_state(EXHAUSTED, "oauth"), config={"web": {"keyless_fallback": False}})
     _write_home(profile_b, monkeypatch, config={"web": {"keyless_fallback": False}})
-    monkeypatch.setenv("HERMES_HOME", str(root))
+    monkeypatch.setenv("VAEL_HOME", str(root))
     (root / "config.yaml").write_text("")
     set_multiplex_active(True)
     try:

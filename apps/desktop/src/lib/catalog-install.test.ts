@@ -1,4 +1,4 @@
-import { pluginCatalogInstallUrl, skillCatalogInstallIdentifier, skillCatalogInstallUrl } from '@hermes/shared'
+import { pluginCatalogInstallUrl, skillCatalogInstallIdentifier, skillCatalogInstallUrl } from '@vael/shared'
 import { describe, expect, it } from 'vitest'
 
 import { resolveDeepLinkAction } from './deeplink-routes'

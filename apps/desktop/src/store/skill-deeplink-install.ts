@@ -1,5 +1,5 @@
-import { getApiRequestConnection, getApiRequestProfile, type ProfileScope } from '@/hermes'
 import { translateNow } from '@/i18n'
+import { getApiRequestConnection, getApiRequestProfile, type ProfileScope } from '@/vael'
 
 import { confirm } from './confirm'
 import { $connectionsRegistry } from './connection-registry-state'

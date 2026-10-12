@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import { setApiRequestConnection } from '@/hermes'
 import { $connection } from '@/store/session'
+import { setApiRequestConnection } from '@/vael'
 
 import { desktopGit } from './desktop-git'
 
@@ -33,7 +33,7 @@ const api = vi.fn(async ({ path }: { path: string }) => {
 
 describe('desktop git facade', () => {
   beforeEach(() => {
-    vi.stubGlobal('window', { hermesDesktop: { api, git: localGit } })
+    vi.stubGlobal('window', { vaelDesktop: { api, git: localGit } })
     $connection.set(null)
   })
 

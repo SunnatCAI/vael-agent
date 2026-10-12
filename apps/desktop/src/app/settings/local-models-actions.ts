@@ -1,13 +1,5 @@
 import { type QueryClient, useQueryClient } from '@tanstack/react-query'
 
-import {
-  activateLocalModel,
-  deleteLocalModel,
-  downloadLocalModel,
-  ejectLocalModel,
-  quickstartLocalModels,
-  setLocalServer
-} from '@/hermes'
 import { useI18n } from '@/i18n'
 import type { Translations } from '@/i18n/types'
 import {
@@ -19,7 +11,15 @@ import {
   watchLocalRuntimeJobs
 } from '@/store/local-runtime-jobs'
 import { notify, notifyError } from '@/store/notifications'
-import type { LocalCatalogModel, LocalRuntimeJob } from '@/types/hermes'
+import type { LocalCatalogModel, LocalRuntimeJob } from '@/types/vael'
+import {
+  activateLocalModel,
+  deleteLocalModel,
+  downloadLocalModel,
+  ejectLocalModel,
+  quickstartLocalModels,
+  setLocalServer
+} from '@/vael'
 
 import { useScopedLocalModelsOwner } from './local-models-owner'
 

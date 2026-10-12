@@ -1,13 +1,13 @@
 /**
  * cloud-boot-cascade.ts
  *
- * Pure decision seam for self-healing a Hermes Cloud agent connection at boot.
+ * Pure decision seam for self-healing a VAEL Cloud agent connection at boot.
  *
  * A `cloud` connection authenticates to its agent through the silent per-agent
  * cascade (main.ts `cloudAgentSilentSignIn`): open the agent's protected root in
  * the shared OAuth partition, let the portal auto-approve, and the agent's own
  * session cookie lands with no prompt. That cascade was only ever driven by the
- * settings UI ("Use gateway"). The boot path went straight to `waitForHermes`,
+ * settings UI ("Use gateway"). The boot path went straight to `waitForVael`,
  * so once the agent cookie expired the WS-ticket mint answered 401, the app
  * reported "not signed in" and latched reauth, even though the portal session
  * it needed to recover was still live. Every relaunch needed a manual click.
@@ -25,11 +25,11 @@ export interface CloudBootCascadeCandidate {
 }
 
 /**
- * True when a failed `waitForHermes` for `remote` should be followed by one
+ * True when a failed `waitForVael` for `remote` should be followed by one
  * silent per-agent sign-in and a single retry, rather than surfacing the
  * reauth error immediately. Requires all of:
  *
- *   - the connection is a Hermes Cloud agent (`remoteKind: 'cloud'`);
+ *   - the connection is a VAEL Cloud agent (`remoteKind: 'cloud'`);
  *   - it authenticates with cookies (`authMode: 'oauth'`), which is the only
  *     mode the cascade can mint a session for;
  *   - the failure is the terminal reauth error (`isReauthRequired`), i.e. the

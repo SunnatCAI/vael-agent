@@ -14,7 +14,7 @@ DeepSeek's compatibility matrix lists ``thinking`` as supported but
 ``redacted_thinking`` and ``cache_control`` on thinking blocks as not
 supported.  Handling is the same as Kimi's ``/coding`` endpoint: strip
 Anthropic-signed blocks (DeepSeek can't validate them) but preserve unsigned
-blocks that Hermes synthesises from ``reasoning_content``.
+blocks that VAEL synthesises from ``reasoning_content``.
 
 See hermes-agent#16748.
 """
@@ -71,7 +71,7 @@ class TestDeepSeekAnthropicPreservesThinking:
 
         DeepSeek's compatibility matrix lists cache_control on thinking blocks
         as ignored — cache markers interfere with signature validation on
-        upstreams that do check them, so Hermes strips them everywhere.
+        upstreams that do check them, so VAEL strips them everywhere.
         """
         from agent.anthropic_message_convert import convert_messages_to_anthropic
 

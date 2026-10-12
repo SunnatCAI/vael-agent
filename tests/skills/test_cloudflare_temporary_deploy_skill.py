@@ -108,8 +108,8 @@ class TestRealWorldOutput:
         "\tClaim within: 60 minutes\n"
         "\tClaim URL: https://dash.cloudflare.com/claim-preview?claimToken=fxLzyAD-vlTzMQmClpg\n"
         "Total Upload: 0.19 KiB / gzip: 0.16 KiB\n"
-        "Uploaded hermes-temp-hello (0.74 sec)\n"
-        "Deployed hermes-temp-hello triggers (0.42 sec)\n"
+        "Uploaded vael-temp-hello (0.74 sec)\n"
+        "Deployed vael-temp-hello triggers (0.42 sec)\n"
         "  https://hermes-temp-hello.serene-temple.workers.dev\n"
     )
 

@@ -9,15 +9,15 @@ import type { MutableRefObject } from 'react'
 import { useEffect } from 'react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import { deleteSession, type SessionInfo } from '@/hermes'
 import { setSessions } from '@/store/session'
 import { $archivedSessions } from '@/store/sidebar-archive'
+import { deleteSession, type SessionInfo } from '@/vael'
 
 import type { ClientSessionState } from '../../../types'
 
 import { useSessionActions } from './index'
 
-vi.mock('@/hermes', async importOriginal => ({
+vi.mock('@/vael', async importOriginal => ({
   ...(await importOriginal<Record<string, unknown>>()),
   deleteSession: vi.fn(),
   getSession: vi.fn(),

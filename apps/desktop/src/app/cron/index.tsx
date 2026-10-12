@@ -1,6 +1,6 @@
-import { createCronTriggerController, type CronTriggerController } from '@hermes/shared'
 import { useStore } from '@nanostores/react'
 import { useQuery } from '@tanstack/react-query'
+import { createCronTriggerController, type CronTriggerController } from '@vael/shared'
 import type * as React from 'react'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
@@ -29,6 +29,14 @@ import {
   SelectValue
 } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
+import { type Translations, useI18n } from '@/i18n'
+import { AlertTriangle } from '@/lib/icons'
+import { requestModelOptions } from '@/lib/model-options'
+import { asText } from '@/lib/text'
+import { $cronFocusJobId, $cronJobs, invalidateCronJobsRequests, setCronFocusJobId } from '@/store/cron'
+import { $changeEventsAvailable, $cronChangeTick } from '@/store/live-sync'
+import { notify, notifyError } from '@/store/notifications'
+import { $profileScope, ALL_PROFILES } from '@/store/profile'
 import {
   type AutomationBlueprint,
   createCronJob,
@@ -43,15 +51,7 @@ import {
   resumeCronJob,
   type SessionInfo,
   updateCronJob
-} from '@/hermes'
-import { type Translations, useI18n } from '@/i18n'
-import { AlertTriangle } from '@/lib/icons'
-import { requestModelOptions } from '@/lib/model-options'
-import { asText } from '@/lib/text'
-import { $cronFocusJobId, $cronJobs, invalidateCronJobsRequests, setCronFocusJobId } from '@/store/cron'
-import { $changeEventsAvailable, $cronChangeTick } from '@/store/live-sync'
-import { notify, notifyError } from '@/store/notifications'
-import { $profileScope, ALL_PROFILES } from '@/store/profile'
+} from '@/vael'
 
 import { useRefreshHotkey } from '../hooks/use-refresh-hotkey'
 import {
@@ -885,7 +885,7 @@ function formatRunTime(seconds?: null | number): string {
 
 // Script-only (no_agent) jobs have no agent sessions; the runs endpoint
 // surfaces their per-fire output docs as rows with source='cron_output'
-// (see _list_cron_output_runs in hermes_cli/web_routers/cron.py).
+// (see _list_cron_output_runs in vael_cli/web_routers/cron.py).
 function isSyntheticCronOutputRun(run: SessionInfo): boolean {
   return run.source === 'cron_output'
 }

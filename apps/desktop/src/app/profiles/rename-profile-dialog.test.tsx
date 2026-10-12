@@ -1,9 +1,9 @@
 import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { afterEach, expect, it, vi } from 'vitest'
 
-import { renameProfile } from '@/hermes'
 import { retireLocalProfileGateways } from '@/store/gateway'
 import { migrateTilesForProfile } from '@/store/session-states'
+import { renameProfile } from '@/vael'
 
 import { RenameProfileDialog } from './rename-profile-dialog'
 
@@ -18,7 +18,7 @@ afterEach(() => {
   vi.clearAllMocks()
 })
 
-vi.mock('@/hermes', () => ({
+vi.mock('@/vael', () => ({
   renameProfile: vi.fn(async () => ({ name: 'renamed', ok: true, path: '/x' }))
 }))
 

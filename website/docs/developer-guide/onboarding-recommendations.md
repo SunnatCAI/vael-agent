@@ -5,7 +5,7 @@ sidebar_label: Onboarding recommendations
 
 # Onboarding recommendations
 
-Guided onboarding suggests outcomes from the user's app preferences and observed capabilities. It does not grant access or implement a second connection lifecycle. The feature remains inside the existing `HERMES_GUEST_ONBOARDING` flow.
+Guided onboarding suggests outcomes from the user's app preferences and observed capabilities. It does not grant access or implement a second connection lifecycle. The feature remains inside the existing `VAEL_GUEST_ONBOARDING` flow.
 
 ## What takes priority
 

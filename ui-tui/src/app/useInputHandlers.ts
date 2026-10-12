@@ -1,5 +1,5 @@
-import { forceRedraw, useInput } from '@hermes/ink'
 import { useStore } from '@nanostores/react'
+import { forceRedraw, useInput } from '@vael/ink'
 import { useEffect, useRef } from 'react'
 
 import { DASHBOARD_TUI_MODE } from '../config/env.js'

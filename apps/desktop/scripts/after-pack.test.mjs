@@ -30,11 +30,11 @@ async function seedPackagedMain(context) {
   await mkdir(path.join(`${asarPath}.unpacked`, 'dist'), { recursive: true })
   await writeFile(
     path.join(`${asarPath}.unpacked`, 'dist', 'electron-main.mjs'),
-    'const re = /HERMES_(?:BACKEND|DASHBOARD)_READY[^\\n]*port=(\\d+)/m\n'
+    'const re = /VAEL_(?:BACKEND|DASHBOARD)_READY[^\\n]*port=(\\d+)/m\n'
   )
 }
 
-function context(appOutDir, productFilename = 'Hermes Preview') {
+function context(appOutDir, productFilename = 'VAEL Preview') {
   // Use electron-builder's real bundle path resolution, including branding.
   const packager = Object.assign(Object.create(PlatformPackager.prototype), {
     platform: Platform.MAC,
@@ -45,7 +45,7 @@ function context(appOutDir, productFilename = 'Hermes Preview') {
 }
 
 it('restores app localizations from the filtered framework without copying locale data', async () => {
-  const root = await mkdtemp(path.join(os.tmpdir(), 'hermes-locale-pack-'))
+  const root = await mkdtemp(path.join(os.tmpdir(), 'vael-locale-pack-'))
   try {
     const ctx = context(root)
     await seedPackagedMain(ctx)
@@ -70,7 +70,7 @@ it('restores app localizations from the filtered framework without copying local
 })
 
 it('leaves Linux alone and reports a missing framework without failing packaging', async () => {
-  const root = await mkdtemp(path.join(os.tmpdir(), 'hermes-locale-pack-'))
+  const root = await mkdtemp(path.join(os.tmpdir(), 'vael-locale-pack-'))
   const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
   try {
     // win32 is not a no-op here: the same hook sanitizes and batch-signs the PE tree.
@@ -82,7 +82,7 @@ it('leaves Linux alone and reports a missing framework without failing packaging
     await seedPackagedMain(ctx)
     await configuredHook(ctx)
     expect(warn).toHaveBeenCalledWith(expect.stringContaining('macOS locale markers were not restored'))
-    expect((await readdir(root)).sort()).toEqual(['Hermes Preview.app', 'resources'])
+    expect((await readdir(root)).sort()).toEqual(['VAEL Preview.app', 'resources'])
   } finally {
     warn.mockRestore()
     await rm(root, { recursive: true, force: true })

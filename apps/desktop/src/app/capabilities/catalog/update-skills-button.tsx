@@ -1,9 +1,9 @@
 import { Button } from '@/components/ui/button'
-import type { ProfileScope } from '@/hermes'
 import { useI18n } from '@/i18n'
 import { useStoreSelector } from '@/lib/use-session-slice'
 import { $hubActions, UPDATE_ALL_KEY, updateHubSkills } from '@/store/hub-actions'
 import { notify, notifyError } from '@/store/notifications'
+import type { ProfileScope } from '@/vael'
 
 export function UpdateSkillsButton({ profile }: { profile?: ProfileScope }) {
   const { t } = useI18n()

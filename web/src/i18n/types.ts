@@ -172,11 +172,11 @@ export interface Translations {
     starting: string;
     startedInBackground: string;
     stopped: string;
-    updateHermes: string;
-    updateHermesConfirmMessage?: string;
-    updateHermesConfirmNow?: string;
-    updateHermesConfirmTitle?: string;
-    updatingHermes: string;
+    updateVael: string;
+    updateVaelConfirmMessage?: string;
+    updateVaelConfirmNow?: string;
+    updateVaelConfirmTitle?: string;
+    updatingVael: string;
     waitingForOutput: string;
   };
 

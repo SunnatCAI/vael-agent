@@ -1,5 +1,5 @@
-import type { GatewayEvent } from '@hermes/shared'
 import { act, cleanup } from '@testing-library/react'
+import type { GatewayEvent } from '@vael/shared'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { $petActivity, $petState, setPetActivity } from '@/store/pet'

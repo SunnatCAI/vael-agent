@@ -1,6 +1,6 @@
 import { type ThreadMessage } from '@assistant-ui/react'
-import type { GatewayEvent } from '@hermes/shared'
 import { act, cleanup, render, screen } from '@testing-library/react'
+import type { GatewayEvent } from '@vael/shared'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 
 import { renderMessageStream } from '@/app/session/hooks/use-message-stream/test-harness'

@@ -2,9 +2,9 @@ import { act, cleanup, fireEvent, render, screen, waitFor } from '@testing-libra
 import type { ReactNode } from 'react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import type { SessionInfo } from '@/hermes'
 import { $dismissedWorktreeIds, $sidebarShowAllSessions, dismissWorktree, restoreWorktree } from '@/store/layout'
 import { listRepoBranches, removeWorktreePath, switchBranchInRepo } from '@/store/projects'
+import type { SessionInfo } from '@/vael'
 
 import {
   EnteredProjectContent,

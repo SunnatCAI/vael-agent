@@ -1,9 +1,9 @@
 import { act, renderHook } from '@testing-library/react'
 import { afterEach, expect, it, vi } from 'vitest'
 
-import type { SessionInfo, SidebarSessionsResponse } from '@/hermes'
 import { ensureGatewayForAgent, setPrimaryGateway, setPrimaryGatewayConnection } from '@/store/gateway'
 import { $sessions, setSessions } from '@/store/session'
+import type { SessionInfo, SidebarSessionsResponse } from '@/vael'
 
 import { deferred } from '../../../test/deferred'
 
@@ -13,7 +13,7 @@ import { useSessionListActions } from './use-session-list-actions'
 // one production bumps, not a test double.
 const listSidebarSessions = vi.fn()
 
-vi.mock('@/hermes', async importOriginal => ({
+vi.mock('@/vael', async importOriginal => ({
   ...(await importOriginal<Record<string, unknown>>()),
   getCronJobs: vi.fn(async () => []),
   listSidebarSessions: (...args: unknown[]) => listSidebarSessions(...args)

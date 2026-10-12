@@ -1,9 +1,9 @@
 import { useQuery } from '@tanstack/react-query'
 
-import { getToolsets, type ProfileScope, profileScopeKey } from '@/hermes'
 import { isDesktopToolsetVisible } from '@/lib/desktop-toolsets'
 import { normalize } from '@/lib/text'
-import type { ToolsetInfo } from '@/types/hermes'
+import type { ToolsetInfo } from '@/types/vael'
+import { getToolsets, type ProfileScope, profileScopeKey } from '@/vael'
 
 import { includesQuery, toolNames, toolsetDisplayLabel } from '../../settings/helpers'
 

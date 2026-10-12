@@ -127,7 +127,7 @@ class _FakeAS(BaseHTTPRequestHandler):
             body["config"] = {
                 "peerName": "lyra",
                 "environment": "production",
-                "hosts": {"hermes": {"saveMessages": True, "recallMode": "hybrid"}},
+                "hosts": {"vael": {"saveMessages": True, "recallMode": "hybrid"}},
             }
         payload = json.dumps(body).encode()
         self.send_response(200)
@@ -157,7 +157,7 @@ def fake_as(monkeypatch):
     base = f"http://127.0.0.1:{port}"
     monkeypatch.setenv("HONCHO_OAUTH_AUTHORIZE_URL", f"{base}/authorize")
     monkeypatch.setenv("HONCHO_OAUTH_TOKEN_URL", f"{base}/oauth/token")
-    monkeypatch.setenv("HONCHO_OAUTH_CLIENT_ID", "hermes-desktop")
+    monkeypatch.setenv("HONCHO_OAUTH_CLIENT_ID", "vael-desktop")
     try:
         yield base
     finally:
@@ -187,7 +187,7 @@ def test_full_loopback_flow_then_refresh(tmp_path, fake_as):
 
     cred = oauth_flow.authorize_via_loopback(
         config_path=config_path,
-        host="hermes",
+        host="vael",
         open_url=lambda url: _browser_driver(url),
         timeout=10,
     )
@@ -195,19 +195,19 @@ def test_full_loopback_flow_then_refresh(tmp_path, fake_as):
     # Grant installed: token stored, config deep-merged, other host preserved.
     assert cred.access_token == "hch-at-1"
     saved = json.loads(config_path.read_text())
-    assert saved["hosts"]["hermes"]["apiKey"] == "hch-at-1"
-    assert saved["hosts"]["hermes"]["oauth"]["refreshToken"] == "hch-rt-1"
-    assert saved["hosts"]["hermes"]["recallMode"] == "hybrid"
+    assert saved["hosts"]["vael"]["apiKey"] == "hch-at-1"
+    assert saved["hosts"]["vael"]["oauth"]["refreshToken"] == "hch-rt-1"
+    assert saved["hosts"]["vael"]["recallMode"] == "hybrid"
     assert saved["environment"] == "production"
     assert saved["hosts"]["obsidian"] == {"workspace": "obsidian"}
 
     # Force expiry; ensure_fresh_token refreshes against the same AS and rotates.
     token, refreshed = oauth.ensure_fresh_token(
-        config_path, "hermes", now=saved["hosts"]["hermes"]["oauth"]["expiresAt"] + 10
+        config_path, "vael", now=saved["hosts"]["vael"]["oauth"]["expiresAt"] + 10
     )
     assert refreshed is True
     assert token == "hch-at-2"
-    rotated = json.loads(config_path.read_text())["hosts"]["hermes"]["oauth"]
+    rotated = json.loads(config_path.read_text())["hosts"]["vael"]["oauth"]
     assert rotated["refreshToken"] == "hch-rt-2"
 
 
@@ -217,7 +217,7 @@ def test_state_mismatch_is_rejected(fake_as, tmp_path):
     with pytest.raises(ValueError, match="unknown or expired"):
         oauth_flow.complete_authorization(
             endpoints, "code", "not-the-real-state",
-            config_path=tmp_path / "honcho.json", host="hermes",
+            config_path=tmp_path / "honcho.json", host="vael",
         )
 
 
@@ -234,14 +234,14 @@ def test_grant_persists_default_client_id(tmp_path, fake_as, monkeypatch):
 
     oauth_flow.authorize_via_loopback(
         config_path=config_path,
-        host="hermes",
-        source="hermes-cli",
+        host="vael",
+        source="vael-cli",
         apply_config=False,
         open_url=lambda url: _browser_driver(url),
         timeout=10,
     )
     saved = json.loads(config_path.read_text())
-    assert saved["hosts"]["hermes"]["oauth"]["clientId"] == "hermes-agent"
+    assert saved["hosts"]["vael"]["oauth"]["clientId"] == "hermes-agent"
 
 
 
@@ -250,27 +250,27 @@ def test_display_config_path_never_leaks_absolute_path():
     from pathlib import Path
 
     # Under home → collapsed to ~/…; outside home → bare filename only.
-    under_home = Path.home() / ".hermes" / "profiles" / "work" / "honcho.json"
-    assert oauth_flow._display_config_path(under_home) == "~/.hermes/profiles/work/honcho.json"
+    under_home = Path.home() / ".vael" / "profiles" / "work" / "honcho.json"
+    assert oauth_flow._display_config_path(under_home) == "~/.vael/profiles/work/honcho.json"
     assert oauth_flow._display_config_path("/var/folders/tmp/honcho.json") == "honcho.json"
 
 
 def test_cli_flow_stores_tokens_without_applying_config(tmp_path, fake_as):
     # apply_config=False (the CLI path): grant config must NOT touch settings.
     config_path = tmp_path / "honcho.json"
-    config_path.write_text(json.dumps({"hosts": {"hermes": {"saveMessages": False}}}))
+    config_path.write_text(json.dumps({"hosts": {"vael": {"saveMessages": False}}}))
 
     cred = oauth_flow.authorize_via_loopback(
         config_path=config_path,
-        host="hermes",
-        source="hermes-cli",
+        host="vael",
+        source="vael-cli",
         apply_config=False,
         open_url=lambda url: _browser_driver(url),
         timeout=10,
     )
 
     saved = json.loads(config_path.read_text())
-    host = saved["hosts"]["hermes"]
+    host = saved["hosts"]["vael"]
     assert host["apiKey"] == cred.access_token
     assert host["oauth"]["refreshToken"] == cred.refresh_token
     # Wizard-owned setting untouched; grant config keys absent.
@@ -325,15 +325,15 @@ def test_supports_device_login_from_metadata(fake_as):
 
 def test_request_device_code_parses_response_and_sends_identity(fake_as):
     endpoints = oauth_flow.resolve_endpoints()
-    device = oauth_flow.request_device_code(endpoints, source="hermes-cli")
+    device = oauth_flow.request_device_code(endpoints, source="vael-cli")
     assert device.device_code == "dev-code-1"
     assert device.user_code == "ABCD-EFGH"
     assert device.verification_uri.endswith("/device")
     assert device.verification_uri_complete.endswith("?user_code=ABCD-EFGH")
     assert (device.expires_in, device.interval) == (600, 0)
-    assert _FakeAS.last_device_form["client_id"] == "hermes-desktop"
+    assert _FakeAS.last_device_form["client_id"] == "vael-desktop"
     assert _FakeAS.last_device_form["scope"] == "write"
-    assert _FakeAS.last_device_form["source"] == "hermes-cli"
+    assert _FakeAS.last_device_form["source"] == "vael-cli"
 
 
 def test_poll_backs_off_on_slow_down(fake_as):
@@ -420,10 +420,10 @@ def test_launcher_runs_flow_in_background_and_reports_connected(monkeypatch, res
     monkeypatch.setattr(oauth_flow, "authorize_via_loopback", fake)
     monkeypatch.setattr(oauth_flow, "_detect_connection", lambda: (True, "oauth"))
 
-    st = oauth_flow.start_loopback_flow_background(config_path=Path("/t/honcho.json"), host="hermes")
+    st = oauth_flow.start_loopback_flow_background(config_path=Path("/t/honcho.json"), host="vael")
     assert st["state"] == "pending"  # returns immediately, before the flow finishes
-    assert _wait_until(lambda: seen.get("source") == "hermes-desktop")  # default source tag
-    assert seen["host"] == "hermes"
+    assert _wait_until(lambda: seen.get("source") == "vael-desktop")  # default source tag
+    assert seen["host"] == "vael"
     gate.set()
     assert _wait_until(lambda: oauth_flow.get_flow_status()["state"] == "connected")
 
@@ -433,20 +433,20 @@ def test_get_flow_status_reports_stored_connection(tmp_path, monkeypatch, reset_
 
     cfgfile = tmp_path / "honcho.json"
     monkeypatch.setattr(honcho_client, "resolve_config_path", lambda: cfgfile)
-    monkeypatch.setattr(honcho_client, "resolve_active_host", lambda: "hermes")
+    monkeypatch.setattr(honcho_client, "resolve_active_host", lambda: "vael")
     monkeypatch.delenv("HONCHO_API_KEY", raising=False)
 
-    cfgfile.write_text(json.dumps({"hosts": {"hermes": {}}}))
+    cfgfile.write_text(json.dumps({"hosts": {"vael": {}}}))
     assert oauth_flow.get_flow_status()["connected"] is False
 
-    cfgfile.write_text(json.dumps({"hosts": {"hermes": {"apiKey": "hch-v3-static"}}}))
+    cfgfile.write_text(json.dumps({"hosts": {"vael": {"apiKey": "hch-v3-static"}}}))
     s = oauth_flow.get_flow_status()
     assert s["connected"] is True and s["auth"] == "apikey"
 
-    cfgfile.write_text(json.dumps({"hosts": {"hermes": {
+    cfgfile.write_text(json.dumps({"hosts": {"vael": {
         "apiKey": "hch-at-tok",
         "oauth": {"refreshToken": "hch-rt-x", "expiresAt": 9_999_999_999,
-                  "clientId": "hermes-desktop", "tokenEndpoint": "http://x/oauth/token"},
+                  "clientId": "vael-desktop", "tokenEndpoint": "http://x/oauth/token"},
     }}}))
     s = oauth_flow.get_flow_status()
     assert s["connected"] is True and s["auth"] == "oauth"
@@ -456,7 +456,7 @@ def test_memory_oauth_router_dispatches_by_provider_convention():
     # The generic seam behind the two routes: provider → plugins.memory.<p>.oauth_flow.
     from fastapi import HTTPException
 
-    from hermes_cli.memory_oauth import _resolve_flow
+    from vael_cli.memory_oauth import _resolve_flow
 
     mod = _resolve_flow("honcho")
     assert hasattr(mod, "start_loopback_flow_background") and hasattr(mod, "get_flow_status")

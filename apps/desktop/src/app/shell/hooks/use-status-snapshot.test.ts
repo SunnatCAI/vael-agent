@@ -4,16 +4,16 @@ import { createElement, type ReactElement, type ReactNode } from 'react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { NotificationStack } from '@/components/notifications'
-import { getStatus } from '@/hermes'
 import { I18nProvider, type Locale, TRANSLATIONS, type Translations } from '@/i18n'
 import { $setupReadyTick, notifySetupReady } from '@/store/live-sync'
 import { clearNotifications } from '@/store/notifications'
+import { getStatus } from '@/vael'
 
 import { deferred } from '../../../test/deferred'
 
 import { useStatusSnapshot } from './use-status-snapshot'
 
-vi.mock('@/hermes', () => ({
+vi.mock('@/vael', () => ({
   getStatus: vi.fn()
 }))
 

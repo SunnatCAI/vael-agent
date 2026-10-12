@@ -43,7 +43,7 @@ class TestPeerLookupHelpers:
         session = HonchoSession(
             key="telegram:123",
             user_peer_id="robert",
-            assistant_peer_id="hermes",
+            assistant_peer_id="vael",
             honcho_session_id="telegram-123",
         )
         mgr._cache[session.key] = session
@@ -68,7 +68,7 @@ class TestPeerLookupHelpers:
         mgr, session = self._make_cached_manager()
         honcho_client = MagicMock()
         honcho_client.search.return_value = [
-            SimpleNamespace(content="Robert runs neuralancer", peer_id="hermes", session_id="s-old", id="m1"),
+            SimpleNamespace(content="Robert runs neuralancer", peer_id="vael", session_id="s-old", id="m1"),
             SimpleNamespace(content="I founded neuralancer in 2019", peer_id="robert", session_id="s-old", id="m2"),
         ]
         with patch.object(HonchoSessionManager, "honcho", new_callable=lambda: property(lambda s: honcho_client)):
@@ -198,7 +198,7 @@ class TestToolsModeInitBehavior:
         with patch("plugins.memory.honcho.client.HonchoClientConfig.from_global_config", return_value=cfg), \
              patch("plugins.memory.honcho.client.get_honcho_client", return_value=MagicMock()), \
              patch("plugins.memory.honcho.session.HonchoSessionManager", return_value=mock_manager) as mock_manager_cls, \
-             patch("hermes_constants.get_hermes_home", return_value=MagicMock()):
+             patch("vael_constants.get_vael_home", return_value=MagicMock()):
             provider.initialize(session_id="test-session-001", **init_kwargs)
 
         return provider, cfg, mock_manager_cls
@@ -235,7 +235,7 @@ class TestToolsModeInitBehavior:
 class TestPerSessionMigrateGuard:
     """Verify migrate_memory_files is skipped under per-session strategy.
 
-    per-session creates a fresh Honcho session every Hermes run. Uploading
+    per-session creates a fresh Honcho session every VAEL run. Uploading
     MEMORY.md/USER.md/SOUL.md to each short-lived session floods the backend
     with duplicate content. The guard was added to prevent orphan sessions
     containing only <prior_memory_file> wrappers.
@@ -264,7 +264,7 @@ class TestPerSessionMigrateGuard:
         with patch("plugins.memory.honcho.client.HonchoClientConfig.from_global_config", return_value=cfg), \
              patch("plugins.memory.honcho.client.get_honcho_client", return_value=MagicMock()), \
              patch("plugins.memory.honcho.session.HonchoSessionManager", return_value=mock_manager), \
-             patch("hermes_constants.get_hermes_home", return_value=MagicMock()):
+             patch("vael_constants.get_vael_home", return_value=MagicMock()):
             provider.initialize(session_id="test-session-001")
 
         return provider, mock_manager
@@ -456,7 +456,7 @@ class TestDialecticCadenceDefaults:
         with patch("plugins.memory.honcho.client.HonchoClientConfig.from_global_config", return_value=cfg), \
              patch("plugins.memory.honcho.client.get_honcho_client", return_value=MagicMock()), \
              patch("plugins.memory.honcho.session.HonchoSessionManager", return_value=mock_manager), \
-             patch("hermes_constants.get_hermes_home", return_value=MagicMock()):
+             patch("vael_constants.get_vael_home", return_value=MagicMock()):
             provider.initialize(session_id="test-session-001")
 
         _settle_prewarm(provider)
@@ -571,7 +571,7 @@ class TestDialecticDepth:
         with patch("plugins.memory.honcho.client.HonchoClientConfig.from_global_config", return_value=cfg), \
              patch("plugins.memory.honcho.client.get_honcho_client", return_value=MagicMock()), \
              patch("plugins.memory.honcho.session.HonchoSessionManager", return_value=mock_manager), \
-             patch("hermes_constants.get_hermes_home", return_value=MagicMock()):
+             patch("vael_constants.get_vael_home", return_value=MagicMock()):
             provider.initialize(session_id="test-session-001")
 
         _settle_prewarm(provider)
@@ -629,7 +629,7 @@ class TestTrivialPromptHeuristic:
         with patch("plugins.memory.honcho.client.HonchoClientConfig.from_global_config", return_value=cfg), \
              patch("plugins.memory.honcho.client.get_honcho_client", return_value=MagicMock()), \
              patch("plugins.memory.honcho.session.HonchoSessionManager", return_value=mock_manager), \
-             patch("hermes_constants.get_hermes_home", return_value=MagicMock()):
+             patch("vael_constants.get_vael_home", return_value=MagicMock()):
             provider.initialize(session_id="test-session-trivial")
         _settle_prewarm(provider)
         return provider
@@ -703,7 +703,7 @@ class TestDialecticCadenceAdvancesOnSuccess:
         with patch("plugins.memory.honcho.client.HonchoClientConfig.from_global_config", return_value=cfg), \
              patch("plugins.memory.honcho.client.get_honcho_client", return_value=MagicMock()), \
              patch("plugins.memory.honcho.session.HonchoSessionManager", return_value=mock_manager), \
-             patch("hermes_constants.get_hermes_home", return_value=MagicMock()):
+             patch("vael_constants.get_vael_home", return_value=MagicMock()):
             provider.initialize(session_id="test-session-retry")
         _settle_prewarm(provider)
         return provider
@@ -761,7 +761,7 @@ class TestDialecticLiveness:
         with patch("plugins.memory.honcho.client.HonchoClientConfig.from_global_config", return_value=cfg), \
              patch("plugins.memory.honcho.client.get_honcho_client", return_value=MagicMock()), \
              patch("plugins.memory.honcho.session.HonchoSessionManager", return_value=mock_manager), \
-             patch("hermes_constants.get_hermes_home", return_value=MagicMock()):
+             patch("vael_constants.get_vael_home", return_value=MagicMock()):
             provider.initialize(session_id="test-liveness")
         _settle_prewarm(provider)
         return provider
@@ -830,7 +830,7 @@ class TestDialecticLifecycleSmoke:
         with patch("plugins.memory.honcho.client.HonchoClientConfig.from_global_config", return_value=cfg), \
              patch("plugins.memory.honcho.client.get_honcho_client", return_value=MagicMock()), \
              patch("plugins.memory.honcho.session.HonchoSessionManager", return_value=mock_manager), \
-             patch("hermes_constants.get_hermes_home", return_value=MagicMock()):
+             patch("vael_constants.get_vael_home", return_value=MagicMock()):
             return provider, mock_manager, cfg
 
     def _await_thread(self, provider):
@@ -862,7 +862,7 @@ class TestDialecticLifecycleSmoke:
         # Program the dialectic responses in the exact order they'll be requested.
         # An extra or missing call fails the test — strong smoke signal.
         responses = iter([
-            "prewarm: user is eri, works on hermes",      # session-start prewarm
+            "prewarm: user is eri, works on vael",      # session-start prewarm
             "cadence fire: long query synthesis",         # turn 4 queue_prefetch
             "",                                           # turn 7 fire: silent failure
             "retry success: fresh synthesis",             # turn 8 queue_prefetch retry
@@ -873,7 +873,7 @@ class TestDialecticLifecycleSmoke:
         with patch("plugins.memory.honcho.client.HonchoClientConfig.from_global_config", return_value=cfg), \
              patch("plugins.memory.honcho.client.get_honcho_client", return_value=MagicMock()), \
              patch("plugins.memory.honcho.session.HonchoSessionManager", return_value=mgr), \
-             patch("hermes_constants.get_hermes_home", return_value=MagicMock()):
+             patch("vael_constants.get_vael_home", return_value=MagicMock()):
             provider.initialize(session_id="smoke-test")
 
         self._await_thread(provider)
@@ -973,7 +973,7 @@ class TestReasoningHeuristic:
         with patch("plugins.memory.honcho.client.HonchoClientConfig.from_global_config", return_value=cfg), \
              patch("plugins.memory.honcho.client.get_honcho_client", return_value=MagicMock()), \
              patch("plugins.memory.honcho.session.HonchoSessionManager", return_value=mock_manager), \
-             patch("hermes_constants.get_hermes_home", return_value=MagicMock()):
+             patch("vael_constants.get_vael_home", return_value=MagicMock()):
             provider.initialize(session_id="test-heuristic")
         _settle_prewarm(provider)
         return provider
@@ -1090,7 +1090,7 @@ class TestContextTokensForwarded:
 
     def _manager(self, context_tokens=4000):
         mgr = HonchoSessionManager(context_tokens=context_tokens)
-        session = HonchoSession(key="cli:test", user_peer_id="robert", assistant_peer_id="hermes",
+        session = HonchoSession(key="cli:test", user_peer_id="robert", assistant_peer_id="vael",
                                 honcho_session_id="sess-1")
         mgr._cache[session.key] = session
         honcho_session = MagicMock()
@@ -1126,7 +1126,7 @@ _FULL_CTX = {
 }
 
 
-def _provider_with_raw(raw, host="hermes"):
+def _provider_with_raw(raw, host="vael"):
     from plugins.memory.honcho.client import HonchoClientConfig, _host_block, _HostLookup
 
     provider = HonchoMemoryProvider()
@@ -1143,7 +1143,7 @@ class TestSessionStartInjection:
               "## AI Self-Representation", "## AI Identity Card"]),
         ({"injection": {"sessionStart": []}}, []),
         ({"injection": {"sessionStart": ["aiCard", "summary"]}}, ["## Session Summary", "## AI Identity Card"]),
-        ({"injection": {"sessionStart": ["summary"]}, "hosts": {"hermes": {"injection": {"sessionStart": ["peerCard"]}}}},
+        ({"injection": {"sessionStart": ["summary"]}, "hosts": {"vael": {"injection": {"sessionStart": ["peerCard"]}}}},
          ["## User Peer Card"]),
     ], ids=["unset-renders-all-in-fixed-order", "empty-list-injects-nothing", "pin-keeps-table-order", "host-block-beats-root"])
     def test_pin_selects_the_rendered_components(self, raw, headings):
@@ -1157,12 +1157,12 @@ class TestSessionStartInjection:
               "## AI Self-Representation", "## AI Identity Card"]),
     ], ids=["pin", "empty-list", "blank-clears-the-pin"])
     def test_desktop_panel_writes_the_pin_the_provider_reads(self, submitted, headings):
-        from hermes_cli.web_routers.memory_providers import _apply_field_values
+        from vael_cli.web_routers.memory_providers import _apply_field_values
         from plugins.memory.honcho.config_schema import CONFIG_SCHEMA
 
         host_block = {"injection": {"sessionStart": ["summary"]}}
         _apply_field_values(CONFIG_SCHEMA, {"injection": submitted}, lambda field: host_block)
-        raw = {"hosts": {"hermes": host_block}}
+        raw = {"hosts": {"vael": host_block}}
         formatted = _provider_with_raw(raw)._format_first_turn_context(_FULL_CTX)
         assert [line for line in formatted.splitlines() if line.startswith("## ")] == headings
 
@@ -1172,7 +1172,7 @@ class TestSessionStartInjection:
 
     def test_initialize_reads_the_pin(self):
         raw = {"injection": {"sessionStart": ["summary"]}}
-        provider = TestDialecticCadenceDefaults._make_provider(cfg_extra={"raw": raw, "host": "hermes"})
+        provider = TestDialecticCadenceDefaults._make_provider(cfg_extra={"raw": raw, "host": "vael"})
         assert provider._session_start_components == frozenset({"summary"})
 
 
@@ -1189,7 +1189,7 @@ class TestInjectionAuditLog:
 
     @pytest.mark.parametrize("raw, env", [
         ({}, None),
-        ({"logging": True, "hosts": {"hermes": {"logging": False}}}, None),
+        ({"logging": True, "hosts": {"vael": {"logging": False}}}, None),
         *[({"logging": value}, None) for value in ("false", "0", "no", "off", "")],
         ({}, "off"),
     ])

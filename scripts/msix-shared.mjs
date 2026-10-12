@@ -13,23 +13,23 @@ const require = createRequire(import.meta.url)
  * @returns {import('../apps/desktop/electron/install-stamp.js').ChannelBuildRequest | null}
  */
 export function channelBuildRequest(env = process.env) {
-  if (!env._HERMES_CHANNEL_REQUEST_JSON) return null
-  const value = JSON.parse(env._HERMES_CHANNEL_REQUEST_JSON)
-  if (env.HERMES_DESKTOP_VARIANT !== 'bundled') throw new Error('Channel builds support only bundled packaging')
-  if (env.HERMES_BUILD_COMMIT || env.HERMES_PAYLOAD_TAG) throw new Error('Channel request conflicts with commit or tag identity')
+  if (!env._VAEL_CHANNEL_REQUEST_JSON) return null
+  const value = JSON.parse(env._VAEL_CHANNEL_REQUEST_JSON)
+  if (env.VAEL_DESKTOP_VARIANT !== 'bundled') throw new Error('Channel builds support only bundled packaging')
+  if (env.VAEL_BUILD_COMMIT || env.VAEL_PAYLOAD_TAG) throw new Error('Channel request conflicts with commit or tag identity')
   // The bundled toolchain already supplies Python. Reuse the authoritative
   // validator rather than maintaining a third protocol decoder for packaging.
   const validator = [
     'import sys',
     'sys.path.insert(0, sys.argv[1])',
-    'from hermes_cli.release_channels import decode_json',
+    'from vael_cli.release_channels import decode_json',
     'from scripts.bundles.desktop_prepare import validate_channel_request',
     'validate_channel_request(decode_json(sys.stdin.buffer.read()))'
   ].join('; ')
-  execFileSync(env.HERMES_PYTHON || 'python', ['-I', '-S', '-c', validator, path.resolve(import.meta.dirname, '..')], {
-    env, input: env._HERMES_CHANNEL_REQUEST_JSON, encoding: 'utf8', stdio: ['pipe', 'pipe', 'pipe'], timeout: 30_000
+  execFileSync(env.VAEL_PYTHON || 'python', ['-I', '-S', '-c', validator, path.resolve(import.meta.dirname, '..')], {
+    env, input: env._VAEL_CHANNEL_REQUEST_JSON, encoding: 'utf8', stdio: ['pipe', 'pipe', 'pipe'], timeout: 30_000
   })
-  if (env.HERMES_PAYLOAD_VERSION && env.HERMES_PAYLOAD_VERSION !== value.version) throw new Error('Channel package version conflicts with prepared request')
+  if (env.VAEL_PAYLOAD_VERSION && env.VAEL_PAYLOAD_VERSION !== value.version) throw new Error('Channel package version conflicts with prepared request')
   Object.freeze(value.identity)
   Object.freeze(value.bundleEnv)
   return Object.freeze(value)
@@ -149,11 +149,11 @@ function releaseEpoch(tag, gitRoot) {
     const compact = new Date(epoch * 1000).toISOString().replace(/[-:T]/g, '').replace(/\.000Z$/, '')
     const expected = `${compact.slice(0, 8)}T${compact.slice(8)}Z`
     if (expected !== stamp) throw new Error('Invalid canary calendar timestamp')
-    const supplied = process.env.HERMES_RELEASE_EPOCH
+    const supplied = process.env.VAEL_RELEASE_EPOCH
     if (supplied !== undefined && Number(supplied) !== epoch) throw new Error('Canary release epoch differs from its tag')
     return epoch
   }
-  const supplied = process.env.HERMES_RELEASE_EPOCH
+  const supplied = process.env.VAEL_RELEASE_EPOCH
   if (supplied !== undefined) {
     if (!/^\d+$/.test(supplied)) throw new Error('Invalid immutable release epoch')
     return Number(supplied)
@@ -232,10 +232,10 @@ export function stageChannelManifest(desktopDir, request) {
  * exact feed filename/identity without duplicating the derivation.
  *
  * @param {string} desktopDir absolute apps/desktop path
- * @param {string} [tag] the release tag (defaults to HERMES_PAYLOAD_TAG)
+ * @param {string} [tag] the release tag (defaults to VAEL_PAYLOAD_TAG)
  * @returns {{ identity: object, version: string, name: string, fileVersion: string }}
  */
-export function appIdentity(desktopDir, tag = process.env.HERMES_PAYLOAD_TAG || '') {
+export function appIdentity(desktopDir, tag = process.env.VAEL_PAYLOAD_TAG || '') {
   const identity = require(path.join(desktopDir, 'product-identity.cjs'))
   const pkg = JSON.parse(fs.readFileSync(path.join(desktopDir, 'package.json'), 'utf8'))
   const repoRoot = path.resolve(desktopDir, '..', '..')
@@ -245,14 +245,14 @@ export function appIdentity(desktopDir, tag = process.env.HERMES_PAYLOAD_TAG || 
     return { identity, version: request.windowsVersion, fileVersion: request.version, name: identity.artifactNamePascal }
   }
   // Commit artifacts retain app semver but do not advance an update channel.
-  if (process.env.HERMES_BUILD_COMMIT) {
-    if (tag) throw new Error('Commit-only builds must not set HERMES_PAYLOAD_TAG')
-    const commit = process.env.HERMES_BUILD_COMMIT
+  if (process.env.VAEL_BUILD_COMMIT) {
+    if (tag) throw new Error('Commit-only builds must not set VAEL_PAYLOAD_TAG')
+    const commit = process.env.VAEL_BUILD_COMMIT
     if (!/^[a-f0-9]{40}$/.test(commit)) throw new Error('Commit builds require an exact full SHA')
-    const version = String(process.env.HERMES_PAYLOAD_VERSION || '')
+    const version = String(process.env.VAEL_PAYLOAD_VERSION || '')
     if (!/^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$/.test(version)
         || version.split('.').some(part => Number(part) > 65535)) {
-      throw new Error('Commit builds require HERMES_PAYLOAD_VERSION=X.Y.Z with 16-bit fields')
+      throw new Error('Commit builds require VAEL_PAYLOAD_VERSION=X.Y.Z with 16-bit fields')
     }
     if (identity.store) throw new Error('Store packaging requires a stable release tag')
     return { identity, version: `${version}.0`, fileVersion: version, name: identity.artifactNamePascal }

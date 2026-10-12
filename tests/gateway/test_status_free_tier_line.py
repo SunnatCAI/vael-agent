@@ -9,8 +9,8 @@ import pytest
 
 from gateway.config import Platform
 from gateway.session import SessionEntry, build_session_key
-from hermes_cli import anon_auth
-from hermes_cli.auth import _auth_store_lock, _load_auth_store, _save_auth_store
+from vael_cli import anon_auth
+from vael_cli.auth import _auth_store_lock, _load_auth_store, _save_auth_store
 from tests.gateway.test_status_command import _make_event, _make_runner, _make_source
 
 def _runner():
@@ -66,8 +66,8 @@ def _account_state() -> dict:
 
 @pytest.fixture(autouse=True)
 def isolated_auth_store(tmp_path, monkeypatch):
-    monkeypatch.setenv("HERMES_SHARED_AUTH_DIR", str(tmp_path / "shared-store"))
-    monkeypatch.setenv("HERMES_GUEST_ONBOARDING", "1")
+    monkeypatch.setenv("VAEL_SHARED_AUTH_DIR", str(tmp_path / "shared-store"))
+    monkeypatch.setenv("VAEL_GUEST_ONBOARDING", "1")
 
 @pytest.mark.asyncio
 async def test_status_names_the_free_tier_and_the_slash_command_when_the_free_tier_carries_inference(

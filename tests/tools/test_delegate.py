@@ -27,7 +27,7 @@ from tools.delegate_tool import (
     _resolve_child_credential_pool,
     _resolve_delegation_credentials,
 )
-from hermes_state import SessionDB
+from vael_state import SessionDB
 
 
 def _make_mock_parent(depth=0):
@@ -77,7 +77,7 @@ class TestStripBlockedTools(unittest.TestCase):
     def test_mixed_composite_is_subtracted_at_child_assembly(self):
         """A mixed platform bundle must not re-expose blocked leaf tools.
 
-        ``hermes-cli`` contains both allowed tools and every sensitive
+        ``vael-cli`` contains both allowed tools and every sensitive
         delegate tool, so it cannot be dropped wholesale. Child construction
         must instead pass exact one-tool deny toolsets to AIAgent, where
         model_tools applies them after resolving the composite.
@@ -85,7 +85,7 @@ class TestStripBlockedTools(unittest.TestCase):
         import model_tools
 
         parent = _make_mock_parent()
-        parent.enabled_toolsets = ["hermes-cli"]
+        parent.enabled_toolsets = ["vael-cli"]
         parent.disabled_toolsets = ["browser"]
 
         with patch("run_agent.AIAgent") as MockAgent:
@@ -130,7 +130,7 @@ class TestStripBlockedTools(unittest.TestCase):
         import model_tools
 
         parent = _make_mock_parent()
-        parent.enabled_toolsets = ["hermes-cli"]
+        parent.enabled_toolsets = ["vael-cli"]
         parent.disabled_toolsets = ["delegation", "browser"]
 
         with (
@@ -333,7 +333,7 @@ class TestDelegateTask(unittest.TestCase):
         """Portal is dual-wire — same provider + different model prefix must
         not inherit the parent's Messages/chat_completions mode verbatim.
         Native wire selected (opt-in since 2026-09-06, ``nous.anthropic_wire``)."""
-        with patch("hermes_cli.providers._nous_anthropic_wire", return_value="native"):
+        with patch("vael_cli.providers._nous_anthropic_wire", return_value="native"):
             self._nous_child_rederives_api_mode_from_model()
 
     def _nous_child_rederives_api_mode_from_model(self):
@@ -884,7 +884,7 @@ class TestDelegationCredentialResolution(unittest.TestCase):
         self.assertEqual(creds["api_mode"], "anthropic_messages")
 
 
-    @patch("hermes_cli.runtime_provider.resolve_runtime_provider")
+    @patch("vael_cli.runtime_provider.resolve_runtime_provider")
     def test_base_url_with_provider_carries_runtime_request_overrides(self, mock_resolve):
         """#65035: the base_url short-circuit must not drop the configured
         provider's generic request_overrides; dedicated output caps are ignored."""
@@ -915,7 +915,7 @@ class TestDelegationCredentialResolution(unittest.TestCase):
         self.assertNotIn("max_output_tokens", creds)
 
 
-    @patch("hermes_cli.runtime_provider.resolve_runtime_provider")
+    @patch("vael_cli.runtime_provider.resolve_runtime_provider")
     def test_base_url_survives_runtime_resolution_failure(self, mock_resolve):
         """Best-effort: the explicit endpoint worked before this change even
         when the provider can't resolve — a resolution failure must not
@@ -928,7 +928,7 @@ class TestDelegationCredentialResolution(unittest.TestCase):
         self.assertIsNone(creds["request_overrides"])
         self.assertNotIn("max_output_tokens", creds)
 
-    @patch("hermes_cli.runtime_provider.resolve_runtime_provider")
+    @patch("vael_cli.runtime_provider.resolve_runtime_provider")
     def test_provider_resolution_failure_raises_valueerror(self, mock_resolve):
         """When provider resolution fails, ValueError is raised with helpful message."""
         mock_resolve.side_effect = RuntimeError("OPENROUTER_API_KEY not set")
@@ -938,7 +938,7 @@ class TestDelegationCredentialResolution(unittest.TestCase):
             _resolve_delegation_credentials(cfg, parent)
         self.assertIn("openrouter", str(ctx.exception).lower())
 
-    @patch("hermes_cli.runtime_provider.resolve_runtime_provider")
+    @patch("vael_cli.runtime_provider.resolve_runtime_provider")
     def test_provider_resolves_but_no_api_key_raises(self, mock_resolve):
         """When provider resolves but has no API key, ValueError is raised."""
         mock_resolve.return_value = {
@@ -952,7 +952,7 @@ class TestDelegationCredentialResolution(unittest.TestCase):
         with self.assertRaises(ValueError):
             _resolve_delegation_credentials(cfg, parent)
 
-    @patch("hermes_cli.runtime_provider.resolve_runtime_provider")
+    @patch("vael_cli.runtime_provider.resolve_runtime_provider")
     def test_named_custom_provider_preserves_provider_name(self, mock_resolve):
         """Named custom provider (e.g. crof.ai) resolves to 'custom' at runtime level
         but the subagent must retain the original provider identity so that
@@ -1070,10 +1070,10 @@ class TestChildCredentialPoolResolution(unittest.TestCase):
     def test_named_custom_child_pool_follows_requested_provider_not_endpoint_order(self):
         """#45763 (salvage #89021): two named custom providers on one gateway URL keep separate pools; the child
         leases the pool of the identity it inherited, not the first entry registered for that URL."""
-        from hermes_constants import get_hermes_home
+        from vael_constants import get_vael_home
 
         url = "https://gateway.invalid/v1"
-        get_hermes_home().joinpath("config.yaml").write_text(
+        get_vael_home().joinpath("config.yaml").write_text(
             f"providers:\n  claude-ai:\n    api: {url}\n  open-ai:\n    api: {url}\n", encoding="utf-8",
         )
         parent = _make_mock_parent()
@@ -1509,7 +1509,7 @@ class TestConcurrencyDefaults(unittest.TestCase):
 
         with patch.dict("sys.modules", {"cli": stale_cli}):
             with patch(
-                "hermes_cli.config.load_config_readonly", return_value=active_config
+                "vael_cli.config.load_config_readonly", return_value=active_config
             ):
                 self.assertEqual(_load_config()["max_concurrent_children"], 50)
                 self.assertEqual(_get_max_concurrent_children(), 50)
@@ -1974,7 +1974,7 @@ class TestFallbackModelInheritance(unittest.TestCase):
             "args": [],
         }
         with patch(
-            "hermes_cli.runtime_provider.resolve_runtime_provider",
+            "vael_cli.runtime_provider.resolve_runtime_provider",
             return_value=runtime,
         ):
             with patch("shutil.which", return_value=None):
@@ -2017,7 +2017,7 @@ class TestAtomicChildCredentialBundle(unittest.TestCase):
         self.assertEqual(kwargs["base_url"], "https://fallback.example/v1")
         self.assertEqual(kwargs["api_key"], "FAKE-KEY-FALLBACK")
 
-    @patch("hermes_cli.runtime_provider.resolve_runtime_provider")
+    @patch("vael_cli.runtime_provider.resolve_runtime_provider")
     def test_provider_without_base_url_is_refused(self, mock_resolve):
         mock_resolve.return_value = {"provider": "copilot", "base_url": "", "api_key": "gh-x", "api_mode": None}
         parent = _make_mock_parent(depth=0)

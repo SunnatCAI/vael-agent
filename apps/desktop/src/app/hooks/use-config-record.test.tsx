@@ -3,21 +3,21 @@ import { act, cleanup, renderHook, waitFor } from '@testing-library/react'
 import { createElement } from 'react'
 import { afterEach, expect, it, vi } from 'vitest'
 
-import type * as HermesApi from '@/hermes'
-import { bindConfigReadOrigin, getHermesConfigRecord } from '@/hermes'
 import { queryClient } from '@/lib/query-client'
 import { $connection } from '@/store/session'
+import type * as VaelApi from '@/vael'
+import { bindConfigReadOrigin, getVaelConfigRecord } from '@/vael'
 
 import {
-  HERMES_CONFIG_KEY,
-  hermesConfigCacheWriter,
-  setHermesConfigCache,
-  useHermesConfigRecord
+  setVaelConfigCache,
+  useVaelConfigRecord,
+  VAEL_CONFIG_KEY,
+  vaelConfigCacheWriter
 } from './use-config-record'
 
-vi.mock('@/hermes', async importOriginal => ({
-  ...(await importOriginal<typeof HermesApi>()),
-  getHermesConfigRecord: vi.fn()
+vi.mock('@/vael', async importOriginal => ({
+  ...(await importOriginal<typeof VaelApi>()),
+  getVaelConfigRecord: vi.fn()
 }))
 
 afterEach(() => {
@@ -35,9 +35,9 @@ it('updates the write origin when a refetch replaces the displayed record', asyn
   const second = { display: { theme: 'light' } }
   bindConfigReadOrigin(first, { connectionId: 'connection-a', profile: 'worker' })
   bindConfigReadOrigin(second, { connectionId: 'connection-b', profile: 'worker' })
-  vi.mocked(getHermesConfigRecord).mockResolvedValueOnce(first).mockResolvedValueOnce(second)
+  vi.mocked(getVaelConfigRecord).mockResolvedValueOnce(first).mockResolvedValueOnce(second)
 
-  const { result } = renderHook(() => useHermesConfigRecord(), { wrapper })
+  const { result } = renderHook(() => useVaelConfigRecord(), { wrapper })
 
   // Before the first GET resolves the scope must be `undefined` (not `null`):
   // profileScoped(null) drops the active profile and targets the PRIMARY.
@@ -48,7 +48,7 @@ it('updates the write origin when a refetch replaces the displayed record', asyn
   await waitFor(() => expect(result.current.data).toBe(first))
   expect(result.current.writeScope).toEqual({ connectionId: 'connection-a', profile: 'worker' })
 
-  await queryClient.invalidateQueries({ queryKey: HERMES_CONFIG_KEY })
+  await queryClient.invalidateQueries({ queryKey: VAEL_CONFIG_KEY })
 
   await waitFor(() => expect(result.current.data).toEqual(second))
   await waitFor(() => expect(result.current.writeScope).toEqual({ connectionId: 'connection-b', profile: 'worker' }))
@@ -67,12 +67,12 @@ it('does not share one config record across two gateways', async () => {
     releaseDevbox = resolve
   })
 
-  vi.mocked(getHermesConfigRecord).mockImplementation(() =>
+  vi.mocked(getVaelConfigRecord).mockImplementation(() =>
     $connection.get()?.connectionId === 'devbox' ? devboxFetch : Promise.resolve(laptop)
   )
 
   useGateway('laptop')
-  const { result } = renderHook(() => useHermesConfigRecord(), { wrapper })
+  const { result } = renderHook(() => useVaelConfigRecord(), { wrapper })
 
   await waitFor(() => expect(result.current.data).toEqual(laptop))
 
@@ -90,7 +90,7 @@ it('does not share one config record across two gateways', async () => {
   })
   await waitFor(() => expect(result.current.data).toEqual(devbox))
 
-  const cached = queryClient.getQueriesData({ queryKey: HERMES_CONFIG_KEY }).map(([, data]) => data)
+  const cached = queryClient.getQueriesData({ queryKey: VAEL_CONFIG_KEY }).map(([, data]) => data)
 
   expect(cached).toContainEqual(laptop)
   expect(cached).toContainEqual(devbox)
@@ -102,17 +102,17 @@ it('a settings cache write after switching gateways does not replace the other g
   // Config settings memoize the writer on the profile name. Both gateways are
   // on `default`, so a captured unscoped key would let the second save replace
   // the first machine's record.
-  const writer = hermesConfigCacheWriter('default')
+  const writer = vaelConfigCacheWriter('default')
 
   useGateway('laptop')
-  setHermesConfigCache(laptop)
+  setVaelConfigCache(laptop)
   writer({ agent: { model: 'laptop-model' } })
 
   useGateway('devbox')
-  setHermesConfigCache(devbox)
+  setVaelConfigCache(devbox)
   writer({ agent: { model: 'devbox-model' } })
 
-  const cached = queryClient.getQueriesData({ queryKey: HERMES_CONFIG_KEY }).map(([, data]) => data)
+  const cached = queryClient.getQueriesData({ queryKey: VAEL_CONFIG_KEY }).map(([, data]) => data)
 
   expect(cached).toContainEqual(laptop)
   expect(cached).toContainEqual(devbox)

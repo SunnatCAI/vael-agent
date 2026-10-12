@@ -31,7 +31,7 @@ describe('a sent reference renders as the chip the composer showed', () => {
   })
 
   it('labels a large-paste file as pasted content, keeping its path on hover', () => {
-    const path = '/home/u/.hermes/attachments/pasted_content_2026-09-27_21-33-42-827_55e028-2.txt'
+    const path = '/home/u/.vael/attachments/pasted_content_2026-09-27_21-33-42-827_55e028-2.txt'
 
     render(<UserMessageText text={`@file:${path}`} />)
 

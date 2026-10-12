@@ -59,7 +59,7 @@ export function remoteHostLabel(url: string): string {
  * single failed read keeps that profile unbadged rather than failing the lot.
  */
 export async function refreshProfileRemoteOverrides(names: string[]): Promise<void> {
-  const getConnectionConfig = window.hermesDesktop?.getConnectionConfig
+  const getConnectionConfig = window.vaelDesktop?.getConnectionConfig
 
   if (!getConnectionConfig) {
     return

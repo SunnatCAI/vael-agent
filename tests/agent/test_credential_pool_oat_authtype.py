@@ -28,9 +28,9 @@ def test_anthropic_real_api_key_unchanged():
 
 
 def test_load_heals_legacy_row_and_exposes_it_to_resolver(tmp_path, monkeypatch):
-    hermes_home = tmp_path / "hermes"
-    hermes_home.mkdir()
-    monkeypatch.setenv("HERMES_HOME", str(hermes_home))
+    vael_home = tmp_path / "vael"
+    vael_home.mkdir()
+    monkeypatch.setenv("VAEL_HOME", str(vael_home))
     for key in ("ANTHROPIC_API_KEY", "ANTHROPIC_TOKEN", "CLAUDE_CODE_OAUTH_TOKEN"):
         monkeypatch.delenv(key, raising=False)
     monkeypatch.setattr(
@@ -38,7 +38,7 @@ def test_load_heals_legacy_row_and_exposes_it_to_resolver(tmp_path, monkeypatch)
         lambda: None,
     )
     token = "sk-ant-oat-legacy-manual"
-    auth_file = hermes_home / "auth.json"
+    auth_file = vael_home / "auth.json"
     auth_file.write_text(json.dumps({
         "version": 1,
         "credential_pool": {

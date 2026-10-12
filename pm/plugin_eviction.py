@@ -47,7 +47,7 @@ def _interpreter_version() -> str:
 
 def static_verdicts(entries: list[Entry], python_version: str) -> tuple[dict[Path, str], dict[Path, str]]:
     """``(disable, sit out)`` reasons found without a resolver, keyed by resolved dir."""
-    from hermes_cli.plugins_manifest import requires_hermes_error
+    from vael_cli.plugins_manifest import requires_hermes_error
     from pm.plugin_declarations import manifest_version_error, read_python_declaration
 
     reasons: dict[Path, str] = {}
@@ -62,9 +62,9 @@ def static_verdicts(entries: list[Entry], python_version: str) -> tuple[dict[Pat
             reasons[key] = f"its dependency declaration is invalid: {exc}"
             continue
         # Mirrors enabled_member_dirs, so the recorded stamp is the one boot expects.
-        hermes = requires_hermes_error(declaration.manifest)
-        if hermes:
-            waiting[key] = hermes
+        vael = requires_hermes_error(declaration.manifest)
+        if vael:
+            waiting[key] = vael
             continue
         manifest = manifest_version_error(declaration.manifest, plugin_dir.name)
         reason = (manifest.removeprefix(f"Plugin '{plugin_dir.name}' ") if manifest
@@ -78,7 +78,7 @@ class PluginEviction:
     """Config edits disabling the plugins in *reasons*; published like a plugin selection."""
 
     def __init__(self, entries: list[Entry], reasons: dict[Path, str]):
-        from hermes_yaml import roundtrip_yaml
+        from vael_yaml import roundtrip_yaml
         from pm.publication import selection_snapshot
 
         self.configs = selection_snapshot()
@@ -201,7 +201,7 @@ def sync_evicting(package, facts, fact: dict, *, extras, shipped, frozen, explic
             notices.append(f"Disabled plugin '{name}' in {plugins_dir.parent}: {reasons[key]}")
         elif key in waiting:
             notices.append(f"Left plugin '{name}' in {plugins_dir.parent} out of this update: {waiting[key]}; "
-                           "it stays enabled and rejoins once Hermes reports a version it accepts")
+                           "it stays enabled and rejoins once VAEL reports a version it accepts")
     for message in notices:
         print(f"⚠ {message}", file=sys.stderr, flush=True)
         receipt.record_warning(message)

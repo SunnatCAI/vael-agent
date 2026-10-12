@@ -1,6 +1,6 @@
-import { DropdownMenu, DropdownMenuContent, ModelCatalogMenu, type ModelMenuController } from '@hermes/plugin-sdk'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { cleanup, fireEvent, render, screen } from '@testing-library/react'
+import { DropdownMenu, DropdownMenuContent, ModelCatalogMenu, type ModelMenuController } from '@vael/plugin-sdk'
 import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import {
@@ -21,7 +21,7 @@ beforeAll(() => {
 
 const getGlobalModelOptions = vi.fn()
 
-vi.mock('@/hermes', () => ({
+vi.mock('@/vael', () => ({
   getGlobalModelOptions: (...args: unknown[]) => getGlobalModelOptions(...args),
   setApiRequestProfile: vi.fn()
 }))

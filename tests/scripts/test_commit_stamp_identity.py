@@ -14,8 +14,8 @@ def test_stamp_uses_built_commit_even_with_dispatch_sha_and_refuses_mismatch(tmp
     repo = tmp_path / 'repo'
     repo.mkdir()
     for relative in ('scripts/write_install_stamp.py',
-                     'hermes_cli/__init__.py', 'hermes_cli/update_channel.py', 'hermes_cli/release_channels.py',
-                     'pm/paths.py', 'pm/environments.py', 'hermes_cli/steward.py', 'hermes_constants.py'):
+                     'vael_cli/__init__.py', 'vael_cli/update_channel.py', 'vael_cli/release_channels.py',
+                     'pm/paths.py', 'pm/environments.py', 'vael_cli/steward.py', 'vael_constants.py'):
         dest = repo / relative
         dest.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(ROOT / relative, dest)
@@ -40,10 +40,10 @@ def test_stamp_uses_built_commit_even_with_dispatch_sha_and_refuses_mismatch(tmp
     git('commit', '-qm', 'feature')
     feature = git('rev-parse', 'HEAD')
     out = tmp_path / 'stamp.json'
-    env = {k: v for k, v in os.environ.items() if not k.startswith(('GITHUB_', 'HERMES_BUILD_', 'HERMES_PAYLOAD_'))}
+    env = {k: v for k, v in os.environ.items() if not k.startswith(('GITHUB_', 'VAEL_BUILD_', 'VAEL_PAYLOAD_'))}
     env.update({'GITHUB_SHA': main, 'GITHUB_REF_NAME': 'main',
-                'HERMES_BUILD_COMMIT': feature, 'HERMES_DESKTOP_VARIANT': 'bundled',
-                'HERMES_HOME': str(tmp_path / 'home')})
+                'VAEL_BUILD_COMMIT': feature, 'VAEL_DESKTOP_VARIANT': 'bundled',
+                'VAEL_HOME': str(tmp_path / 'home')})
     command = [sys.executable, '-I', '-S', str(repo / 'scripts/write_install_stamp.py'),
                '--output', str(out), '--base-version', '0.28.0', '--distance', '0',
                '--update-mechanism', 'app-installer']
@@ -67,10 +67,10 @@ def test_stamp_uses_built_commit_even_with_dispatch_sha_and_refuses_mismatch(tmp
         assert result.returncode != 0 and 'checkout' in result.stderr.lower()
         assert out.read_bytes() == before
     git('checkout', '-q', 'feature')
-    for extra in ({'HERMES_BUILD_COMMIT': feature[:8]}, {'HERMES_PAYLOAD_TAG': 'v1.2.3'},
-                  {'HERMES_BUILD_COMMIT': ' ' + feature}):
+    for extra in ({'VAEL_BUILD_COMMIT': feature[:8]}, {'VAEL_PAYLOAD_TAG': 'v1.2.3'},
+                  {'VAEL_BUILD_COMMIT': ' ' + feature}):
         assert run(override=extra).returncode != 0
         assert out.read_bytes() == before
-    result = run('--commit', feature, override={'HERMES_BUILD_COMMIT': '', 'HERMES_PAYLOAD_TAG': 'v1.2.3'})
+    result = run('--commit', feature, override={'VAEL_BUILD_COMMIT': '', 'VAEL_PAYLOAD_TAG': 'v1.2.3'})
     assert result.returncode == 0, result.stderr
     assert json.loads(out.read_text(encoding='utf-8'))['tag'] == 'v1.2.3'

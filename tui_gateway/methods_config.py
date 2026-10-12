@@ -9,8 +9,8 @@ import threading
 from .method_ctx import HandlerRegistry, bind_module
 from ._env import env_int
 
-from hermes_constants import DEFAULT_INDICATOR_STYLE, INDICATOR_STYLES
-from hermes_constants import display_hermes_home as _display_hermes_home
+from vael_constants import DEFAULT_INDICATOR_STYLE, INDICATOR_STYLES
+from vael_constants import display_vael_home as _display_vael_home
 
 _registry = HandlerRegistry()
 method = _registry.method
@@ -42,7 +42,7 @@ _profile_scoped = _registry.profile_scoped
 #   keeps running in the background; the in-flight entry is cleared when it
 #   settles, so the next poll starts a fresh probe and never reads a stale one.
 _readiness_pool = concurrent.futures.ThreadPoolExecutor(
-    max_workers=max(2, min(4, env_int("HERMES_TUI_RPC_POOL_WORKERS", 8))),
+    max_workers=max(2, min(4, env_int("VAEL_TUI_RPC_POOL_WORKERS", 8))),
     thread_name_prefix="tui-readiness")
 atexit.register(lambda: _readiness_pool.shutdown(wait=False, cancel_futures=True))
 _readiness_lock = threading.Lock()
@@ -88,7 +88,7 @@ def _(rid, params: dict) -> dict:
     with _profile_db(params) as db:
         if db is None:
             return _ok(rid, {"repos": []})
-        from hermes_cli import projects_db as pdb
+        from vael_cli import projects_db as pdb
         policy = _repo_discovery_policy()
         with pdb.connect_closing() as conn:
             _reconcile_repo_discovery(pdb, conn, policy, _repo_discovery_policy_key(policy))
@@ -104,7 +104,7 @@ def _(rid, params: dict) -> dict:
 @_projects_handler("projects.record_repos")
 def _(rid, params: dict) -> dict:
     """Persist repo roots found by the client's (desktop-side) scan; return the merged list."""
-    from hermes_cli import projects_db as pdb
+    from vael_cli import projects_db as pdb
     policy = _repo_discovery_policy()
     policy_key = _repo_discovery_policy_key(policy)
     incoming = params.get("discovery_policy")
@@ -182,7 +182,7 @@ _THINKING_MODES = frozenset({"collapsed", "truncated", "full"})
 
 
 def _cfg_get_provider(params):
-    from hermes_cli.models import list_available_providers, normalize_provider
+    from vael_cli.models import list_available_providers, normalize_provider
     model = _resolve_model()
     parts = model.split("/", 1)
     return {"model": model, "provider": normalize_provider(parts[0]) if len(parts) > 1 else "unknown",
@@ -199,7 +199,7 @@ def _cfg_get_project(params):
 
 def _cfg_get_personality(params):
     # EFFECTIVE personality via the single owner — a stale/unknown name must not show as active.
-    from hermes_cli.personality import active_personality_name
+    from vael_cli.personality import active_personality_name
     return {"value": active_personality_name(_load_cfg()) or "none"}
 
 
@@ -215,7 +215,7 @@ def _cfg_get_reasoning(params):
     else:
         raw_effort = (cfg.get("agent") or {}).get("reasoning_effort", "")
         if isinstance(raw_effort, dict):  # {enabled, effort} form: render the tier, never str(dict)
-            from hermes_constants import parse_reasoning_effort
+            from vael_constants import parse_reasoning_effort
             parsed = parse_reasoning_effort(raw_effort) or {}
             raw_effort = False if parsed.get("enabled") is False else parsed.get("effort")
         # YAML `reasoning_effort: false` means thinking disabled, not "unset".
@@ -244,7 +244,7 @@ def _cfg_get_thinking_mode(params):
 
 
 def _cfg_get_mtime(params):
-    cfg_path = _hermes_home / "config.yaml"
+    cfg_path = _vael_home / "config.yaml"
     try:
         mtime = cfg_path.stat().st_mtime if cfg_path.exists() else 0
     except Exception:
@@ -257,7 +257,7 @@ def _cfg_get_mtime(params):
 # key -> getter(params); bind_module rebinds the table's functions onto server.py's globals.
 _CONFIG_GETTERS = {
     "provider": _cfg_get_provider,
-    "profile": lambda params: {"home": str(_hermes_home), "display": _display_hermes_home()},
+    "profile": lambda params: {"home": str(_vael_home), "display": _display_vael_home()},
     "project": _cfg_get_project,
     "full": lambda params: {"config": _load_cfg()},
     "prompt": lambda params: {"prompt": _load_cfg().get("custom_prompt", "")},
@@ -352,7 +352,7 @@ def _readiness_share(rid, key, run_probe, wait_seconds):
 
 def _readiness_check(rid, params, probe, *, probe_key, wait_seconds):
     """Shared shell of setup.status / setup.runtime_check. ``probe(profile, scoped)`` runs inside the
-    optional ``profile`` param's HERMES_HOME + ``.env`` secret scope (ContextVars: concurrent checks
+    optional ``profile`` param's VAEL_HOME + ``.env`` secret scope (ContextVars: concurrent checks
     stay isolated); ``scoped`` is the ``{"profile": ...}`` payload stamp (``{}`` for the launch
     profile). An unknown profile answers ``ok=False`` (never a JSON-RPC error, never a quiet answer
     for the launch profile instead). ``probe_key`` + the profile single-flight the probe, and
@@ -360,7 +360,7 @@ def _readiness_check(rid, params, probe, *, probe_key, wait_seconds):
     profile = str(params.get("profile") or "").strip() if isinstance(params, dict) else ""
     home = None
     if profile:
-        from hermes_cli import profiles as profiles_mod
+        from vael_cli import profiles as profiles_mod
         if not profiles_mod.profile_exists(profile):
             return _ok(rid, {"ok": False, "profile": params.get("profile"),
                              "error": f"Profile '{profile}' does not exist on this backend."})
@@ -368,7 +368,7 @@ def _readiness_check(rid, params, probe, *, probe_key, wait_seconds):
     # ``profile_home=None`` is the launch profile: once this process multiplexes its probe must
     # run under its own frozen secret scope too (``_profile_runtime_scope_tokens`` binds nothing in
     # a single-profile process), or the first profile-scoped read inside the resolver
-    # (``HERMES_CODEX_BASE_URL`` for openai-codex) fails closed and the UI shows onboarding.
+    # (``VAEL_CODEX_BASE_URL`` for openai-codex) fails closed and the UI shows onboarding.
     def run_probe():
         # Applied on the readiness pool thread: ContextVars do not cross threads, and
         # concurrent probes (different profiles) stay isolated exactly as they did when
@@ -387,15 +387,15 @@ def _(rid, params: dict) -> dict:
     the call blocks up to ``SETUP_READY_WAIT_SECONDS`` for it, so a client's first poll lands after
     the free-tier identity exists (or has been refused) rather than racing the mint. A record that
     says ``False`` is reconciled with the config files first (``reconcile_record``): a provider
-    added after boot — the Models page, a picker key, ``hermes setup`` from a shell — flips it
+    added after boot — the Models page, a picker key, ``vael setup`` from a shell — flips it
     without a restart. If the record
     is still missing after the wait, or a named profile is asked about, today's live probe answers.
     The record's fields ride along additively (``ready``, ``free_tier_account``, ``free_tier_route``,
     ``other_providers``)."""
     try:
-        from hermes_cli.anon_auth import free_tier_route
-        from hermes_cli.main import _has_any_provider_configured
-        from hermes_cli.free_tier_bootstrap import wait_for_record
+        from vael_cli.anon_auth import free_tier_route
+        from vael_cli.main import _has_any_provider_configured
+        from vael_cli.free_tier_bootstrap import wait_for_record
 
         def probe(profile, scoped):
             record = None if profile else wait_for_record()
@@ -433,9 +433,9 @@ def _(rid, params: dict) -> dict:
     fallback masking a failed connection. ``profile`` answers for THAT profile's pin and ``.env``;
     unknown -> ``ok=False``."""
     try:
-        from hermes_cli.runtime_provider import resolve_runtime_provider
-        from hermes_cli.auth import has_usable_secret
-        from hermes_cli.main import _has_any_provider_configured
+        from vael_cli.runtime_provider import resolve_runtime_provider
+        from vael_cli.auth import has_usable_secret
+        from vael_cli.main import _has_any_provider_configured
         requested = str(params.get("provider") or "").strip() or None
 
         def probe(profile, scoped):
@@ -462,13 +462,13 @@ def _(rid, params: dict) -> dict:
                         "source": src, "error": error, **scoped}
             if (not provider_configured and provider == "bedrock"
                     and source in {"iam-role", "aws-sdk-default-chain"}):
-                return fail("No Hermes provider is configured.", source)
+                return fail("No VAEL provider is configured.", source)
             api_key = runtime.get("api_key")
             api_key_text = "" if callable(api_key) else str(api_key or "").strip()
             if not (callable(api_key) or api_key_text in {"aws-sdk", "no-key-required"}
                     or has_usable_secret(api_key_text) or bool(runtime.get("command"))):
                 return fail(f"No usable credentials found for {blamed}.", runtime.get("source"))
-            from hermes_cli.anon_auth import route_is_welcome_host
+            from vael_cli.anon_auth import route_is_welcome_host
             # free_tier_route is keyed on the SELECTED route (the welcome host serves only nous/welcome), not
             # on profile state: a paid Nous key beside a free-tier identity must not read as free.
             return {"ok": True, "provider": runtime.get("provider"), "model": model,
@@ -492,13 +492,13 @@ def _safe_client_label(label: str) -> str:
 @method("diagnostics.share_nous")
 def _(rid, params: dict) -> dict:
     """Upload a redacted debug bundle to Nous-internal diagnostics storage — same collection +
-    force-redaction pipeline as ``hermes debug share --nous``; redaction is NOT client-controllable
+    force-redaction pipeline as ``vael debug share --nous``; redaction is NOT client-controllable
     and consent lives with the CALLER (privacy notice first). Structured ``ok``/``error`` envelope so
     upload failures render inline. Optional: ``error_context`` (-> ``error-context.txt``),
     ``extra_files`` ({label -> text}), ``log_lines`` (default 200); all force-redacted."""
     try:
-        from hermes_cli.debug import _redact_log_text, build_nous_bundle, collect_share_bundle
-        from hermes_cli.diagnostics_upload import share_to_nous
+        from vael_cli.debug import _redact_log_text, build_nous_bundle, collect_share_bundle
+        from vael_cli.diagnostics_upload import share_to_nous
         log_lines = params.get("log_lines")
         if not isinstance(log_lines, int) or not (10 <= log_lines <= 2000):
             log_lines = 200

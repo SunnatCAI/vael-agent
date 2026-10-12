@@ -1,6 +1,6 @@
-import type { GatewayEvent } from '@hermes/shared'
 import { QueryClient } from '@tanstack/react-query'
 import { render } from '@testing-library/react'
+import type { GatewayEvent } from '@vael/shared'
 import { useEffect, useRef } from 'react'
 import { vi } from 'vitest'
 
@@ -65,7 +65,7 @@ export function renderMessageStream(
       activeSessionIdRef,
       hydrateFromStoredSession: vi.fn(async () => undefined),
       queryClient: queryClientRef.current,
-      refreshHermesConfig: vi.fn(async () => undefined),
+      refreshVaelConfig: vi.fn(async () => undefined),
       refreshSessions: vi.fn(async () => undefined),
       sessionStateByRuntimeIdRef,
       updateSessionState: (id, updater) => {

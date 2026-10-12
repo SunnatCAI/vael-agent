@@ -13,17 +13,6 @@ import { Input } from '@/components/ui/input'
 import { Switch } from '@/components/ui/switch'
 import { ResponsiveTabs } from '@/components/ui/tab-dropdown'
 import { Tip } from '@/components/ui/tooltip'
-import {
-  approvePairing,
-  getMessagingPlatforms,
-  getPairing,
-  type MessagingEnvVarInfo,
-  type MessagingPlatformInfo,
-  type PairingUser,
-  revokePairing,
-  type TelegramOnboardingApplyResponse,
-  updateMessagingPlatform
-} from '@/hermes'
 import { type Translations, useI18n } from '@/i18n'
 import { openExternalLink } from '@/lib/external-link'
 import { AlertTriangle, ExternalLink, RefreshCw, Save, Trash2 } from '@/lib/icons'
@@ -34,6 +23,17 @@ import { $changeEventsAvailable, $pairingChangeTick, $platformsChangeTick } from
 import { notify, notifyError } from '@/store/notifications'
 import { $settingsRequestProfile } from '@/store/settings-scope'
 import { $gatewayRestarting, runGatewayRestart, watchGatewayRestartOutcome } from '@/store/system-actions'
+import {
+  approvePairing,
+  getMessagingPlatforms,
+  getPairing,
+  type MessagingEnvVarInfo,
+  type MessagingPlatformInfo,
+  type PairingUser,
+  revokePairing,
+  type TelegramOnboardingApplyResponse,
+  updateMessagingPlatform
+} from '@/vael'
 
 import { useRefreshHotkey } from '../hooks/use-refresh-hotkey'
 import { useRouteEnumParam } from '../hooks/use-route-enum-param'
@@ -460,7 +460,7 @@ export function MessagingView({ setStatusbarItemGroup: _setStatusbarItemGroup, .
           action: { label: m.restartAgain, onClick: () => void runGatewayRestart() },
           secondaryAction: {
             label: m.openLogs,
-            onClick: () => void window.hermesDesktop?.revealLogs?.().catch(() => undefined)
+            onClick: () => void window.vaelDesktop?.revealLogs?.().catch(() => undefined)
           }
         })
       }
@@ -981,11 +981,11 @@ const PLATFORM_INTRO: Record<string, string> = {
     'On your Mattermost server, create a bot account or personal access token, then paste the server URL and token here.',
   matrix: 'Sign in to your homeserver with the bot account, then copy the access token, user ID, and homeserver URL.',
   signal:
-    'Run a signal-cli REST bridge somewhere reachable, then point Hermes at the URL and the registered phone number.',
+    'Run a signal-cli REST bridge somewhere reachable, then point VAEL at the URL and the registered phone number.',
   whatsapp:
-    'Start the WhatsApp bridge that ships with Hermes, scan the QR code on first run, then enable the platform.',
+    'Start the WhatsApp bridge that ships with VAEL, scan the QR code on first run, then enable the platform.',
   bluebubbles:
-    'Run BlueBubbles Server on a Mac with iMessage, expose its API, then point Hermes at the URL with the server password.',
+    'Run BlueBubbles Server on a Mac with iMessage, expose its API, then point VAEL at the URL with the server password.',
   homeassistant:
     'In Home Assistant, open your profile and create a long-lived access token. Paste it here along with your HA URL.',
   email:
@@ -999,10 +999,10 @@ const PLATFORM_INTRO: Record<string, string> = {
   wecom_callback:
     'Set up a WeCom self-built app, expose its callback URL, and provide the corp ID, secret, agent ID, and AES key.',
   weixin:
-    "Run `hermes gateway setup`, select Weixin, then scan and confirm the QR code with a personal WeChat account. Hermes connects through Tencent's iLink Bot API and saves the credentials.",
+    "Run `vael gateway setup`, select Weixin, then scan and confirm the QR code with a personal WeChat account. VAEL connects through Tencent's iLink Bot API and saves the credentials.",
   qqbot: 'Register an app on the QQ Open Platform (q.qq.com) and copy the App ID and Client Secret.',
   api_server:
-    'Expose Hermes as an OpenAI-compatible API. Set an auth key, then point Open WebUI / LobeChat / etc. at the host:port.',
+    'Expose VAEL as an OpenAI-compatible API. Set an auth key, then point Open WebUI / LobeChat / etc. at the host:port.',
   webhook:
     'Run an HTTP server that other tools (GitHub, GitLab, custom apps) can POST to. Use the secret to verify signatures.'
 }

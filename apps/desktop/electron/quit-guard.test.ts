@@ -59,7 +59,7 @@ test('quitPromptFor summarizes past the list cap and counts untitled work', () =
 })
 
 // #79579: only a backend the app owns (spawned locally, or started over SSH)
-// dies with it. A remote URL or Hermes Cloud backend keeps the turn running
+// dies with it. A remote URL or VAEL Cloud backend keeps the turn running
 // after the app quits, so the prompt must not claim the work is lost.
 test('backendOwnedByApp: a local primary is owned even before its child attaches', () => {
   assert.equal(backendOwnedByApp({ ownedBackendCount: 0, primaryRouteKind: null }), true)

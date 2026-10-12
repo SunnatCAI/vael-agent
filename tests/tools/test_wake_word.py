@@ -60,7 +60,7 @@ def test_wake_surface_enabled_gate():
 
 def test_looks_like_path():
     from tools.wake_word_engines import _looks_like_path
-    assert _looks_like_path("models/hey_hermes.onnx")
+    assert _looks_like_path("models/hey_vael.onnx")
     assert _looks_like_path("custom.ppn")
     assert not _looks_like_path("hey_jarvis")
 
@@ -79,7 +79,7 @@ def test_loaded_wake_defaults_resolve_supported_provider(tmp_path, monkeypatch, 
 
     from pm.extras import extra_supported
 
-    monkeypatch.setenv("HERMES_HOME", str(tmp_path))
+    monkeypatch.setenv("VAEL_HOME", str(tmp_path))
     path = tmp_path / "config.yaml"
     if saved is not None:
         path.write_text(saved, encoding="utf-8")
@@ -98,7 +98,7 @@ def test_loaded_wake_defaults_resolve_supported_provider(tmp_path, monkeypatch, 
 
 def test_load_wake_word_config_guards_non_dict(monkeypatch):
     monkeypatch.setattr(
-        "hermes_cli.config.load_config", lambda: {"wake_word": "oops"}
+        "vael_cli.config.load_config", lambda: {"wake_word": "oops"}
     )
     assert ww.load_wake_word_config() == {}
 
@@ -153,7 +153,7 @@ def test_engine_construction_ensures_audio_io_only_for_local_capture(monkeypatch
     monkeypatch.setattr(pm, "available", lambda feature: feature in ensured)
 
     class _FakeModel:
-        id = "hey_hermes"
+        id = "hey_vael"
 
         @staticmethod
         def from_model(model_path, libtensorflowlite_c_path=None):
@@ -230,7 +230,7 @@ def test_loaded_provider_requirements_preserve_choices_and_require_keys(tmp_path
 
     from pm.extras import extra_supported
 
-    monkeypatch.setenv("HERMES_HOME", str(tmp_path))
+    monkeypatch.setenv("VAEL_HOME", str(tmp_path))
     monkeypatch.delenv("PORCUPINE_ACCESS_KEY", raising=False)
     saved = f"wake_word:\n  provider: {provider}\n  capture: client\n"
     path = tmp_path / "config.yaml"
@@ -373,7 +373,7 @@ def test_requirements_lazy_disabled_returns_remedy_not_nameerror(monkeypatch):
     r = ww.check_wake_word_requirements({"provider": "openwakeword"})
     assert r["available"] is False
     assert r["deps_available"] is False
-    assert "hermes pm install --extra wake-openwakeword" in r["hint"]
+    assert "vael pm install --extra wake-openwakeword" in r["hint"]
 
 
 def test_requirements_deps_present_but_no_audio_hint(monkeypatch):
@@ -436,13 +436,13 @@ def test_openwakeword_custom_model_path_used(monkeypatch):
     monkeypatch.setitem(sys.modules, "pyopen_wakeword", mod)
     monkeypatch.setattr(pm, "ensure_import", lambda *a, **k: None)
     eng = ww._OpenWakeWordEngine(
-        {"provider": "openwakeword", "openwakeword": {"model": "/models/hey_hermes.tflite"}}
+        {"provider": "openwakeword", "openwakeword": {"model": "/models/hey_vael.tflite"}}
     )
-    assert captured["path"] == "/models/hey_hermes.tflite"
-    assert eng._labels == ["hey_hermes"]
+    assert captured["path"] == "/models/hey_vael.tflite"
+    assert eng._labels == ["hey_vael"]
 
 
-def test_bundled_hey_hermes_model_ships_on_disk():
+def test_bundled_hey_vael_model_ships_on_disk():
     # The "hey hermes" wake word works out of the box only if the model is
     # actually bundled. pyopen-wakeword runs TFLite only.
     path = ww._bundled_wakeword_path()

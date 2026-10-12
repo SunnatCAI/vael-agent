@@ -1,5 +1,5 @@
-import { createCronTriggerController, type CronTriggerController } from '@hermes/shared'
 import { useStore } from '@nanostores/react'
+import { createCronTriggerController, type CronTriggerController } from '@vael/shared'
 import { useEffect, useMemo, useRef, useState } from 'react'
 
 import { usePaneVisible } from '@/components/pane-shell/pane-visibility'
@@ -9,7 +9,6 @@ import { DisclosureCaret } from '@/components/ui/disclosure-caret'
 import { GlyphSpinner } from '@/components/ui/glyph-spinner'
 import { SidebarGroup, SidebarGroupContent } from '@/components/ui/sidebar'
 import { Tip } from '@/components/ui/tooltip'
-import { deleteCronJob, getCronJobRuns, pauseCronJob, resumeCronJob, type SessionInfo } from '@/hermes'
 import { useI18n } from '@/i18n'
 import { fmtDayTime, relativeTime } from '@/lib/time'
 import { cn } from '@/lib/utils'
@@ -18,7 +17,8 @@ import { updateCronJobs } from '@/store/cron'
 import { $changeEventsAvailable, $cronChangeTick } from '@/store/live-sync'
 import { notify, notifyError } from '@/store/notifications'
 import { $selectedStoredSessionId } from '@/store/session'
-import type { CronJob } from '@/types/hermes'
+import type { CronJob } from '@/types/vael'
+import { deleteCronJob, getCronJobRuns, pauseCronJob, resumeCronJob, type SessionInfo } from '@/vael'
 
 import { jobState, jobTitle, nextRunOverdueMs, STATE_DOT } from '../../cron/job-state'
 import { openCronRun, reconcileCronRunVerdicts } from '../../cron/open-cron-run'
@@ -69,7 +69,7 @@ function formatRunTime(seconds?: null | number): string {
 
 // Script-only (no_agent) jobs have no agent sessions; the runs endpoint
 // surfaces their per-fire output docs as rows with source='cron_output'
-// (see _list_cron_output_runs in hermes_cli/web_routers/cron.py).
+// (see _list_cron_output_runs in vael_cli/web_routers/cron.py).
 function isSyntheticCronOutputRun(run: SessionInfo): boolean {
   return run.source === 'cron_output'
 }

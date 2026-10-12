@@ -4,11 +4,11 @@ name: Plugin Catalog CI
 # plugin-catalog/** so it can never go red on unrelated PRs.
 #
 # Two gates:
-#   structural            — cheap schema check, no hermes install needed
+#   structural            — cheap schema check, no vael install needed
 #   pinned-source-validate — supply-chain gate: the pinned sha MUST be
 #                            reachable in the entry's repo, and the plugin
 #                            at that exact commit must pass
-#                            `hermes plugins validate`.
+#                            `vael plugins validate`.
 
 on:
   pull_request:
@@ -52,7 +52,7 @@ jobs:
           # The pull_request checkout is GitHub's merge commit; depth 2 brings its
           # first parent (the base tip), which is all the diff below needs.
           fetch-depth: 2
-          # `hermes plugins validate` below runs pinned-repo code; keep the
+          # `vael plugins validate` below runs pinned-repo code; keep the
           # job's token out of .git/config where that code could read it.
           persist-credentials: false
 
@@ -79,7 +79,7 @@ jobs:
           if [ -n "$CHANGED" ]; then
             # Admission PRs must be data-only: the gate's own enforcement code
             # (this workflow, the validator, the composite actions, the built
-            # hermes) resolves from the PR checkout, so an entry PR that also
+            # vael) resolves from the PR checkout, so an entry PR that also
             # touches tooling could neuter the gate vetting it. Contributor
             # email maps are data the gate never executes; README/policy/CI PRs
             # with no entry change skip this check.
@@ -103,7 +103,7 @@ jobs:
             echo '__EOF__'
           } >> "$GITHUB_OUTPUT"
 
-      - name: Prepare Hermes from the PR's own checkout
+      - name: Prepare VAEL from the PR's own checkout
         if: steps.changed.outputs.files != ''
         uses: ./.github/actions/setup-pm
         with:
@@ -120,7 +120,7 @@ jobs:
           set -euo pipefail
           FAILED=0
           WORKROOT=$(realpath "$(mktemp -d)")
-          # Entries arrive on fd 3, not stdin: `hermes plugins validate` executes
+          # Entries arrive on fd 3, not stdin: `vael plugins validate` executes
           # plugin-declared install code that could otherwise read stdin and
           # silently drain the remaining entry list.
           while IFS= read -r entry <&3; do
@@ -249,8 +249,8 @@ jobs:
             fi
 
             # Manifest schema + declared-vs-registered capability check.
-            if ! timeout 600 hermes plugins validate --install-deps "$PLUGIN_DIR" </dev/null; then
-              echo "::error file=$entry::hermes plugins validate failed"
+            if ! timeout 600 vael plugins validate --install-deps "$PLUGIN_DIR" </dev/null; then
+              echo "::error file=$entry::vael plugins validate failed"
               FAILED=1; echo "::endgroup::"; continue
             fi
 

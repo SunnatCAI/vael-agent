@@ -203,24 +203,24 @@ class TestOneTurnNeverPersisted:
 
     @staticmethod
     def _runner_with_store(tmp_path, monkeypatch):
-        import hermes_yaml as _yaml
+        import vael_yaml as _yaml
 
         import gateway.run as gateway_run
         from gateway.run import GatewayRunner
-        from hermes_cli.model_switch import ModelSwitchResult
+        from vael_cli.model_switch import ModelSwitchResult
 
-        hermes_home = tmp_path / ".hermes"
-        hermes_home.mkdir()
-        (hermes_home / "config.yaml").write_text(
+        vael_home = tmp_path / ".vael"
+        vael_home.mkdir()
+        (vael_home / "config.yaml").write_text(
             _yaml.safe_dump(
                 {"model": {"default": "old-model", "provider": "openrouter"}}
             ),
             encoding="utf-8",
         )
-        monkeypatch.setattr(gateway_run, "_hermes_home", hermes_home)
+        monkeypatch.setattr(gateway_run, "_vael_home", vael_home)
         monkeypatch.setattr("agent.models_dev.fetch_models_dev", lambda: {})
         monkeypatch.setattr(
-            "hermes_cli.model_switch.switch_model",
+            "vael_cli.model_switch.switch_model",
             lambda **kw: ModelSwitchResult(
                 success=True,
                 new_model="gpt-5.5",
@@ -233,8 +233,8 @@ class TestOneTurnNeverPersisted:
                 provider_label="OpenRouter",
             ),
         )
-        monkeypatch.setattr("hermes_constants.get_hermes_home", lambda: hermes_home)
-        monkeypatch.setattr("hermes_cli.config.get_hermes_home", lambda: hermes_home)
+        monkeypatch.setattr("vael_constants.get_vael_home", lambda: vael_home)
+        monkeypatch.setattr("vael_cli.config.get_vael_home", lambda: vael_home)
 
         runner = object.__new__(GatewayRunner)
         runner.adapters = {}

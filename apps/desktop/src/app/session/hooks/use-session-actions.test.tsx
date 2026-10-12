@@ -1,6 +1,6 @@
-import { registryBackendScopeKey } from '@hermes/shared'
 import { useStore } from '@nanostores/react'
 import { act, cleanup, render, waitFor } from '@testing-library/react'
+import { registryBackendScopeKey } from '@vael/shared'
 import type { MutableRefObject } from 'react'
 import { useEffect, useRef } from 'react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
@@ -11,16 +11,6 @@ import { resolveSessionRpcOwner } from '@/app/contrib/wiring-routing'
 import { $terminalTakeover, setTerminalTakeover } from '@/app/right-sidebar/store'
 import { group } from '@/components/pane-shell/tree/model'
 import { $activeTreeGroup, $layoutTree, noteActiveTreeGroup, revealTreePane } from '@/components/pane-shell/tree/store'
-import {
-  deleteSession,
-  getAllSessionMessages,
-  getLatestSessionMessages,
-  getSession,
-  type ProfileScope,
-  type SessionInfo,
-  type SessionResumeResult,
-  setSessionArchived
-} from '@/hermes'
 import { createClientSessionState } from '@/lib/chat-runtime'
 import { $clarifyRequests, clearClarifyRequest, setClarifyRequest } from '@/store/clarify'
 import { clearSessionDraft, stashSessionDraft, takeSessionDraft } from '@/store/composer'
@@ -103,6 +93,16 @@ import {
 import { $sessionSeenCounts, $unreadFinishedMarkers } from '@/store/session-unread'
 import { $retainedTodosBySession, clearSessionTodos } from '@/store/todos'
 import { loadTranscriptTail, saveTranscriptTail } from '@/store/transcript-tail-cache'
+import {
+  deleteSession,
+  getAllSessionMessages,
+  getLatestSessionMessages,
+  getSession,
+  type ProfileScope,
+  type SessionInfo,
+  type SessionResumeResult,
+  setSessionArchived
+} from '@/vael'
 
 import sessionResumeActiveTurn from '../../../../../../tests/fixtures/session-resume-active-turn.json'
 import { deferred } from '../../../test/deferred'
@@ -121,7 +121,7 @@ import {
 import type { TranscriptViewCutoff } from './use-session-actions/transcript-provenance'
 import { useSessionStateCache } from './use-session-state-cache'
 
-vi.mock('@/hermes', async importOriginal => ({
+vi.mock('@/vael', async importOriginal => ({
   ...(await importOriginal<Record<string, unknown>>()),
   deleteSession: vi.fn(),
   getSession: vi.fn(),
@@ -3888,7 +3888,7 @@ describe('resumeSession warm-cache mapping integrity', () => {
   )
 
   it('pins an untagged row to the active registry connection instead of the same-named local profile', async () => {
-    setConnection({ connectionId: 'hermes01', mode: 'remote' } as never)
+    setConnection({ connectionId: 'vael01', mode: 'remote' } as never)
     setSessions([storedSession({ id: 'remote-stored', profile: 'default' })])
     vi.mocked(getLatestSessionMessages).mockResolvedValue({ messages: [], session_id: 'remote-stored' } as never)
     vi.mocked(requestGatewayForAgent).mockResolvedValue({
@@ -3912,7 +3912,7 @@ describe('resumeSession warm-cache mapping integrity', () => {
     await resume!('remote-stored', true)
 
     expect(requestGatewayForAgent).toHaveBeenCalledWith(
-      'hermes01',
+      'vael01',
       'default',
       'session.resume',
       expect.objectContaining({ session_id: 'remote-stored' })
@@ -7002,7 +7002,7 @@ describe('branchStoredSession failure retry', () => {
     await waitFor(() => expect(createCallCount).toBe(2))
   })
 
-  // Regression for hermes-sweeper review on PR #65411: a retry after a lost
+  // Regression for vael-sweeper review on PR #65411: a retry after a lost
   // response must reuse the SAME idempotency key, otherwise the backend
   // spawns a duplicate child session.
   it('passes the same idempotency_key on retry as on the first attempt', async () => {
@@ -7054,7 +7054,7 @@ describe('branchStoredSession failure retry', () => {
     expect(seenKeys[1]).toBe(seenKeys[0])
   })
 
-  // Regression for hermes-sweeper review on PR #65411: the notification must
+  // Regression for vael-sweeper review on PR #65411: the notification must
   // go through notifyError's readableError normalization (wrapper stripping,
   // detail extraction, long-message fallback), not raw err.message.
   it('uses readableError normalization for the failure notification', async () => {

@@ -14,7 +14,7 @@ llama.cpp local GGUF inference + HF Hub model discovery.
 
 | | |
 |---|---|
-| Source | Optional — install with `hermes skills install official/mlops/llama-cpp` |
+| Source | Optional — install with `vael skills install official/mlops/llama-cpp` |
 | Path | `optional-skills/mlops/inference/llama-cpp` |
 | Version | `2.1.2` |
 | Author | Orchestra Research |
@@ -26,7 +26,7 @@ llama.cpp local GGUF inference + HF Hub model discovery.
 ## Reference: full SKILL.md
 
 :::info
-The following is the complete skill definition that Hermes loads when this skill is triggered. This is what the agent sees as instructions when the skill is active.
+The following is the complete skill definition that VAEL loads when this skill is triggered. This is what the agent sees as instructions when the skill is active.
 :::
 
 # llama.cpp + GGUF

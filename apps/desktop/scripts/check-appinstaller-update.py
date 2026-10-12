@@ -67,7 +67,7 @@ def main() -> int:
             print(json.dumps({
                 "available": None,
                 "reason": "no-app-installer-source",
-                "error": "No App Installer update source is registered. Install Hermes through its .appinstaller file to enable updates.",
+                "error": "No App Installer update source is registered. Install VAEL through its .appinstaller file to enable updates.",
             }))
             return 1
         source_uri = source.uri.absolute_uri

@@ -5,7 +5,7 @@ import { introEs } from './intro-es'
 
 export const esOverrides = {
   sharedMetrics: {
-    consentTitle: '¿Nos ayudas a mejorar Hermes?',
+    consentTitle: '¿Nos ayudas a mejorar VAEL?',
     consentBody:
       'Las métricas compartidas solo contienen contadores acotados. Nunca prompts, archivos, rutas ni textos de error. La recopilación es local. Enviarlas a Nous es una aceptación aparte.',
     whatIsCollected: 'Qué se recopila',
@@ -17,9 +17,9 @@ export const esOverrides = {
     collectedReliability:
       'Resultados y duración de actualizaciones, fallos, velocidad de inicio y de respuesta, estado de las plataformas de mensajería',
     collectedUsage:
-      'Cómo se usa Hermes: precisión y eficiencia del agente (ediciones acertadas, bucles, recuperaciones, tokens y llamadas a herramientas por tarea, cortes de caché), tiempo activo por superficie y modo de Desktop, qué áreas, acciones y ajustes de la app se usan, se cierran enseguida o se desactivan, y resultados de la configuración de proveedores',
+      'Cómo se usa VAEL: precisión y eficiencia del agente (ediciones acertadas, bucles, recuperaciones, tokens y llamadas a herramientas por tarea, cortes de caché), tiempo activo por superficie y modo de Desktop, qué áreas, acciones y ajustes de la app se usan, se cierran enseguida o se desactivan, y resultados de la configuración de proveedores',
     collectedMachine:
-      'Datos generales del equipo: rango de RAM, tipo de GPU, antigüedad y canal de la versión de Hermes, actualizaciones pendientes, si se usa un servidor de modelos local',
+      'Datos generales del equipo: rango de RAM, tipo de GPU, antigüedad y canal de la versión de VAEL, actualizaciones pendientes, si se usa un servidor de modelos local',
     installId:
       'Al enviar, cada paquete diario se sube al servicio de telemetría de Nous. Los paquetes llevan el ID de instalación de este perfil: un UUID aleatorio y estable sin información personal, que se restablece al borrar el directorio de métricas compartidas.',
     consentWindow:
@@ -36,7 +36,7 @@ export const esOverrides = {
     sendLabel: 'Enviar estadísticas de uso a Nous',
     sendDesc:
       'Sube cada paquete diario al servicio de telemetría de Nous. Solo se envían datos de una ventana de consentimiento. Requiere la recopilación activada.',
-    unavailable: 'Actualiza el backend de Hermes para cambiar este ajuste.',
+    unavailable: 'Actualiza el backend de VAEL para cambiar este ajuste.',
     stripBody: 'Solo contadores acotados, nunca prompts ni archivos.',
     stripChoices: { share: 'Enviar a Nous', local: 'Solo local', off: 'No, gracias' },
     stripDetails: 'Detalles'
@@ -66,7 +66,7 @@ export const esOverrides = {
     ownerMissing: 'Vuelve a abrir esta conversación para gestionar sus conexiones.',
     search: 'Buscar una app',
     empty: 'No hay apps que coincidan',
-    disclaimer: 'Conectar es opcional. Autoriza solo las apps que quieras que use Hermes.',
+    disclaimer: 'Conectar es opcional. Autoriza solo las apps que quieras que use VAEL.',
     execution: 'Herramientas de conectores',
     setup: server => `Configurar ${server}`,
     openInBrowser: 'Abrir en el navegador',
@@ -99,7 +99,7 @@ export const esOverrides = {
       kindCatalog: 'MCP · Catálogo',
       kindCustom: 'MCP · Personalizado',
       kindPlugin: (plugin: string) => `MCP · Plugin ${plugin}`,
-      inCatalog: 'En el catálogo de Hermes',
+      inCatalog: 'En el catálogo de VAEL',
       hostedTwin: 'Versión administrada disponible',
       alsoLocal: 'También se ejecuta en este dispositivo',
       open: (name: string) => `Abrir ${name}`,
@@ -149,7 +149,7 @@ export const esOverrides = {
       loading: 'Leyendo el catálogo y los servidores de este equipo',
       emptyTitle: 'Todavía no hay apps. Añade un servidor en este equipo para empezar.',
       noMatchTitle: 'No hay apps que coincidan',
-      noMatchBody: 'No hay coincidencias. Indica a Hermes tu propio servidor MCP para añadirlo.',
+      noMatchBody: 'No hay coincidencias. Indica a VAEL tu propio servidor MCP para añadirlo.',
       clearSearch: 'Borrar la búsqueda',
       hostedFailedTitle: 'No se pudo acceder a las apps alojadas.',
       hostedFailedBody: 'Los servidores de este equipo no se ven afectados y siguen funcionando. No se desactivó nada.',
@@ -164,7 +164,7 @@ export const esOverrides = {
       writeFailed: 'No se guardó ese cambio.',
       refreshFailed: 'No se actualizó la lista de herramientas.',
       disconnectNoAccount:
-        'Hermes no tiene ninguna cuenta que desconectar aquí. Actualiza la página e inténtalo de nuevo.',
+        'VAEL no tiene ninguna cuenta que desconectar aquí. Actualiza la página e inténtalo de nuevo.',
       disconnectRefused:
         'Nous no pudo quitar este inicio de sesión ahora. Desactiva la app con el interruptor o inténtalo más tarde.'
     },
@@ -204,23 +204,23 @@ export const esOverrides = {
     dialog: {
       disconnect: 'Desconectar',
       disconnectTitle: (name: string) => `¿Desconectar ${name}?`,
-      disconnectBody: 'Hermes deja de actuar con esta cuenta. Puedes volver a conectarla cuando quieras.',
+      disconnectBody: 'VAEL deja de actuar con esta cuenta. Puedes volver a conectarla cuando quieras.',
       menuRefreshTools: 'Actualizar herramientas',
       moreActions: 'Más acciones',
       removeServerTitle: (name: string) => `¿Quitar ${name}?`,
       removeServerBody: 'La entrada se quita de mcp.json en este equipo. No se elimina nada más.',
-      appSwitch: (name: string) => `Hermes puede usar ${name}`,
+      appSwitch: (name: string) => `VAEL puede usar ${name}`,
       waysTitle: (name: string) => `Dónde se ejecuta ${name}`,
       wayNotConnected: (name: string) => `Aún no está conectado. Inicia sesión en ${name} desde tu navegador.`,
       wayHosted: 'Administrado',
-      bothOn: (name: string) => `Ambos están activados, así que Hermes ve cada herramienta de ${name} dos veces.`,
+      bothOn: (name: string) => `Ambos están activados, así que VAEL ve cada herramienta de ${name} dos veces.`,
       turnOffLocal: 'Desactivar el servidor local',
       providedByPlugin: (plugin: string) => `Proporcionado por el plugin ${plugin}`,
       openPlugins: 'Abrir la pestaña Plugins',
       nousLine: 'Las apps de Nous siguen a tu cuenta, no al perfil.',
       rulesReadOnly: 'Las reglas no se pueden cambiar ahora.',
       rulesAppOff: (name: string) => `Activa ${name} para cambiar sus herramientas.`,
-      rulesSignIn: 'Inicia sesión para cambiar lo que Hermes puede hacer aquí.',
+      rulesSignIn: 'Inicia sesión para cambiar lo que VAEL puede hacer aquí.',
       orgNote: (count: number) => `Tu organización desactivó ${count} herramienta${count === 1 ? '' : 's'}.`,
       orgLink: 'Abrir la administración de conectores',
       connectEnded: 'El inicio de sesión no terminó.',
@@ -233,8 +233,8 @@ export const esOverrides = {
     tools: {
       title: 'Herramientas',
       notInstalledBody: 'Instálalo en este dispositivo para ver las herramientas que incluye.',
-      summaryTitle: (name: string) => `Lo que Hermes puede hacer con ${name}`,
-      summaryPreviewTitle: (name: string) => `Lo que Hermes podría hacer con ${name} cuando lo conectes`,
+      summaryTitle: (name: string) => `Lo que VAEL puede hacer con ${name}`,
+      summaryPreviewTitle: (name: string) => `Lo que VAEL podría hacer con ${name} cuando lo conectes`,
       summaryCount: (count: number) => `${count} herramienta${count === 1 ? '' : 's'}`,
       summaryAllTools: 'Todas las herramientas',
       summaryOther: 'Otras',
@@ -268,7 +268,7 @@ export const esOverrides = {
       needsAuthBody: 'El inicio de sesión se queda en este equipo. Nada sale de él.',
       retry: 'Reintentar',
       goneTitle: (name: string) => `${name} salió del catálogo.`,
-      goneBody: 'Hermes ya no puede llamarlo. La fila se queda hasta que la quites, así que nada desaparece.',
+      goneBody: 'VAEL ya no puede llamarlo. La fila se queda hasta que la quites, así que nada desaparece.',
       remove: 'Quitar',
       offTitle: (name: string) => `${name} está desactivado.`,
       offBody: 'Actívalo con el interruptor de arriba para leer las herramientas que incluye.',
@@ -345,7 +345,7 @@ export const esOverrides = {
   },
   sessionImport: {
     title: 'Continuar desde otra app',
-    subtitle: 'Trae una conversación a Hermes y retómala donde la dejaste.',
+    subtitle: 'Trae una conversación a VAEL y retómala donde la dejaste.',
     action: 'Importar sesión',
     readingFrom: 'Leyendo desde',
     connectedComputer: 'el equipo conectado',
@@ -364,18 +364,18 @@ export const esOverrides = {
     more: 'Cargar más sesiones',
     messages: 'mensajes',
     choose: 'Una conversación que vale la pena continuar',
-    chooseHelp: 'Elige una sesión para leer su historial antes de traerla a Hermes.',
+    chooseHelp: 'Elige una sesión para leer su historial antes de traerla a VAEL.',
     previewLoading: 'Abriendo la vista previa',
     previewError: 'Vista previa no disponible',
     previewHelp: 'Es posible que el origen se haya movido o cambiado. Actualiza la lista e inténtalo de nuevo.',
     previewLimit: 'Vista previa acortada para facilitar la lectura. Se importa la conversación completa.',
     you: 'Tú',
-    snapshot: 'Esta conversación ya está en Hermes. Abre tu copia existente para continuar.',
+    snapshot: 'Esta conversación ya está en VAEL. Abre tu copia existente para continuar.',
     copyNotice:
       'Copia el texto de la conversación. Los archivos de origen no cambian. La salida de herramientas y el razonamiento no se trasladan.',
     importing: 'Importando…',
-    open: 'Abrir en Hermes',
-    continue: 'Continuar en Hermes',
+    open: 'Abrir en VAEL',
+    continue: 'Continuar en VAEL',
     importError: 'No se pudo importar esta conversación.'
   },
   common: {
@@ -442,46 +442,46 @@ export const esOverrides = {
       'Esa ruta no está en este equipo: está en la máquina del backend. Usa “Mostrar en el árbol de archivos”.'
   },
   boot: {
-    ready: 'Hermes Desktop está listo',
+    ready: 'VAEL Desktop está listo',
     desktopBootFailedWithMessage: message => `Falló el arranque del escritorio: ${message}`,
     steps: {
       connectingGateway: 'Conectando el gateway de escritorio en vivo',
-      loadingSettings: 'Cargando la configuración de Hermes',
+      loadingSettings: 'Cargando la configuración de VAEL',
       loadingSessions: 'Cargando sesiones recientes',
-      retryingRemoteBackend: 'Reconectando al backend remoto de Hermes…',
+      retryingRemoteBackend: 'Reconectando al backend remoto de VAEL…',
       startingDesktopConnection: 'Iniciando la conexión de escritorio',
-      startingHermesDesktop: 'Iniciando Hermes Desktop…'
+      startingVaelDesktop: 'Iniciando VAEL Desktop…'
     },
     errors: {
       backgroundExited:
         'El servicio que ejecuta tus chats se cerró de forma inesperada. Reinícialo para continuar; tus chats y ajustes están a salvo.',
-      backgroundExitedDuringStartup: 'Hermes se detuvo justo después de iniciarse.',
-      backendStopped: 'Hermes dejó de funcionar en segundo plano',
-      restartHermes: 'Reiniciar Hermes',
+      backgroundExitedDuringStartup: 'VAEL se detuvo justo después de iniciarse.',
+      backendStopped: 'VAEL dejó de funcionar en segundo plano',
+      restartVael: 'Reiniciar VAEL',
       openLogs: 'Abrir registros',
-      desktopBootFailed: 'Hermes no pudo iniciarse',
-      gatewayConnectionLost: 'Hermes perdió la conexión',
+      desktopBootFailed: 'VAEL no pudo iniciarse',
+      gatewayConnectionLost: 'VAEL perdió la conexión',
       gatewayConnectionLostDetail:
         'Seguimos intentando reconectar. Puedes seguir leyendo y escribiendo borradores. Si continúa, reconecta ahora o revisa los ajustes de conexión.',
       reconnectNow: 'Reconectar ahora',
       connectionSettings: 'Configuración de conexión',
-      gatewaySignInRequired: 'Tu Hermes remoto cerró tu sesión',
+      gatewaySignInRequired: 'Tu VAEL remoto cerró tu sesión',
       gatewaySignInRequiredDetail: 'Vuelve a iniciar sesión para reconectar. Tus chats y ajustes están a salvo.',
       signInAgain: 'Volver a iniciar sesión',
-      ipcBridgeUnavailable: 'Hermes Desktop no pudo comunicarse con su propia capa en segundo plano. Reinicia la app.'
+      ipcBridgeUnavailable: 'VAEL Desktop no pudo comunicarse con su propia capa en segundo plano. Reinicia la app.'
     },
     causes: {
-      exitedEarly: 'El servicio en segundo plano de Hermes se detuvo justo después de iniciarse.',
-      timedOut: 'El servicio en segundo plano de Hermes no respondió a tiempo.',
-      permission: 'Hermes no pudo escribir en su carpeta de datos (problema de permisos).',
-      diskFull: 'El disco está lleno, así que Hermes no pudo iniciarse.',
-      portInUse: 'Otro programa está usando el puerto de red que necesita Hermes.',
-      installMissing: 'Falta parte de la instalación de Hermes. Elige Reparar instalación para restaurarla.'
+      exitedEarly: 'El servicio en segundo plano de VAEL se detuvo justo después de iniciarse.',
+      timedOut: 'El servicio en segundo plano de VAEL no respondió a tiempo.',
+      permission: 'VAEL no pudo escribir en su carpeta de datos (problema de permisos).',
+      diskFull: 'El disco está lleno, así que VAEL no pudo iniciarse.',
+      portInUse: 'Otro programa está usando el puerto de red que necesita VAEL.',
+      installMissing: 'Falta parte de la instalación de VAEL. Elige Reparar instalación para restaurarla.'
     },
     failure: {
-      title: 'Hermes no pudo iniciarse',
+      title: 'VAEL no pudo iniciarse',
       description:
-        'El servicio en segundo plano de Hermes no arrancó. Prueba uno de los pasos de recuperación de abajo. Nada de esto elimina tus chats ni tus ajustes.',
+        'El servicio en segundo plano de VAEL no arrancó. Prueba uno de los pasos de recuperación de abajo. Nada de esto elimina tus chats ni tus ajustes.',
       details: 'Detalles',
       remoteTitle: 'Se requiere iniciar sesión en el gateway remoto',
       remoteDescription:
@@ -528,13 +528,13 @@ export const esOverrides = {
     copyDetailFailed: 'No se pudo copiar el detalle de la notificación',
     backendOutOfDateTitle: 'Backend desactualizado',
     backendOutOfDateMessage:
-      'Tu backend de Hermes es más antiguo que esta compilación de escritorio y puede no funcionar correctamente. Actualízalo para alinearlos.',
-    desktopOutOfDateTitle: 'Aplicación de Hermes desactualizada',
+      'Tu backend de VAEL es más antiguo que esta compilación de escritorio y puede no funcionar correctamente. Actualízalo para alinearlos.',
+    desktopOutOfDateTitle: 'Aplicación de VAEL desactualizada',
     desktopOutOfDateMessage:
-      'Esta aplicación de Hermes es más antigua que el backend al que está conectada y puede no funcionar correctamente. Actualiza la aplicación para alinearlos.',
+      'Esta aplicación de VAEL es más antigua que el backend al que está conectada y puede no funcionar correctamente. Actualiza la aplicación para alinearlos.',
     updateDesktopApp: 'Actualizar aplicación',
     installMethodUnsupportedTitle: 'Método de instalación no compatible',
-    updateHermes: 'Actualizar Hermes',
+    updateVael: 'Actualizar VAEL',
     updateReadyTitle: 'Actualización lista',
     updateReadyMessage: count => `${count} ${count === 1 ? 'cambio nuevo disponible' : 'cambios nuevos disponibles'}.`,
     updateReadyMessageUnknown: 'Hay una nueva actualización disponible.',
@@ -555,22 +555,22 @@ export const esOverrides = {
       elevenLabsRejectedKey:
         'ElevenLabs no aceptó tu clave API. Actualízala en Configuración → Claves e inténtalo de nuevo.',
       diskFull: 'Disco lleno — libera espacio y vuelve a intentarlo.',
-      storageFailure: 'Hermes no pudo guardar en su carpeta de datos. Abre Mantenimiento para comprobarla y repararla.',
+      storageFailure: 'VAEL no pudo guardar en su carpeta de datos. Abre Mantenimiento para comprobarla y repararla.',
       gatewayAuthFailed:
-        'Este Hermes ya no acepta tu inicio de sesión guardado. Abre Gateways y vuelve a iniciar sesión (o pega un nuevo token de acceso) e inténtalo otra vez.',
+        'Este VAEL ya no acepta tu inicio de sesión guardado. Abre Gateways y vuelve a iniciar sesión (o pega un nuevo token de acceso) e inténtalo otra vez.',
       methodNotAllowed:
-        'El servicio en segundo plano de Hermes no está sincronizado con la app, probablemente tras una actualización. Reinícialo para solucionarlo.',
+        'El servicio en segundo plano de VAEL no está sincronizado con la app, probablemente tras una actualización. Reinícialo para solucionarlo.',
       microphonePermission: 'Se denegó el permiso del micrófono.',
       openaiRejectedApiKey:
         'OpenAI no aceptó tu clave API. Actualízala en Configuración → Claves e inténtalo de nuevo.',
       openaiTtsNeedsKey: 'La voz necesita una clave de OpenAI. Añade una en Configuración → Claves.',
       codeSkewRestartRequired:
-        'Hermes se actualizó, pero sigue ejecutando la versión anterior. Reinícialo para terminar la actualización.',
+        'VAEL se actualizó, pero sigue ejecutando la versión anterior. Reinícialo para terminar la actualización.',
       rpcOutOfSync: 'La app y el backend están en versiones distintas. Actualiza ambos.',
-      restartHermesFailed: 'No se pudo reiniciar Hermes'
+      restartVaelFailed: 'No se pudo reiniciar VAEL'
     },
     actions: {
-      restartHermes: 'Reiniciar Hermes',
+      restartVael: 'Reiniciar VAEL',
       openKeys: 'Abrir Claves',
       openGateways: 'Abrir Gateways',
       openMaintenance: 'Abrir Mantenimiento'
@@ -598,7 +598,7 @@ export const esOverrides = {
       liveEndedConnectionLost: 'La sesión de voz en vivo perdió la conexión.',
       liveEndedClosed: 'El servicio cerró la sesión de voz en vivo.',
       liveError: 'Voz en vivo',
-      liveDelegationFailed: 'No se pudo pasar la solicitud a Hermes',
+      liveDelegationFailed: 'No se pudo pasar la solicitud a VAEL',
       liveUnavailable: reason =>
         `El chat de voz GPT-Live no está disponible: ${reason}. Se usará voz a texto en su lugar.`
     },
@@ -609,8 +609,8 @@ export const esOverrides = {
       rejectAction: 'Rechazar',
       inputTitle: 'Se necesita información',
       inputTitleNamed: session => `Se necesita una respuesta — ${session}`,
-      inputBody: 'Hermes espera tu respuesta.',
-      turnDoneTitle: 'Hermes terminó',
+      inputBody: 'VAEL espera tu respuesta.',
+      turnDoneTitle: 'VAEL terminó',
       turnDoneBody: '',
       turnErrorTitle: 'El turno falló',
       backgroundDoneTitle: 'Tarea en segundo plano finalizada',
@@ -645,7 +645,7 @@ export const esOverrides = {
       'Tu paquete se subió de forma privada. Comparte el enlace de abajo en tu hilo de soporte para que el equipo pueda ver tus registros.',
     failedTitle: 'Error al subir',
     failedHint:
-      'También puedes ejecutar `hermes debug share --nous` desde una terminal, o `hermes debug share --local` para mostrar el informe sin subirlo.',
+      'También puedes ejecutar `vael debug share --nous` desde una terminal, o `vael debug share --local` para mostrar el informe sin subirlo.',
     handoffLead: 'Continúa la conversación en:',
     links: {
       github: 'Issues de GitHub',
@@ -866,7 +866,7 @@ export const esOverrides = {
     exportConfig: 'Exportar configuración',
     importConfig: 'Importar configuración',
     resetToDefaults: 'Restablecer valores predeterminados',
-    resetConfirm: '¿Restablecer toda la configuración a los valores predeterminados de Hermes?',
+    resetConfirm: '¿Restablecer toda la configuración a los valores predeterminados de VAEL?',
     exportFailed: 'Falló la exportación',
     resetFailed: 'Falló el restablecimiento',
     nav: {
@@ -922,7 +922,7 @@ export const esOverrides = {
         agentTargetLocal: (profile, dir) => `Se instala en el backend ${profile} (${dir})`,
         agentTargetRemote: profile => `Se instala en el backend ${profile} conectado`,
         catalogPinned: (name, sha) =>
-          `Entrada del catálogo de Hermes “${name}”: el componente del agente se instala en la versión fijada revisada${sha ? ` ${sha}` : ''}, no en la punta de la rama.`,
+          `Entrada del catálogo de VAEL “${name}”: el componente del agente se instala en la versión fijada revisada${sha ? ` ${sha}` : ''}, no en la punta de la rama.`,
         reviewedHeading: 'Entrada del catálogo revisada',
         reviewedIntro:
           'Una persona revisó esta entrada en su commit fijado. Aun así, puedes inspeccionar el código exacto abajo.',
@@ -962,7 +962,7 @@ export const esOverrides = {
         desktopSuccess: name => `Plugin de escritorio ${name} instalado`,
         agentFailed: 'Error al instalar el plugin del agente',
         installUncertain:
-          'Hermes dejó de esperar el resultado de la instalación, pero es posible que el plugin siga instalándose. Cierra este cuadro y actualiza la lista de plugins antes de volver a instalarlo.',
+          'VAEL dejó de esperar el resultado de la instalación, pero es posible que el plugin siga instalándose. Cierra este cuadro y actualiza la lista de plugins antes de volver a instalarlo.',
         desktopFailed: 'Error al instalar el plugin de escritorio',
         missingEnv: (name, vars) =>
           `${name} está instalado, pero necesita una clave para funcionar: ${vars}. Añádela ahora o las herramientas del plugin fallarán.`
@@ -1023,7 +1023,7 @@ export const esOverrides = {
       otpField: 'Clave del autenticador',
       otpPlaceholder: 'Secreto Base32 o enlace otpauth://',
       otpHint:
-        'La “clave de configuración” que muestra el sitio al activar la 2FA. Si la guardas, Hermes genera los códigos por sí mismo.',
+        'La “clave de configuración” que muestra el sitio al activar la 2FA. Si la guardas, VAEL genera los códigos por sí mismo.',
       twoFactorBadge: '2FA automática',
       deleteTitle: '¿Eliminar este elemento?',
       deleteDescription: label => `Se quitará “${label}”. Esto no se puede deshacer.`,
@@ -1034,12 +1034,12 @@ export const esOverrides = {
           'Los gestores de contraseñas instalados se detectan automáticamente. El agente te pide desbloquear uno la primera vez que necesita un inicio de sesión de él (una vez por sesión); solo se guarda en memoria un token de sesión, y el agente nunca ve tu contraseña maestra ni ningún inicio de sesión.',
         toggleFailed: 'No se pudo actualizar el gestor de contraseñas',
         notInstalled: name =>
-          `No detectado. Instala la herramienta de línea de comandos de ${name} e inicia sesión en ella; Hermes la detectará automáticamente.`,
-        disabledDesc: 'Detectado, pero desactivado para Hermes.',
+          `No detectado. Instala la herramienta de línea de comandos de ${name} e inicia sesión en ella; VAEL la detectará automáticamente.`,
+        disabledDesc: 'Detectado, pero desactivado para VAEL.',
         lockedDesc:
           'Detectado. El agente te pedirá desbloquearlo cuando necesite un inicio de sesión, o puedes desbloquearlo ahora.',
         unlockedDesc:
-          'Desbloqueado para esta sesión. Se bloquea automáticamente tras 30 minutos de inactividad o al cerrar Hermes.',
+          'Desbloqueado para esta sesión. Se bloquea automáticamente tras 30 minutos de inactividad o al cerrar VAEL.',
         statusLocked: 'Bloqueado',
         statusNotDetected: 'No detectado',
         statusOff: 'Desactivado',
@@ -1059,7 +1059,7 @@ export const esOverrides = {
       intro: 'Notificaciones del sistema operativo (no avisos dentro de la app). Por dispositivo.',
       enableAll: 'Activar notificaciones',
       enableAllDesc: 'Desactivado silencia todas las notificaciones siguientes.',
-      focusedHint: 'Los avisos de finalización solo se activan cuando Hermes está en segundo plano.',
+      focusedHint: 'Los avisos de finalización solo se activan cuando VAEL está en segundo plano.',
       kinds: {
         approval: {
           label: 'Se necesita aprobación',
@@ -1067,11 +1067,11 @@ export const esOverrides = {
         },
         input: {
           label: 'Se necesita información',
-          description: 'Hermes hizo una pregunta o necesita una contraseña o un secreto.'
+          description: 'VAEL hizo una pregunta o necesita una contraseña o un secreto.'
         },
         turnDone: {
           label: 'Respuesta lista',
-          description: 'Terminó un turno mientras Hermes estaba en segundo plano.'
+          description: 'Terminó un turno mientras VAEL estaba en segundo plano.'
         },
         turnError: {
           label: 'El turno falló',
@@ -1087,11 +1087,11 @@ export const esOverrides = {
         },
         plugin: {
           label: 'Notificaciones de complementos',
-          description: 'Un complemento de escritorio envió una notificación mientras Hermes estaba en segundo plano.'
+          description: 'Un complemento de escritorio envió una notificación mientras VAEL estaba en segundo plano.'
         }
       },
       test: 'Enviar notificación de prueba',
-      testTitle: 'Hermes',
+      testTitle: 'VAEL',
       testBody: 'Las notificaciones funcionan.',
       testSent:
         'Prueba enviada. Si no aparece nada, revisa los permisos de notificaciones del sistema operativo y el modo Concentración o No molestar.',
@@ -1112,7 +1112,7 @@ export const esOverrides = {
       advanced: 'Avanzado'
     },
     searchPlaceholder: {
-      about: 'Acerca de Hermes Desktop',
+      about: 'Acerca de VAEL Desktop',
       config: 'Buscar configuración...',
       gateway: 'Conexión del gateway...',
       keys: 'Buscar claves API...',
@@ -1140,7 +1140,7 @@ export const esOverrides = {
       title: 'Apariencia',
       intro: 'Solo escritorio. El modo es el brillo; el tema es la paleta y el marco del chat.',
       colorMode: 'Modo de color',
-      colorModeDesc: 'Elige un modo fijo o deja que Hermes siga la configuración del sistema.',
+      colorModeDesc: 'Elige un modo fijo o deja que VAEL siga la configuración del sistema.',
       toolViewTitle: 'Visualización de llamadas a herramientas',
       toolViewDesc: 'Producto oculta las cargas útiles sin procesar; Técnico muestra entrada/salida completas.',
       hideCodeDiffsTitle: 'Ocultar diffs de código',
@@ -1217,14 +1217,14 @@ export const esOverrides = {
         'Muestra los precios de entrada, salida y lectura de caché por millón de tokens en el selector de modelos.',
       reactionsTitle: 'Reacciones a mensajes',
       reactionsDesc:
-        'Reacciones emoji estilo iMessage — reacciona a los mensajes, y Hermes puede reaccionar a los tuyos.',
+        'Reacciones emoji estilo iMessage — reacciona a los mensajes, y VAEL puede reaccionar a los tuyos.',
       tipsTitle: 'Consejos en la app',
       tipsDesc:
-        'Sugerencias ocasionales de la app y de Hermes. Cada consejo aparece una vez. Se desactiva automáticamente tras tus primeros 30 días; puedes volver a activarlo.',
+        'Sugerencias ocasionales de la app y de VAEL. Cada consejo aparece una vez. Se desactiva automáticamente tras tus primeros 30 días; puedes volver a activarlo.',
       tipsReset: (count: number) => `Volver a mostrar ${count} ${count === 1 ? 'consejo' : 'consejos'}`,
       toursTitle: 'Recorridos guiados',
       toursDesc:
-        'Deja que Hermes resalte cada paso mientras te guía por la app. Se desactiva automáticamente tras tus primeros 30 días; puedes volver a activarlo.',
+        'Deja que VAEL resalte cada paso mientras te guía por la app. Se desactiva automáticamente tras tus primeros 30 días; puedes volver a activarlo.',
       composerPopoutTitle: 'Compositor flotante',
       composerPopoutDesc:
         'Permite arrastrar el compositor fuera de su posición fija. Si está desactivado, permanece anclado abajo.',
@@ -1265,9 +1265,9 @@ export const esOverrides = {
       pet: {
         title: 'Mascota',
         intro:
-          'Adopta una mascota animada de petdex que flota sobre la app y reacciona a lo que hace Hermes: corre mientras se ejecutan herramientas, celebra los éxitos y se entristece con los errores.',
+          'Adopta una mascota animada de petdex que flota sobre la app y reacciona a lo que hace VAEL: corre mientras se ejecutan herramientas, celebra los éxitos y se entristece con los errores.',
         restartHint:
-          'Las mascotas necesitan un reinicio rápido: la aplicación en ejecución se inició antes de que se añadiera esta función. Cierra y vuelve a abrir Hermes y luego vuelve aquí.',
+          'Las mascotas necesitan un reinicio rápido: la aplicación en ejecución se inició antes de que se añadiera esta función. Cierra y vuelve a abrir VAEL y luego vuelve aquí.',
         scaleTitle: 'Tamaño',
         scaleDesc: 'Cambia el tamaño de la mascota flotante. Se aplica al instante en todas partes.',
         roamTitle: 'Moverse libremente',
@@ -1496,11 +1496,11 @@ export const esOverrides = {
       timezone: 'Identificador de zona horaria IANA. Vacío usa la zona horaria del sistema.',
       browser: {
         useRealProfile:
-          'La navegación local usa tus inicios de sesión reales. Hermes copia el perfil de tu navegador predeterminado (cookies, inicios de sesión, preferencias) en una instantánea gestionada y lo controla con su Chromium integrado: tu perfil activo nunca se abre directamente y la copia se actualiza a partir de él en cada ejecución. También permite que el agente abra bajo petición una sesión local con tu perfil real, incluso si hay un backend de navegador en la nube configurado. Solo se admiten navegadores Chromium (Chrome, Edge, Brave, Brave Origin, Chromium); un navegador predeterminado que no sea Chromium falla con un mensaje claro. Desactivado de forma predeterminada.'
+          'La navegación local usa tus inicios de sesión reales. VAEL copia el perfil de tu navegador predeterminado (cookies, inicios de sesión, preferencias) en una instantánea gestionada y lo controla con su Chromium integrado: tu perfil activo nunca se abre directamente y la copia se actualiza a partir de él en cada ejecución. También permite que el agente abra bajo petición una sesión local con tu perfil real, incluso si hay un backend de navegador en la nube configurado. Solo se admiten navegadores Chromium (Chrome, Edge, Brave, Brave Origin, Chromium); un navegador predeterminado que no sea Chromium falla con un mensaje claro. Desactivado de forma predeterminada.'
       },
       agent: {
         imageInputMode: 'Controla cómo se envían los adjuntos de imagen al modelo.',
-        maxTurns: 'Límite superior de turnos con llamadas a herramientas antes de que Hermes detenga una ejecución.'
+        maxTurns: 'Límite superior de turnos con llamadas a herramientas antes de que VAEL detenga una ejecución.'
       },
       terminal: {
         cwd: 'Carpeta de proyecto predeterminada para herramientas y terminal.',
@@ -1514,9 +1514,9 @@ export const esOverrides = {
       codeExecution: {
         mode: 'Qué tan estrictamente se limita la ejecución de código al proyecto actual.'
       },
-      fileReadMaxChars: 'Máximo de caracteres que Hermes puede leer en una solicitud de archivo.',
+      fileReadMaxChars: 'Máximo de caracteres que VAEL puede leer en una solicitud de archivo.',
       approvals: {
-        mode: 'Cómo maneja Hermes los comandos que necesitan aprobación explícita.',
+        mode: 'Cómo maneja VAEL los comandos que necesitan aprobación explícita.',
         timeout: 'Cuánto esperan los prompts de aprobación antes de vencer.'
       },
       security: {
@@ -1545,11 +1545,11 @@ export const esOverrides = {
       voice: {
         autoTts: 'Lee automáticamente en voz alta las respuestas del asistente.',
         voiceChatMode:
-          'chained: voz a texto → Hermes → texto a voz con los proveedores de abajo. gpt-live: un modelo de voz full-duplex de OpenAI (gpt-live-1) escucha y habla, y pasa cada solicitud real a Hermes; el modelo que hayas seleccionado responde con todas las herramientas. Requiere una clave API de OpenAI; la capa de voz cuesta 0,05 US$ por minuto.',
+          'chained: voz a texto → VAEL → texto a voz con los proveedores de abajo. gpt-live: un modelo de voz full-duplex de OpenAI (gpt-live-1) escucha y habla, y pasa cada solicitud real a VAEL; el modelo que hayas seleccionado responde con todas las herramientas. Requiere una clave API de OpenAI; la capa de voz cuesta 0,05 US$ por minuto.',
         gptLive: {
           voice: 'Voz del modo GPT-Live. Se aceptan ID de voz personalizados.',
           instructions:
-            'Frases adicionales para la personalidad de voz en vivo (tono, ritmo, idioma). Hermes mantiene su propio prompt de sistema.'
+            'Frases adicionales para la personalidad de voz en vivo (tono, ritmo, idioma). VAEL mantiene su propio prompt de sistema.'
         }
       },
       tts: {
@@ -1577,13 +1577,13 @@ export const esOverrides = {
       },
       updates: {
         nonInteractiveLocalChanges:
-          'Cuando Hermes se actualiza desde la app sin prompt de terminal, conserva los cambios locales de código fuente (stash) o descártalos. Las actualizaciones desde terminal siempre preguntan.'
+          'Cuando VAEL se actualiza desde la app sin prompt de terminal, conserva los cambios locales de código fuente (stash) o descártalos. Las actualizaciones desde terminal siempre preguntan.'
       }
     }),
     uninstallSection: {
       dangerZone: 'Zona de peligro',
       checkingInstalled: 'Comprobando lo que está instalado…',
-      uninstallHermes: 'Desinstalar Hermes',
+      uninstallVael: 'Desinstalar VAEL',
       chooseHowMuch:
         'Elige cuánto quieres quitar. La app se cierra para terminar; vuelve a abrir el instalador cuando quieras para volver.',
       confirmUninstall: 'Confirmar desinstalación',
@@ -1595,22 +1595,22 @@ export const esOverrides = {
       options: {
         gui: {
           title: 'Desinstalar solo la interfaz de chat',
-          description: 'Quita esta app de escritorio. El agente de Hermes, tu configuración y tus chats se conservan.',
+          description: 'Quita esta app de escritorio. El agente de VAEL, tu configuración y tus chats se conservan.',
           consequence: 'la interfaz de chat de escritorio (esta app y sus datos)'
         },
         lite: {
           title: 'Desinstalar la interfaz y el agente, conservar mis datos',
           description:
-            'Quita la app y el agente de Hermes, pero conserva la configuración, los chats y los secretos para una futura reinstalación.',
+            'Quita la app y el agente de VAEL, pero conserva la configuración, los chats y los secretos para una futura reinstalación.',
           consequence:
-            'la interfaz de chat y el agente de Hermes (se conservan la configuración, los chats y los secretos)'
+            'la interfaz de chat y el agente de VAEL (se conservan la configuración, los chats y los secretos)'
         },
         full: {
           title: 'Desinstalar todo',
           description:
             'Quita la app, el agente y todos los datos de usuario: configuración, chats, tareas programadas, secretos y registros.',
           consequence:
-            'TODO: la interfaz de chat, el agente de Hermes y toda tu configuración, chats, secretos y registros'
+            'TODO: la interfaz de chat, el agente de VAEL y toda tu configuración, chats, secretos y registros'
         }
       }
     },
@@ -1672,7 +1672,7 @@ export const esOverrides = {
     config: {
       minimizeToTrayTitle: 'Minimizar a la bandeja',
       minimizeToTrayDesc:
-        'Al minimizar las ventanas o cerrar la ventana principal, se ocultan en la bandeja del sistema (barra de menús en macOS) y Hermes sigue ejecutándose. Usa Salir de Hermes en el menú de la bandeja o Cmd+Q para salir. Desactivado por defecto; se aplica solo a este dispositivo.',
+        'Al minimizar las ventanas o cerrar la ventana principal, se ocultan en la bandeja del sistema (barra de menús en macOS) y VAEL sigue ejecutándose. Usa Salir de VAEL en el menú de la bandeja o Cmd+Q para salir. Desactivado por defecto; se aplica solo a este dispositivo.',
       minimizeToTrayUnavailable:
         'La bandeja del sistema no está disponible. Las ventanas se minimizarán y cerrarán con normalidad. Desactiva y vuelve a activar esta opción para reintentarlo.',
       none: 'Ninguno',
@@ -1683,7 +1683,7 @@ export const esOverrides = {
       searchPlaceholder: 'Buscar…',
       noResults: 'No se encontraron resultados',
       systemDefault: 'Valor del sistema',
-      loading: 'Cargando configuración de Hermes...',
+      loading: 'Cargando configuración de VAEL...',
       emptyTitle: 'Nada que configurar',
       emptyDesc: 'Esta sección no tiene ajustes configurables.',
       failedLoad: 'No se pudo cargar la configuración',
@@ -1710,27 +1710,27 @@ export const esOverrides = {
       description:
         'Pulsa y suelta ⌘ + Opción en Mac, o Ctrl + Alt en Windows/Linux, para traer el HUD al frente desde cualquier app. Desactivado por defecto; se aplica solo a este dispositivo.',
       permission:
-        'Permite Hermes en Ajustes del Sistema → Privacidad y seguridad → Monitorización de entrada y vuelve a intentarlo. Este gesto no registra pulsaciones de teclas ni captura tu pantalla.',
+        'Permite VAEL en Ajustes del Sistema → Privacidad y seguridad → Monitorización de entrada y vuelve a intentarlo. Este gesto no registra pulsaciones de teclas ni captura tu pantalla.',
       unavailable:
-        'El asistente del gesto del HUD no pudo iniciarse o se detuvo de forma inesperada. Reinténtalo o reinicia Hermes. El atajo del HUD existente sigue funcionando dentro de Hermes.',
+        'El asistente del gesto del HUD no pudo iniciarse o se detuvo de forma inesperada. Reinténtalo o reinicia VAEL. El atajo del HUD existente sigue funcionando dentro de VAEL.',
       missingHelper:
-        'A esta instalación de Hermes le falta el asistente del gesto del HUD. Actualiza o reinstala Hermes y vuelve a intentarlo.',
+        'A esta instalación de VAEL le falta el asistente del gesto del HUD. Actualiza o reinstala VAEL y vuelve a intentarlo.',
       unsupportedSession:
         'Esta sesión de escritorio no admite pulsaciones globales de teclas modificadoras. Linux requiere X11; Wayland no es compatible.'
     },
     screenshot: {
       enabledTitle: 'Atajo de captura de pantalla',
       enabledDesc:
-        'Pulsa las dos teclas Comando a la vez desde cualquier app para capturar su ventana frontal y adjuntarla a tu borrador actual de Hermes. Nunca se envía automáticamente. Desactivado por defecto; se aplica solo a este Mac. El contenido de la ventana puede ser confidencial: revisa el adjunto antes de enviarlo.',
+        'Pulsa las dos teclas Comando a la vez desde cualquier app para capturar su ventana frontal y adjuntarla a tu borrador actual de VAEL. Nunca se envía automáticamente. Desactivado por defecto; se aplica solo a este Mac. El contenido de la ventana puede ser confidencial: revisa el adjunto antes de enviarlo.',
       statusTitle: 'Estado del atajo de captura',
       checking: 'Comprobando el atajo de captura…',
       disabled: 'El atajo de captura está desactivado.',
       starting: 'Iniciando la escucha del atajo. Todavía no está listo.',
       ready: 'El atajo está listo. Las capturas se adjuntan a tu borrador actual sin enviarse.',
       inputPermission:
-        'El permiso de Monitorización de entrada permite a Hermes detectar las dos teclas Comando mientras otra app está activa. Permite Hermes en Ajustes del Sistema → Privacidad y seguridad → Monitorización de entrada, vuelve aquí y reinténtalo.',
+        'El permiso de Monitorización de entrada permite a VAEL detectar las dos teclas Comando mientras otra app está activa. Permite VAEL en Ajustes del Sistema → Privacidad y seguridad → Monitorización de entrada, vuelve aquí y reinténtalo.',
       screenPermission:
-        'El permiso de Grabación de pantalla permite a Hermes capturar la ventana frontal cuando usas este atajo. Permite Hermes en Ajustes del Sistema → Privacidad y seguridad → Grabación de pantalla, vuelve aquí y reinténtalo. Reinicia Hermes si macOS te lo pide.',
+        'El permiso de Grabación de pantalla permite a VAEL capturar la ventana frontal cuando usas este atajo. Permite VAEL en Ajustes del Sistema → Privacidad y seguridad → Grabación de pantalla, vuelve aquí y reinténtalo. Reinicia VAEL si macOS te lo pide.',
       openSettings: 'Abrir Ajustes del Sistema',
       retry: 'Reintentar',
       unavailable: 'El atajo de captura no está disponible. Reinténtalo o desactívalo.',
@@ -1745,7 +1745,7 @@ export const esOverrides = {
     quickEntry: {
       enabledTitle: 'Entrada rápida',
       enabledDesc:
-        'Invoca un pequeño compositor desde cualquier lugar con un atajo global y envía un prompt sin abrir Hermes.',
+        'Invoca un pequeño compositor desde cualquier lugar con un atajo global y envía un prompt sin abrir VAEL.',
       shortcutTitle: 'Atajo de entrada rápida',
       shortcutDesc: 'Necesita al menos un modificador, p. ej. CommandOrControl+Shift+Espacio.',
       active: 'El atajo está activo.',
@@ -1775,7 +1775,7 @@ export const esOverrides = {
     connections: {
       title: 'Gateways registrados',
       intro:
-        'Gestiona este dispositivo y cada gateway de Hermes al que puede llegar mediante conexiones remotas, SSH o Cloud.',
+        'Gestiona este dispositivo y cada gateway de VAEL al que puede llegar mediante conexiones remotas, SSH o Cloud.',
       stagedNote:
         'Cambia de gateway desde Sesiones. Los perfiles, chats, mensajería y tareas cron se quedan con su gateway; el trabajo en otros gateways sigue ejecutándose.',
       launchModeTitle: 'Al iniciar, volver a Sesiones en el último gateway usado',
@@ -1802,15 +1802,15 @@ export const esOverrides = {
       updateAllRunning: 'Actualizando todas las instancias…',
       updateAllDone: 'Actualizaciones enviadas',
       updateAllFailed: 'Falló el envío de actualizaciones',
-      updateSkippedCloud: 'Administrado por Hermes Cloud',
+      updateSkippedCloud: 'Administrado por VAEL Cloud',
       kindLocal: 'Local',
       kindRemote: 'Gateway remoto',
-      kindCloud: 'Hermes Cloud',
+      kindCloud: 'VAEL Cloud',
       kindSsh: 'SSH',
-      kindLocalDesc: 'El entorno de ejecución de Hermes administrado por esta app.',
-      kindRemoteDesc: 'Un gateway de Hermes accesible por HTTP(S): LAN, Tailscale o internet.',
-      kindCloudDesc: 'Una instancia alojada detectada a través de tu cuenta de Hermes Cloud.',
-      kindSshDesc: 'Una instalación de Hermes accesible por SSH.',
+      kindLocalDesc: 'El entorno de ejecución de VAEL administrado por esta app.',
+      kindRemoteDesc: 'Un gateway de VAEL accesible por HTTP(S): LAN, Tailscale o internet.',
+      kindCloudDesc: 'Una instancia alojada detectada a través de tu cuenta de VAEL Cloud.',
+      kindSshDesc: 'Una instalación de VAEL accesible por SSH.',
       labelTitle: 'Nombre',
       labelDesc:
         'Obligatorio. Se muestra en todos los lugares donde aparece esta instancia; debe ser único (p. ej., “Homelab”, “Portátil del trabajo”).',
@@ -1819,7 +1819,7 @@ export const esOverrides = {
       sshHostTitle: 'Host SSH',
       headersTitle: 'Encabezados adicionales del gateway',
       headersDesc:
-        'Se envían con cada solicitud HTTP y WebSocket a este gateway, para proxies de acceso como Cloudflare Access (CF-Access-Client-Id / CF-Access-Client-Secret). Los valores se guardan cifrados. Se ignoran los encabezados que gestiona Hermes (Authorization, Cookie, Host…).',
+        'Se envían con cada solicitud HTTP y WebSocket a este gateway, para proxies de acceso como Cloudflare Access (CF-Access-Client-Id / CF-Access-Client-Secret). Los valores se guardan cifrados. Se ignoran los encabezados que gestiona VAEL (Authorization, Cookie, Host…).',
       headerValuePlaceholder: 'Valor',
       headerValueSaved: 'Guardado: déjalo en blanco para conservarlo',
       headerAdd: 'Añadir encabezado',
@@ -1830,7 +1830,7 @@ export const esOverrides = {
       sameBackendHint: (label: string) => `Mismo backend que “${label}”`,
       localAddHint: 'Local no está disponible: la conexión local administrada ya existe (solo puede haber una).',
       cloudAddHint:
-        'Consejo: al iniciar sesión en Hermes Cloud arriba, tus agentes se detectan automáticamente; usa este formulario solo para registrar a mano la URL de una instancia conocida.',
+        'Consejo: al iniciar sesión en VAEL Cloud arriba, tus agentes se detectan automáticamente; usa este formulario solo para registrar a mano la URL de una instancia conocida.',
       save: 'Guardar conexión',
       saving: 'Guardando…',
       cancel: 'Cancelar',
@@ -1858,29 +1858,29 @@ export const esOverrides = {
       loading: 'Cargando ajustes del gateway...',
       unavailableTitle: 'Ajustes del gateway no disponibles',
       unavailableDesc:
-        'Los ajustes de conexión solo se pueden cambiar desde la app Hermes Desktop en el equipo que la ejecuta.',
+        'Los ajustes de conexión solo se pueden cambiar desde la app VAEL Desktop en el equipo que la ejecuta.',
       title: 'Conexión del gateway',
       envOverride: 'anulación de entorno',
       intro:
-        'Local por predeterminado. Usa remoto cuando esta app deba controlar un backend de Hermes en otro lugar. Anulaciones por perfil a continuación.',
-      envOverrideTitle: 'Esta conexión quedó fijada por la forma en que se inició Hermes.',
+        'Local por predeterminado. Usa remoto cuando esta app deba controlar un backend de VAEL en otro lugar. Anulaciones por perfil a continuación.',
+      envOverrideTitle: 'Esta conexión quedó fijada por la forma en que se inició VAEL.',
       envOverrideDesc:
-        'Un ajuste de inicio externo a la app eligió esta conexión, así que las opciones de abajo son de solo lectura. Reinicia Hermes sin ese ajuste (o pregunta a quien lo configuró) para cambiarla aquí.',
+        'Un ajuste de inicio externo a la app eligió esta conexión, así que las opciones de abajo son de solo lectura. Reinicia VAEL sin ese ajuste (o pregunta a quien lo configuró) para cambiarla aquí.',
       modeTitle: 'Modo de conexión',
       localTitle: 'Gateway local',
       localDesc:
-        'Inicia un backend privado de Hermes en localhost. Es el valor predeterminado y funciona sin conexión.',
+        'Inicia un backend privado de VAEL en localhost. Es el valor predeterminado y funciona sin conexión.',
       remoteTitle: 'Gateway remoto',
-      remoteDesc: 'Conecta esta shell de escritorio a un backend remoto de Hermes.',
+      remoteDesc: 'Conecta esta shell de escritorio a un backend remoto de VAEL.',
       remoteAuthHint:
         'Los gateways alojados usan OAuth o usuario y contraseña; los autohospedados pueden usar un token de sesión.',
-      cloudTitle: 'Hermes Cloud',
+      cloudTitle: 'VAEL Cloud',
       cloudDesc:
-        'Inicia sesión una vez en Hermes Cloud y elige uno de los agentes de tu cuenta; no tienes que pegar ninguna URL.',
-      cloudSignInTitle: 'Hermes Cloud',
-      cloudSignIn: 'Iniciar sesión en Hermes Cloud',
-      cloudSignedIn: 'Sesión iniciada en Hermes Cloud',
-      cloudNeedsSignIn: 'Inicia sesión en Hermes Cloud para descubrir los agentes de tu cuenta.',
+        'Inicia sesión una vez en VAEL Cloud y elige uno de los agentes de tu cuenta; no tienes que pegar ninguna URL.',
+      cloudSignInTitle: 'VAEL Cloud',
+      cloudSignIn: 'Iniciar sesión en VAEL Cloud',
+      cloudSignedIn: 'Sesión iniciada en VAEL Cloud',
+      cloudNeedsSignIn: 'Inicia sesión en VAEL Cloud para descubrir los agentes de tu cuenta.',
       cloudSignedInDesc: 'Has iniciado sesión. Elige un agente de abajo; la sesión se actualiza automáticamente.',
       cloudAgentsTitle: 'Tus agentes',
       cloudOrgPickerTitle: 'Elige una organización',
@@ -1901,21 +1901,21 @@ export const esOverrides = {
       cloudUseSaved: 'Usar gateway',
       cloudActive: 'Activo en esta ventana',
       cloudConnecting: 'Conectando…',
-      cloudDiscoverFailed: 'No se pudieron cargar tus agentes de Hermes Cloud',
+      cloudDiscoverFailed: 'No se pudieron cargar tus agentes de VAEL Cloud',
       cloudConnectFailed: 'No se pudo conectar con ese agente',
-      cloudSignInFailed: 'Falló el inicio de sesión en Hermes Cloud',
-      cloudSignedOutTitle: 'Sesión cerrada en Hermes Cloud',
-      cloudSignedOutMessage: 'Se borró la sesión de Hermes Cloud.',
+      cloudSignInFailed: 'Falló el inicio de sesión en VAEL Cloud',
+      cloudSignedOutTitle: 'Sesión cerrada en VAEL Cloud',
+      cloudSignedOutMessage: 'Se borró la sesión de VAEL Cloud.',
       cloudConnectedTitle: 'Conectado',
       cloudConnectedPill: 'Conectado',
       cloudConnectedTo: name => `Conectado a ${name}.`,
       cloudAgentProvisioning: 'Preparando…',
       cloudStatusLabel: status => `Estado: ${status}`,
       remoteUrlTitle: 'URL remota',
-      remoteUrlDesc: 'URL base del backend del dashboard remoto. Se admiten prefijos de ruta, por ejemplo /hermes.',
+      remoteUrlDesc: 'URL base del backend del dashboard remoto. Se admiten prefijos de ruta, por ejemplo /vael.',
       probing: 'Comprobando cómo se autentica este gateway…',
       probeError:
-        'Hermes no puede llegar a esa dirección. Comprueba la URL y que el otro equipo esté ejecutando Hermes; las opciones de inicio de sesión aparecen cuando responde.',
+        'VAEL no puede llegar a esa dirección. Comprueba la URL y que el otro equipo esté ejecutando VAEL; las opciones de inicio de sesión aparecen cuando responde.',
       signedIn: 'Sesión iniciada',
       signIn: 'Iniciar sesión',
       signOut: 'Cerrar sesión',
@@ -1956,9 +1956,9 @@ export const esOverrides = {
       enterUrlFirst: 'Introduce primero una URL remota.',
       restartingTitle: 'Reiniciando conexión del gateway',
       savedTitle: 'Ajustes del gateway guardados',
-      restartingMessage: 'Hermes Desktop se reconectará con los ajustes guardados.',
+      restartingMessage: 'VAEL Desktop se reconectará con los ajustes guardados.',
       savedMessage: 'Guardado para el próximo reinicio.',
-      connectedTo: (baseUrl, version) => `Conectado a ${baseUrl}${version ? ` · Hermes ${version}` : ''}`,
+      connectedTo: (baseUrl, version) => `Conectado a ${baseUrl}${version ? ` · VAEL ${version}` : ''}`,
       reachableTitle: 'Gateway remoto accesible',
       signedOutTitle: 'Sesión cerrada',
       signedOutMessage: 'Se borró la sesión del gateway remoto.',
@@ -1970,7 +1970,7 @@ export const esOverrides = {
       saveFailed: 'No se pudieron guardar los ajustes del gateway',
       sshTitle: 'Conectar por SSH',
       sshDesc:
-        'Hermes se inicia en el equipo remoto mediante SSH y se conecta a esta app a través de un túnel; no tienes que iniciar ni exponer nada por tu cuenta. Requiere acceso SSH mediante claves que ya funcione con el host.',
+        'VAEL se inicia en el equipo remoto mediante SSH y se conecta a esta app a través de un túnel; no tienes que iniciar ni exponer nada por tu cuenta. Requiere acceso SSH mediante claves que ya funcione con el host.',
       sshTrustHint:
         'La primera clave de host presentada se acepta y se fija; si cambia después, la conexión se rechaza.',
       sshHostTitle: 'Host',
@@ -1986,25 +1986,25 @@ export const esOverrides = {
       sshPortDesc: 'En blanco = 22 o el puerto de ~/.ssh/config.',
       sshKeyTitle: 'Archivo de identidad',
       sshKeyDesc: 'Ruta de la clave privada. En blanco = ssh-agent o ~/.ssh/config.',
-      sshHermesPathTitle: 'Ruta de Hermes (opcional)',
-      sshHermesPathDesc: 'Ruta completa al binario remoto de Hermes. En blanco = detección automática.',
-      sshHermesPathPlaceholder: 'detección automática',
+      sshVaelPathTitle: 'Ruta de VAEL (opcional)',
+      sshVaelPathDesc: 'Ruta completa al binario remoto de VAEL. En blanco = detección automática.',
+      sshVaelPathPlaceholder: 'detección automática',
       sshTestConnection: 'Probar SSH',
       sshConnect: 'Conectar',
       sshButtonsHint: 'Guardar se aplica en el próximo inicio. Conectar vuelve a conectar ahora.',
-      sshReachable: (host, platform) => `Accesible: ${host} (${platform}) — se encontró Hermes`,
+      sshReachable: (host, platform) => `Accesible: ${host} (${platform}) — se encontró VAEL`,
       sshIncompleteHost: 'Introduce un host SSH antes de conectar.',
       sshErrUnreachable: 'No se pudo acceder a ese host por SSH. Revisa el host, el puerto y tu red.',
       sshErrAuth:
-        'Falló la autenticación SSH. Carga tu clave en ssh-agent (ssh-add) o configura un IdentityFile en ~/.ssh/config; Hermes ejecuta SSH de forma no interactiva.',
+        'Falló la autenticación SSH. Carga tu clave en ssh-agent (ssh-add) o configura un IdentityFile en ~/.ssh/config; VAEL ejecuta SSH de forma no interactiva.',
       sshErrHostKey:
         'La clave del host CAMBIÓ desde la última conexión. Confirma que sea un cambio esperado, ejecuta ssh-keygen -R <host> y vuelve a conectar.',
       sshErrNotInstalled:
-        'Hermes no está instalado en el host remoto. Instálalo allí (curl -fsSL https://hermes-agent.nousresearch.com/install.sh | sh) o indica la ruta de Hermes.',
+        'VAEL no está instalado en el host remoto. Instálalo allí (curl -fsSL https://raw.githubusercontent.com/sunnatilla0717/vael-agent/main/scripts/install.sh | bash) o indica la ruta de VAEL.',
       sshErrPlatform:
-        'Plataforma remota no compatible. El modo SSH de Hermes Desktop admite hosts remotos Linux, macOS y Windows.',
+        'Plataforma remota no compatible. El modo SSH de VAEL Desktop admite hosts remotos Linux, macOS y Windows.',
       sshErrTimeout: 'La conexión SSH agotó el tiempo de espera. Es posible que el host no responda o esté en reposo.',
-      sshErrUpdateRequired: 'Actualiza Hermes en el host remoto antes de conectarte con Desktop SSH.',
+      sshErrUpdateRequired: 'Actualiza VAEL en el host remoto antes de conectarte con Desktop SSH.',
       sshErrUnknown: 'Falló la conexión SSH.'
     },
     keys: {
@@ -2051,7 +2051,7 @@ export const esOverrides = {
       noOutput: 'Aún no hay salida.',
       deepLinkTitle: '¿Añadir servidor MCP?',
       deepLinkDescription:
-        'Un enlace pidió añadir este servidor MCP a Hermes. Revisa la configuración exacta de abajo: viene del enlace, no de Hermes.',
+        'Un enlace pidió añadir este servidor MCP a VAEL. Revisa la configuración exacta de abajo: viene del enlace, no de VAEL.',
       deepLinkStdioWarning:
         'Este servidor ejecuta un proceso local en tu equipo con el comando que se muestra abajo. Continúa solo si confías en su origen.',
       deepLinkConfirm: 'Añadir servidor',
@@ -2177,7 +2177,7 @@ export const esOverrides = {
       serverRunning: 'En ejecución',
       runtimeInstalled: 'Entorno llama.cpp instalado',
       runtimeInstalledDetail: (tag, backend) =>
-        `Compilación ${tag}, backend ${backend}. Hermes inicia y gestiona el servidor por ti.`,
+        `Compilación ${tag}, backend ${backend}. VAEL inicia y gestiona el servidor por ti.`,
       installTitle: 'Instalar el entorno local',
       installDetail:
         'Descarga el motor de inferencia llama.cpp (unos cientos de MB). Los modelos que descargues se ejecutan por completo en este equipo: sin cuenta y sin que nada salga de tu computadora.',
@@ -2504,7 +2504,7 @@ export const esOverrides = {
         cliBillingDisabled: {
           title: 'El gasto remoto está desactivado',
           message:
-            'El gasto remoto está desactivado para esta cuenta; un administrador de facturación puede activarlo desde la página de Hermes Agent del portal.'
+            'El gasto remoto está desactivado para esta cuenta; un administrador de facturación puede activarlo desde la página de VAEL Agent del portal.'
         },
         roleRequired: {
           title: 'Se requiere rol de administrador',
@@ -2572,7 +2572,7 @@ export const esOverrides = {
       connectAccount: 'Conectar una cuenta',
       haveApiKey: '¿Tienes una clave API?',
       intro:
-        'Inicia sesión con una suscripción, sin copiar claves API. Hermes ejecuta el inicio de sesión del navegador por ti, aquí mismo en la app.',
+        'Inicia sesión con una suscripción, sin copiar claves API. VAEL ejecuta el inicio de sesión del navegador por ti, aquí mismo en la app.',
       connected: 'Conectado',
       collapse: 'Contraer',
       connectAnother: 'Conectar otro proveedor',
@@ -2594,7 +2594,7 @@ export const esOverrides = {
       localEndpoint: {
         title: 'Endpoint local o personalizado',
         description:
-          'Conecta Hermes con cualquier endpoint compatible con OpenAI (Zyphra, vLLM, llama.cpp, Ollama, etc.).'
+          'Conecta VAEL con cualquier endpoint compatible con OpenAI (Zyphra, vLLM, llama.cpp, Ollama, etc.).'
       },
       loading: 'Cargando proveedores...'
     },
@@ -2725,7 +2725,7 @@ export const esOverrides = {
         needsSetupConfirmAction: 'Seleccionar de todos modos',
         unavailableTitle: 'Los comandos de terminal no están disponibles',
         unavailableMessage: (backend: string) =>
-          `Hermes no puede ejecutar comandos de shell ahora mismo: ${backend} no está listo. Cambia a Local o termina de configurar ${backend} y vuelve a intentarlo.`,
+          `VAEL no puede ejecutar comandos de shell ahora mismo: ${backend} no está listo. Cambia a Local o termina de configurar ${backend} y vuelve a intentarlo.`,
         openBackendSettings: 'Abrir ajustes del terminal',
         useLocal: 'Usar Local',
         switchedToLocal: 'Los comandos de terminal ahora se ejecutan localmente. Se aplica a las sesiones nuevas.'
@@ -2741,7 +2741,7 @@ export const esOverrides = {
         failedSave: 'No se pudo guardar el ajuste del perfil real',
         prompt: {
           title: 'Mantén la sesión iniciada en tus sitios',
-          body: 'Deja que Hermes navegue con una instantánea de tu perfil predeterminado del navegador, para que los sitios se abran con la sesión ya iniciada.',
+          body: 'Deja que VAEL navegue con una instantánea de tu perfil predeterminado del navegador, para que los sitios se abran con la sesión ya iniciada.',
           bulletSnapshot: 'Las cookies y los inicios de sesión se copian en una instantánea administrada.',
           bulletLiveProfile: 'Tu perfil del navegador en uso nunca se abre directamente.',
           bulletLocal: 'Nada sale de este equipo.',
@@ -2808,7 +2808,7 @@ export const esOverrides = {
     edit: 'Editar',
     archive: 'Archivar',
     skillArchivedTitle: 'Skill archivado',
-    skillArchivedMessage: 'Puedes restaurarlo con hermes curator restore.',
+    skillArchivedMessage: 'Puedes restaurarlo con vael curator restore.',
     tabPlugins: 'Plugins',
     plugins: {
       agentTitle: 'Plugins del agente',
@@ -2819,7 +2819,7 @@ export const esOverrides = {
       halfDesktopHint: 'esta app, igual para todos los perfiles',
       halfAgent: 'Agente',
       halfAgentIn: (profile: string) => `Agente en ${profile}`,
-      defaultProfile: 'Hermes (predeterminado)',
+      defaultProfile: 'VAEL (predeterminado)',
       kindAgent: 'Agente',
       kindDesktop: 'Escritorio',
       kindBoth: 'Agente + Escritorio',
@@ -2844,12 +2844,12 @@ export const esOverrides = {
       toolsetToggleFailed: (name: string) =>
         `No se pudieron cambiar las herramientas de agente de ${name}; el panel de Escritorio no se modificó`,
       legacyBackend:
-        'Este backend es anterior a los interruptores de plugins por clave: actualiza Hermes para gestionarlo aquí.',
+        'Este backend es anterior a los interruptores de plugins por clave: actualiza VAEL para gestionarlo aquí.',
       portableBadge: 'portátil',
       serverStates: {
         connected: 'conectado',
         app_not_running: 'la app no se está ejecutando',
-        hermes_not_connected: 'falta la conexión MCP',
+        vael_not_connected: 'falta la conexión MCP',
         endpoint_unavailable: 'endpoint no disponible',
         no_interactive_session: 'sin sesión interactiva',
         version_too_old: 'versión demasiado antigua',
@@ -2863,7 +2863,7 @@ export const esOverrides = {
         'Pulsa "+ Añadir a este agente" en cualquier plugin: las entradas revisadas se instalan en su commit fijado en el perfil seleccionado. Los plugins agente+escritorio incluidos ofrecen ambas mitades.',
       alreadyInstalled: (name: string) => `${name} ya está instalado en este perfil.`,
       catalogProvenance: (sha: string) =>
-        `Instalado desde el catálogo de Hermes${sha ? ` en el commit fijado ${sha}` : ''}.`,
+        `Instalado desde el catálogo de VAEL${sha ? ` en el commit fijado ${sha}` : ''}.`,
       pinnedProvenance: (sha: string) =>
         `Fijado al commit ${sha}. Las actualizaciones se rechazan hasta que se reinstale con un nuevo commit fijado.`,
       pinnedBadge: (sha: string) => `fijado @ ${sha}`,
@@ -2891,9 +2891,9 @@ export const esOverrides = {
       deepLinkErrorTitle: 'Enlace de instalación de plugin rechazado',
       deepLinkCatalogInvalidName: 'Falta el nombre del catálogo del enlace o no es válido.',
       deepLinkCatalogUnknown: (name: string) =>
-        `\u201C${name}\u201D no está en el catálogo de plugins de Hermes. No se instaló nada.`,
+        `\u201C${name}\u201D no está en el catálogo de plugins de VAEL. No se instaló nada.`,
       deepLinkCatalogUnavailable:
-        'No se pudo cargar el catálogo de plugins de Hermes. Comprueba tu conexión y vuelve a abrir el enlace.',
+        'No se pudo cargar el catálogo de plugins de VAEL. Comprueba tu conexión y vuelve a abrir el enlace.',
       settingsToggle: (name: string) => `Configuración: ${name}`,
       settingsForm: {
         save: 'Guardar configuración',
@@ -2980,7 +2980,7 @@ export const esOverrides = {
     loadFailed: 'No se pudo cargar el grafo de memoria',
     loading: 'Cargando…',
     emptyTitle: 'Aún no se ha aprendido nada',
-    emptyDesc: 'A medida que Hermes crea skills y memorias para tu trabajo, aparecerán aquí.',
+    emptyDesc: 'A medida que VAEL crea skills y memorias para tu trabajo, aparecerán aquí.',
     share: 'Compartir mapa',
     shareHint:
       'Copia el código para compartir este mapa o pega uno para cargarlo. Solo incluye el diseño, no el texto de tus memorias ni skills.',
@@ -3060,7 +3060,7 @@ export const esOverrides = {
       placeholder: 'Buscar mascotas…',
       loading: 'Cargando la galería petdex…',
       error: 'No se pudo acceder a la galería petdex.',
-      staleBackend: 'Reinicia Hermes para usar mascotas; el backend es anterior a esta función.',
+      staleBackend: 'Reinicia VAEL para usar mascotas; el backend es anterior a esta función.',
       empty: 'No hay mascotas coincidentes.',
       turnOff: 'Desactivar',
       turnOn: 'Activar',
@@ -3087,8 +3087,8 @@ export const esOverrides = {
       hatchComposing: 'Uniendo las piezas…',
       hatchSaving: 'Ya casi…',
       namePlaceholder: 'Ponle nombre a tu mascota',
-      staleBackend: 'Actualiza Hermes para generar mascotas.',
-      backgroundHint: 'Puedes cerrar esto; Hermes te avisará cuando termine.',
+      staleBackend: 'Actualiza VAEL para generar mascotas.',
+      backgroundHint: 'Puedes cerrar esto; VAEL te avisará cuando termine.',
       slowProviderHint: 'Esto puede tardar varios minutos',
       remix: 'Remixar',
       remixConfirmTitle: '¿Remixar este aspecto?',
@@ -3128,7 +3128,7 @@ export const esOverrides = {
       },
       settings: {
         title: 'Configuración',
-        detail: 'Configura Hermes Desktop'
+        detail: 'Configura VAEL Desktop'
       },
       capabilities: {
         title: 'Capacidades',
@@ -3169,7 +3169,7 @@ export const esOverrides = {
     noSessions: 'Aún no hay sesiones.',
     gatewayRunning: 'Gateway de mensajería en ejecución',
     gatewayStopped: 'Gateway de mensajería detenido',
-    hermesActiveSessions: (version, count) => `Hermes ${version} · Sesiones activas ${count}`,
+    vaelActiveSessions: (version, count) => `VAEL ${version} · Sesiones activas ${count}`,
     restartGateway: 'Reiniciar gateway',
     openBrowser: 'Alternar navegador',
     toggleBrowser: 'Alternar navegador',
@@ -3179,7 +3179,7 @@ export const esOverrides = {
     sharedGatewayRestartConfirm: 'Reiniciar todo',
     sharedGatewayRestarted: (count: number) =>
       `Gateway compartido reiniciado (${count} ${count === 1 ? 'bot' : 'bots'})`,
-    updateHermes: 'Actualizar Hermes',
+    updateVael: 'Actualizar VAEL',
     reloadWindow: 'Recargar ventana',
     actionRunning: 'en ejecución',
     actionDone: 'listo',
@@ -3335,7 +3335,7 @@ export const esOverrides = {
     restartNeeded: 'Guardado. Reinicia el gateway de mensajería para que la nueva configuración surta efecto.',
     restartNow: 'Reiniciar ahora',
     restarting: 'Reiniciando…',
-    restartFailedManual: 'Hermes no pudo reiniciarse para aplicar tu configuración de mensajería',
+    restartFailedManual: 'VAEL no pudo reiniciarse para aplicar tu configuración de mensajería',
     restartFailedManualDetail:
       'Vuelve a pulsar Reiniciar; si sigue fallando, abre los registros y envía un diagnóstico.',
     restartAgain: 'Reiniciar de nuevo',
@@ -3343,11 +3343,11 @@ export const esOverrides = {
     telegramQr: {
       title: 'Elige cómo conectar tu bot de Telegram',
       subtitle:
-        'Ambas opciones conectan un bot que controlas y guardan sus credenciales solo en esta instalación de Hermes.',
+        'Ambas opciones conectan un bot que controlas y guardan sus credenciales solo en esta instalación de VAEL.',
       quickSetup: 'Configuración rápida',
       recommended: 'Recomendado',
       quickHelp:
-        'Escanea un código QR y confirma en Telegram. Hermes crea el bot y detecta tu ID de usuario de Telegram automáticamente.',
+        'Escanea un código QR y confirma en Telegram. VAEL crea el bot y detecta tu ID de usuario de Telegram automáticamente.',
       createWithQr: 'Crear con QR',
       starting: 'Iniciando…',
       replaceWarning:
@@ -3464,7 +3464,7 @@ export const esOverrides = {
       },
       MATRIX_USER_ID: {
         label: 'ID de usuario del bot',
-        placeholder: '@hermes:example.org'
+        placeholder: '@vael:example.org'
       },
       MATRIX_ALLOWED_USERS: {
         label: 'IDs de usuarios de Matrix permitidos',
@@ -3591,14 +3591,14 @@ export const esOverrides = {
       onGateway: (name: string, gateway: string) => `${name} · ${gateway}`,
       switchTo: (name: string, gateway: string) => `Cambiar a ${name} en ${gateway}`,
       deleteOn: (gateway: string) => ` en ${gateway}`,
-      localDevice: 'Este dispositivo (backend local: instala Hermes si falta; si no, abre una sesión nueva)',
+      localDevice: 'Este dispositivo (backend local: instala VAEL si falta; si no, abre una sesión nueva)',
       switchDeviceTitle: '¿Cambiar a este dispositivo?',
       switchDeviceDesc:
         'Esto abre una sesión nueva en este equipo. La conversación actual permanece en el otro gateway.',
       switchDeviceConfirm: 'Cambiar',
       installDeviceTitle: '¿Cambiar a este dispositivo?',
       installDeviceDesc:
-        'Esto instalará Hermes localmente y luego abrirá una sesión nueva en este equipo. No se instala nada hasta que confirmes.',
+        'Esto instalará VAEL localmente y luego abrirá una sesión nueva en este equipo. No se instala nada hasta que confirmes.',
       installDeviceConfirm: 'Instalar localmente',
       connectExistingInstead: 'Conectar uno existente en su lugar'
     },
@@ -3613,9 +3613,9 @@ export const esOverrides = {
       badge: (host: string) => `Se ejecuta en ${host}`,
       title: (profile: string) => `Conectar ${profile} a un host remoto`,
       description:
-        'Las sesiones de este perfil se ejecutarán en el Hermes remoto que indiques, en lugar de en este equipo.',
+        'Las sesiones de este perfil se ejecutarán en el VAEL remoto que indiques, en lugar de en este equipo.',
       urlLabel: 'Dirección remota',
-      urlPlaceholder: 'https://hermes.example.com',
+      urlPlaceholder: 'https://vael.example.com',
       urlInvalid: 'Introduce una dirección completa que empiece por http:// o https://',
       tokenLabel: 'Token de acceso',
       tokenPlaceholder: 'Pega el token de sesión remota',
@@ -3649,7 +3649,7 @@ export const esOverrides = {
     defaultProfile: 'Perfil predeterminado',
     defaultSet: (name: string) => `${name} es ahora el predeterminado`,
     defaultDescription:
-      'Se usa al abrir Hermes y para los chats nuevos. Las sesiones existentes se quedan en sus perfiles.',
+      'Se usa al abrir VAEL y para los chats nuevos. Las sesiones existentes se quedan en sus perfiles.',
     failedSetDefault: 'No se pudo establecer el perfil predeterminado',
     setColor: color => `Definir color ${color}`,
     autoColor: 'Auto',
@@ -3686,7 +3686,7 @@ export const esOverrides = {
     deleteDescMid: ' y quitará su directorio ',
     deleteDescSuffix: '. Esto no se puede deshacer.',
     deleting: 'Eliminando...',
-    createDesc: 'Los perfiles son entornos independientes de Hermes: configuración, skills y SOUL.md separados.',
+    createDesc: 'Los perfiles son entornos independientes de VAEL: configuración, skills y SOUL.md separados.',
     nameLabel: 'Nombre',
     cloneFrom: 'Clonar desde',
     cloneFromNone: 'Ninguno (vacío)',
@@ -3720,7 +3720,7 @@ export const esOverrides = {
     failedRename: 'No se pudo renombrar el perfil'
   },
   modelAssignment: {
-    saveFailed: 'Hermes no guardó ese cambio de modelo.',
+    saveFailed: 'VAEL no guardó ese cambio de modelo.',
     confirmTitle: 'Aviso sobre la selección de modelo',
     confirmDetail: 'Confirma solo si aceptas esta contrapartida.',
     confirmAction: 'Confirmar',
@@ -3788,7 +3788,7 @@ export const esOverrides = {
     everyHourAt: minute => `Cada hora en :${minute}`,
     newCron: 'Nueva tarea cron',
     emptyDescNew:
-      'Programa un prompt para ejecutarlo con una expresión cron. Hermes lo ejecutará y entregará los resultados al destino que elijas.',
+      'Programa un prompt para ejecutarlo con una expresión cron. VAEL lo ejecutará y entregará los resultados al destino que elijas.',
     emptyDescSearch: 'Prueba una búsqueda más amplia.',
     emptyTitleNew: 'Aún no hay tareas programadas',
     emptyTitleSearch: 'Sin coincidencias',
@@ -4002,9 +4002,9 @@ export const esOverrides = {
     storageCorrupt: {
       title: 'La base de datos de sesiones está dañada',
       body: (profiles: string) =>
-        `Hermes no puede leer todo el historial de sesiones de ${profiles}. Los chats que faltan en esta lista no se eliminaron; el archivo donde se guardan está dañado.`,
+        `VAEL no puede leer todo el historial de sesiones de ${profiles}. Los chats que faltan en esta lista no se eliminaron; el archivo donde se guardan está dañado.`,
       action:
-        'Sal de Hermes en este perfil y luego inspecciona el archivo sin modificarlo, o restaura una instantánea:',
+        'Sal de VAEL en este perfil y luego inspecciona el archivo sin modificarlo, o restaura una instantánea:',
       guide: 'Guía de recuperación'
     },
     noFilterMatches: 'Ninguna sesión coincide con estos filtros',
@@ -4049,9 +4049,9 @@ export const esOverrides = {
         'El proyecto se creó en la conexión o el perfil anterior. Vuelve allí; no se escribió IDEA.md.',
       createFailed: 'No se pudo crear el proyecto',
       staleBackend:
-        'Actualiza el backend de Hermes para crear proyectos: tu backend es más antiguo que esta aplicación de escritorio (Configuración → Actualizaciones → Backend).',
+        'Actualiza el backend de VAEL para crear proyectos: tu backend es más antiguo que esta aplicación de escritorio (Configuración → Actualizaciones → Backend).',
       deleteConfirm:
-        'Esto elimina el proyecto guardado de Hermes. Los archivos, los repositorios de git y los árboles de trabajo permanecen intactos.',
+        'Esto elimina el proyecto guardado de VAEL. Los archivos, los repositorios de git y los árboles de trabajo permanecen intactos.',
       startWork: 'Nuevo worktree',
       newWorktreeTitle: 'Nuevo worktree',
       newWorktreeDesc: 'Asigna un nombre a la rama de este worktree.',
@@ -4061,7 +4061,7 @@ export const esOverrides = {
       baseBranchNone: 'No se encontraron ramas',
       startWorkFailed: 'No se pudo crear el worktree',
       worktreeStaleBackend:
-        'Actualiza el backend de Hermes para crear worktrees por esta conexión remota: es anterior a la API de git worktree.',
+        'Actualiza el backend de VAEL para crear worktrees por esta conexión remota: es anterior a la API de git worktree.',
       worktreeProjectLabel: 'Proyecto',
       worktreeProjectPlaceholder: 'Buscar proyectos…',
       worktreeProjectNone: 'Ningún proyecto con carpeta',
@@ -4157,12 +4157,12 @@ export const esOverrides = {
   composer: {
     message: 'Mensaje',
     wakingProfile: profile => `Despertando ${profile}…`,
-    placeholderStarting: 'Iniciando Hermes...',
-    placeholderReconnecting: 'Reconectando con Hermes…',
+    placeholderStarting: 'Iniciando VAEL...',
+    placeholderReconnecting: 'Reconectando con VAEL…',
     placeholderFollowUp: 'Enviar seguimiento',
     newSessionPlaceholders: [
       '¿Qué vamos a construir?',
-      'Dale una tarea a Hermes',
+      'Dale una tarea a VAEL',
       '¿Qué tienes en mente?',
       'Describe lo que necesitas',
       '¿Qué abordamos?',
@@ -4199,8 +4199,8 @@ export const esOverrides = {
     transcribingDictation: 'Transcribiendo dictado',
     voiceControls: 'Voz',
     voiceEngine: 'Motor del chat de voz',
-    voiceEngineChained: 'Voz a texto + voz de Hermes',
-    voiceEngineLive: 'GPT-Live (full-duplex, delega en Hermes)',
+    voiceEngineChained: 'Voz a texto + voz de VAEL',
+    voiceEngineLive: 'GPT-Live (full-duplex, delega en VAEL)',
     voiceEngineLiveNeedsKey: 'Requiere una clave API de OpenAI',
     voiceEngineChangeFailed: 'No se pudo cambiar el motor del chat de voz',
     voiceEngineChainedShort: 'voz a texto',
@@ -4225,7 +4225,7 @@ export const esOverrides = {
       '/resume': 'Reanudar una sesión guardada',
       '/details': 'controlar el nivel de detalle de la transcripción',
       '/copy': 'copiar selección o último mensaje del asistente',
-      '/quit': 'salir de hermes',
+      '/quit': 'salir de vael',
       '/start': 'Confirmar los pings de inicio de la plataforma sin responder',
       '/new': 'Iniciar un chat nuevo de escritorio',
       '/topic': 'Activar o inspeccionar las sesiones por tema de los MD de Telegram',
@@ -4251,13 +4251,13 @@ export const esOverrides = {
       '/queue':
         'Poner un prompt en cola para el siguiente turno, o listar/editar/quitar/mover/vaciar los prompts en cola',
       '/steer': 'Insertar un mensaje tras la siguiente llamada a herramienta sin interrumpir',
-      '/goal': 'Fijar un objetivo permanente en el que Hermes trabaja durante varios turnos hasta cumplirlo',
+      '/goal': 'Fijar un objetivo permanente en el que VAEL trabaja durante varios turnos hasta cumplirlo',
       '/heartbeat': 'Configurar un prompt recurrente que vuelve a esta sesión cuando está inactiva',
       '/refine': 'Revisar esta conversación ahora y guardar lo aprendido en memoria/skills',
       '/review':
         'Lanzar un subagente independiente para revisar el trabajo que se acaba de comentar (PR, código, docs)',
       '/loop': 'Volver a ejecutar un prompt a intervalos regulares en esta sesión',
-      '/plan': 'Escribir un plan de implementación en markdown en .hermes/plans/ sin ejecutar nada',
+      '/plan': 'Escribir un plan de implementación en markdown en .vael/plans/ sin ejecutar nada',
       '/moa': 'Ejecutar un prompt con el preajuste predeterminado de Mixture of Agents y luego restaurar tu modelo',
       '/subgoal': 'Añadir o gestionar criterios adicionales del objetivo activo',
       '/status': 'Mostrar el estado de la sesión actual',
@@ -4265,7 +4265,7 @@ export const esOverrides = {
       '/context':
         'Mostrar la vista detallada de la ventana de contexto con indicador de uso, desglose por categoría, estadísticas de compresión y rendimiento',
       '/whoami': 'Mostrar tu acceso a los comandos de barra (admin / usuario)',
-      '/profile': 'Cambiar el perfil activo de Hermes',
+      '/profile': 'Cambiar el perfil activo de VAEL',
       '/codex-runtime': 'Activar o desactivar el runtime codex app-server para modelos OpenAI/Codex',
       '/personality': 'Establecer una personalidad predefinida',
       '/battery': 'Mostrar u ocultar un indicador de batería por colores en la barra de estado',
@@ -4293,7 +4293,7 @@ export const esOverrides = {
       '/subscription': 'Ver tu plan de Nous y cambiarlo en el navegador',
       '/topup': 'Mostrar tu saldo de Nous y gestionar la facturación en el portal',
       '/platform': 'Pausar, reanudar o listar una plataforma del gateway que falla',
-      '/version': 'Mostrar la versión de Hermes Agent',
+      '/version': 'Mostrar la versión de VAEL Agent',
       '/debug': 'Subir un informe de depuración (información del sistema + registros) y obtener enlaces para compartir',
       '/model': 'Cambiar el modelo de esta sesión'
     },
@@ -4308,7 +4308,7 @@ export const esOverrides = {
       'composer.history': 'recorrer el menú emergente o el historial'
     },
     attachUrlTitle: 'Adjuntar una URL',
-    attachUrlDesc: 'Hermes obtendrá la página y la incluirá como contexto para este turno.',
+    attachUrlDesc: 'VAEL obtendrá la página y la incluirá como contexto para este turno.',
     urlPlaceholder: 'https://example.com/post',
     urlHintPre: 'Incluye la URL completa, p. ej. ',
     attach: 'Adjuntar',
@@ -4561,7 +4561,7 @@ export const esOverrides = {
       createPr: 'Crear PR',
       openPr: 'Abrir PR',
       ghMissing: 'Instala GitHub CLI (gh) e inicia sesión para abrir PR',
-      agentShip: 'Pedir a Hermes que abra un PR',
+      agentShip: 'Pedir a VAEL que abra un PR',
       agentShipUnavailable: 'El chat al que pertenecen estos cambios no está en pantalla.',
       agentShipPrompt:
         'Revisa los cambios actuales, haz un commit con un mensaje convencional claro, envía la rama y abre un pull request.',
@@ -4573,23 +4573,23 @@ export const esOverrides = {
     }
   },
   updates: {
-    discontinuedTitle: 'Esta versión de Hermes ya no tiene soporte',
+    discontinuedTitle: 'Esta versión de VAEL ya no tiene soporte',
     discontinuedBody:
-      'Esta versión de Hermes ya no tiene soporte y podría dejar de funcionar; desinstálala. Tus datos permanecen en el disco.',
+      'Esta versión de VAEL ya no tiene soporte y podría dejar de funcionar; desinstálala. Tus datos permanecen en el disco.',
     channels: { stable: 'Estable', canary: 'Canary' },
-    appName: 'Hermes',
+    appName: 'VAEL',
     availableBodyRelease: tag => `La versión ${tag} está lista para instalarse.`,
     releaseAvailable: tag => `La versión ${tag} está disponible.`,
     checkingShort: 'Comprobando…',
     availableBodyAppInstaller:
-      'Hay una nueva versión de Hermes. Hermes se cerrará, Windows terminará la actualización y Hermes volverá a abrirse automáticamente.',
+      'Hay una nueva versión de VAEL. VAEL se cerrará, Windows terminará la actualización y VAEL volverá a abrirse automáticamente.',
     applyingBodyAppInstaller:
-      'Hermes se cerrará y Windows terminará la actualización. Hermes volverá a abrirse al finalizar; no tienes que hacer nada.',
+      'VAEL se cerrará y Windows terminará la actualización. VAEL volverá a abrirse al finalizar; no tienes que hacer nada.',
     applyingCloseAppInstaller:
-      'Esta ventana se cerrará; Windows terminará la actualización y Hermes volverá a abrirse automáticamente.',
+      'Esta ventana se cerrará; Windows terminará la actualización y VAEL volverá a abrirse automáticamente.',
     checkUnknownTitleAppInstaller: 'No se pudieron buscar actualizaciones',
     checkUnknownBodyAppInstaller:
-      'Windows no pudo buscar actualizaciones ahora. También se instalan automáticamente al reiniciar Hermes.',
+      'Windows no pudo buscar actualizaciones ahora. También se instalan automáticamente al reiniciar VAEL.',
     versionDetailsTitle: 'Detalles de la versión',
     versionDetailsBody:
       'Esta instalación se administra fuera de la app. Actualízala de la misma forma en que la instalaste.',
@@ -4601,9 +4601,9 @@ export const esOverrides = {
     versionDetailsDistributionDesktopMsix: 'Aplicación de escritorio (MSIX)',
     versionDetailsDistributionDesktopInstaller: 'Aplicación de escritorio (instalador)',
     versionDetailsDistributionSourceInstaller: 'Código fuente (script de instalación)',
-    versionDetailsDistributionSourceInstallerDesktop: 'Código fuente (script de instalación) + hermes desktop',
+    versionDetailsDistributionSourceInstallerDesktop: 'Código fuente (script de instalación) + vael desktop',
     versionDetailsDistributionSource: 'Código fuente',
-    versionDetailsDistributionSourceDesktop: 'Código fuente + hermes desktop',
+    versionDetailsDistributionSourceDesktop: 'Código fuente + vael desktop',
     versionDetailsDistributionStore: 'Microsoft Store',
     versionDetailsRuntime: 'Entorno de ejecución',
     versionDetailsRuntimeEmbedded: 'Entorno de ejecución integrado',
@@ -4614,12 +4614,12 @@ export const esOverrides = {
     versionUnavailable: 'Versión no disponible',
     bundleOutOfSync: 'La compilación de la app está desactualizada',
     bundleOutOfSyncDesc:
-      'El entorno de ejecución de Hermes se actualizó, pero la app de escritorio sigue siendo una compilación anterior: faltarán funciones nuevas de la interfaz (como el modo Bot) hasta que se actualice. Ejecuta la actualización de abajo para recompilar la app. Si eso no elimina este aviso, reinstala desde el instalador de escritorio más reciente.',
+      'El entorno de ejecución de VAEL se actualizó, pero la app de escritorio sigue siendo una compilación anterior: faltarán funciones nuevas de la interfaz (como el modo Bot) hasta que se actualice. Ejecuta la actualización de abajo para recompilar la app. Si eso no elimina este aviso, reinstala desde el instalador de escritorio más reciente.',
     bundleOutOfSyncAction: 'Obtener el instalador',
     bundleSwapPending: 'Reinicia para terminar la actualización',
     bundleSwapPendingDesc:
-      'La app actualizada ya está instalada; Hermes solo necesita reiniciarse para cargarla. Los chats y los ajustes no se tocan.',
-    bundleSwapPendingAction: 'Reiniciar Hermes',
+      'La app actualizada ya está instalada; VAEL solo necesita reiniciarse para cargarla. Los chats y los ajustes no se tocan.',
+    bundleSwapPendingAction: 'Reiniciar VAEL',
     checkNow: 'Comprobar ahora',
     seeWhatsNew: 'Ver novedades',
     releaseNotes: 'Notas de la versión',
@@ -4643,9 +4643,9 @@ export const esOverrides = {
       fetch: 'Descargando…',
       pull: 'Casi listo…',
       pydeps: 'Terminando…',
-      update: 'Actualizando Hermes…',
+      update: 'Actualizando VAEL…',
       rebuild: 'Reconstruyendo la aplicación de escritorio…',
-      restart: 'Reiniciando Hermes…',
+      restart: 'Reiniciando VAEL…',
       done: 'Actualización completada',
       manual: 'Actualizar desde la terminal',
       guiSkew: 'Actualiza la aplicación de escritorio',
@@ -4655,20 +4655,20 @@ export const esOverrides = {
     checkFailedTitle: 'No se pudieron buscar actualizaciones',
     tryAgain: 'Intentar de nuevo',
     notAvailableTitle: 'Actualización no disponible',
-    unsupportedMessage: 'Esta versión de Hermes no puede actualizarse desde la app.',
+    unsupportedMessage: 'Esta versión de VAEL no puede actualizarse desde la app.',
     connectionRetry:
-      'Hermes no pudo llegar al servidor de actualizaciones. Comprueba tu conexión a internet y vuelve a intentarlo. Si usas un Hermes remoto, asegúrate de que esté en línea.',
-    gitUnusable: 'Hermes no pudo ejecutar Git en este equipo, así que no pudo buscar actualizaciones.',
+      'VAEL no pudo llegar al servidor de actualizaciones. Comprueba tu conexión a internet y vuelve a intentarlo. Si usas un VAEL remoto, asegúrate de que esté en línea.',
+    gitUnusable: 'VAEL no pudo ejecutar Git en este equipo, así que no pudo buscar actualizaciones.',
     connectionSettings: 'Configuración de conexión',
     openDownloadPage: 'Abrir la página de descarga',
     latestBody: 'Estás usando la versión más reciente.',
     latestBodyBackend: 'El backend está ejecutando la versión más reciente.',
     allSetTitle: 'Todo listo',
     availableTitle: 'Nueva actualización disponible',
-    availableBody: 'Hay una nueva versión de Hermes lista para instalar.',
+    availableBody: 'Hay una nueva versión de VAEL lista para instalar.',
     availableTitleBackend: 'Actualización del backend disponible',
     availableBodyBackend:
-      'Hay una versión más reciente del backend de Hermes al que estás conectado lista para instalar.',
+      'Hay una versión más reciente del backend de VAEL al que estás conectado lista para instalar.',
     availableBodyNoChangelog:
       'Hay una versión más reciente lista. Las notas de la versión no están disponibles para este tipo de instalación.',
     updateNow: 'Actualizar ahora',
@@ -4678,31 +4678,31 @@ export const esOverrides = {
     manualTitle: 'Actualizar desde la terminal',
     manualUnavailableTitle: 'No se puede actualizar desde aquí',
     manualBody:
-      'Instalaste Hermes desde la línea de comandos, así que las actualizaciones también se ejecutan ahí. Pega esto en tu terminal:',
-    manualPickedUp: 'Hermes usará la nueva versión la próxima vez que lo abras.',
-    manualBodyBackend: 'El backend de Hermes se gestiona fuera de esta app. Ejecuta esto en el servidor que lo aloja:',
+      'Instalaste VAEL desde la línea de comandos, así que las actualizaciones también se ejecutan ahí. Pega esto en tu terminal:',
+    manualPickedUp: 'VAEL usará la nueva versión la próxima vez que lo abras.',
+    manualBodyBackend: 'El backend de VAEL se gestiona fuera de esta app. Ejecuta esto en el servidor que lo aloja:',
     manualPickedUpBackend: 'El backend cargará la nueva versión cuando termine la actualización.',
     guiSkewTitle: 'Actualiza la aplicación de escritorio',
     guiSkewBody:
-      'El backend se actualizó, pero el paquete de esta aplicación de escritorio no cambió. Actualiza o reinstala la aplicación de escritorio de Hermes (tu AppImage / .deb / .rpm) para que coincidan.',
+      'El backend se actualizó, pero el paquete de esta aplicación de escritorio no cambió. Actualiza o reinstala la aplicación de escritorio de VAEL (tu AppImage / .deb / .rpm) para que coincidan.',
     copy: 'Copiar',
     copied: 'Copiado',
     done: 'Listo',
     applyingBody:
-      'El actualizador de Hermes tomará el control en su propia ventana y volverá a abrir Hermes al terminar.',
+      'El actualizador de VAEL tomará el control en su propia ventana y volverá a abrir VAEL al terminar.',
     applyingBodyBackend:
-      'El backend remoto está aplicando la actualización y se reiniciará. Hermes se reconectará automáticamente cuando vuelva a estar disponible.',
-    applyingClose: 'Hermes se cerrará para aplicar la actualización.',
+      'El backend remoto está aplicando la actualización y se reiniciará. VAEL se reconectará automáticamente cuando vuelva a estar disponible.',
+    applyingClose: 'VAEL se cerrará para aplicar la actualización.',
     errorTitle: 'La actualización no terminó',
     errorBody: 'No pasa nada: no se perdió nada. Puedes intentarlo de nuevo ahora.',
-    blockerTitle: '¿Cerrar las vistas previas locales para actualizar Hermes?',
+    blockerTitle: '¿Cerrar las vistas previas locales para actualizar VAEL?',
     blockerBody:
-      'Hermes necesita detener estas vistas previas locales antes de actualizar. Esto no modifica ni elimina tus archivos.',
-    foreignBlockerTitle: 'Cierra otros procesos para actualizar Hermes',
+      'VAEL necesita detener estas vistas previas locales antes de actualizar. Esto no modifica ni elimina tus archivos.',
+    foreignBlockerTitle: 'Cierra otros procesos para actualizar VAEL',
     foreignBlockerBody:
-      'Hermes no puede cerrar estos procesos automáticamente de forma segura. Cierra la app, el terminal o el servicio al que pertenece cada uno y vuelve a intentar la actualización.',
+      'VAEL no puede cerrar estos procesos automáticamente de forma segura. Cierra la app, el terminal o el servicio al que pertenece cada uno y vuelve a intentar la actualización.',
     mixedBlockerBody:
-      'Hermes puede cerrar las vistas previas locales que se indican abajo. Los demás procesos deben cerrarse manualmente antes de continuar con la actualización.',
+      'VAEL puede cerrar las vistas previas locales que se indican abajo. Los demás procesos deben cerrarse manualmente antes de continuar con la actualización.',
     closePreviewsAndUpdate: 'Cerrar vistas previas y actualizar',
     closePreviewsAndCheckAgain: 'Cerrar vistas previas y volver a comprobar',
     localPreview: 'Vista previa local',
@@ -4742,11 +4742,11 @@ export const esOverrides = {
     sessionsTitle: 'Cada perfil tiene sus propias sesiones',
     sessionsText:
       'Esta lista pertenece al perfil predeterminado. Nueva sesión crea una en el perfil que esté seleccionado. Cambia de perfil en la barra y la lista cambia con él.',
-    stayTitle: 'Hermes está a un clic',
-    stayText: 'Cambia al perfil de configuración y abre Bienvenida a Hermes siempre que necesites ayuda. Se queda ahí.'
+    stayTitle: 'VAEL está a un clic',
+    stayText: 'Cambia al perfil de configuración y abre Bienvenida a VAEL siempre que necesites ayuda. Se queda ahí.'
   },
   guidedGreeting: {
-    line: 'Hola, pasa. Soy Hermes. Dame dos minutos para prepararlo todo a tu medida y luego me pondremos a trabajar en algo que de verdad quieras hacer.\n\nPero antes, ¿cómo quieres que te llame?',
+    line: 'Hola, pasa. Soy VAEL. Dame dos minutos para prepararlo todo a tu medida y luego me pondremos a trabajar en algo que de verdad quieras hacer.\n\nPero antes, ¿cómo quieres que te llame?',
     nameSuggestion: (name: string) => `(También puedo llamarte simplemente ${name}, si lo prefieres.)`
   },
   install: {
@@ -4757,7 +4757,7 @@ export const esOverrides = {
       skipped: 'Omitido',
       failed: 'Falló'
     },
-    oneTimeTitle: 'Hermes necesita una instalación única',
+    oneTimeTitle: 'VAEL necesita una instalación única',
     unsupportedDesc: platform =>
       `La instalación automática del primer inicio aún no está disponible en ${platform}. Abre Terminal y ejecuta el comando de abajo; luego vuelve a abrir la app. Los siguientes inicios omitirán este paso.`,
     installCommand: 'Comando de instalación',
@@ -4765,25 +4765,25 @@ export const esOverrides = {
     viewDocs: 'Ver docs de instalación',
     installTo: 'Se instalará en',
     retryAfterRun: 'Ya lo ejecuté -- reintentar',
-    setupChoiceTitle: 'Configurar Hermes Desktop',
+    setupChoiceTitle: 'Configurar VAEL Desktop',
     setupChoiceDesc:
-      'Conecta esta app con un gateway de Hermes que ya esté en ejecución o instala Hermes localmente en este equipo.',
-    connectExistingTitle: 'Conectar con un Hermes existente',
+      'Conecta esta app con un gateway de VAEL que ya esté en ejecución o instala VAEL localmente en este equipo.',
+    connectExistingTitle: 'Conectar con un VAEL existente',
     connectExistingShort: 'Conectar existente',
     connectExistingDesc:
       'Usa un backend remoto con un token de sesión o inicio de sesión en el navegador. No se iniciará ninguna instalación local.',
-    installLocalTitle: 'Instalar Hermes localmente',
-    installLocalDesc: 'Descarga Hermes, crea su entorno de Python y ejecuta el backend en este equipo.',
-    localStartUnavailable: 'No se pudo iniciar la instalación local. Reinicia Hermes Desktop e inténtalo de nuevo.',
-    remoteSetupTitle: 'Conectar con un Hermes existente',
+    installLocalTitle: 'Instalar VAEL localmente',
+    installLocalDesc: 'Descarga VAEL, crea su entorno de Python y ejecuta el backend en este equipo.',
+    localStartUnavailable: 'No se pudo iniciar la instalación local. Reinicia VAEL Desktop e inténtalo de nuevo.',
+    remoteSetupTitle: 'Conectar con un VAEL existente',
     remoteSetupDesc:
-      'Introduce la URL de tu gateway. Hermes Desktop detectará si necesita un token o iniciar sesión en el navegador.',
+      'Introduce la URL de tu gateway. VAEL Desktop detectará si necesita un token o iniciar sesión en el navegador.',
     remoteUrlTitle: 'URL del gateway',
-    remoteUrlDesc: 'Usa la URL base del gateway de Hermes e incluye https:// si es remoto.',
-    remoteUrlPlaceholder: 'https://gateway.example.com/hermes',
+    remoteUrlDesc: 'Usa la URL base del gateway de VAEL e incluye https:// si es remoto.',
+    remoteUrlPlaceholder: 'https://gateway.example.com/vael',
     probing: 'Detectando la autenticación del gateway…',
     probeError:
-      'Hermes no puede llegar a esa dirección. Comprueba la URL y que el otro equipo esté ejecutando Hermes; las opciones de inicio de sesión aparecen cuando responde.',
+      'VAEL no puede llegar a esa dirección. Comprueba la URL y que el otro equipo esté ejecutando VAEL; las opciones de inicio de sesión aparecen cuando responde.',
     probeErrorDetails: 'Detalles',
     identityProvider: 'tu proveedor de identidad',
     authTitle: 'Autenticación',
@@ -4804,12 +4804,12 @@ export const esOverrides = {
     applyRemote: 'Aplicar y reconectar',
     backToSetup: 'Atrás',
     failedTitle: 'Falló la instalación',
-    settingUpTitle: 'Configurando Hermes Agent',
+    settingUpTitle: 'Configurando VAEL Agent',
     finishingTitle: 'Terminando',
     failedDesc:
-      'Uno de los pasos de configuración no terminó. Puede ocurrir si hay otra copia de Hermes en ejecución, se cortó la conexión a internet o un antivirus bloqueó el instalador. Cierra las demás ventanas de Hermes y elige Recargar y reintentar. Si vuelve a fallar, abre los registros y envíalos al soporte.',
+      'Uno de los pasos de configuración no terminó. Puede ocurrir si hay otra copia de VAEL en ejecución, se cortó la conexión a internet o un antivirus bloqueó el instalador. Cierra las demás ventanas de VAEL y elige Recargar y reintentar. Si vuelve a fallar, abre los registros y envíalos al soporte.',
     activeDesc:
-      'Esta configuración se realiza una sola vez. El instalador de Hermes está descargando dependencias y configurando tu máquina. Los siguientes inicios omitirán este paso.',
+      'Esta configuración se realiza una sola vez. El instalador de VAEL está descargando dependencias y configurando tu máquina. Los siguientes inicios omitirán este paso.',
     progress: (completed, total) => `${completed} de ${total} pasos completados`,
     currentStage: stage => ` -- ahora: ${stage}`,
     fetchingManifest: 'Obteniendo manifiesto del instalador...',
@@ -4827,10 +4827,10 @@ export const esOverrides = {
     openLogs: 'Abrir registros'
   },
   onboarding: {
-    headerTitle: 'Vamos a configurar Hermes Agent',
+    headerTitle: 'Vamos a configurar VAEL Agent',
     headerDesc: 'Conecta un proveedor de modelo para empezar a chatear. La mayoría de opciones requieren un clic.',
-    preparingInstall: 'Hermes está terminando la instalación. En el primer inicio suele tardar menos de un minuto.',
-    starting: 'Iniciando Hermes…',
+    preparingInstall: 'VAEL está terminando la instalación. En el primer inicio suele tardar menos de un minuto.',
+    starting: 'Iniciando VAEL…',
     lookingUpProviders: 'Buscando proveedores...',
     collapse: 'Contraer',
     otherProviders: 'Otros proveedores',
@@ -4838,7 +4838,7 @@ export const esOverrides = {
     chooseLater: 'Elegiré un proveedor más tarde',
     recommended: 'Recomendado',
     connected: 'Conectado',
-    featuredPitch: 'Una suscripción, más de 300 modelos frontier: la forma recomendada de usar Hermes',
+    featuredPitch: 'Una suscripción, más de 300 modelos frontier: la forma recomendada de usar VAEL',
     fireworksPitch: 'API directa de modelos: modelos frontier alojados en Fireworks',
     localModelsTitle: 'Ejecutar modelos localmente',
     localModelsPitch: 'Sin cuenta: descarga un modelo y ejecútalo en este equipo',
@@ -4868,7 +4868,7 @@ export const esOverrides = {
       local: {
         short: 'autohospedado',
         description:
-          'Apunta Hermes a un endpoint local o autohospedado compatible con OpenAI (vLLM, llama.cpp, Ollama, etc.).'
+          'Apunta VAEL a un endpoint local o autohospedado compatible con OpenAI (vLLM, llama.cpp, Ollama, etc.).'
       }
     },
     backToSignIn: 'Volver al inicio de sesión',
@@ -4882,7 +4882,7 @@ export const esOverrides = {
     update: 'Actualizar',
     flowSubtitles: {
       pkce: 'Abre tu navegador para iniciar sesión y luego continúa aquí',
-      device_code: 'Abre una página de verificación en tu navegador; Hermes se conecta automáticamente',
+      device_code: 'Abre una página de verificación en tu navegador; VAEL se conecta automáticamente',
       external: 'Inicia sesión una vez en tu terminal y vuelve para chatear'
     },
     startingSignIn: provider => `Iniciando sesión con ${provider}...`,
@@ -4900,12 +4900,12 @@ export const esOverrides = {
     pickDifferentProvider: 'Elegir otro proveedor',
     signInWith: provider => `Iniciar sesión con ${provider}`,
     openedBrowser: provider => `Abrimos ${provider} en tu navegador.`,
-    authorizeThere: 'Autoriza Hermes allí.',
+    authorizeThere: 'Autoriza VAEL allí.',
     copyAuthCode: 'Copia el código de autorización y pégalo abajo.',
     pasteAuthCode: 'Pegar código de autorización',
     reopenAuthPage: 'Volver a abrir página de autorización',
     autoBrowser: provider =>
-      `Abrimos ${provider} en tu navegador. Autoriza Hermes allí y te conectarás automáticamente; no hay nada que copiar o pegar.`,
+      `Abrimos ${provider} en tu navegador. Autoriza VAEL allí y te conectarás automáticamente; no hay nada que copiar o pegar.`,
     reopenSignInPage: 'Volver a abrir página de inicio de sesión',
     waitingAuthorize: 'Esperando tu autorización...',
     externalPending: provider =>
@@ -4926,7 +4926,7 @@ export const esOverrides = {
   freeTier: {
     providerRowTitle: 'Nous · plan gratuito',
     providerRowPitch: 'Inicia sesión con una cuenta de Nous para desbloquear más modelos y herramientas.',
-    readyTitle: 'Hermes está listo.',
+    readyTitle: 'VAEL está listo.',
     readyCaption: 'Gratis · conectores incluidos',
     begin: 'Empezar',
     signInInstead: 'Iniciar sesión con una cuenta de Nous',
@@ -4962,24 +4962,24 @@ export const esOverrides = {
     timedOutHeading: 'Ese enlace de inicio de sesión caducó',
     timedOutBody: 'Empieza de nuevo cuando quieras. Sigues en el servicio gratuito de Nous.',
     retiredBody:
-      'Tu sesión terminó antes de completar el inicio de sesión. Hermes iniciará una nueva; luego vuelve a iniciar sesión cuando quieras.',
+      'Tu sesión terminó antes de completar el inicio de sesión. VAEL iniciará una nueva; luego vuelve a iniciar sesión cuando quieras.',
     errorBody: 'No se completó el inicio de sesión. Vuelve a intentarlo cuando quieras.',
     busyHeading: 'Ya casi está',
     busyBody: (wait: string) =>
-      `Hermes no pudo terminar de iniciar tu sesión porque el servicio de Nous está ocupado. Vuelve a intentarlo en ${wait}. Mientras tanto, tu sesión sigue aquí.`,
+      `VAEL no pudo terminar de iniciar tu sesión porque el servicio de Nous está ocupado. Vuelve a intentarlo en ${wait}. Mientras tanto, tu sesión sigue aquí.`,
     unreachableBody:
-      'Hermes no pudo llegar al servicio de Nous para terminar de iniciar tu sesión. Comprueba tu conexión a internet y vuelve a intentarlo. Tu sesión sigue aquí.',
+      'VAEL no pudo llegar al servicio de Nous para terminar de iniciar tu sesión. Comprueba tu conexión a internet y vuelve a intentarlo. Tu sesión sigue aquí.',
     alreadySignedInHeading: 'Ya has iniciado sesión.',
-    alreadySignedInBody: 'Este Hermes ya tiene la sesión iniciada en una cuenta de Nous.',
+    alreadySignedInBody: 'Este VAEL ya tiene la sesión iniciada en una cuenta de Nous.',
     setupFailed: {
       gateClosed:
-        'Esta versión de Hermes no puede iniciarse sin una cuenta de Nous. Inicia sesión o crea una: es gratis y solo lleva un minuto.',
+        'Esta versión de VAEL no puede iniciarse sin una cuenta de Nous. Inicia sesión o crea una: es gratis y solo lleva un minuto.',
       paused:
-        'El uso de Hermes sin iniciar sesión está en pausa por un momento. Hermes seguirá comprobándolo. Iniciar sesión es gratis y te permite empezar ahora mismo.',
+        'El uso de VAEL sin iniciar sesión está en pausa por un momento. VAEL seguirá comprobándolo. Iniciar sesión es gratis y te permite empezar ahora mismo.',
       rateLimited: (wait: string) =>
-        `Mucha gente está empezando ahora mismo, así que Hermes volverá a intentarlo en ${wait}. Iniciar sesión es gratis y te ahorra la espera.`,
+        `Mucha gente está empezando ahora mismo, así que VAEL volverá a intentarlo en ${wait}. Iniciar sesión es gratis y te ahorra la espera.`,
       unreachable:
-        'Hermes no pudo llegar al servicio de Nous. Comprueba tu conexión a internet y pulsa Reintentar. O conecta otro proveedor por ahora.',
+        'VAEL no pudo llegar al servicio de Nous. Comprueba tu conexión a internet y pulsa Reintentar. O conecta otro proveedor por ahora.',
       serverError:
         'El servicio de Nous tuvo un fallo. Pulsa Reintentar en un momento o conecta otro proveedor por ahora.',
       powRequired:
@@ -4987,7 +4987,7 @@ export const esOverrides = {
       locked:
         'Esta sesión no puede continuar sin iniciar sesión. Inicia sesión o crea una cuenta gratuita de Nous para seguir.',
       generic:
-        'Hermes no pudo configurar el acceso gratuito sin iniciar sesión. Iniciar sesión es gratis; también puedes conectar otro proveedor.',
+        'VAEL no pudo configurar el acceso gratuito sin iniciar sesión. Iniciar sesión es gratis; también puedes conectar otro proveedor.',
       signInBelow: 'Iniciar sesión es gratis. Elige Nous abajo.',
       tryAgain: 'Reintentar',
       retrying: 'Reintentando…'
@@ -5097,13 +5097,13 @@ export const esOverrides = {
       update: 'actualizar',
       updateInProgress: 'Actualización en curso',
       commitsBehind: (count, branch) => `${count} ${count === 1 ? 'commit' : 'commits'} detrás de ${branch}`,
-      desktopVersion: version => `Hermes Desktop v${version}`,
+      desktopVersion: version => `VAEL Desktop v${version}`,
       backendVersion: version => `backend v${version}`,
       clientLabel: version => `cliente v${version}`,
       connectionSsh: host => `SSH: ${host}`,
       connectionRemote: host => `Remoto: ${host}`,
       connectionCloud: host => `Nube: ${host}`,
-      connectionCloudTooltip: host => `Hermes Cloud · ${host}`,
+      connectionCloudTooltip: host => `VAEL Cloud · ${host}`,
       connectionSshTooltip: host => `SSH · ${host}`,
       connectionRemoteTooltip: host => `Remoto · ${host}`,
       backendLabel: version => `backend v${version}`,
@@ -5257,7 +5257,7 @@ export const esOverrides = {
     binaryTitle: 'Esto parece un archivo binario',
     binaryBody: label => `Previsualizar ${label} puede mostrar texto ilegible.`,
     largeTitle: 'Este archivo es grande',
-    largeBody: (label, size) => `${label} pesa ${size}. Hermes solo mostrará los primeros 512 KB.`,
+    largeBody: (label, size) => `${label} pesa ${size}. VAEL solo mostrará los primeros 512 KB.`,
     previewAnyway: 'Previsualizar de todos modos',
     truncated: 'Mostrando los primeros 512 KB.',
     noInlineTitle: 'Sin vista previa inline',
@@ -5300,12 +5300,12 @@ export const esOverrides = {
         'Esta dirección apunta al equipo que ejecuta tu agente, no a este. El panel del navegador carga las páginas localmente, así que un servidor de desarrollo remoto necesita un reenvío de puertos o un nombre de host accesible.',
       failedToLoad: 'No se pudo cargar la vista previa',
       tryAgain: 'Intentar de nuevo',
-      restarting: 'Hermes se está reiniciando...',
-      askRestart: 'Pedir a Hermes que reinicie el servidor',
-      lookingRestart: taskId => `Hermes está buscando un servidor de vista previa para reiniciar (${taskId})`,
+      restarting: 'VAEL se está reiniciando...',
+      askRestart: 'Pedir a VAEL que reinicie el servidor',
+      lookingRestart: taskId => `VAEL está buscando un servidor de vista previa para reiniciar (${taskId})`,
       restartingTitle: 'Reiniciando servidor de vista previa',
       restartingMessage:
-        'Hermes está trabajando en segundo plano. Mira la consola de vista previa para ver el progreso.',
+        'VAEL está trabajando en segundo plano. Mira la consola de vista previa para ver el progreso.',
       startRestartFailed: message => `No se pudo iniciar el reinicio del servidor: ${message}`,
       restartFailed: 'Falló el reinicio del servidor',
       hideConsole: 'Ocultar consola de vista previa',
@@ -5317,17 +5317,17 @@ export const esOverrides = {
       reload: 'Recargar página',
       address: 'Dirección',
       addressPlaceholder: 'Introduce una dirección',
-      blankPageBody: 'Escribe una dirección arriba para navegar o pide a Hermes que abra una página.',
+      blankPageBody: 'Escribe una dirección arriba para navegar o pide a VAEL que abra una página.',
       finishedRestarting: message =>
-        `Hermes terminó de reiniciar el servidor de vista previa${message ? `: ${message}` : ''}`,
+        `VAEL terminó de reiniciar el servidor de vista previa${message ? `: ${message}` : ''}`,
       failedRestarting: message => `Falló el reinicio del servidor: ${message}`,
       unknownError: 'error desconocido',
       restartedTitle: 'Servidor de vista previa reiniciado',
       reloadingNow: 'Recargando la vista previa ahora.',
       restartFailedTitle: 'Falló el reinicio de la vista previa',
-      restartFailedMessage: 'Hermes no pudo reiniciar el servidor.',
+      restartFailedMessage: 'VAEL no pudo reiniciar el servidor.',
       stillWorking:
-        'Hermes sigue trabajando, pero aún no llegó ningún resultado de reinicio. Puede que el comando del servidor siga en primer plano.',
+        'VAEL sigue trabajando, pero aún no llegó ningún resultado de reinicio. Puede que el comando del servidor siga en primer plano.',
       workspaceReloading: 'El espacio de trabajo cambió, recargando vista previa',
       fileChanged: url => `Archivo cambiado, recargando vista previa: ${url}`,
       filesChanged: (count, url) => `${count} cambios de archivo, recargando vista previa: ${url}`,
@@ -5352,12 +5352,12 @@ export const esOverrides = {
   },
   interfaceMode: {
     title: 'Modo de interfaz',
-    hint: 'Cambia lo que se muestra, no lo que Hermes puede hacer.',
+    hint: 'Cambia lo que se muestra, no lo que VAEL puede hacer.',
     sessionNote:
       'Definido por el modo Simple. Un cambio aquí dura esta sesión; cambia a Avanzado para que sea permanente.',
     simple: {
       label: 'Simple',
-      description: 'Para hablar con Hermes. Barra lateral y chat; sin paneles de terminal, archivos ni diferencias.'
+      description: 'Para hablar con VAEL. Barra lateral y chat; sin paneles de terminal, archivos ni diferencias.'
     },
     advanced: {
       label: 'Avanzado',
@@ -5443,7 +5443,7 @@ export const esOverrides = {
     thread: {
       loadingSession: 'Cargando sesión',
       showEarlier: 'Mostrar mensajes anteriores',
-      loadingResponse: 'Hermes está cargando una respuesta',
+      loadingResponse: 'VAEL está cargando una respuesta',
       loadingLocalModel: (model: string) => `Cargando ${model} en memoria`,
       processingPrompt: 'Procesando el prompt',
       resumeWhenBackgroundDone: count =>
@@ -5469,25 +5469,25 @@ export const esOverrides = {
         billing: 'Créditos agotados',
         disk: 'Disco lleno',
         endpoint: 'No se puede conectar con tu servidor de modelos',
-        gateway: 'Hermes tuvo un problema',
-        generic: 'Hermes no pudo terminar esta respuesta',
+        gateway: 'VAEL tuvo un problema',
+        generic: 'VAEL no pudo terminar esta respuesta',
         provider: 'El servicio de IA devolvió un error',
-        runtime: 'Hermes tuvo un problema',
+        runtime: 'VAEL tuvo un problema',
         streaming: 'La respuesta se cortó'
       },
       errorLayerBodies: {
         auth: 'El servicio de IA rechazó tu inicio de sesión. Revisa las credenciales de este proveedor y vuelve a enviar el mensaje.',
         billing: 'Tu cuenta no tiene créditos para este proveedor. Recarga o cambia de proveedor y vuelve a enviarlo.',
-        disk: 'Tu disco está lleno, así que Hermes no pudo guardar esta conversación. Libera espacio y reinténtalo.',
+        disk: 'Tu disco está lleno, así que VAEL no pudo guardar esta conversación. Libera espacio y reinténtalo.',
         endpoint:
-          'Hermes no puede conectar con tu servidor de modelos personalizado. Comprueba que esté en ejecución y vuelve a enviar el mensaje.',
+          'VAEL no puede conectar con tu servidor de modelos personalizado. Comprueba que esté en ejecución y vuelve a enviar el mensaje.',
         gateway:
-          'Hermes tuvo un problema interno al iniciar esta respuesta. Vuelve a enviar el mensaje; si sigue ocurriendo, envía un diagnóstico.',
-        generic: 'Algo salió mal mientras Hermes respondía. Reinténtalo o copia los detalles si sigue ocurriendo.',
+          'VAEL tuvo un problema interno al iniciar esta respuesta. Vuelve a enviar el mensaje; si sigue ocurriendo, envía un diagnóstico.',
+        generic: 'Algo salió mal mientras VAEL respondía. Reinténtalo o copia los detalles si sigue ocurriendo.',
         provider:
           'El servicio de IA no pudo completar esta solicitud. Reinténtalo en un momento o cambia de proveedor.',
         runtime:
-          'Hermes tuvo un problema interno al iniciar esta respuesta. Vuelve a enviar el mensaje; si sigue ocurriendo, envía un diagnóstico.',
+          'VAEL tuvo un problema interno al iniciar esta respuesta. Vuelve a enviar el mensaje; si sigue ocurriendo, envía un diagnóstico.',
         streaming: 'La conexión se cortó antes de que terminara la respuesta. Reinténtalo para enviarla de nuevo.'
       },
       errorCodes: {
@@ -5533,7 +5533,7 @@ export const esOverrides = {
         },
         no_reply: {
           title: 'La respuesta no terminó',
-          body: 'Hermes terminó este turno sin respuesta. Reinténtalo para enviarla de nuevo.'
+          body: 'VAEL terminó este turno sin respuesta. Reinténtalo para enviarla de nuevo.'
         },
         stream_drop: {
           title: 'La respuesta se cortó',
@@ -5547,7 +5547,7 @@ export const esOverrides = {
         ssl_cert_verification: {
           title: 'Falló la conexión segura',
           body: (provider: string) =>
-            `Hermes no pudo verificar la conexión segura con ${provider}. Revisa la configuración de red o del proxy, o cambia de proveedor, y vuelve a enviar el mensaje.`
+            `VAEL no pudo verificar la conexión segura con ${provider}. Revisa la configuración de red o del proxy, o cambia de proveedor, y vuelve a enviar el mensaje.`
         },
         context_overflow: {
           title: 'Esta conversación es demasiado larga',
@@ -5582,26 +5582,26 @@ export const esOverrides = {
         },
         invalid_response: {
           title: 'El servicio de IA envió una respuesta ilegible',
-          body: (provider: string) => `${provider} devolvió algo que Hermes no pudo leer. Reinténtalo en un momento.`
+          body: (provider: string) => `${provider} devolvió algo que VAEL no pudo leer. Reinténtalo en un momento.`
         },
         empty_response: {
           title: 'El servicio de IA envió una respuesta vacía',
           body: (provider: string) => `${provider} no devolvió nada para este mensaje. Reinténtalo en un momento.`
         },
         loop_error: {
-          title: 'Hermes se quedó atascado en un bucle',
-          body: 'La respuesta repetía los mismos pasos, así que Hermes la detuvo. Reinténtalo o empieza un chat nuevo si vuelve a ocurrir.'
+          title: 'VAEL se quedó atascado en un bucle',
+          body: 'La respuesta repetía los mismos pasos, así que VAEL la detuvo. Reinténtalo o empieza un chat nuevo si vuelve a ocurrir.'
         },
         SESSION_NOT_OWNED: {
           title: 'Este chat está abierto en otro sitio',
-          body: 'Este chat está abierto en otra ventana de Hermes o en un terminal. Ciérralo allí y vuelve a enviar el mensaje, o empieza un chat nuevo aquí.'
+          body: 'Este chat está abierto en otra ventana de VAEL o en un terminal. Ciérralo allí y vuelve a enviar el mensaje, o empieza un chat nuevo aquí.'
         },
         disk_full: {
           title: 'Disco lleno',
-          body: 'Tu disco está lleno, así que Hermes no pudo guardar esta conversación. Libera espacio y reinténtalo.'
+          body: 'Tu disco está lleno, así que VAEL no pudo guardar esta conversación. Libera espacio y reinténtalo.'
         },
         free_tier_disabled: {
-          title: 'El uso de Hermes sin iniciar sesión está desactivado ahora mismo',
+          title: 'El uso de VAEL sin iniciar sesión está desactivado ahora mismo',
           body: 'Inicia sesión con una cuenta de Nous para seguir chateando; es gratis.'
         },
         free_tier_rate_limited: {
@@ -5614,10 +5614,10 @@ export const esOverrides = {
         },
         free_tier_model_not_free: {
           title: 'Ese modelo no está disponible sin iniciar sesión',
-          body: 'Por ahora Hermes usa el modelo gratuito. Inicia sesión con una cuenta de Nous para tener más modelos; es gratis.'
+          body: 'Por ahora VAEL usa el modelo gratuito. Inicia sesión con una cuenta de Nous para tener más modelos; es gratis.'
         },
         free_tier_route: {
-          title: 'Hermes no pudo llegar al modelo gratuito por esta ruta',
+          title: 'VAEL no pudo llegar al modelo gratuito por esta ruta',
           body: 'Inicia sesión con una cuenta de Nous (es gratis) o revisa el ajuste NOUS_INFERENCE_BASE_URL.'
         },
         free_tier_outage: {
@@ -5625,7 +5625,7 @@ export const esOverrides = {
           body: 'Vuelve a enviar el mensaje dentro de un minuto.'
         },
         free_tier_refused: {
-          title: 'Hermes no pudo enviarlo sin iniciar sesión',
+          title: 'VAEL no pudo enviarlo sin iniciar sesión',
           body: 'Iniciar sesión con una cuenta de Nous es gratis.'
         }
       },
@@ -5641,7 +5641,7 @@ export const esOverrides = {
       },
       errorDetails: 'Detalles',
       errorGenericProvider: 'El servicio de IA',
-      errorToastTitle: 'Hermes no pudo terminar la respuesta',
+      errorToastTitle: 'VAEL no pudo terminar la respuesta',
       errorRetry: 'Reintentar',
       errorLimitResets: (time: string) => `El límite se restablece a las ${time}`,
       errorRetryAtReset: (time: string) => `Reintentar cuando se restablezca el límite (${time})`,
@@ -5652,8 +5652,8 @@ export const esOverrides = {
       errorChooseModel: 'Elegir un modelo',
       errorCompressConversation: 'Comprimir conversación',
       errorCompressFailed: 'No se pudo comprimir la conversación',
-      errorOpenHermesFolder: 'Abrir la carpeta de Hermes',
-      errorOpenHermesFolderFailed: 'No se pudo abrir la carpeta de Hermes',
+      errorOpenVaelFolder: 'Abrir la carpeta de VAEL',
+      errorOpenVaelFolderFailed: 'No se pudo abrir la carpeta de VAEL',
       errorUpdateApiKey: 'Actualizar clave API',
       errorSignInAgain: (provider: string) => `Volver a iniciar sesión en ${provider}`,
       errorSignInFreeTier: 'Iniciar sesión con una cuenta de Nous',
@@ -5690,11 +5690,11 @@ export const esOverrides = {
     },
     approval: {
       gatewayDisconnected:
-        'Hermes está sin conexión ahora mismo. El comando sigue esperando tu respuesta (hasta que se agote el tiempo de aprobación). Reconéctate y vuelve a enviarla.',
+        'VAEL está sin conexión ahora mismo. El comando sigue esperando tu respuesta (hasta que se agote el tiempo de aprobación). Reconéctate y vuelve a enviarla.',
       sendFailed: 'No se pudo enviar tu respuesta',
       reconnect: 'Reconectar',
       timedOutSystemLine:
-        'Se agotó el tiempo de aprobación: el comando no se ejecutó. Pide a Hermes que lo intente de nuevo o sube el límite en Configuración → Seguridad → Tiempo de aprobación.',
+        'Se agotó el tiempo de aprobación: el comando no se ejecutó. Pide a VAEL que lo intente de nuevo o sube el límite en Configuración → Seguridad → Tiempo de aprobación.',
       openSafetySettings: 'Abrir configuración de seguridad',
       run: 'Ejecutar',
       command: 'Comando',
@@ -5705,12 +5705,12 @@ export const esOverrides = {
       reject: 'Rechazar',
       alwaysTitle: '¿Permitir siempre este comando?',
       alwaysDescription: pattern =>
-        `Esto añade el patrón “${pattern}” a tu allowlist permanente (~/.hermes/config.yaml). Hermes no volverá a preguntar por comandos como este, ni en esta sesión ni en futuras.`,
+        `Esto añade el patrón “${pattern}” a tu allowlist permanente (~/.vael/config.yaml). VAEL no volverá a preguntar por comandos como este, ni en esta sesión ni en futuras.`,
       alwaysAllow: 'Permitir siempre'
     },
     clarify: {
       notReady: 'La solicitud de aclaración aún no está lista',
-      gatewayDisconnected: 'Hermes está sin conexión ahora mismo. Reconéctate y vuelve a enviarlo.',
+      gatewayDisconnected: 'VAEL está sin conexión ahora mismo. Reconéctate y vuelve a enviarlo.',
       sendFailed: 'No se pudo enviar la respuesta de aclaración',
       loadingQuestion: 'Cargando pregunta…',
       other: 'Otro (escribe tu respuesta)',
@@ -5773,7 +5773,7 @@ export const esOverrides = {
       envRequired: 'Rellena primero las credenciales obligatorias',
       sendFailed: 'No se pudo enviar la respuesta de configuración MCP',
       reloadFailed: 'Servidor guardado, pero falló la recarga de herramientas MCP — se cargarán en la próxima sesión',
-      gatewayDisconnected: 'Hermes está sin conexión ahora mismo. Reconéctate y vuelve a enviarlo.'
+      gatewayDisconnected: 'VAEL está sin conexión ahora mismo. Reconéctate y vuelve a enviarlo.'
     },
     tool: {
       copyCode: 'Copiar código',
@@ -5959,7 +5959,7 @@ export const esOverrides = {
     }
   },
   prompts: {
-    gatewayDisconnected: 'Hermes está sin conexión ahora mismo. Reconéctate y vuelve a enviarlo.',
+    gatewayDisconnected: 'VAEL está sin conexión ahora mismo. Reconéctate y vuelve a enviarlo.',
     reconnect: 'Reconectar',
     sudoSendFailed: 'No se pudo enviar la contraseña sudo',
     secretSendFailed: 'No se pudo enviar el secreto',
@@ -5968,10 +5968,10 @@ export const esOverrides = {
       'Revisa el comando antes de introducir tu contraseña de sudo. La contraseña se envía al agente que lo ejecuta y se guarda en caché durante esta sesión.',
     sudoCommandUnavailable: 'Este agente no indicó el comando. Cancela si no puedes verificarlo en la conversación.',
     sudoInstallDesc:
-      'Hermes necesita tu contraseña de sudo para instalar los paquetes de Bot Screen (TigerVNC + Xfce) en el host del gateway. Solo se envía a ese host.',
+      'VAEL necesita tu contraseña de sudo para instalar los paquetes de Bot Screen (TigerVNC + Xfce) en el host del gateway. Solo se envía a ese host.',
     sudoPlaceholder: 'contraseña sudo',
     secretTitle: 'Se requiere un secreto',
-    secretDesc: 'Hermes necesita una credencial para continuar.',
+    secretDesc: 'VAEL necesita una credencial para continuar.',
     secretPlaceholder: 'valor secreto',
     vaultUnlockSendFailed: 'No se pudo enviar la contraseña maestra',
     vaultUnlockTitle: (name: string) => `Desbloquear ${name}`,
@@ -5983,7 +5983,7 @@ export const esOverrides = {
     vaultSaveSendFailed: 'No se pudo guardar el acceso',
     vaultSaveTitle: (site: string) => `¿Guardar tu acceso a ${site}?`,
     vaultSaveDesc: (origin: string) =>
-      `Hermes llegó a una página de inicio de sesión en ${origin} y no tiene un acceso para ella. Introdúcelo una vez aquí; se cifra en este equipo y se rellena en la página sin que el modelo vea nunca la contraseña.`,
+      `VAEL llegó a una página de inicio de sesión en ${origin} y no tiene un acceso para ella. Introdúcelo una vez aquí; se cifra en este equipo y se rellena en la página sin que el modelo vea nunca la contraseña.`,
     vaultSaveIdentifierLabel: 'Correo electrónico o nombre de usuario',
     vaultSaveIdentifierPlaceholder: 'tu@ejemplo.com',
     vaultSavePasswordPlaceholder: 'Contraseña',
@@ -5993,10 +5993,10 @@ export const esOverrides = {
     vaultCodeSendFailed: 'No se pudo enviar el código',
     vaultCodeTitle: (site: string) => `Código de verificación de ${site}`,
     vaultCodeDesc: (site: string) =>
-      `${site} pide un código de un solo uso (SMS, correo o app de autenticación). Introdúcelo aquí y Hermes lo escribe en la página; el modelo nunca lo ve.`,
+      `${site} pide un código de un solo uso (SMS, correo o app de autenticación). Introdúcelo aquí y VAEL lo escribe en la página; el modelo nunca lo ve.`,
     vaultCodeLabel: 'Código',
     vaultCodeFootnote:
-      'Consejo: guarda la clave del autenticador con este acceso en Configuración → Contraseñas e inicios de sesión y Hermes introducirá los códigos por ti.',
+      'Consejo: guarda la clave del autenticador con este acceso en Configuración → Contraseñas e inicios de sesión y VAEL introducirá los códigos por ti.',
     vaultCodeSkip: 'Omitir',
     vaultCodeConfirm: 'Introducir código'
   },
@@ -6069,8 +6069,8 @@ export const esOverrides = {
     sessionExportFailed: 'No se pudo exportar la sesión',
     imageSaved: 'Imagen guardada',
     downloadStarted: 'Descarga iniciada',
-    restartToUseSaveImage: 'Reinicia Hermes Desktop para usar Guardar imagen.',
-    restartToSaveImages: 'Reinicia Hermes Desktop para guardar imágenes',
+    restartToUseSaveImage: 'Reinicia VAEL Desktop para usar Guardar imagen.',
+    restartToSaveImages: 'Reinicia VAEL Desktop para guardar imágenes',
     imageDownloadFailed: 'Falló la descarga de imagen',
     openImage: 'Abrir imagen',
     downloadImage: 'Descargar imagen',
@@ -6092,7 +6092,7 @@ export const esOverrides = {
       systemNote: platform => `↻ Transferido a ${platform}; puedes reanudar aquí cuando quieras.`,
       failed: error => `La transferencia falló: ${error}`,
       timedOut:
-        'Hermes no pudo llegar a tu conexión de mensajería. Iníciala desde Configuración → Mensajería y vuelve a intentar el traspaso.',
+        'VAEL no pudo llegar a tu conexión de mensajería. Iníciala desde Configuración → Mensajería y vuelve a intentar el traspaso.',
       startMessaging: 'Iniciar mensajería'
     }
   },
@@ -6105,14 +6105,14 @@ export const esOverrides = {
       },
       skills: {
         title: 'Enséñale una vez',
-        text: 'Las skills son carpetas de instrucciones que Hermes carga cuando el trabajo las necesita.'
+        text: 'Las skills son carpetas de instrucciones que VAEL carga cuando el trabajo las necesita.'
       },
       messaging: {
-        title: 'Hermes lejos de tu escritorio',
+        title: 'VAEL lejos de tu escritorio',
         text: 'Conecta Telegram, Discord, Slack y más: el mismo agente, la misma memoria.'
       },
       artifacts: {
-        title: 'Todo lo que ha creado Hermes',
+        title: 'Todo lo que ha creado VAEL',
         text: 'Imágenes, archivos y enlaces de cada sesión, indexados en un solo lugar.'
       },
       cron: {
@@ -6125,7 +6125,7 @@ export const esOverrides = {
       },
       profiles: {
         title: 'Los perfiles son independientes',
-        text: 'Cada uno es su propio Hermes: sus propias claves, su propia memoria, sus propias sesiones.'
+        text: 'Cada uno es su propio VAEL: sus propias claves, su propia memoria, sus propias sesiones.'
       },
       'composer-mentions': {
         title: 'Adjunta y ordena',

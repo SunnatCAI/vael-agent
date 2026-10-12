@@ -59,7 +59,7 @@ test('environment URL without its token keeps the existing error', () => {
         env: { url: 'https://env.test' },
         registry: registry('local', [])
       }),
-    /HERMES_DESKTOP_REMOTE_TOKEN is not/
+    /VAEL_DESKTOP_REMOTE_TOKEN is not/
   )
 })
 
@@ -92,10 +92,10 @@ test('profile SSH identity includes port, key, paths, and remote profile', () =>
   const ssh = {
     mode: 'ssh',
     host: 'box.test',
-    user: 'hermes',
+    user: 'vael',
     port: 2222,
     keyPath: '/keys/a',
-    remoteHermesPath: '/srv/hermes',
+    remoteVaelPath: '/srv/vael',
     remoteProfile: 'worker'
   }
 
@@ -116,17 +116,17 @@ test('profile SSH route fails closed when any dial field differs', () => {
   const ssh = {
     mode: 'ssh',
     host: 'box.test',
-    user: 'hermes',
+    user: 'vael',
     port: 2222,
     keyPath: '/keys/a',
-    remoteHermesPath: '/srv/hermes',
+    remoteVaelPath: '/srv/vael',
     remoteProfile: 'worker'
   }
 
   const variants = [
     { ...ssh, port: 2200 },
     { ...ssh, keyPath: '/keys/b' },
-    { ...ssh, remoteHermesPath: '/opt/hermes' },
+    { ...ssh, remoteVaelPath: '/opt/vael' },
     { ...ssh, remoteProfile: 'default' },
     { ...ssh, user: 'other' }
   ]
@@ -144,9 +144,9 @@ test('profile SSH route fails closed when any dial field differs', () => {
 
 test('global SSH treats an omitted port as 22 and checks the primary route', () => {
   const route = resolveDesktopRemoteRoute({
-    config: { mode: 'ssh', remote: { mode: 'ssh', host: 'box.test', user: 'hermes' } },
+    config: { mode: 'ssh', remote: { mode: 'ssh', host: 'box.test', user: 'vael' } },
     registry: registry('ssh-primary', [
-      { id: 'ssh-primary', kind: 'ssh', label: 'SSH primary', host: 'box.test', user: 'hermes', port: 22 }
+      { id: 'ssh-primary', kind: 'ssh', label: 'SSH primary', host: 'box.test', user: 'vael', port: 22 }
     ])
   })
 
@@ -156,10 +156,10 @@ test('global SSH treats an omitted port as 22 and checks the primary route', () 
 
 test('v1 settings SSH pool key ignores registry identity tags', () => {
   const route = resolveDesktopRemoteRoute({
-    config: { mode: 'ssh', remote: { mode: 'ssh', host: 'box.test', user: 'hermes' } },
+    config: { mode: 'ssh', remote: { mode: 'ssh', host: 'box.test', user: 'vael' } },
     profile: 'worker',
     registry: registry('ssh-primary', [
-      { id: 'ssh-primary', kind: 'ssh', label: 'SSH primary', host: 'box.test', user: 'hermes', port: 22 }
+      { id: 'ssh-primary', kind: 'ssh', label: 'SSH primary', host: 'box.test', user: 'vael', port: 22 }
     ])
   })
 
@@ -174,10 +174,10 @@ test('v1 profile SSH pool key is the profile, not conn:id::profile', () => {
   const ssh = {
     mode: 'ssh',
     host: 'box.test',
-    user: 'hermes',
+    user: 'vael',
     port: 2222,
     keyPath: '/keys/a',
-    remoteHermesPath: '/srv/hermes',
+    remoteVaelPath: '/srv/vael',
     remoteProfile: 'worker'
   }
 
@@ -277,14 +277,14 @@ test('profile remote wins over a registry-backed global SSH route', () => {
   const route = resolveDesktopRemoteRoute({
     config: {
       mode: 'ssh',
-      remote: { mode: 'ssh', host: 'global-box.test', user: 'hermes' },
+      remote: { mode: 'ssh', host: 'global-box.test', user: 'vael' },
       profiles: {
         worker: { mode: 'remote', url: 'https://worker.test', authMode: 'token', token: tokenA }
       }
     },
     profile: 'worker',
     registry: registry('global-ssh', [
-      { id: 'global-ssh', kind: 'ssh', label: 'Global SSH', host: 'global-box.test', user: 'hermes' },
+      { id: 'global-ssh', kind: 'ssh', label: 'Global SSH', host: 'global-box.test', user: 'vael' },
       { id: 'worker-remote', kind: 'remote', label: 'Worker', url: 'https://worker.test', token: tokenA }
     ])
   })
@@ -298,15 +298,15 @@ test('profile SSH wins over a different registry primary SSH route', () => {
   const route = resolveDesktopRemoteRoute({
     config: {
       mode: 'ssh',
-      remote: { mode: 'ssh', host: 'global-box.test', user: 'hermes' },
+      remote: { mode: 'ssh', host: 'global-box.test', user: 'vael' },
       profiles: {
-        worker: { mode: 'ssh', host: 'worker-box.test', user: 'hermes' }
+        worker: { mode: 'ssh', host: 'worker-box.test', user: 'vael' }
       }
     },
     profile: 'worker',
     registry: registry('global-ssh', [
-      { id: 'global-ssh', kind: 'ssh', label: 'Global SSH', host: 'global-box.test', user: 'hermes' },
-      { id: 'worker-ssh', kind: 'ssh', label: 'Worker SSH', host: 'worker-box.test', user: 'hermes' }
+      { id: 'global-ssh', kind: 'ssh', label: 'Global SSH', host: 'global-box.test', user: 'vael' },
+      { id: 'worker-ssh', kind: 'ssh', label: 'Worker SSH', host: 'worker-box.test', user: 'vael' }
     ])
   })
 
@@ -319,11 +319,11 @@ test('environment remote wins over a registry-backed global SSH route', () => {
   const route = resolveDesktopRemoteRoute({
     config: {
       mode: 'ssh',
-      remote: { mode: 'ssh', host: 'global-box.test', user: 'hermes' }
+      remote: { mode: 'ssh', host: 'global-box.test', user: 'vael' }
     },
     env: { url: 'https://env.test', token: 'env-token' },
     registry: registry('global-ssh', [
-      { id: 'global-ssh', kind: 'ssh', label: 'Global SSH', host: 'global-box.test', user: 'hermes' }
+      { id: 'global-ssh', kind: 'ssh', label: 'Global SSH', host: 'global-box.test', user: 'vael' }
     ])
   })
 
@@ -336,7 +336,7 @@ test('local route does not inherit an unrelated registry SSH connection', () => 
   const route = resolveDesktopRemoteRoute({
     config: { mode: 'local' },
     registry: registry('local', [
-      { id: 'unused-ssh', kind: 'ssh', label: 'Unused SSH', host: 'box.test', user: 'hermes' }
+      { id: 'unused-ssh', kind: 'ssh', label: 'Unused SSH', host: 'box.test', user: 'vael' }
     ])
   })
 
@@ -351,7 +351,7 @@ test('local config without overrides returns null', () => {
 //
 // "Make primary" on a registered remote gateway only writes connections.json;
 // the v1 config.mode stays 'local'. The route resolver must still expose that
-// remote transport, or startHermes() spawns a loopback `hermes serve` the
+// remote transport, or startVael() spawns a loopback `vael serve` the
 // desktop never uses (duplicated MCP sets, port squat, respawn-on-poll).
 
 test('falls back to a REMOTE registry primary when the v1 mode is local (#91564/#90316)', () => {
@@ -378,8 +378,8 @@ test('falls back to a CLOUD registry primary when the v1 mode is local', () => {
       {
         id: 'cloud-1',
         kind: 'cloud',
-        label: 'Hermes Cloud',
-        url: 'https://agent.hermes.cloud',
+        label: 'VAEL Cloud',
+        url: 'https://agent.vael.cloud',
         authMode: 'oauth',
         org: 'nous'
       }

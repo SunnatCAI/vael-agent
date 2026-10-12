@@ -1,4 +1,4 @@
-import type { ModelOptionsResult } from '@hermes/shared'
+import type { ModelOptionsResult } from '@vael/shared'
 
 import type {
   AnalyticsResponse,
@@ -7,9 +7,9 @@ import type {
   ModelAssignmentRequest,
   ModelAssignmentResponse,
   ModelInfoResponse
-} from '@/types/hermes'
+} from '@/types/vael'
 
-import { capabilityScoped, hermesApi, type ProfileScope, profileScoped, STARTUP_REQUEST_TIMEOUT_MS } from './client'
+import { capabilityScoped, type ProfileScope, profileScoped, STARTUP_REQUEST_TIMEOUT_MS, vaelApi } from './client'
 
 // /api/model/info resolves the live context window, which probes the configured
 // provider's /models endpoint. An unreachable provider must not hold the Model
@@ -18,7 +18,7 @@ import { capabilityScoped, hermesApi, type ProfileScope, profileScoped, STARTUP_
 const MODEL_INFO_REQUEST_TIMEOUT_MS = 5_000
 
 export function getGlobalModelInfo(profile?: null | string): Promise<ModelInfoResponse> {
-  return hermesApi<ModelInfoResponse>({
+  return vaelApi<ModelInfoResponse>({
     ...profileScoped(profile),
     path: '/api/model/info',
     timeoutMs: MODEL_INFO_REQUEST_TIMEOUT_MS
@@ -26,7 +26,7 @@ export function getGlobalModelInfo(profile?: null | string): Promise<ModelInfoRe
 }
 
 export function getUsageAnalytics(days = 30, profile?: ProfileScope): Promise<AnalyticsResponse> {
-  return window.hermesDesktop.api<AnalyticsResponse>({
+  return window.vaelDesktop.api<AnalyticsResponse>({
     ...capabilityScoped(profile),
     path: `/api/analytics/usage?days=${Math.max(1, Math.floor(days))}`
   })
@@ -54,7 +54,7 @@ export function getGlobalModelOptions(
     params.set('explicit_only', '1')
   }
 
-  return window.hermesDesktop.api<ModelOptionsResult>({
+  return window.vaelDesktop.api<ModelOptionsResult>({
     ...capabilityScoped(profile),
     path: params.size > 0 ? `/api/model/options?${params.toString()}` : '/api/model/options',
     timeoutMs: STARTUP_REQUEST_TIMEOUT_MS
@@ -69,10 +69,10 @@ export interface RecommendedDefaultModel {
 }
 
 // Recommended default model for a freshly-authenticated provider. Mirrors the
-// curation `hermes model` does — for Nous it honors the free/paid tier so a
+// curation `vael model` does — for Nous it honors the free/paid tier so a
 // free user gets a free model instead of a paid default.
 export function getRecommendedDefaultModel(provider: string, profile?: ProfileScope): Promise<RecommendedDefaultModel> {
-  return window.hermesDesktop.api<RecommendedDefaultModel>({
+  return window.vaelDesktop.api<RecommendedDefaultModel>({
     ...capabilityScoped(profile),
     path: `/api/model/recommended-default?provider=${encodeURIComponent(provider)}`
   })
@@ -82,7 +82,7 @@ export function setGlobalModel(
   provider: string,
   model: string
 ): Promise<{ ok: boolean; provider: string; model: string }> {
-  return hermesApi<{ ok: boolean; provider: string; model: string }>({
+  return vaelApi<{ ok: boolean; provider: string; model: string }>({
     ...profileScoped(),
     path: '/api/model/set',
     method: 'POST',
@@ -95,14 +95,14 @@ export function setGlobalModel(
 }
 
 export function getAuxiliaryModels(profile?: null | string): Promise<AuxiliaryModelsResponse> {
-  return hermesApi<AuxiliaryModelsResponse>({
+  return vaelApi<AuxiliaryModelsResponse>({
     ...profileScoped(profile),
     path: '/api/model/auxiliary'
   })
 }
 
 export function getMoaModels(profile?: null | string): Promise<MoaConfigResponse> {
-  return hermesApi<MoaConfigResponse>({
+  return vaelApi<MoaConfigResponse>({
     ...profileScoped(profile),
     path: '/api/model/moa'
   })
@@ -112,7 +112,7 @@ export function saveMoaModels(
   body: MoaConfigResponse,
   profile?: null | string
 ): Promise<MoaConfigResponse & { ok: boolean }> {
-  return hermesApi<MoaConfigResponse & { ok: boolean }>({
+  return vaelApi<MoaConfigResponse & { ok: boolean }>({
     ...profileScoped(profile),
     path: '/api/model/moa',
     method: 'PUT',
@@ -124,7 +124,7 @@ export function setModelAssignment(
   body: ModelAssignmentRequest,
   profile?: ProfileScope
 ): Promise<ModelAssignmentResponse> {
-  return window.hermesDesktop.api<ModelAssignmentResponse>({
+  return window.vaelDesktop.api<ModelAssignmentResponse>({
     ...capabilityScoped(profile),
     path: '/api/model/set',
     method: 'POST',

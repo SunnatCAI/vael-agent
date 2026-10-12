@@ -1,5 +1,5 @@
-import type { PersistedTurn } from '@hermes/shared'
 import type { QueryClient } from '@tanstack/react-query'
+import type { PersistedTurn } from '@vael/shared'
 import { type MutableRefObject, useCallback, useEffect, useRef } from 'react'
 
 import { translateNow } from '@/i18n'
@@ -52,7 +52,7 @@ interface MessageStreamOptions {
     runtimeSessionId?: string | null
   ) => Promise<void>
   queryClient: QueryClient
-  refreshHermesConfig: () => Promise<void>
+  refreshVaelConfig: () => Promise<void>
   refreshSessions: () => Promise<void>
   sessionStateByRuntimeIdRef: MutableRefObject<Map<string, ClientSessionState>>
   updateSessionState: (
@@ -135,7 +135,7 @@ export function useMessageStream({
   activeSessionIdRef,
   hydrateFromStoredSession,
   queryClient,
-  refreshHermesConfig,
+  refreshVaelConfig,
   refreshSessions,
   sessionStateByRuntimeIdRef,
   updateSessionState
@@ -1097,7 +1097,7 @@ export function useMessageStream({
         const streamId = state.streamId ?? `assistant-error-${Date.now()}`
         const groupId = state.pendingBranchGroup ?? undefined
         const prev = state.messages
-        const error = errorMessage.trim() || 'Hermes reported an error'
+        const error = errorMessage.trim() || 'VAEL reported an error'
         // The `error` event carries no descriptor; the dispatcher may recover
         // one from the text (SESSION_NOT_OWNED, disk_full) so the card gates
         // its buttons like a classified turn.
@@ -1187,7 +1187,7 @@ export function useMessageStream({
     finalizeInterimAssistantMessage,
     hydrateFromStoredSession,
     queryClient,
-    refreshHermesConfig,
+    refreshVaelConfig,
     scheduleSessionsRefresh,
     sessionInterrupted,
     sessionStateByRuntimeIdRef,

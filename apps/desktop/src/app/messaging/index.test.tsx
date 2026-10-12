@@ -5,7 +5,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { $changeEventsAvailable, $pairingChangeTick, $platformsChangeTick } from '@/store/live-sync'
 import { $settingsScopeOverride } from '@/store/settings-scope'
-import type { MessagingPlatformInfo } from '@/types/hermes'
+import type { MessagingPlatformInfo } from '@/types/vael'
 
 import { MessagingView } from './index'
 
@@ -28,7 +28,7 @@ const getTelegramOnboardingStatus = vi.fn()
 const applyTelegramOnboarding = vi.fn()
 const notify = vi.fn()
 
-vi.mock('@/hermes', () => ({
+vi.mock('@/vael', () => ({
   approvePairing: (platformId: string, requestId: string, profile?: null | string) =>
     approvePairing(platformId, requestId, profile),
   getMessagingPlatforms: (profile?: null | string) => getMessagingPlatforms(profile),
@@ -471,16 +471,16 @@ describe('MessagingView Telegram quick setup', () => {
       expires_at: new Date(Date.now() + 600_000).toISOString(),
       pairing_id: 'pair-1',
       qr_payload: 'tg://pair',
-      suggested_username: 'hermes_bot'
+      suggested_username: 'vael_bot'
     })
     getTelegramOnboardingStatus.mockResolvedValue({
-      bot_username: 'hermes_bot',
+      bot_username: 'vael_bot',
       expires_at: new Date(Date.now() + 600_000).toISOString(),
       owner_user_id: '8792111505',
       status: 'ready'
     })
     applyTelegramOnboarding.mockResolvedValue({
-      bot_username: 'hermes_bot',
+      bot_username: 'vael_bot',
       needs_restart: false,
       ok: true,
       platform: 'telegram',
@@ -507,13 +507,13 @@ describe('MessagingView Telegram quick setup', () => {
       await waitFor(() => expect(watchGatewayRestartOutcome).toHaveBeenCalled())
       expect(notify).toHaveBeenCalledWith({
         kind: 'success',
-        message: 'Connected: @hermes_bot · Telegram saved; gateway restarting…',
+        message: 'Connected: @vael_bot · Telegram saved; gateway restarting…',
         title: 'Telegram setup saved'
       })
       // The pairing UI is gone, but the card still names the bot that was just connected.
       expect(screen.queryByRole('button', { name: /Save and restart/ })).toBeNull()
       expect(screen.getByText('Connected')).toBeTruthy()
-      expect(screen.getByText('@hermes_bot')).toBeTruthy()
+      expect(screen.getByText('@vael_bot')).toBeTruthy()
     } finally {
       $settingsScopeOverride.set(null)
     }

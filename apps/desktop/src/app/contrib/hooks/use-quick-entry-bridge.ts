@@ -106,7 +106,7 @@ export function useQuickEntryBridge({ submitText, submitTextToNewSession }: Quic
         }
 
         acknowledged = true
-        window.hermesDesktop?.quickEntry.ackSubmit(correlationId, result)
+        window.vaelDesktop?.quickEntry.ackSubmit(correlationId, result)
       }
 
       if (target === QUICK_TARGET_NEW) {
@@ -224,7 +224,7 @@ export function useQuickEntryBridge({ submitText, submitTextToNewSession }: Quic
       return
     }
 
-    const api = window.hermesDesktop?.quickEntry
+    const api = window.vaelDesktop?.quickEntry
 
     if (!api?.pushState) {
       return

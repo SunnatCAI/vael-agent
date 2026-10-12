@@ -23,7 +23,7 @@ from pathlib import Path
 import pytest
 
 
-HERMES_PYTHON = sys.executable
+VAEL_PYTHON = sys.executable
 SCRIPT = (
     Path(__file__).resolve().parents[2]
     / "apps/desktop/scripts/check-appinstaller-update.py"
@@ -90,7 +90,7 @@ def test_projection_outcomes(monkeypatch, capsys, state, code, available):
 def test_script_import_failure_json_and_exit(tmp_path):
     # A real subprocess executes __main__ and imports the absent projection.
     (tmp_path / "winrt.py").write_text("raise ImportError('fixture unavailable')", encoding="utf-8")
-    child = subprocess.run([HERMES_PYTHON, str(SCRIPT)], capture_output=True,
+    child = subprocess.run([VAEL_PYTHON, str(SCRIPT)], capture_output=True,
                            text=True, timeout=30, env={**os.environ, "PYTHONPATH": str(tmp_path)})
     assert child.returncode == 1, child.stderr
     payload = json.loads(child.stdout)
@@ -103,7 +103,7 @@ def test_installed_winrt_projects_checker_uri_and_async_types(tmp_path):
     # A dev process has no package identity, so exercise the types that the
     # packaged update call projects only after Package.current succeeds.
     probe = subprocess.run(
-        [HERMES_PYTHON, "-I", "-c",
+        [VAEL_PYTHON, "-I", "-c",
          "import runpy; "
          "from winrt.windows.foundation import IAsyncOperation, Uri; "
          "uri = Uri('https://example.invalid/updates.appinstaller'); "

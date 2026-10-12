@@ -143,7 +143,7 @@ def _generate_pyproject(plugin_dirs: list[Path] | Mapping[Path, Path], root: Pat
 def _core_release_quarantine(document: dict, core_lock: Path) -> None:
     """Scope core's ``exclude-newer`` to the packages in core's own lock.
 
-    The quarantine covers Hermes's own dependencies only; a plugin's dependencies
+    The quarantine covers VAEL's own dependencies only; a plugin's dependencies
     follow the plugin's own policy, so a catalog pin floored on a fresh release still
     installs. A global cutoff would filter plugin-only packages too, so it moves onto
     every registry package core locks. A plugin still cannot drag one of those past
@@ -221,7 +221,7 @@ def enabled_member_dirs(*, proposed_home=None, enabled=None, disabled=None) -> l
     members = []
     for path in selected:
         # Per plugin: with none selected, PM must not import the application's manifest module.
-        from hermes_cli.plugins_manifest import requires_hermes_error
+        from vael_cli.plugins_manifest import requires_hermes_error
 
         declaration = read_python_declaration(path)
         if requires_hermes_error(declaration.manifest):
@@ -237,7 +237,7 @@ def enabled_member_dirs(*, proposed_home=None, enabled=None, disabled=None) -> l
 def _member_key(identity: Path) -> str:
     """``<plugin dir name>-<sha256(path)[:16]>``: the hash keeps two same-named plugins from
     different homes apart; the name is what a user sees in uv's conflict text
-    (``hermes-plugin-<key> depends on …``) — a bare hash told them nothing to disable."""
+    (``vael-plugin-<key> depends on …``) — a bare hash told them nothing to disable."""
     import re
 
     digest = hashlib.sha256(str(identity.resolve()).encode()).hexdigest()[:16]
@@ -282,7 +282,7 @@ def _workspace_member(plugin_dir: Path, root: Path, *, identity: Path) -> Path:
                 spec["path"] = (identity / relative).resolve().as_posix()
                 changed = True
         if virtual:
-            document.setdefault("project", {})["name"] = f"hermes-plugin-{key}"
+            document.setdefault("project", {})["name"] = f"vael-plugin-{key}"
         if virtual or changed:
             import tomli_w
 
@@ -292,7 +292,7 @@ def _workspace_member(plugin_dir: Path, root: Path, *, identity: Path) -> Path:
     member = root / "plugin-deps" / key
     member.mkdir(parents=True)
     (member / "pyproject.toml").write_text(
-        f'[project]\nname = "hermes-plugin-{key}"\nversion = "0.0.0"\n'
+        f'[project]\nname = "vael-plugin-{key}"\nversion = "0.0.0"\n'
         'requires-python = ">=3.11"\n'
         f'dependencies = {json.dumps(specs)}\n[tool.uv]\npackage = false\n',
         encoding="utf-8",
@@ -319,7 +319,7 @@ def install_node_sidecar(
 
     # Tool availability does not authorize mutation of the sidecar itself.
     if not explicit and not lazy_installs_allowed():
-        return "lazy installs are disabled — run `hermes plugins install` and approve Node dependencies"
+        return "lazy installs are disabled — run `vael plugins install` and approve Node dependencies"
 
     # a lockfile means reproducible `npm ci`; plain `npm install` otherwise
     install_cmd = ["ci"] if (plugin_dir / "package-lock.json").is_file() else ["install"]

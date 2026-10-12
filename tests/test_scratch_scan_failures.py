@@ -5,7 +5,7 @@ import time
 
 import pytest
 
-import hermes_constants_scratch as scratch
+import vael_constants_scratch as scratch
 
 
 @pytest.mark.parametrize("failed_probe", ["root-stat", "directory-scan", "child-stat"])

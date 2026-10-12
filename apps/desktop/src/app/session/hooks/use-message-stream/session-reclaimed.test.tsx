@@ -1,6 +1,6 @@
-import type { GatewayEvent } from '@hermes/shared'
 import { QueryClient } from '@tanstack/react-query'
 import { act, cleanup } from '@testing-library/react'
+import type { GatewayEvent } from '@vael/shared'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import type { ClientSessionState } from '@/app/types'

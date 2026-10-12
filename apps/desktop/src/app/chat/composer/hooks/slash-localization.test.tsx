@@ -3,7 +3,6 @@ import { act, cleanup, render, waitFor } from '@testing-library/react'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 
 import { renderCommandsCatalog } from '@/app/session/hooks/use-prompt-actions/utils'
-import type { HermesGateway } from '@/hermes'
 import { I18nProvider, useI18n } from '@/i18n'
 import { TRANSLATIONS } from '@/i18n/catalog'
 import { setRuntimeI18nLocale } from '@/i18n/runtime'
@@ -14,6 +13,7 @@ import {
   rememberDesktopCommandsCatalog
 } from '@/lib/desktop-slash-commands'
 import { queryClient } from '@/lib/query-client'
+import type { VaelGateway } from '@/vael'
 
 import { useSlashCompletions } from './use-slash-completions'
 
@@ -102,7 +102,7 @@ describe('desktop slash description localization', () => {
 
     function Probe() {
       api.setLocale = useI18n().setLocale
-      api.search = useSlashCompletions({ gateway: { request } as unknown as HermesGateway }).adapter.search
+      api.search = useSlashCompletions({ gateway: { request } as unknown as VaelGateway }).adapter.search
 
       return null
     }

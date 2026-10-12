@@ -365,7 +365,7 @@ export interface MessageReactResult {
   row_id: number
   reactions: MessageReaction[]
 }
-/** One persisted reaction row (``hermes_state_messages.set_message_reaction``); ``seen`` is stamped once announced. */
+/** One persisted reaction row (``vael_state_messages.set_message_reaction``); ``seen`` is stamped once announced. */
 export interface MessageReaction {
   emoji: string
   author: string
@@ -481,7 +481,7 @@ export interface ConfigGetResult {
   mtime?: number | null
   mcp_rev?: string | null
 }
-/** ``hermes_cli/models.py::list_available_providers`` row. */
+/** ``vael_cli/models.py::list_available_providers`` row. */
 export interface ConfigProviderRef {
   id: string
   label: string
@@ -676,7 +676,7 @@ export interface SharedMetricsSlashCommandParams {
 export interface SharedMetricsSlashCommandResult {
   ok: boolean
 }
-/** ``elapsed_ms`` = the client's own launch (TUI process start / Desktop app start) to ready (TUI gateway ready / Desktop backend attached), measured once per launch by the client. The client names its surface because a Desktop may attach to a URL/cloud backend where ``HERMES_DESKTOP`` is unset; without it the backend falls back to its own client detection. ``launch_id`` is an opaque per-launch token the backend latches on (never recorded), so a reconnect re-sending the same launch counts once while a new launch counts again. */
+/** ``elapsed_ms`` = the client's own launch (TUI process start / Desktop app start) to ready (TUI gateway ready / Desktop backend attached), measured once per launch by the client. The client names its surface because a Desktop may attach to a URL/cloud backend where ``VAEL_DESKTOP`` is unset; without it the backend falls back to its own client detection. ``launch_id`` is an opaque per-launch token the backend latches on (never recorded), so a reconnect re-sending the same launch counts once while a new launch counts again. */
 export interface SharedMetricsStartupLatencyParams {
   profile?: string | null
   elapsed_ms: number
@@ -686,7 +686,7 @@ export interface SharedMetricsStartupLatencyParams {
 export interface SharedMetricsStartupLatencyResult {
   ok: boolean
 }
-/** One Desktop PACKAGED self-update (electron-updater / App Installer / Store). Source-checkout hand-offs run ``hermes update`` and are counted from its receipt, never here. Raw words; the backend buckets them: ``outcome`` success|failed|noop|refused, ``failed_stage`` download|verify|apply|restart, ``mechanism`` the updater strategy kind, ``duration_ms`` wall time, ``from_commit_date`` the updated-from build's commit time (epoch seconds) when known. */
+/** One Desktop PACKAGED self-update (electron-updater / App Installer / Store). Source-checkout hand-offs run ``vael update`` and are counted from its receipt, never here. Raw words; the backend buckets them: ``outcome`` success|failed|noop|refused, ``failed_stage`` download|verify|apply|restart, ``mechanism`` the updater strategy kind, ``duration_ms`` wall time, ``from_commit_date`` the updated-from build's commit time (epoch seconds) when known. */
 export interface SharedMetricsUpdateRunParams {
   profile?: string | null
   outcome: string
@@ -758,7 +758,7 @@ export interface ModelOptionsResult {
   model?: string
   provider?: string
 }
-/** One ``hermes_cli/inventory.py::build_models_payload`` provider row (the union of every field the builder sets; ``pricing_pending`` / ``free_tier_pending`` mark the cached-only path). */
+/** One ``vael_cli/inventory.py::build_models_payload`` provider row (the union of every field the builder sets; ``pricing_pending`` / ``free_tier_pending`` mark the cached-only path). */
 export interface ModelOptionProvider {
   slug: string
   name: string
@@ -783,13 +783,13 @@ export interface ModelOptionProvider {
   unavailable_models?: string[] | null
   [key: string]: unknown
 }
-/** ``hermes_cli/inventory.py::_apply_capabilities``. */
+/** ``vael_cli/inventory.py::_apply_capabilities``. */
 export interface ModelCapabilities {
   fast: boolean
   reasoning: boolean
   can_disable_reasoning?: boolean | null
 }
-/** ``hermes_cli/inventory.py::_apply_pricing`` — formatted $/Mtok strings (``""`` unknown, ``"free"``); the sale fields are Nous Portal-only. */
+/** ``vael_cli/inventory.py::_apply_pricing`` — formatted $/Mtok strings (``""`` unknown, ``"free"``); the sale fields are Nous Portal-only. */
 export interface ModelPricing {
   input: string
   output: string
@@ -844,7 +844,7 @@ export interface GoalSnapshot {
   last_reason?: string | null
   wait_barrier?: WaitBarrierUntil | WaitBarrierTarget | null
 }
-/** ``hermes_cli/goals.py::GoalContract.to_dict``. */
+/** ``vael_cli/goals.py::GoalContract.to_dict``. */
 export interface GoalContractSnapshot {
   outcome?: string
   verification?: string
@@ -1025,7 +1025,7 @@ export interface CatalogScan {
   summary: string
 }
 export type CatalogScanStatus = 'passed' | 'warnings' | 'failed'
-/** The desktop app a catalog plugin drives, from its ``hermes_platform`` declaration. */
+/** The desktop app a catalog plugin drives, from its ``vael_platform`` declaration. */
 export type CatalogAppState = 'present' | 'missing_app' | 'app_not_running' | 'unknown'
 export interface ConnectionWakeResult {
   status: 'ok'
@@ -2194,7 +2194,7 @@ export interface SessionForeignListResult {
   host: string
   unreadable?: number
 }
-/** ``hermes_cli/foreign_sessions_browser.py::list_foreign_sessions`` — ``id`` is an opaque handle, never a path. */
+/** ``vael_cli/foreign_sessions_browser.py::list_foreign_sessions`` — ``id`` is an opaque handle, never a path. */
 export interface ForeignSessionRow {
   id: string
   source: ForeignSource
@@ -2277,7 +2277,7 @@ export interface ProjectsPayload {
   projects: ProjectInfo[]
   active_id?: string | null
 }
-/** ``hermes_cli/projects_db.py::Project.to_dict`` — one stored project with its folders. */
+/** ``vael_cli/projects_db.py::Project.to_dict`` — one stored project with its folders. */
 export interface ProjectInfo {
   id: string
   slug: string
@@ -2291,7 +2291,7 @@ export interface ProjectInfo {
   created_at: number
   folders?: ProjectFolder[]
 }
-/** ``hermes_cli/projects_db.py::ProjectFolder.to_dict``. */
+/** ``vael_cli/projects_db.py::ProjectFolder.to_dict``. */
 export interface ProjectFolder {
   path: string
   label?: string | null
@@ -3945,7 +3945,7 @@ export interface SkillHubHit {
   name: string
   description: string
 }
-/** ``hermes_cli.skills_hub.browse_skills`` row. */
+/** ``vael_cli.skills_hub.browse_skills`` row. */
 export interface SkillBrowseItem {
   name?: string
   description?: string
@@ -3954,7 +3954,7 @@ export interface SkillBrowseItem {
   identifier?: string | null
   [key: string]: unknown
 }
-/** ``hermes_cli.skills_hub.inspect_skill``; ``{}`` when the identifier resolves nowhere. */
+/** ``vael_cli.skills_hub.inspect_skill``; ``{}`` when the identifier resolves nowhere. */
 export interface SkillInspectInfo {
   name?: string | null
   description?: string | null
@@ -4225,7 +4225,7 @@ export interface PluginsManageParams {
   values?: Record<string, unknown> | null
 }
 export type PluginsAction = 'list' | 'toggle' | 'install' | 'update' | 'remove' | 'settings' | 'onboarding'
-/** ``list`` → ``plugins`` + counts; ``toggle`` → ``ok``/``unchanged``/``restart_required``/``name`` (the canonical key written)/``plugin``; ``install`` → ``hermes_cli.plugins_cmd.dashboard_install_plugin``'s ok payload; ``toggle``/``install``/``update`` that loaded a plugin also carry ``gateway_reloaded`` (the running gateway picked it up and re-wired its handlers) and ``activation`` — the honest split of what is live now vs deferred, so ``restart_required`` is True only when no gateway answered; ``update`` → ``ok``/``unchanged``/``sha``, or ``ok=false`` + ``consent_required`` with the ``delta`` (``{surface: [added...]}``) / ``delta_lines`` a widened pin adds — nothing changed until the client retries with ``accept_capabilities``; ``remove`` → ``ok``/``name`` plus ``cleared_memory_provider`` when the removed plugin was the live ``memory.provider``. */
+/** ``list`` → ``plugins`` + counts; ``toggle`` → ``ok``/``unchanged``/``restart_required``/``name`` (the canonical key written)/``plugin``; ``install`` → ``vael_cli.plugins_cmd.dashboard_install_plugin``'s ok payload; ``toggle``/``install``/``update`` that loaded a plugin also carry ``gateway_reloaded`` (the running gateway picked it up and re-wired its handlers) and ``activation`` — the honest split of what is live now vs deferred, so ``restart_required`` is True only when no gateway answered; ``update`` → ``ok``/``unchanged``/``sha``, or ``ok=false`` + ``consent_required`` with the ``delta`` (``{surface: [added...]}``) / ``delta_lines`` a widened pin adds — nothing changed until the client retries with ``accept_capabilities``; ``remove`` → ``ok``/``name`` plus ``cleared_memory_provider`` when the removed plugin was the live ``memory.provider``. */
 export interface PluginsManageResult {
   plugins?: AgentPluginRow[] | null
   user_count?: number | null
@@ -4279,8 +4279,8 @@ export interface PluginServerRow {
   state: PluginServerState
   sentence: string
 }
-export type PluginServerState = 'connected' | 'app_not_running' | 'hermes_not_connected' | 'endpoint_unavailable' | 'no_interactive_session' | 'version_too_old' | 'missing_app' | 'unknown'
-/** One ``config_schema`` key of a plugin manifest, rendered by the Plugins hub (``hermes_cli.plugins_settings.plugin_settings_fields``). ``secret`` fields carry no value: ``env`` names the ``.env`` variable and ``has_value`` whether it is set. */
+export type PluginServerState = 'connected' | 'app_not_running' | 'vael_not_connected' | 'endpoint_unavailable' | 'no_interactive_session' | 'version_too_old' | 'missing_app' | 'unknown'
+/** One ``config_schema`` key of a plugin manifest, rendered by the Plugins hub (``vael_cli.plugins_settings.plugin_settings_fields``). ``secret`` fields carry no value: ``env`` names the ``.env`` variable and ``has_value`` whether it is set. */
 export interface PluginSettingField {
   key: string
   type: PluginSettingFieldType
@@ -4294,7 +4294,7 @@ export interface PluginSettingField {
   has_value?: boolean | null
 }
 export type PluginSettingFieldType = 'string' | 'number' | 'boolean' | 'enum' | 'secret' | 'json'
-/** What a plugin loaded mid-run does NOW vs later (``hermes_cli.plugins_activation``). ``activated_now`` kinds (``{kind: [names]}``): ``gateway_commands`` (slash names), ``locales`` (``<lang>.<surface>`` language-pack layers), ``gateway_transforms`` / ``hooks`` (hook names), ``callbacks`` (platforms / ``slack:<action_id>``) — live in the running gateway once it reloaded (``gateway_reloaded``). ``live_now``: the plugin's MCP servers (connected, with their tools, or the error) and skills, usable in every open chat of the profile from its next turn — the chats also get a note listing them. ``deferred`` kinds: ``tools`` (Python tool names) and ``prompt`` (section ids) apply from the next session. */
+/** What a plugin loaded mid-run does NOW vs later (``vael_cli.plugins_activation``). ``activated_now`` kinds (``{kind: [names]}``): ``gateway_commands`` (slash names), ``locales`` (``<lang>.<surface>`` language-pack layers), ``gateway_transforms`` / ``hooks`` (hook names), ``callbacks`` (platforms / ``slack:<action_id>``) — live in the running gateway once it reloaded (``gateway_reloaded``). ``live_now``: the plugin's MCP servers (connected, with their tools, or the error) and skills, usable in every open chat of the profile from its next turn — the chats also get a note listing them. ``deferred`` kinds: ``tools`` (Python tool names) and ``prompt`` (section ids) apply from the next session. */
 export interface PluginActivation {
   name: string
   key: string
@@ -4501,7 +4501,7 @@ export interface GatewayReadyPayload {
   replay_epoch: string
   heartbeat?: boolean | null
 }
-/** ``tui_gateway/change_watcher.py::resolve_skin`` — the resolved active skin (``HermesSkin``). ``{}`` when the skin engine failed to load. Colour maps are token → colour string. */
+/** ``tui_gateway/change_watcher.py::resolve_skin`` — the resolved active skin (``VaelSkin``). ``{}`` when the skin engine failed to load. Colour maps are token → colour string. */
 export interface SkinPayload {
   name?: string
   description?: string
@@ -4515,7 +4515,7 @@ export interface SkinPayload {
   help_header?: string
   [key: string]: unknown
 }
-/** ``hermes_cli/free_tier_bootstrap.py::SetupRecord.as_payload``. */
+/** ``vael_cli/free_tier_bootstrap.py::SetupRecord.as_payload``. */
 export interface SetupReadyPayload {
   provider_configured: boolean
   inference_provider: string
@@ -4913,7 +4913,7 @@ export interface RpcMethods {
   'browser.manage': { params: BrowserManageParams; result: BrowserManageResult }
   /** Lock one answer of a batch clarify request (editable until every question is locked). */
   'clarify.lock': { params: ClarifyLockParams; result: ClarifyLockResult }
-  /** Run ``hermes <argv>`` non-interactively and capture its output; ``blocked`` explains a refusal. */
+  /** Run ``vael <argv>`` non-interactively and capture its output; ``blocked`` explains a refusal. */
   'cli.exec': { params: CliExecParams; result: CliExecResult }
   /** What the calling client handles, sent once per connection (after gateway.ready); returns the server→client request methods this backend may send. */
   'client.capabilities': { params: ClientCapabilitiesParams; result: ClientCapabilitiesResult }
@@ -4949,7 +4949,7 @@ export interface RpcMethods {
   'connectors.list': { params: ConnectorsListParams; result: ConnectorsListResult }
   /** The current snapshot of one open session or account operation. */
   'connectors.operation.status': { params: ConnectionOperationParams; result: ConnectionOperationStatus }
-  /** The browser leg came back (hermes://connections/done): read the accounts now, not at the next tick. */
+  /** The browser leg came back (vael://connections/done): read the accounts now, not at the next tick. */
   'connectors.operation.wake': { params: ConnectionOperationParams; result: ConnectionWakeResult }
   /** Policy layers for the scoped member, from organization to member scope. */
   'connectors.policy.get': { params: ProfileParams; result: ConnectorPolicyGetResult }
@@ -5195,7 +5195,7 @@ export interface RpcMethods {
   'prompt.btw': { params: SideAgentParams; result: TaskIdResult }
   /** Send a user turn to a live session; busy sessions queue / steer / redirect instead of refusing. */
   'prompt.submit': { params: PromptSubmitParams; result: PromptSubmitResult }
-  /** Re-read ~/.hermes/.env (CLI /reload parity); built agents keep their pool until /new. */
+  /** Re-read ~/.vael/.env (CLI /reload parity); built agents keep their pool until /new. */
   'reload.env': { params: ReloadEnvParams; result: ReloadEnvResult }
   /** Tear down and rediscover MCP servers for every live session (prompt cache is invalidated). */
   'reload.mcp': { params: ReloadMcpParams; result: ReloadMcpResult }
@@ -5257,7 +5257,7 @@ export interface RpcMethods {
   'session.redirect': { params: SessionCorrectionParams; result: SessionCorrectionResult }
   /** Attach to a stored session: reuse it if live here, else lazy / deferred / cold / eager rebuild. */
   'session.resume': { params: SessionResumeParams; result: SessionResumeResult }
-  /** Export the transcript to ~/.hermes/sessions/saved (classic /save). */
+  /** Export the transcript to ~/.vael/sessions/saved (classic /save). */
   'session.save': { params: SessionSaveParams; result: SessionSaveResult }
   /** Set/clear hidden (out of the default list, still resumable by its owner) on a session + lineage. */
   'session.set_hidden': { params: SessionSetHiddenParams; result: SessionSetHiddenResult }
@@ -5711,7 +5711,7 @@ export interface BackendGatewayEventMap {
   'display.install.log': DisplayInstallLogPayload
   /** The takeover lease changed hands; every client repaints. */
   'display.lease': DisplayLeasePayload
-  /** This profile's screen started or stopped (also for transitions made outside hermes serve). */
+  /** This profile's screen started or stopped (also for transitions made outside vael serve). */
   'display.status': DisplayStatusPayload
   /** A session-level failure outside a turn (agent init, model switch, compression, resume). */
   error: ErrorPayload

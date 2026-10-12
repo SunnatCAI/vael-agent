@@ -1,12 +1,11 @@
-import type { GatewayEvent } from '@hermes/shared'
 import { QueryClient } from '@tanstack/react-query'
 import { act, cleanup, render } from '@testing-library/react'
+import type { GatewayEvent } from '@vael/shared'
 import { useRef } from 'react'
 import { afterEach, beforeEach, expect, it, vi } from 'vitest'
 
 import { useMessageStream } from '@/app/session/hooks/use-message-stream'
 import { useSessionStateCache } from '@/app/session/hooks/use-session-state-cache'
-import { getLatestSessionMessages } from '@/hermes'
 import { chatMessageText, toChatMessages } from '@/lib/chat-messages'
 import { resetLiveSync } from '@/store/live-sync'
 import {
@@ -18,11 +17,12 @@ import {
 } from '@/store/session'
 import { $sessionStates, clearAllSessionStates } from '@/store/session-states'
 import { clearSessionTodos } from '@/store/todos'
-import type { SessionMessage } from '@/types/hermes'
+import type { SessionMessage } from '@/types/vael'
+import { getLatestSessionMessages } from '@/vael'
 
 import { reconcileActiveTranscript } from './use-background-sync'
 
-vi.mock('@/hermes', async original => ({
+vi.mock('@/vael', async original => ({
   ...(await original<Record<string, unknown>>()),
   getLatestSessionMessages: vi.fn()
 }))
@@ -87,7 +87,7 @@ function Harness() {
     ...cache,
     queryClient,
     hydrateFromStoredSession: noop,
-    refreshHermesConfig: noop,
+    refreshVaelConfig: noop,
     refreshSessions: noop
   })
   refresh = () =>

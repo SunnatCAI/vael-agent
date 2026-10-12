@@ -4,15 +4,15 @@ import textwrap
 
 import pytest
 
-from hermes_cli.plugins import get_plugin_manager
+from vael_cli.plugins import get_plugin_manager
 from plugins.memory import load_memory_provider
 
 
 def _install(home, monkeypatch, *, label="first", enabled=True):
     home.mkdir(parents=True, exist_ok=True)
-    monkeypatch.setenv("HERMES_HOME", str(home))
-    monkeypatch.setenv("HERMES_BUNDLED_PLUGINS", str(home / "empty"))
-    monkeypatch.delenv("HERMES_ENABLE_PROJECT_PLUGINS", raising=False)
+    monkeypatch.setenv("VAEL_HOME", str(home))
+    monkeypatch.setenv("VAEL_BUNDLED_PLUGINS", str(home / "empty"))
+    monkeypatch.delenv("VAEL_ENABLE_PROJECT_PLUGINS", raising=False)
     monkeypatch.chdir(home)
     (home / "config.yaml").write_text(
         f"plugins:\n  enabled: {'[dual]' if enabled else '[]'}\nmemory:\n  provider: dual\n"
@@ -80,11 +80,11 @@ def test_same_name_different_sources_are_not_suppressed(tmp_path, monkeypatch):
     home = tmp_path / "home"
     manager = _install(home, monkeypatch)
     project = tmp_path / "project"
-    source = project / ".hermes" / "plugins" / "dual"
+    source = project / ".vael" / "plugins" / "dual"
     shutil.copytree(home / "plugins" / "dual", source)
     (source / "values.py").write_text('LABEL = "project"\n')
     monkeypatch.chdir(project)
-    monkeypatch.setenv("HERMES_ENABLE_PROJECT_PLUGINS", "1")
+    monkeypatch.setenv("VAEL_ENABLE_PROJECT_PLUGINS", "1")
     try:
         assert load_memory_provider("dual") is not None
         manager.discover_and_load()

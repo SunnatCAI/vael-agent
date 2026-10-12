@@ -48,8 +48,8 @@ def _make_agent(
     with (
         patch("model_tools.get_tool_definitions", return_value=_make_tool_defs(*tool_names)),
         patch("model_tools.check_toolset_requirements", return_value={}),
-        patch("hermes_cli.config.load_config", return_value=config or {}),
-        patch("hermes_cli.config.load_config_readonly", return_value=config or {}),
+        patch("vael_cli.config.load_config", return_value=config or {}),
+        patch("vael_cli.config.load_config_readonly", return_value=config or {}),
         patch("agent.process_bootstrap.OpenAI"),
     ):
         agent = AIAgent(
@@ -300,7 +300,7 @@ def test_relay_rewrite_precedes_sequential_policy_approval_checkpoint_and_dispat
     with (
         patch("agent.relay_tools.execute", side_effect=relay_execute),
         patch(
-            "hermes_cli.plugins._dispatch_pre_tool_call_hooks",
+            "vael_cli.plugins._dispatch_pre_tool_call_hooks",
             side_effect=observe_plugin,
         ),
         patch.object(agent._tool_guardrails, "before_call", side_effect=observe_guardrail),
@@ -358,7 +358,7 @@ def test_plugin_pre_tool_block_wins_without_counting_as_toolguard_block():
 
     with (
         patch(
-            "hermes_cli.plugins._dispatch_pre_tool_call_hooks",
+            "vael_cli.plugins._dispatch_pre_tool_call_hooks",
             return_value=("plugin policy", None),
         ),
         patch("model_tools.handle_function_call", return_value="SHOULD_NOT_RUN") as mock_hfc,
@@ -391,7 +391,7 @@ def test_context_pruned_effectful_call_blocks_before_dispatch():
 
     # The hook may rewrite args; the boundary is enforced on what it returns.
     with (
-        patch("hermes_cli.plugins._dispatch_pre_tool_call_hooks", return_value=(None, pruned)) as plugin,
+        patch("vael_cli.plugins._dispatch_pre_tool_call_hooks", return_value=(None, pruned)) as plugin,
         patch("model_tools.handle_function_call", return_value="SHOULD_NOT_RUN") as dispatch,
     ):
         agent._execute_tool_calls_sequential(msg, messages, "task-1")
@@ -417,6 +417,10 @@ def test_context_pruned_effectful_call_blocks_before_dispatch():
         assert _context_pruned_argument_paths(
             "write_file", {"body": f"prefix {_COMPRESSION_MARKER_PREFIX}{suffix}"}
         ) == ["$.body"]
+    # A session migrated from a Hermes home replays markers minted under the old prefix.
+    assert _context_pruned_argument_paths(
+        "write_file", {"body": "prefix ⟪HERMES-CONTEXT-COMPRESSION: 1,800 of 2,000 chars omitted"}
+    ) == ["$.body"]
 
 
 def test_read_only_tool_may_quote_current_context_prune_marker():

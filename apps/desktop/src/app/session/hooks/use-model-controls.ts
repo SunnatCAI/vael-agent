@@ -1,9 +1,8 @@
-import type { ModelOptionsResult } from '@hermes/shared'
 import { type QueryClient } from '@tanstack/react-query'
+import type { ModelOptionsResult } from '@vael/shared'
 import { useCallback, useRef } from 'react'
 
 import type { ModelSelection } from '@/app/shell/model-menu-panel'
-import { getGlobalModelInfo } from '@/hermes'
 import { useI18n } from '@/i18n'
 import { isBusySessionModelSwitch } from '@/lib/gateway-rpc'
 import { surfaceModelSwitchConfirm } from '@/lib/guarded-model-switch'
@@ -27,6 +26,7 @@ import {
   setCurrentProvider
 } from '@/store/session'
 import { $sessionStates, sessionTileDelegate } from '@/store/session-states'
+import { getGlobalModelInfo } from '@/vael'
 
 interface ModelControlsOptions {
   cacheOwnerConnectionId?: string

@@ -4,6 +4,11 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { ErrorBanner } from '@/components/ui/error-state'
 import { Input } from '@/components/ui/input'
+import { useI18n } from '@/i18n'
+import { openExternalLink } from '@/lib/external-link'
+import { Check, ExternalLink, QrCode, Save, X } from '@/lib/icons'
+import { isSubmitEnter } from '@/lib/ime'
+import { cn } from '@/lib/utils'
 import {
   applyTelegramOnboarding,
   cancelTelegramOnboarding,
@@ -12,12 +17,7 @@ import {
   startTelegramOnboarding,
   type TelegramOnboardingApplyResponse,
   type TelegramOnboardingStartResponse
-} from '@/hermes'
-import { useI18n } from '@/i18n'
-import { openExternalLink } from '@/lib/external-link'
-import { Check, ExternalLink, QrCode, Save, X } from '@/lib/icons'
-import { isSubmitEnter } from '@/lib/ime'
-import { cn } from '@/lib/utils'
+} from '@/vael'
 
 import { CREDENTIAL_CONTROL_CLASS } from '../settings/credential-key-ui'
 

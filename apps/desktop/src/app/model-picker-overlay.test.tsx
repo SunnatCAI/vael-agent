@@ -21,7 +21,7 @@ vi.mock('@/store/session-focus', async () => {
 
   return { $focusedTreePaneId: atom<null | string>(null) }
 })
-vi.mock('@/hermes', async importOriginal => ({
+vi.mock('@/vael', async importOriginal => ({
   ...(await importOriginal<Record<string, unknown>>()),
   getLocalModelsStatus: vi.fn().mockResolvedValue({ loading: {} })
 }))

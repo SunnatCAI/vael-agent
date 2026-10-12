@@ -21,12 +21,12 @@
  * because eligibility is a fact about the backend's machine.
  */
 
-import { getLocalCatalog, getLocalModelsStatus } from '@/hermes'
 import type { Translations } from '@/i18n/types'
 import { LOCAL_SETUP_TIP_ID, localSetupDue, localSetupEligible } from '@/lib/tips/local-cta'
 import { $localModelsEnabled } from '@/store/local-models-flag'
 import { $connection } from '@/store/session'
 import { $retiredTips, $tipShownAt, dismissTip, showTip } from '@/store/tips'
+import { getLocalCatalog, getLocalModelsStatus } from '@/vael'
 
 /** The pill the bubble points at — the same handle the rotation's
  *  model-switch tip uses, so the two can never drift to different anchors. */

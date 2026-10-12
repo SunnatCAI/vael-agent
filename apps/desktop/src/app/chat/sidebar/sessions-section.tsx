@@ -7,8 +7,7 @@ import { type NewSessionSplitHandler, startNewSessionDrag } from '@/app/chat/new
 import { SidebarPanelLabel } from '@/app/shell/sidebar-label'
 import { DisclosureCaret } from '@/components/ui/disclosure-caret'
 import { SidebarGroup, SidebarGroupContent } from '@/components/ui/sidebar'
-import type { HermesGitWorktree } from '@/global'
-import type { SessionInfo } from '@/hermes'
+import type { VaelGitWorktree } from '@/global'
 import { useI18n } from '@/i18n'
 import { flattenSessionsWithBranches } from '@/lib/session-branch-tree'
 import {
@@ -29,6 +28,7 @@ import {
 } from '@/store/layout'
 import { sessionPinId } from '@/store/session'
 import { $sessionDotStateById, hasLiveTurn } from '@/store/session-dot-state'
+import type { SessionInfo } from '@/vael'
 
 import { SidebarDateDivider, SidebarSectionMeta } from './chrome'
 import { GatewayProfileGroups } from './gateway-groups'
@@ -148,7 +148,7 @@ interface SidebarSessionsSectionProps {
   projectContent?: SidebarProjectTree
   // Live git lanes (`git worktree list`) for repos in the entered project —
   // a VISUAL enhancer only (empty lanes), never session membership.
-  projectRepoWorktrees?: Record<string, HermesGitWorktree[]>
+  projectRepoWorktrees?: Record<string, VaelGitWorktree[]>
   // Live session cache used for optimistic placement inside entered-project lanes.
   liveSessions?: SessionInfo[]
   // Client-side optimistic eviction layer (deleted/archived ids).

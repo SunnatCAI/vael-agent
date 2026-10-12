@@ -3,11 +3,11 @@ import type {
   ConnectionSettleReason,
   ConnectionUpdatePayload,
   ConnectorsConnectResult
-} from '@hermes/shared'
+} from '@vael/shared'
 import { atom } from 'nanostores'
 
-import type { ProfileScope } from '@/hermes'
 import { type ConnectionTarget, parseConnectionTarget } from '@/store/connection-request'
+import type { ProfileScope } from '@/vael'
 
 import { invalidateConnectors } from './keys'
 import { accountOperationStatus } from './rpc'

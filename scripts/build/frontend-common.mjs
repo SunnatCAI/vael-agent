@@ -29,9 +29,9 @@ function contains(parent, child) {
   return relative === '' || (!relative.startsWith(`..${path.sep}`) && relative !== '..' && !path.isAbsolute(relative))
 }
 
-const productMarker = '.hermes-product'
-const productOwner = 'hermes-frontend-product-v1\n'
-const developerOutputs = ['ui-tui/dist', 'hermes_cli/web_dist', 'apps/desktop/dist', 'apps/desktop/build/native-deps']
+const productMarker = '.vael-product'
+const productOwner = 'vael-frontend-product-v1\n'
+const developerOutputs = ['ui-tui/dist', 'vael_cli/web_dist', 'apps/desktop/dist', 'apps/desktop/build/native-deps']
 
 function developerOutput(source, out) {
   return source && developerOutputs.some(name => path.resolve(out) === path.join(path.resolve(source), name))

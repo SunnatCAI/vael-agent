@@ -1,4 +1,3 @@
-import type { GatewayEvent } from '@hermes/shared'
 // #121594: Stop seals the live bubble at the click and drops every later
 // message.delta, but the agent keeps streaming until it honours the interrupt
 // and persists everything it delivered (state.db and the next turn's context).
@@ -6,6 +5,7 @@ import type { GatewayEvent } from '@hermes/shared'
 // the screen shows exactly what the session saved — extend-only, never
 // shortened or rewritten.
 import { act, cleanup } from '@testing-library/react'
+import type { GatewayEvent } from '@vael/shared'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 
 import { finalizeUserInterruptedMessages } from '@/app/session/hooks/use-prompt-actions/rewind'

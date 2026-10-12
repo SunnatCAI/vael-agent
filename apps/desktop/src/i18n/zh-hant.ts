@@ -20,7 +20,7 @@ export const zhHant = defineLocale({
     close: '關閉'
   },
   sharedMetrics: {
-    consentTitle: '協助改進 Hermes？',
+    consentTitle: '協助改進 VAEL？',
     consentBody:
       '共享指標只包含有上限的計數，絕不包含提示詞、檔案、路徑或錯誤文字。收集僅在本機進行；傳送給 Nous 需要另行同意。',
     whatIsCollected: '收集哪些內容',
@@ -31,9 +31,9 @@ export const zhHant = defineLocale({
     collectedMilestones: '分組的設定計數',
     collectedReliability: '更新結果與耗時、當機、啟動與回覆速度、訊息平台狀態',
     collectedUsage:
-      'Hermes 的使用方式：代理的準確度與效率（編輯是否成功、迴圈、錯誤後的恢復、每個任務的 token 與工具呼叫數、快取中斷），各介面與 Desktop 模式的活躍時間，哪些應用程式區域、操作與設定被使用、很快關閉或被關閉，以及供應商設定的結果',
+      'VAEL 的使用方式：代理的準確度與效率（編輯是否成功、迴圈、錯誤後的恢復、每個任務的 token 與工具呼叫數、快取中斷），各介面與 Desktop 模式的活躍時間，哪些應用程式區域、操作與設定被使用、很快關閉或被關閉，以及供應商設定的結果',
     collectedMachine:
-      '概略的機器資訊：記憶體範圍、GPU 類型、Hermes 版本新舊與發行通道、落後的更新數、是否使用本機模型伺服器',
+      '概略的機器資訊：記憶體範圍、GPU 類型、VAEL 版本新舊與發行通道、落後的更新數、是否使用本機模型伺服器',
     installId:
       '傳送會把每日資料包上傳到 Nous 遙測服務。資料包帶有此設定檔的安裝 ID：一個不含個人資訊的固定隨機 UUID，刪除共享指標目錄即可重設。',
     consentWindow:
@@ -48,7 +48,7 @@ export const zhHant = defineLocale({
     collectDesc: '在此裝置上保存有上限的計數。絕不包含提示詞、檔案、路徑或錯誤文字。',
     sendLabel: '向 Nous 傳送使用統計',
     sendDesc: '將每日資料包上傳到 Nous 遙測服務。只傳送同意時段內的資料。需要先開啟收集。',
-    unavailable: '請更新 Hermes 後端以變更此設定。',
+    unavailable: '請更新 VAEL 後端以變更此設定。',
     stripBody: '僅限有界計數器，絕不包含提示詞或檔案。',
     stripChoices: { share: '傳送給 Nous', local: '僅限本機', off: '不用了' },
     stripDetails: '詳細資訊'
@@ -108,7 +108,7 @@ export const zhHant = defineLocale({
     retry: '再試一次',
     more: '顯示更多',
     pinned: '已審核的提交',
-    snapshotHint: '內容來自 Hermes 目錄。瀏覽時不會連線至來源程式碼儲存庫。',
+    snapshotHint: '內容來自 VAEL 目錄。瀏覽時不會連線至來源程式碼儲存庫。',
     installHint: '安裝前請檢查原始碼。變更將於新的工作階段生效。',
     results: (count: number) => `${count.toLocaleString('zh-Hant')} 個結果`,
     back: '返回結果'
@@ -131,7 +131,7 @@ export const zhHant = defineLocale({
   messaging: zhHantCommandCenter.messaging,
   profiles: zhHantCommandCenter.profiles,
   modelAssignment: {
-    saveFailed: 'Hermes 未儲存該模型變更。',
+    saveFailed: 'VAEL 未儲存該模型變更。',
     confirmTitle: '模型選擇警告',
     confirmDetail: '僅在你接受此權衡時確認。',
     confirmAction: '確認',
@@ -155,11 +155,11 @@ export const zhHant = defineLocale({
   preview: zhHantArtifacts.preview,
   interfaceMode: {
     title: '介面模式',
-    hint: '只改變顯示的內容，不改變 Hermes 的能力。',
+    hint: '只改變顯示的內容，不改變 VAEL 的能力。',
     sessionNote: '由簡潔模式設定。此處的變更僅在本次工作階段內生效；切換到進階模式即可保留為你的設定。',
     simple: {
       label: '簡潔',
-      description: '用於與 Hermes 對話。只有側邊欄和聊天；沒有終端機、檔案或差異面板。'
+      description: '用於與 VAEL 對話。只有側邊欄和聊天；沒有終端機、檔案或差異面板。'
     },
     advanced: {
       label: '進階',

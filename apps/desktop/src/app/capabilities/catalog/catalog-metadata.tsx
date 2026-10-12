@@ -1,4 +1,4 @@
-import { compactNumber } from '@hermes/shared'
+import { compactNumber } from '@vael/shared'
 import { useState } from 'react'
 
 import { Badge } from '@/components/ui/badge'

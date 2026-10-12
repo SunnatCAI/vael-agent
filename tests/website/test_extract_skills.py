@@ -47,7 +47,7 @@ def test_local_skills_publish_exact_install_target(mod, tmp_path, monkeypatch, d
     [entry] = mod.extract_local_skills()
     expected = f"{prefix}/creative/nested/example"
     assert entry["installIdentifier"] == expected
-    assert entry["installCmd"] == f"hermes skills install {expected}"
+    assert entry["installCmd"] == f"vael skills install {expected}"
 
 
 def test_unified_skills_keep_source_identifiers_and_match_cli_install_targets(mod, tmp_path, monkeypatch):
@@ -68,7 +68,7 @@ def test_unified_skills_keep_source_identifiers_and_match_cli_install_targets(mo
         expected = f"clawhub/{identifier}" if source["source"] == "clawhub" else identifier
         assert published["identifier"] == identifier
         assert published["installIdentifier"] == expected
-        assert published["installCmd"] == f"hermes skills install {expected}"
+        assert published["installCmd"] == f"vael skills install {expected}"
 
 
 # --------------------------------------------------------------------------

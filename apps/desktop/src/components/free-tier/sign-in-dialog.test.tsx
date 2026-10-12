@@ -2,8 +2,8 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { act, cleanup, render, screen, waitFor } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import type * as HermesApi from '@/hermes'
 import { $freeTierSignIn, openFreeTierSignIn } from '@/store/free-tier-sign-in'
+import type * as VaelApi from '@/vael'
 
 const pollOAuthSession = vi.fn()
 const requestGateway = vi.fn(async () => ({ available: true, has_guest: true }))
@@ -11,8 +11,8 @@ const requestGateway = vi.fn(async () => ({ available: true, has_guest: true }))
 // Only the two calls this flow makes are replaced; everything else keeps its
 // real implementation so the modules the dialog pulls in (the onboarding
 // DeviceCode cell, the model picker) still resolve their imports.
-vi.mock('@/hermes', async importOriginal => ({
-  ...(await importOriginal<typeof HermesApi>()),
+vi.mock('@/vael', async importOriginal => ({
+  ...(await importOriginal<typeof VaelApi>()),
   pollOAuthSession: (providerId: string, sessionId: string) => pollOAuthSession(providerId, sessionId),
   startOAuthLogin: async () => ({
     expires_in: 900,
