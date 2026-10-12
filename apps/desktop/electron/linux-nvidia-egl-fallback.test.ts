@@ -154,9 +154,9 @@ describe('decideNvidiaEglFallback — exclusions', () => {
   it('VAEL_DESKTOP_NVIDIA_SWIFTSHADER=0 opts out even over a witnessed marker', () => {
     const marker = nvidiaEglFallbackMarker('0.21.5', '580.178.04')
 
-    expect(
-      decideNvidiaEglFallback({ ...PROBE, marker, env: { VAEL_DESKTOP_NVIDIA_SWIFTSHADER: 'off' } }).enable
-    ).toBe(false)
+    expect(decideNvidiaEglFallback({ ...PROBE, marker, env: { VAEL_DESKTOP_NVIDIA_SWIFTSHADER: 'off' } }).enable).toBe(
+      false
+    )
   })
 })
 

@@ -8,13 +8,7 @@ import type {
   SessionInfo
 } from '@/types/vael'
 
-import {
-  connectionScoped,
-  getApiRequestConnection,
-  profileScoped,
-  STARTUP_REQUEST_TIMEOUT_MS,
-  vaelApi
-} from './client'
+import { connectionScoped, getApiRequestConnection, profileScoped, STARTUP_REQUEST_TIMEOUT_MS, vaelApi } from './client'
 
 // The cron trigger endpoint intentionally waits for the whole job so its
 // response reflects the persisted execution result. Agent jobs can run far

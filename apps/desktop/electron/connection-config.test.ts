@@ -120,10 +120,7 @@ test('normalizeRemoteHeaders sanitizes plaintext values at ingest', () => {
 
 test('remoteRequestMatchesBaseUrl treats HTTPS and WSS as the same gateway origin', () => {
   assert.equal(
-    remoteRequestMatchesBaseUrl(
-      'wss://vael.example.com/gateway/api/ws?ticket=abc',
-      'https://vael.example.com/gateway'
-    ),
+    remoteRequestMatchesBaseUrl('wss://vael.example.com/gateway/api/ws?ticket=abc', 'https://vael.example.com/gateway'),
     true
   )
   assert.equal(remoteRequestMatchesBaseUrl('ws://vael.example.com/api/ws', 'http://vael.example.com'), true)

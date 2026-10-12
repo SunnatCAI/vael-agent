@@ -128,8 +128,7 @@ function ConfigSettingsInner({
   } = useQuery({
     // Base key when following the active profile (matches every pre-existing
     // consumer); suffixed only for an explicit scope override.
-    queryKey:
-      scopeProfile == null ? ['vael-config-schema'] : ['vael-config-schema', normalizeProfileKey(scopeProfile)],
+    queryKey: scopeProfile == null ? ['vael-config-schema'] : ['vael-config-schema', normalizeProfileKey(scopeProfile)],
     queryFn: () => getVaelConfigSchema(scopeProfile),
     staleTime: 5 * 60 * 1000
   })

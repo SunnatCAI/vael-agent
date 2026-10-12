@@ -101,10 +101,10 @@ test('resolveLinuxPasswordStore ignores the env var off linux', () => {
     resolveLinuxPasswordStore({ env: { VAEL_DESKTOP_PASSWORD_STORE: 'gnome-libsecret' }, platform: 'darwin' }),
     { store: null, warning: null }
   )
-  assert.deepEqual(
-    resolveLinuxPasswordStore({ env: { VAEL_DESKTOP_PASSWORD_STORE: 'kwallet6' }, platform: 'win32' }),
-    { store: null, warning: null }
-  )
+  assert.deepEqual(resolveLinuxPasswordStore({ env: { VAEL_DESKTOP_PASSWORD_STORE: 'kwallet6' }, platform: 'win32' }), {
+    store: null,
+    warning: null
+  })
 })
 
 test('resolveLinuxPasswordStore warns on unknown values instead of applying them', () => {

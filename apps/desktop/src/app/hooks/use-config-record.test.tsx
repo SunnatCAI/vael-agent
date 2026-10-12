@@ -8,12 +8,7 @@ import { $connection } from '@/store/session'
 import type * as VaelApi from '@/vael'
 import { bindConfigReadOrigin, getVaelConfigRecord } from '@/vael'
 
-import {
-  setVaelConfigCache,
-  useVaelConfigRecord,
-  VAEL_CONFIG_KEY,
-  vaelConfigCacheWriter
-} from './use-config-record'
+import { setVaelConfigCache, useVaelConfigRecord, VAEL_CONFIG_KEY, vaelConfigCacheWriter } from './use-config-record'
 
 vi.mock('@/vael', async importOriginal => ({
   ...(await importOriginal<typeof VaelApi>()),

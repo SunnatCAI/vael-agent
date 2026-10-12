@@ -249,9 +249,7 @@ it('dismisses per target build without installing and persists the retirement', 
   await act(async () => {
     fireEvent.click(screen.getByRole('button', { name: en.tips.close }))
   })
-  expect(JSON.parse(localStorage.getItem('vael.desktop.tips.retired.v1')!)).toContain(
-    'local-runtime-update:next-build'
-  )
+  expect(JSON.parse(localStorage.getItem('vael.desktop.tips.retired.v1')!)).toContain('local-runtime-update:next-build')
   await due()
   expect($activeTip.get()).toBeNull()
   api.mockImplementation(async request =>

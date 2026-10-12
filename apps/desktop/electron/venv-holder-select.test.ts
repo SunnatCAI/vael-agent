@@ -78,10 +78,7 @@ test('matches the dashboard scheduled task (python -m vael_cli / -m vael)', () =
     ),
     true
   )
-  assert.equal(
-    isExternalVenvHolder('C:\\VAEL\\venv\\Scripts\\pythonw.exe', 'pythonw.exe -m vael serve', SCRIPTS),
-    true
-  )
+  assert.equal(isExternalVenvHolder('C:\\VAEL\\venv\\Scripts\\pythonw.exe', 'pythonw.exe -m vael serve', SCRIPTS), true)
 })
 
 test('never matches an unrelated process that merely borrows the venv interpreter', () => {

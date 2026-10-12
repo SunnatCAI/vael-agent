@@ -423,10 +423,7 @@ function stagedFileMtimeMs(candidate: string): number | null {
  * Null on Windows too when nothing is staged (a dev/source run, or a CLI
  * install that never went through the installer); callers degrade gracefully.
  */
-export function resolveStagedUpdaterBinary(
-  vaelHome: string,
-  deps: ResolveStagedUpdaterBinaryDeps = {}
-): string | null {
+export function resolveStagedUpdaterBinary(vaelHome: string, deps: ResolveStagedUpdaterBinaryDeps = {}): string | null {
   const isWindows = deps.isWindows ?? process.platform === 'win32'
 
   if (!isWindows) {

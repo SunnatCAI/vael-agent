@@ -55,9 +55,7 @@ export function registerGitIpc({ resolveGitBinary, resolveGhBinary }: GitIpcDeps
 
   ipcMain.handle('vael:git:branchList', async (_event, repoPath) => listBranches(repoPath, resolveGitBinary()))
 
-  ipcMain.handle('vael:git:baseBranchList', async (_event, repoPath) =>
-    listBaseBranches(repoPath, resolveGitBinary())
-  )
+  ipcMain.handle('vael:git:baseBranchList', async (_event, repoPath) => listBaseBranches(repoPath, resolveGitBinary()))
 
   // Compact repo status (branch, ahead/behind, change counts + files) for the
   // composer coding rail. Returns null on a non-repo / remote backend so the rail

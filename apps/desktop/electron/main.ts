@@ -4648,9 +4648,7 @@ async function claimBackendChild(
     return identity
   } catch (error) {
     await localBackendLifecycle.stop(child)
-    throw new Error(
-      `Could not persist ownership for the VAEL backend: ${error.message}${outputTail?.describe() ?? ''}`
-    )
+    throw new Error(`Could not persist ownership for the VAEL backend: ${error.message}${outputTail?.describe() ?? ''}`)
   }
 }
 
@@ -5376,8 +5374,10 @@ async function resolveVaelBackend(backendArgs: string[]): Promise<ResolvedVaelBa
         rememberLog(`Ignoring desktop app executable on PATH while resolving VAEL CLI: ${vaelCommand}`)
         vaelCommand = null
       } else {
-        const unwrapped: Awaited<ReturnType<typeof unwrapWindowsVenvVaelCommand>> =
-          await unwrapWindowsVenvVaelCommand(vaelCommand, backendArgs)
+        const unwrapped: Awaited<ReturnType<typeof unwrapWindowsVenvVaelCommand>> = await unwrapWindowsVenvVaelCommand(
+          vaelCommand,
+          backendArgs
+        )
 
         if (unwrapped) {
           return unwrapped
@@ -5385,10 +5385,7 @@ async function resolveVaelBackend(backendArgs: string[]): Promise<ResolvedVaelBa
 
         const shellForProbe: boolean = isCommandScript(vaelCommand)
 
-        if (
-          shouldTrustVaelOverride(vaelOverride) ||
-          (await verifyVaelCli(vaelCommand, { shell: shellForProbe }))
-        ) {
+        if (shouldTrustVaelOverride(vaelOverride) || (await verifyVaelCli(vaelCommand, { shell: shellForProbe }))) {
           return {
             label: `existing VAEL CLI at ${vaelCommand}`,
             command: vaelCommand,
@@ -5504,10 +5501,7 @@ interface ResolvedVaelBackend {
   readyFile?: boolean
 }
 
-async function ensureRuntime(
-  backend: ResolvedVaelBackend,
-  assertStillOwned: () => void
-): Promise<ResolvedVaelBackend> {
+async function ensureRuntime(backend: ResolvedVaelBackend, assertStillOwned: () => void): Promise<ResolvedVaelBackend> {
   localBackendLifecycle.assertCanStart()
   assertStillOwned()
 
@@ -8319,9 +8313,7 @@ async function discoverCloudAgents(org?: string) {
       // A 401 means the portal session lapsed (and silent renewal could not
       // recover it) — surface it as a re-login, not a generic failure.
       if (error && error.statusCode === 401) {
-        const err = new Error(
-          'Your VAEL Cloud session has expired. Open Settings → Gateway and sign in again.'
-        ) as any
+        const err = new Error('Your VAEL Cloud session has expired. Open Settings → Gateway and sign in again.') as any
 
         err.needsCloudLogin = true
         err.cause = error
@@ -12952,8 +12944,7 @@ function reportPrimaryRecoveryCrashLoop(code: number | null, signal: string | nu
     return false
   }
 
-  const message =
-    'VAEL backend keeps crashing right after it restarts; not restarting it again. Relaunch VAEL Desktop.'
+  const message = 'VAEL backend keeps crashing right after it restarts; not restarting it again. Relaunch VAEL Desktop.'
 
   rememberLog(`[supervisor] ${message}`)
   sendBackendExit({ code, signal, error: message })
@@ -15898,10 +15889,7 @@ ipcMain.handle('vael:window:openInTerminal', async (_event, sessionId, opts) => 
     const scriptDir = path.join(app.getPath('userData'), 'open-in-terminal')
     fs.mkdirSync(scriptDir, { recursive: true })
 
-    const scriptPath = path.join(
-      scriptDir,
-      `vael-${crypto.randomBytes(6).toString('hex')}${terminalScriptExtension()}`
-    )
+    const scriptPath = path.join(scriptDir, `vael-${crypto.randomBytes(6).toString('hex')}${terminalScriptExtension()}`)
 
     fs.writeFileSync(
       scriptPath,

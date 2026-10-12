@@ -175,9 +175,7 @@ describe('createMediaProtocolHandler', () => {
       }))
     })
 
-    await createMediaProtocolHandler(deps)(
-      request('vael-media://remote/%2Ftmp%2Fclip.mp4', { Range: 'bytes=0-1023' })
-    )
+    await createMediaProtocolHandler(deps)(request('vael-media://remote/%2Ftmp%2Fclip.mp4', { Range: 'bytes=0-1023' }))
 
     const [, headers] = vi.mocked(deps.fetchRemote).mock.calls[0]
     expect(headers.get('cf-access-client-id')).toBe('client-id')

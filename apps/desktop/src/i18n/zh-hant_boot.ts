@@ -67,8 +67,7 @@ export const zhHantBoot = {
     discontinuedBody: '此版本的 VAEL 已停止支援，可能無法正常運作——請解除安裝。您的資料仍保留在磁碟上。',
     channels: { stable: '穩定版', canary: '預覽版' },
     bundleSwapPending: '重新啟動以完成更新',
-    bundleSwapPendingDesc:
-      '更新後的應用程式已安裝完成，只需重新啟動 VAEL 即可載入新版本。聊天記錄和設定不會受到影響。',
+    bundleSwapPendingDesc: '更新後的應用程式已安裝完成，只需重新啟動 VAEL 即可載入新版本。聊天記錄和設定不會受到影響。',
     bundleSwapPendingAction: '重新啟動 VAEL',
     stages: {
       idle: '準備中…',
@@ -116,8 +115,7 @@ export const zhHantBoot = {
     copy: '複製',
     copied: '已複製',
     done: '完成',
-    applyingBody:
-      'VAEL 更新程式會在自己的視窗中接管，並在完成後自動重新開啟 VAEL。更新期間請勿自行重新開啟 VAEL。',
+    applyingBody: 'VAEL 更新程式會在自己的視窗中接管，並在完成後自動重新開啟 VAEL。更新期間請勿自行重新開啟 VAEL。',
     applyingBodyBackend: '遠端後端正在套用更新並將重新啟動。恢復後 VAEL 會自動重新連線。',
     applyingClose: '此視窗會在更新期間關閉，隨後 VAEL 會自動重新開啟。',
     errorTitle: '更新未完成',

@@ -27,9 +27,7 @@ function isExpectedNotFoundSentinel(value: unknown): value is Record<string, str
   const keys = Object.keys(value as Record<string, unknown>)
 
   return (
-    keys.length === 1 &&
-    keys[0] === VAEL_API_EXPECTED_404 &&
-    typeof (value as any)[VAEL_API_EXPECTED_404] === 'string'
+    keys.length === 1 && keys[0] === VAEL_API_EXPECTED_404 && typeof (value as any)[VAEL_API_EXPECTED_404] === 'string'
   )
 }
 

@@ -68,8 +68,7 @@ export const zhHantSettings = {
     plugins: {
       openFolder: '開啟桌面外掛資料夾',
       installModal: {
-        installUncertain:
-          'VAEL 已停止等待安裝結果，但外掛可能仍在安裝中。請關閉此視窗，重新掃描外掛清單後再嘗試安裝。',
+        installUncertain: 'VAEL 已停止等待安裝結果，但外掛可能仍在安裝中。請關閉此視窗，重新掃描外掛清單後再嘗試安裝。',
         installFromGit: '從 Git 安裝',
         reviewRepository: '檢查儲存庫',
         repoPlaceholder: 'https://github.com/owner/repo',
@@ -856,8 +855,7 @@ export const zhHantSettings = {
       localTitle: '本機閘道',
       localDesc: '在 localhost 啟動私有 VAEL 後端。這是預設方式，可離線使用。',
       remoteTitle: '遠端閘道',
-      remoteDesc:
-        '將此桌面殼層連線至遠端 VAEL 後端。託管閘道使用 OAuth 或帳號密碼；自託管閘道也可使用工作階段 Token。',
+      remoteDesc: '將此桌面殼層連線至遠端 VAEL 後端。託管閘道使用 OAuth 或帳號密碼；自託管閘道也可使用工作階段 Token。',
       remoteUrlTitle: '遠端 URL',
       remoteUrlDesc: '遠端儀表板後端的基礎 URL。支援路徑前綴，例如 /vael。',
       probing: '正在檢查此閘道的驗證方式…',

@@ -269,10 +269,7 @@ test('findRunningGatewayProfiles preserves order of allProfiles', () => {
   })
 
   const deps = { ...fs, isVaelProcess: () => true }
-  assert.deepEqual(findRunningGatewayProfiles('/home/u/.vael/profiles', ['coder', 'writer'], deps), [
-    'coder',
-    'writer'
-  ])
+  assert.deepEqual(findRunningGatewayProfiles('/home/u/.vael/profiles', ['coder', 'writer'], deps), ['coder', 'writer'])
 })
 
 // ---------------------------------------------------------------------------
@@ -536,10 +533,7 @@ test('profileStateDbPath puts default at vaelHome, named under profilesRoot', ()
 })
 
 test('profileGatewayPidPath puts default at vaelHome', () => {
-  assert.equal(
-    profileGatewayPidPath('default', '/home/u/.vael', '/home/u/.vael/profiles'),
-    '/home/u/.vael/gateway.pid'
-  )
+  assert.equal(profileGatewayPidPath('default', '/home/u/.vael', '/home/u/.vael/profiles'), '/home/u/.vael/gateway.pid')
   assert.equal(
     profileGatewayPidPath('coder', '/home/u/.vael', '/home/u/.vael/profiles'),
     '/home/u/.vael/profiles/coder/gateway.pid'

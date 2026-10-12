@@ -4,9 +4,7 @@ import { isProviderSetupErrorCode, isProviderSetupErrorMessage } from './provide
 
 describe('isProviderSetupErrorMessage', () => {
   it('matches generic missing-provider copy', () => {
-    expect(isProviderSetupErrorMessage('No inference provider configured. Run `vael model` to choose one.')).toBe(
-      true
-    )
+    expect(isProviderSetupErrorMessage('No inference provider configured. Run `vael model` to choose one.')).toBe(true)
     expect(isProviderSetupErrorMessage('No inference provider is configured.')).toBe(true)
     expect(isProviderSetupErrorMessage('No VAEL provider is configured.')).toBe(true)
     expect(isProviderSetupErrorMessage('set an API key (OPENROUTER_API_KEY) in ~/.vael/.env')).toBe(true)

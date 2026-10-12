@@ -61,12 +61,7 @@ function load(build: ChannelBuildRequest): PackagingFacts {
 }
 
 afterEach((): void => {
-  for (const key of [
-    '_VAEL_CHANNEL_REQUEST_JSON',
-    'VAEL_DESKTOP_VARIANT',
-    'VAEL_BUILD_COMMIT',
-    'VAEL_PAYLOAD_TAG'
-  ]) {
+  for (const key of ['_VAEL_CHANNEL_REQUEST_JSON', 'VAEL_DESKTOP_VARIANT', 'VAEL_BUILD_COMMIT', 'VAEL_PAYLOAD_TAG']) {
     delete process.env[key]
   }
 

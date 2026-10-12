@@ -131,10 +131,7 @@ export const useVaelConfigRecord = (profile?: ProfileScope) => {
 // gateway is active when the save happens — the same row its query reads.
 const writeVaelConfigCache =
   (keyFor: () => ReturnType<typeof vaelConfigKey>) =>
-  (
-    next:
-      VaelConfigRecord | undefined | ((previous: VaelConfigRecord | undefined) => VaelConfigRecord | undefined)
-  ) =>
+  (next: VaelConfigRecord | undefined | ((previous: VaelConfigRecord | undefined) => VaelConfigRecord | undefined)) =>
     void queryClient.setQueryData<VaelConfigRecord>(keyFor(), previous => {
       const record = typeof next === 'function' ? next(previous) : next
 
@@ -147,8 +144,7 @@ const writeVaelConfigCache =
     })
 
 export const setVaelConfigCache = writeVaelConfigCache(() => vaelConfigKey())
-export const vaelConfigCacheWriter = (profile?: ProfileScope) =>
-  writeVaelConfigCache(() => vaelConfigKey(profile))
+export const vaelConfigCacheWriter = (profile?: ProfileScope) => writeVaelConfigCache(() => vaelConfigKey(profile))
 
 export const invalidateVaelConfig = (profile?: ProfileScope) =>
   queryClient.invalidateQueries({ queryKey: vaelConfigKey(profile) })

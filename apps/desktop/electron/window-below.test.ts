@@ -187,9 +187,7 @@ describe('resolveOutsideAsar', () => {
       resolveOutsideAsar(
         'file:///Applications/VAEL.app/Contents/Resources/app.asar/dist/node_modules/get-windows/index.js'
       )
-    ).toBe(
-      'file:///Applications/VAEL.app/Contents/Resources/app.asar.unpacked/dist/node_modules/get-windows/index.js'
-    )
+    ).toBe('file:///Applications/VAEL.app/Contents/Resources/app.asar.unpacked/dist/node_modules/get-windows/index.js')
   })
 
   // The staged specifier is built with path.join, so on Windows the archive

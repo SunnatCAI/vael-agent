@@ -246,9 +246,7 @@ describe('installFoundInPageForwarder', () => {
     installFoundInPageForwarder(asWC(wcA))
     installFoundInPageForwarder(asWC(wcB))
     wcA.emit('found-in-page', {}, { activeMatchOrdinal: 1, matches: 1 })
-    assert.deepEqual(wcA.calls.send, [
-      { channel: 'vael:found-in-page', payload: { activeMatchOrdinal: 1, count: 1 } }
-    ])
+    assert.deepEqual(wcA.calls.send, [{ channel: 'vael:found-in-page', payload: { activeMatchOrdinal: 1, count: 1 } }])
     assert.equal(wcB.calls.send.length, 0, 'wcB must not receive wcA results')
   })
 })
