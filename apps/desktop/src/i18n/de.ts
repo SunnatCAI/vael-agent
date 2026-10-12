@@ -2007,7 +2007,7 @@ export const deOverrides = {
       sshErrHostKey:
         'Der Host-Key hat sich seit Ihrer letzten Verbindung GEÄNDERT. Prüfen Sie, ob das erwartet ist, führen Sie dann ssh-keygen -R <host> aus und verbinden Sie sich erneut.',
       sshErrNotInstalled:
-        'VAEL ist auf dem Remote-Host nicht installiert. Installieren Sie es dort (curl -fsSL https://raw.githubusercontent.com/sunnatilla0717/vael-agent/main/scripts/install.sh | sh) oder legen Sie den VAEL-Pfad fest.',
+        'VAEL ist auf dem Remote-Host nicht installiert. Installieren Sie es dort (curl -fsSL https://raw.githubusercontent.com/sunnatilla0717/vael-agent/main/scripts/install.sh | bash) oder legen Sie den VAEL-Pfad fest.',
       sshErrPlatform:
         'Nicht unterstützte Remote-Plattform. Der Desktop-SSH-Modus von VAEL unterstützt Linux-, macOS- und Windows-Remote-Hosts.',
       sshErrTimeout: 'SSH-Verbindung ist ausgelaufen. Der Host ist möglicherweise nicht erreichbar oder schläft.',
