@@ -72,9 +72,9 @@ UPDATE_TIMEOUT = 1200.0
 CMD_TIMEOUT = 300.0
 GATEWAY_READY_TIMEOUT = 240.0
 CANONICAL_URLS = (
-    "https://github.com/NousResearch/hermes-agent.git",
-    "https://github.com/NousResearch/hermes-agent",
-    "git@github.com:NousResearch/hermes-agent.git",
+    "https://github.com/sunnatilla0717/vael-agent.git",
+    "https://github.com/sunnatilla0717/vael-agent",
+    "git@github.com:sunnatilla0717/vael-agent.git",
 )
 NEXT_MARKER = ".vael-e2e-next"
 # Captured before any machine strips PATH: harness plumbing (serve.git, rev-parse) only.

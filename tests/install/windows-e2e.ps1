@@ -190,8 +190,8 @@ function Confirm-OldChat([string]$Out) {
     $script:ChatFailure = $false
 }
 
-$RepoUrlHttps = "https://github.com/NousResearch/hermes-agent.git"
-$RepoUrlSsh   = "git@github.com:NousResearch/hermes-agent.git"
+$RepoUrlHttps = "https://github.com/sunnatilla0717/vael-agent.git"
+$RepoUrlSsh   = "git@github.com:sunnatilla0717/vael-agent.git"
 
 function Write-Step([string]$Message) {
     Write-Host ""
@@ -1473,8 +1473,8 @@ function Assert-RedirectIsTransportOnly {
     # `git config --get remote.origin.url`. If the configured URL ever looked
     # like the rehearsal source, channel resolution would fail and this leg
     # would be testing a fork install rather than the real user path.
-    $official = @('https://github.com/NousResearch/hermes-agent.git',
-                  'git@github.com:NousResearch/hermes-agent.git')
+    $official = @('https://github.com/sunnatilla0717/vael-agent.git',
+                  'git@github.com:sunnatilla0717/vael-agent.git')
     $configured = (Invoke-Git @('-C', $InstallDir, 'config', '--get', 'remote.origin.url') | Out-String).Trim()
     Assert-True ($official -contains $configured) "origin stays configured as an official URL (got '$configured')"
     $real = if ($env:VAEL_E2E_REAL_GIT) { $env:VAEL_E2E_REAL_GIT } else { 'git' }

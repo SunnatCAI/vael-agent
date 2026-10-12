@@ -16,6 +16,24 @@ Hermes Agent → VAEL Agent rename. Status: the mechanical rename (the former
   `vael` in lower-case names, `VAEL_` in constants.
 - The 2026-10-04 KEEP decisions stand (below).
 
+## Update source (owner decision, 2026-10-12)
+
+`vael update` and the repository-based install paths use
+`sunnatilla0717/vael-agent`: the official-remote set and fork detection
+(`vael_cli/update_cmd_git.py`), the ZIP updater's default, the release
+resolver's `OFFICIAL_REPOSITORY`, the installers' default clone URL, the
+desktop bootstrap's raw script URL and the desktop app's publish target.
+An install whose `origin` is that repository is no longer treated as a fork,
+so the updater does not offer to add Hermes as `upstream`.
+
+Still upstream's, and so not usable for VAEL until it has its own: the
+release-channel records host (`hermes-assets.nousresearch.com`; its records
+name upstream's repository and are refused for this one, and only `main`
+falls back to following the branch when no record exists), the hosted
+installer one-liner
+(`hermes-agent.nousresearch.com/install.sh`, which installs Hermes) and the
+Docker image name.
+
 ## What still says `hermes`, on purpose
 
 - Upstream attribution: `LICENSE` is untouched (it carries Nous Research's
@@ -45,8 +63,9 @@ Hermes Agent → VAEL Agent rename. Status: the mechanical rename (the former
 These were left untouched because VAEL has no replacement for them yet. Each
 needs an owner decision, not a mechanical edit:
 
-- `NousResearch/hermes-agent` repo references, including the updater's
-  source — `vael update` would pull upstream Hermes as written.
+- The remaining `NousResearch/hermes-agent` repo references: docs and issue
+  links, the official skills-hub source, release tooling, package metadata.
+  (The updater is decided — see below.)
 - `hermes-agent.nousresearch.com` install scripts, docs links and asset URLs.
 - Docker images `nousresearch/hermes-agent`, `nousresearch/hermes-sandbox`.
 - App identities. They are computed from the product name, so they now read

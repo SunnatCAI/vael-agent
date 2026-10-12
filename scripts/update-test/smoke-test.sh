@@ -58,7 +58,7 @@ git -C "$INSTALL" config user.name test
 printf 'print(1)\n' > "$INSTALL/module_name.py"
 git -C "$INSTALL" add -A
 git -C "$INSTALL" -c commit.gpgsign=false commit -qm initial
-git -C "$INSTALL" remote add origin https://github.com/NousResearch/hermes-agent.git
+git -C "$INSTALL" remote add origin https://github.com/sunnatilla0717/vael-agent.git
 HEAD_SHA="$(git -C "$INSTALL" rev-parse HEAD)"
 mkdir -p "$INSTALL/.vael/bin" "$INSTALL/.vael-runtime/python"
 # A fake launcher for the backup and profile-scoped gateway stop.
@@ -119,7 +119,7 @@ echo "--- pre points the install at the rehearsal copy ---"
 [ "$(git -C "$INSTALL" config --local --get-regexp 'insteadOf' | wc -l | tr -d ' ')" = 2 ]; check $? "two insteadOf entries written (repo-local)"
 [ -f "$H/.skip_upstream_prompt" ]; check $? "upstream-prompt marker created"
 [ "$(git -C "$INSTALL" remote get-url origin)" = "$INSTALL" ]; check $? "remote get-url resolves to --source"
-git -C "$INSTALL" config --get remote.origin.url | grep -q 'NousResearch'; check $? "config --get remote.origin.url stays official"
+git -C "$INSTALL" config --get remote.origin.url | grep -q 'sunnatilla0717'; check $? "config --get remote.origin.url stays official"
 
 echo
 echo "--- pre changed nothing else ---"
@@ -155,11 +155,11 @@ check $? "post exits 0"
 [ -f "$INSTALL/.vael-runtime/python/interpreter.bin" ]; check $? "PM store restored"
 [ -d "$INSTALL/.git" ]; check $? "checkout restored"
 [ "$(git -C "$INSTALL" rev-parse HEAD)" = "$HEAD_SHA" ]; check $? "checkout HEAD restored"
-[ "$(git -C "$INSTALL" config --get remote.origin.url)" = "https://github.com/NousResearch/hermes-agent.git" ]; check $? "origin remote restored"
+[ "$(git -C "$INSTALL" config --get remote.origin.url)" = "https://github.com/sunnatilla0717/vael-agent.git" ]; check $? "origin remote restored"
 [ -f "$VAEL_DESKTOP_USER_DATA_DIR/connection.json" ]; check $? "userData connection.json restored"
 [ "$(git -C "$INSTALL" config --local --get-regexp 'insteadOf' 2>/dev/null | wc -l | tr -d ' ')" = 0 ]; check $? "no stale insteadOf left in the checkout"
 [ ! -f "$H/.skip_upstream_prompt" ]; check $? "upstream-prompt marker removed"
-git -C "$INSTALL" remote get-url origin | grep -q 'NousResearch'; check $? "origin resolves officially again"
+git -C "$INSTALL" remote get-url origin | grep -q 'sunnatilla0717'; check $? "origin resolves officially again"
 [ -f "$H/cache/scratch/keep.txt" ]; check $? "cache/ left in place"
 [ -f "$SNAP/vael-backup.zip" ]; check $? "post keeps vael-backup.zip"
 [ ! -e "$SNAP/home" ] && [ ! -e "$SNAP/userdata" ]; check $? "post consumed the clones"

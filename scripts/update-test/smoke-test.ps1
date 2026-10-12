@@ -194,7 +194,7 @@ con.close()
   Set-Content -LiteralPath (Join-Path $Install 'module_name.py') -Value 'print(1)'
   & git -C $Install add -A | Out-Null
   & git -C $Install -c commit.gpgsign=false commit -qm initial | Out-Null
-  & git -C $Install remote add origin https://github.com/NousResearch/hermes-agent.git
+  & git -C $Install remote add origin https://github.com/sunnatilla0717/vael-agent.git
   New-Item -ItemType Directory -Force -Path (Join-Path $Install '.vael\bin'), (Join-Path $Install '.vael-runtime\python') | Out-Null
   Set-Content -LiteralPath (Join-Path $Install '.vael\bin\vael.cmd') -Value "@echo off`r`necho vael 0.0.0"
   Set-Content -LiteralPath (Join-Path $Install '.vael-runtime\python\interpreter.bin') -Value 'big'
@@ -252,7 +252,7 @@ try {
   $getUrl = (& git -C $Install remote get-url origin | Out-String).Trim()
   Check 'remote get-url resolves to -Source' ($getUrl -eq $Install)
   $configured = (& git -C $Install config --get remote.origin.url | Out-String).Trim()
-  Check 'config --get remote.origin.url stays official' ($configured -match 'NousResearch')
+  Check 'config --get remote.origin.url stays official' ($configured -match 'sunnatilla0717')
 
   Write-Host "`n--- pre changed nothing else ---"
   Check 'checkout untouched by pre' (((& git -C $Install rev-parse HEAD | Out-String).Trim()) -eq $HeadSha)
@@ -285,13 +285,13 @@ try {
   Check 'PM store restored' (Test-Path -LiteralPath (Join-Path $Install '.vael-runtime\python\interpreter.bin'))
   Check 'checkout restored' (Test-Path -LiteralPath (Join-Path $Install '.git'))
   Check 'checkout HEAD restored' (((& git -C $Install rev-parse HEAD | Out-String).Trim()) -eq $HeadSha)
-  Check 'origin remote restored' (((& git -C $Install config --get remote.origin.url | Out-String).Trim()) -eq 'https://github.com/NousResearch/hermes-agent.git')
+  Check 'origin remote restored' (((& git -C $Install config --get remote.origin.url | Out-String).Trim()) -eq 'https://github.com/sunnatilla0717/vael-agent.git')
   Check 'userData connection.json restored' (Test-Path -LiteralPath (Join-Path $env:VAEL_DESKTOP_USER_DATA_DIR 'connection.json'))
   $cfg2 = (& git -C $Install config --local --get-regexp 'insteadOf' 2>$null | Out-String)
   if (-not $cfg2) { $cfg2 = '' }
   Check 'no stale insteadOf left in the checkout' ((([regex]::Matches($cfg2, 'insteadOf', 'IgnoreCase')).Count) -eq 0)
   Check 'upstream-prompt marker removed' (-not (Test-Path -LiteralPath (Join-Path $H '.skip_upstream_prompt')))
-  Check 'origin resolves officially again' (((& git -C $Install remote get-url origin | Out-String).Trim()) -match 'NousResearch')
+  Check 'origin resolves officially again' (((& git -C $Install remote get-url origin | Out-String).Trim()) -match 'sunnatilla0717')
   Check 'bin shim restored' (Test-Path -LiteralPath (Join-Path $H 'bin\vael.cmd'))
   Check 'post deleted the snapshot' (-not (Get-CimInstance Win32_ShadowCopy | Where-Object { $ShadowIds -contains $_.ID }))
   Check 'post removed its mount link' (-not (Test-Path -LiteralPath (Join-Path $Snap 'vss-C')))

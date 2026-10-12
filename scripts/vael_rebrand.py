@@ -85,7 +85,6 @@ PROTECT = [
     # the bundled wake-word model still listens for this spoken phrase
     re.compile(r"hey hermes", re.I),
     # values derived from an upstream URL that stays untouched
-    re.compile(r"\"NousResearch\" / \"hermes-agent\.git\""),
     re.compile(r"repositoryInfo\.project, 'hermes-agent'|repo: 'hermes-agent', provider: 'github'"),
     re.compile(r"== 'fork/hermes-agent'"),
     # third-party packages

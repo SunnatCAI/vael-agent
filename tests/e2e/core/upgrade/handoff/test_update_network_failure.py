@@ -24,7 +24,7 @@ pytestmark = [
 
 
 def _refuse_git_transport(inst: X.Install) -> str:
-    dead = f"http://127.0.0.1:{X.free_port()}/NousResearch/hermes-agent.git"
+    dead = f"http://127.0.0.1:{X.free_port()}/sunnatilla0717/vael-agent.git"
     (inst.home / ".gitconfig").write_text(
         f'[url "{dead}"]\n  insteadOf = {I.OFFICIAL_HTTPS}\n  insteadOf = {I.OFFICIAL_SSH}\n', encoding="utf-8")
     return dead
