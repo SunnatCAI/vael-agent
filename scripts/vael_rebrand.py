@@ -33,9 +33,19 @@ KEEP_CONTENT_EXACT = {
     "scripts/ir2-rollback.sh",
     "scripts/vael_rebrand.py",
 }
-# Vendored code keeps its own wording, but it must import the host's modules by their new names.
-VENDORED_CODE_PREFIX = ("plugins/hermes-achievements/",)
-VENDORED_HOST_API = re.compile(r"\b(hermes_constants|hermes_state|hermes_cli|get_hermes_home)\b")
+# Files that keep their own wording; only the host identifiers they reference follow the rename.
+# Keyed by post-rename path prefix: vendored code, and a test whose fixtures are Nous model names.
+IDENTIFIERS_ONLY = (
+    ("plugins/hermes-achievements/", re.compile(r"\b(hermes_constants|hermes_state|hermes_cli|get_hermes_home)\b")),
+    (
+        "tests/vael_cli/test_nous_hermes_non_agentic.py",
+        re.compile(r"\b(hermes_cli|_HERMES_MODEL_WARNING|_check_hermes_model_warning)\b"),
+    ),
+)
+
+
+def _rename_identifier(match: re.Match[str]) -> str:
+    return match.group(0).replace("hermes", "vael").replace("HERMES", "VAEL")
 # Paths that are never moved.
 KEEP_PATH_PREFIX = ("contributors/", "plugins/hermes-achievements/", "plugin-catalog/", "docs/ir2-mapping/")
 KEEP_PATH_BASENAME = {"openclaw_to_hermes.py"}
@@ -67,6 +77,7 @@ PROTECT = [
     # code that recognises that model family by name
     re.compile(r"\"hermes\", \"llama\", \"mistral\""),
     re.compile(r"\"hermes\" (not )?in model_\w+"),
+    re.compile(r"\(\?:\^\|\[/:\]\)hermes\[-_ \]\?\[34\]|no match: hermes-brain:"),
     re.compile(r"'gpt-5', 'hermes'\)"),
     # the bundled wake-word model still listens for this spoken phrase
     re.compile(r"hey hermes", re.I),
@@ -220,10 +231,12 @@ def main() -> int:
     residual: Counter[str] = Counter()
     changed = 0
     for f in files:
-        if f.startswith(VENDORED_CODE_PREFIX) and f.endswith(".py"):
+        final = plan.get(f, f)
+        identifiers = next((rx for prefix, rx in IDENTIFIERS_ONLY if final.startswith(prefix)), None)
+        if identifiers is not None and f.endswith(".py"):
             path = repo / f
-            text = path.read_text(encoding="utf-8")
-            new_text = VENDORED_HOST_API.sub(lambda m: m.group(0).replace("hermes", "vael"), text)
+            text = path.read_bytes().decode("utf-8")
+            new_text = identifiers.sub(_rename_identifier, text)
             if new_text != text:
                 changed += 1
                 if args.apply:
@@ -242,7 +255,7 @@ def main() -> int:
             text, encoding = raw.decode("utf-8"), "utf-8"
         except UnicodeDecodeError:
             text, encoding = raw.decode("latin-1"), "latin-1"
-        new_text = transform(text, patterns + FILE_PROTECT.get(f, []), residual)
+        new_text = transform(text, patterns + FILE_PROTECT.get(final, []), residual)
         if new_text != text:
             changed += 1
             if args.apply:

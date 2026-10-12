@@ -106,8 +106,8 @@ _VAEL_MODEL_WARNING = (
 # Match only the real Nous Research Hermes 3 / 4 chat families; a bare substring check
 # false-positived on tool-capable local Modelfiles like ``vael-brain:qwen3-14b-ctx16k``.
 #   match:    NousResearch/Hermes-3-Llama-3.1-70B, hermes-4-405b, openrouter/hermes3:70b
-#   no match: vael-brain:qwen3-14b-ctx16k, qwen3:14b, claude-opus-4-6
-_NOUS_HERMES_NON_AGENTIC_RE = re.compile(r"(?:^|[/:])vael[-_ ]?[34](?:[-_.:]|$)", re.IGNORECASE)
+#   no match: hermes-brain:qwen3-14b-ctx16k, qwen3:14b, claude-opus-4-6
+_NOUS_HERMES_NON_AGENTIC_RE = re.compile(r"(?:^|[/:])hermes[-_ ]?[34](?:[-_.:]|$)", re.IGNORECASE)
 
 
 # Opaque proxy model IDs (Palantir Foundry: ``ri.language-model-service..language-model.<slug>``)
