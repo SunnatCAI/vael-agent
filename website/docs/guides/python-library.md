@@ -15,7 +15,7 @@ VAEL isn't just a CLI tool. You can import `AIAgent` directly and use it program
 Clone VAEL and prepare its source environment through PM. The Bash recipe is:
 
 ```bash
-git clone https://github.com/NousResearch/hermes-agent.git
+git clone https://github.com/sunnatilla0717/vael-agent.git
 cd vael-agent
 source ./activate
 ```

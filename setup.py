@@ -36,7 +36,7 @@ _IN_NIX_BUILD = os.environ.get("VAEL_NIX_BUILD") == "1"
 _BLOCK_MESSAGE = (
     "Building wheels or sdists for vael-agent is not supported.\n"
     "VAEL is distributed via the shell installer, Docker image, or Nix.\n"
-    "See: https://hermes-agent.nousresearch.com/docs/getting-started/installation\n"
+    "See: https://github.com/sunnatilla0717/vael-agent/blob/main/website/docs/getting-started/installation.md\n"
     "\n"
     "If you are developing, use an editable install instead:\n"
     "  source ./activate  # PowerShell: . .\\activate.ps1\n"

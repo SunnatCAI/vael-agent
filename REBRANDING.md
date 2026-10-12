@@ -16,7 +16,7 @@ Hermes Agent → VAEL Agent rename. Status: the mechanical rename (the former
   `vael` in lower-case names, `VAEL_` in constants.
 - The 2026-10-04 KEEP decisions stand (below).
 
-## Update source (owner decision, 2026-10-12)
+## Update and install source (owner decisions, 2026-10-12)
 
 `vael update` and the repository-based install paths use
 `sunnatilla0717/vael-agent`: the official-remote set and fork detection
@@ -29,13 +29,20 @@ hints printed by `vael update` and `vael uninstall`, and `scripts/install.cmd`,
 use the installer scripts in that repository
 (`raw.githubusercontent.com/sunnatilla0717/vael-agent/main/scripts/install.{sh,ps1}`).
 
-Still upstream's, and so not usable for VAEL until it has its own: the
-release-channel records host (`hermes-assets.nousresearch.com`; its records
-name upstream's repository and are refused for this one, and only `main`
-falls back to following the branch when no record exists), the hosted
-installer one-liner where docs and the desktop app's remote-host hint still
-show it (`hermes-agent.nousresearch.com/install.sh`, which installs Hermes)
-and the Docker image name.
+Every install instruction leads there too: the README and docs one-liners,
+the desktop app's remote-host hint, `git clone` lines and the Nix flake
+references (`github:sunnatilla0717/vael-agent`). Nothing shown to a user
+points at the hosted Hermes installer any more.
+
+Still upstream's, and so not usable for VAEL until it has its own:
+
+- the release-channel records host (`hermes-assets.nousresearch.com`); its
+  records name upstream's repository and are refused for this one, and only
+  `main` falls back to following the branch when no record exists;
+- prebuilt artifacts: the desktop installers (`Hermes-Setup.exe` / `.dmg`,
+  referenced by the install E2E), the MSIX package, the Termux APT
+  repository and the Docker image. The docs still describe these channels,
+  but no VAEL build is published to any of them.
 
 ## What still says `hermes`, on purpose
 

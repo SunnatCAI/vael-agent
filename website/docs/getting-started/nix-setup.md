@@ -63,17 +63,17 @@ No clone needed. Nix fetches, builds, and runs everything:
 
 ```bash
 # Run the desktop app
-nix run github:NousResearch/hermes-agent#desktop
+nix run github:sunnatilla0717/vael-agent#desktop
 
 # Or install persistently
-nix profile install github:NousResearch/hermes-agent#desktop
+nix profile install github:sunnatilla0717/vael-agent#desktop
 
 # run the tui
-nix run github:NousResearch/hermes-agent -- setup
-nix run github:NousResearch/hermes-agent -- --tui
+nix run github:sunnatilla0717/vael-agent -- setup
+nix run github:sunnatilla0717/vael-agent -- --tui
 
 # or install it in your profile
-nix profile install github:NousResearch/hermes-agent
+nix profile install github:sunnatilla0717/vael-agent
 vael setup
 vael --tui
 ```
@@ -91,7 +91,7 @@ The `default` package adds ~700 MB to the closure. If you only need messaging pl
 <summary><strong>Running from a local clone</strong></summary>
 
 ```bash
-git clone https://github.com/NousResearch/hermes-agent.git
+git clone https://github.com/sunnatilla0717/vael-agent.git
 cd vael-agent
 nix develop
 vael setup
@@ -116,7 +116,7 @@ This module needs NixOS. VAEL is an agent for one person. If you want an agent f
 {
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    vael-agent.url = "github:NousResearch/hermes-agent";
+    vael-agent.url = "github:sunnatilla0717/vael-agent";
   };
 
   outputs = { nixpkgs, vael-agent, ... }: {
@@ -637,7 +637,7 @@ The option set is the same set that the NixOS module uses. It is `services.vael-
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
-    vael-agent.url = "github:NousResearch/hermes-agent";
+    vael-agent.url = "github:sunnatilla0717/vael-agent";
   };
 }
 ```
@@ -888,7 +888,7 @@ External flakes can override the package directly:
 
 ```nix
 {
-  inputs.vael-agent.url = "github:NousResearch/hermes-agent";
+  inputs.vael-agent.url = "github:sunnatilla0717/vael-agent";
   outputs = { vael-agent, nixpkgs, ... }: {
     nixpkgs.overlays = [ vael-agent.overlays.default ];
     # Then:

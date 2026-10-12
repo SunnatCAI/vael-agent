@@ -141,7 +141,7 @@ function startLabel(from, to) {
 export const SPEC = {
   windows: {
     install: [
-      // irm https://hermes.nousresearch.com/install.ps1 | iex
+      // irm https://raw.githubusercontent.com/sunnatilla0717/vael-agent/main/scripts/install.ps1 | iex
       { method: 'installer-script' },
       // The same one-liner with -IncludeDesktop: builds VAEL.exe AND
       // registers Start Menu / Desktop shortcuts, so it is a second real

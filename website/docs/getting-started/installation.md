@@ -42,14 +42,14 @@ For a command-line only install without VAEL Desktop, run:
 
 #### Linux / macOS / WSL2
 ```bash
-curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/sunnatilla0717/vael-agent/main/scripts/install.sh | bash
 ```
 
 #### Windows (native)
 
 Run in powershell:
 ```powershell
-iex (irm https://hermes-agent.nousresearch.com/install.ps1) 
+iex (irm https://raw.githubusercontent.com/sunnatilla0717/vael-agent/main/scripts/install.ps1) 
 ```
 
 If you want to install & run VAEL Desktop after a command-line only install, simply run
@@ -191,7 +191,7 @@ configuration, and launcher must belong to that user.
 2. As the service user, run the regular installer:
 
    ```bash
-   curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash
+   curl -fsSL https://raw.githubusercontent.com/sunnatilla0717/vael-agent/main/scripts/install.sh | bash
    ```
 
 3. Add the actual launcher directory to the service user's shell environment:

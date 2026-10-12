@@ -263,7 +263,7 @@ async function locateVael(ssh, remoteVaelPath) {
 
   const err: any = new Error(
     'VAEL is not installed on the remote host (could not find a `vael` executable). ' +
-      'Install it on the remote with:  curl -fsSL https://hermes-agent.nousresearch.com/install.sh | sh  ' +
+      'Install it on the remote with:  curl -fsSL https://raw.githubusercontent.com/sunnatilla0717/vael-agent/main/scripts/install.sh | sh  ' +
       '— or set the VAEL path explicitly in the SSH connection settings.'
   )
 

@@ -46,11 +46,11 @@ uv2nix 环境、覆盖包、插件依赖和开发 shell 使用同一个解释器
 
 ```bash
 # 直接运行（首次使用时构建，之后使用缓存）
-nix run github:NousResearch/hermes-agent -- setup
-nix run github:NousResearch/hermes-agent -- chat
+nix run github:sunnatilla0717/vael-agent -- setup
+nix run github:sunnatilla0717/vael-agent -- chat
 
 # 或持久化安装
-nix profile install github:NousResearch/hermes-agent
+nix profile install github:sunnatilla0717/vael-agent
 vael setup
 vael chat
 ```
@@ -61,7 +61,7 @@ vael chat
 <summary><strong>从本地克隆构建</strong></summary>
 
 ```bash
-git clone https://github.com/NousResearch/hermes-agent.git
+git clone https://github.com/sunnatilla0717/vael-agent.git
 cd vael-agent
 nix build
 ./result/bin/vael setup
@@ -86,7 +86,7 @@ nix build
 {
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    vael-agent.url = "github:NousResearch/hermes-agent";
+    vael-agent.url = "github:sunnatilla0717/vael-agent";
   };
 
   outputs = { nixpkgs, vael-agent, ... }: {
@@ -696,7 +696,7 @@ services.vael-agent = {
 
 ```nix
 {
-  inputs.vael-agent.url = "github:NousResearch/hermes-agent";
+  inputs.vael-agent.url = "github:sunnatilla0717/vael-agent";
   outputs = { vael-agent, nixpkgs, ... }: {
     nixpkgs.overlays = [ vael-agent.overlays.default ];
     # 然后：

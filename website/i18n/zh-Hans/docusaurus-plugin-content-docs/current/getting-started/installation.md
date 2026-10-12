@@ -15,7 +15,7 @@ description: "在 Linux、macOS、WSL2 或原生 Windows 上安装 VAEL Agent"
 基于 git 的安装方式，跟踪 `main` 分支，可立即获取最新变更：
 
 ```bash
-curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/sunnatilla0717/vael-agent/main/scripts/install.sh | bash
 ```
 
 ### Windows（原生，PowerShell）
@@ -25,7 +25,7 @@ curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash
 打开 PowerShell 并运行：
 
 ```powershell
-iex (irm https://hermes-agent.nousresearch.com/install.ps1)
+iex (irm https://raw.githubusercontent.com/sunnatilla0717/vael-agent/main/scripts/install.ps1)
 ```
 
 源码安装脚本克隆仓库，再由 PM 准备 Python 3.14、Node.js、npm、ripgrep、FFmpeg 和 Python 依赖。
