@@ -1056,9 +1056,23 @@ def _cute_path(p) -> str:
     return "." * limit if limit <= 3 else "..." + p[-(limit - 3):]
 
 
+class _CuteRow(str):
+    """A completion row as the ``┊`` feed prints it, carrying the parts it was built from so
+    another layout (the CLI's journal) can place them itself."""
+    verb: str = ""
+    detail: str = ""
+
+
+def _parted_row(text: str, verb: str, detail: str) -> _CuteRow:
+    row = _CuteRow(text)
+    row.verb, row.detail = verb, detail
+    return row
+
+
 def _cute_row(emoji: str, verb: str, detail: str = "") -> str:
     """``┊ {emoji} {verb:9} {detail}`` -- verb column from ``display.cute.verb.<verb>`` (9 cells wide)."""
-    return f"┊ {emoji} {t(f'display.cute.verb.{verb}'):9} {detail}"
+    label = t(f"display.cute.verb.{verb}")
+    return _parted_row(f"┊ {emoji} {label:9} {detail}", label, detail)
 
 
 def _cute_web_extract(a: dict, _r) -> str:
@@ -1192,8 +1206,9 @@ def _cute_bridge_rows(tool_name: str, args: dict) -> list[str] | None:
     labels = bridge_tool_labels(tool_name, args)
     if not labels:
         return None
-    return [f"┊ {label.emoji} {_cute_trunc(label.text)}"
-            f"{f'  {_cute_trunc(label.preview)}' if label.preview else ''}" for label in labels]
+    return [_parted_row(
+        f"┊ {label.emoji} {_cute_trunc(label.text)}{f'  {_cute_trunc(label.preview)}' if label.preview else ''}",
+        _cute_trunc(label.text), _cute_trunc(label.preview) if label.preview else "") for label in labels]
 
 
 _BRIDGE_CALL_INDEX_RE = re.compile(r"calls\[(\d+)\]")
@@ -1228,19 +1243,36 @@ def _bridge_row_suffixes(rows: int, result: Any, call_suffix: str) -> list[str]:
     return suffixes
 
 
-def _get_cute_tool_message(tool_name: str, args: dict, duration: float, result: str | None = None) -> str:
+def _cute_rows(tool_name: str, args: dict, result: str | None) -> tuple[list, list[str]]:
+    """The display rows of a finished call and the failure suffix that belongs to each."""
     args = redact_tool_args_for_display(tool_name, args) or args
     is_failure, failure_suffix = _detect_tool_failure(tool_name, result)
     render = _CUTE_LINES.get(tool_name)
     rows = _cute_bridge_rows(tool_name, args)
-    if rows is None:
-        body = render(args, result) if render else f"┊ ⚡ {tool_name[:9]:9} {_cute_trunc(build_tool_preview(tool_name, args) or '')}"
-        rows, suffixes = [body], [failure_suffix if is_failure else ""]
+    if rows is not None:
+        return rows, _bridge_row_suffixes(len(rows), result, failure_suffix if is_failure else "")
+    if render:
+        body = render(args, result)
     else:
-        suffixes = _bridge_row_suffixes(len(rows), result, failure_suffix if is_failure else "")
+        preview = _cute_trunc(build_tool_preview(tool_name, args) or "")
+        body = _parted_row(f"┊ ⚡ {tool_name[:9]:9} {preview}", tool_name, preview)
+    return [body], [failure_suffix if is_failure else ""]
+
+
+def _get_cute_tool_message(tool_name: str, args: dict, duration: float, result: str | None = None) -> str:
+    rows, suffixes = _cute_rows(tool_name, args, result)
     rows = [*rows[:-1], f"{rows[-1]}  {duration:.1f}s"]
     prefix = get_skin_tool_prefix()
     return "\n  ".join(f"{row}{suffix}".replace("┊", prefix, 1) for row, suffix in zip(rows, suffixes))
+
+
+def tool_completion_parts(tool_name: str, args: dict, result: str | None = None) -> list[tuple[str, str, str]]:
+    """``(verb, detail, failure)`` for each display row of a finished call: what
+    ``get_cute_tool_message`` prints, unformatted, for a layout that places the parts itself.
+    ``failure`` is the bare reason (``exit 1``) or ``""``."""
+    rows, suffixes = _cute_rows(tool_name, args, result)
+    return [(getattr(row, "verb", "") or tool_name, getattr(row, "detail", str(row)),
+             suffix.strip().removeprefix("[").removesuffix("]")) for row, suffix in zip(rows, suffixes)]
 
 
 def get_cute_tool_message(tool_name: str, args: dict, duration: float, result: str | None = None) -> str:

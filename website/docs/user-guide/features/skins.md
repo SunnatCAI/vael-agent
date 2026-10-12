@@ -92,7 +92,7 @@ Controls the animated spinner shown while waiting for API responses.
 | `thinking_verbs` | list of strings | Verbs shown in spinner messages | `["forging", "plotting", "hammering plans"]` |
 | `wings` | list of [left, right] pairs | Decorative brackets around the spinner | `[["⟪⚔", "⚔⟫"], ["⟪▲", "▲⟫"]]` |
 
-When spinner values are empty (like in `default` and `mono`), hardcoded defaults from `display.py` are used.
+The `default` skin uses one steady mark, `▸`, for both face lists, and a skin without a `spinner` block inherits it. Under the journal layout a finished tool call is printed as a row on the left margin (time, `✓` or `✗`, the verb, what it acted on, and the duration at the right edge) and `tool_emojis` is not used; a skin that ships `banner_hero` or `banner_logo` keeps the `┊` feed with its emoji.
 
 ### Branding (`branding:`)
 

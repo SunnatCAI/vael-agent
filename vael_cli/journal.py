@@ -66,12 +66,10 @@ def palette() -> Palette:
 
 
 class Journal:
-    """Builds journal rows for one console at its current width. ``printer`` is whatever must do
-    the printing when it is not ``console`` itself (the prompt-safe ``ChatConsole``)."""
+    """Builds journal rows for one console at its current width."""
 
-    def __init__(self, console: "Console", *, clock: Optional[str] = None, printer=None):
+    def __init__(self, console: "Console", *, clock: Optional[str] = None):
         self.console = console
-        self.printer = printer or console
         self.width = min(console.width, MAX_WIDTH)
         self.pal = palette()
         self.ascii = bool(console.options.ascii_only)
@@ -175,6 +173,22 @@ class Journal:
     def blank(self) -> "Text":
         return self._margin("", False, "")
 
+    def tool_rows(self, parts: List[tuple], duration: float) -> List["Text"]:
+        """A finished tool call: one stamped row per ``(verb, detail, failure)``, the failure
+        reason and the duration at the right edge of the last one."""
+        from rich.text import Text
+        pal = self.pal
+        out: List[Text] = []
+        for i, (verb, detail, failure) in enumerate(parts):
+            tail = Text()
+            if failure:
+                tail.append(failure, style=pal.error)
+            if i == len(parts) - 1:
+                tail.append(f"{'  ' if failure else ''}{duration:.1f}s", style=pal.dim)
+            out.extend(self.rows(verb, detail, tail if tail.plain else None, state="failed" if failure else "done",
+                                 stamp=i == 0, label_style=None if failure else pal.text))
+        return out
+
     def section(self, title: str, summary: Content = None, hint: Content = None) -> List["Text"]:
         """A section heading: bold capitals in the label column."""
         return self.rows(title.upper(), summary, hint, label_style=f"bold {self.pal.strong}")
@@ -199,12 +213,13 @@ class Journal:
 
     def print(self, *lines: "Text") -> None:
         for line in lines:
-            self.printer.print(line, no_wrap=True, overflow="ignore", crop=False, highlight=False)
+            self.console.print(line, no_wrap=True, overflow="ignore", crop=False, highlight=False)
 
 
-def notice_ansi(label: str, value: str, hint: str = "", *, state: str = "notice", width: Optional[int] = None) -> str:
-    """One stamped journal row as an ANSI string, for output that must go through prompt_toolkit's
-    renderer once the prompt owns the terminal (the same reason as ``banner._render_markup_to_ansi``)."""
+def render_ansi(build, *, width: Optional[int] = None) -> List[str]:
+    """The rows ``build(journal)`` returns as ANSI strings, one per row — for output that must go
+    through prompt_toolkit's renderer once the prompt owns the terminal (the same reason as
+    ``banner._render_markup_to_ansi``)."""
     import shutil
     from io import StringIO
     from rich.console import Console as _Console
@@ -212,5 +227,11 @@ def notice_ansi(label: str, value: str, hint: str = "", *, state: str = "notice"
     console = _Console(file=buf, force_terminal=True, color_system="truecolor", highlight=False,
                        width=width or shutil.get_terminal_size().columns)
     journal = Journal(console)
-    journal.print(*journal.rows(label, value, journal.cmd(hint) if hint else None, state=state, stamp=True))
-    return buf.getvalue().rstrip("\n")
+    journal.print(*build(journal))
+    return buf.getvalue().rstrip("\n").split("\n")
+
+
+def notice_ansi(label: str, value: str, hint: str = "", *, state: str = "notice", width: Optional[int] = None) -> str:
+    """One stamped journal row as an ANSI string."""
+    return "\n".join(render_ansi(
+        lambda j: j.rows(label, value, j.cmd(hint) if hint else None, state=state, stamp=True), width=width))

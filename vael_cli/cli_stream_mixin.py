@@ -661,6 +661,9 @@ class CLIStreamMixin:
         announced.add(tool_name)
         from agent.display import bridge_generating_phrase, get_tool_emoji
         what = bridge_generating_phrase(tool_name) or tool_name
+        if self._journal_note("", t("cli.stream.tool_preparing", emoji="", what=what).strip(),
+                              state="running", stream=True):
+            return
         _cprint(f"  ┊ {t('cli.stream.tool_preparing', emoji=get_tool_emoji(tool_name, default='⚡'), what=what)}")
 
     def _on_tool_progress(self, event_type: str, function_name: str = None, preview: str = None, function_args: dict = None, **kwargs):
@@ -731,9 +734,13 @@ class CLIStreamMixin:
                     return
                 self._last_scrollback_tool = function_name
                 try:
-                    from agent.display import get_cute_tool_message
-                    line = get_cute_tool_message(function_name, stored_args, duration, result=kwargs.get("result"))
-                    _cprint(f"  {line}")
+                    from agent.display import tool_completion_parts
+                    if not self._journal_print(lambda j: j.tool_rows(
+                            tool_completion_parts(function_name, stored_args, kwargs.get("result")), duration),
+                            stream=True):
+                        from agent.display import get_cute_tool_message
+                        line = get_cute_tool_message(function_name, stored_args, duration, result=kwargs.get("result"))
+                        _cprint(f"  {line}")
                 except Exception:
                     pass
                 # One-time /verbose hint on the first long tool in the noisiest mode; latched
@@ -762,7 +769,9 @@ class CLIStreamMixin:
             _pl = get_tool_preview_max_len()
             if _pl > 0 and len(label) > _pl:
                 label = label[:_pl - 3] + "..."
-            self._spinner_text = f"{tool_row_emoji(function_name, function_args)} {label}"
+            from vael_cli.banner import uses_journal_layout
+            mark = "▸" if uses_journal_layout() else tool_row_emoji(function_name, function_args)
+            self._spinner_text = f"{mark} {label}"
             self._tool_start_time = time.monotonic()
             # Store args for stacked scrollback line on completion
             self._pending_tool_info.setdefault(function_name, []).append(

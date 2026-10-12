@@ -668,6 +668,11 @@ def _uses_hero_layout(skin) -> bool:
     return bool(getattr(skin, "banner_hero", None) or getattr(skin, "banner_logo", None))
 
 
+def uses_journal_layout() -> bool:
+    """True when the active skin gets the journal (it ships no art of its own)."""
+    return not _uses_hero_layout(_quiet(_active_skin))
+
+
 def _toolsets_for_banner(tools: list, unavailable_toolsets: list, get_toolset_for_tool) -> Dict[str, list]:
     """``toolset -> tool names`` for the enabled tools plus the toolsets that could not load."""
     toolsets: Dict[str, list] = {}

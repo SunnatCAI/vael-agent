@@ -904,12 +904,6 @@ class ChatConsole:
         for line in _OSC_ESCAPE_RE.sub("", self._buffer.getvalue()).rstrip("\n").split("\n"):
             _cprint(line)
 
-    def measuring_console(self) -> Console:
-        """The Rich console this prints with, sized to the terminal — for layout code that has to
-        measure or wrap before it prints (``vael_cli/journal.py``)."""
-        self._inner.width = shutil.get_terminal_size((80, 24)).columns
-        return self._inner
-
     @contextmanager
     def status(self, *_args, **_kwargs):
         """No-op ``console.status`` so slash helpers don't duplicate ``_busy_command()``'s indicator."""

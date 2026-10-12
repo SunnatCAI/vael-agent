@@ -96,7 +96,9 @@ _BUILTIN_SKINS: Dict[str, Dict[str, Any]] = {
             "status_bar_critical": "#B3261E", "shell_dollar": "#1E6FC0",
             "completion_menu_bg": "#F1F6F4", "completion_menu_current_bg": "#CFE8DE",
             "selection_bg": "#CFE8DE", "voice_status_bg": "#E2F1EB"},
-        "spinner": {},  # empty = hardcoded defaults in display.py
+        # One steady mark, the journal's "running" glyph, instead of display.py's faces. Skins
+        # without a spinner block inherit it.
+        "spinner": {"waiting_faces": ["▸"], "thinking_faces": ["▸"]},
         "branding": _VAEL_BRANDING,
         "tool_prefix": "┊"},
     "ares": {
@@ -541,6 +543,7 @@ _STYLE_TEMPLATES = {
     "sudo-text": "{text}",
     "approval-border": "{input_rule}", "approval-title": "{warn} bold", "approval-desc": "{text} bold",
     "approval-cmd": "{dim} italic", "approval-choice": "{dim}", "approval-selected": "{title} bold",
+    "journal-margin": "bg:{status_bg} {status_dim}", "journal-margin-ask": "bg:{status_bg} {status_warn} bold",
     "voice-status": "bg:{voice_bg} {label}", "voice-status-recording": "bg:{voice_bg} {error} bold"}
 
 

@@ -94,7 +94,7 @@ class TestUserSkins:
         from vael_cli.skin_engine import _BUILTIN_SKINS
         assert skin.get_color("banner_title") == _BUILTIN_SKINS["default"]["colors"]["banner_title"]
         assert skin.get_branding("agent_name") == "VAEL Agent"
-        assert skin.spinner.get("waiting_faces", []) == []
+        assert skin.spinner.get("waiting_faces", []) == _BUILTIN_SKINS["default"]["spinner"].get("waiting_faces", [])
         assert skin.tool_emojis == {}
         assert skin.tool_prefix == "!"
 

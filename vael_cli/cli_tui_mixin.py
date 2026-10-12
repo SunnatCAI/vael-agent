@@ -8,6 +8,7 @@ import errno
 import json
 import os
 import queue
+import re
 import shutil
 import string
 import sys
@@ -110,6 +111,52 @@ class _Panel:
         return self.lines
 
 
+class _MarginPanel:
+    """The journal's form of an overlay panel: no frame, every row hung off the left margin, the
+    first one stamped with the time and the "waiting on you" glyph. Same interface as ``_Panel``."""
+
+    def __init__(self, title: str = "", title_style: str = ""):
+        from vael_cli.journal import GUTTER
+        self.lines, self._gutter, self._stamped = [], GUTTER, False
+        if title:
+            self.row(title_style, title)
+
+    def _margin(self) -> None:
+        if self._stamped:
+            self.lines.append(("class:journal-margin", " " * self._gutter))
+            return
+        self._stamped = True
+        self.lines.append(("class:journal-margin", f" {time.strftime('%H:%M')} "))
+        self.lines.append(("class:journal-margin-ask", "?"))
+        self.lines.append(("class:journal-margin", " "))
+
+    def row(self, style: str, text: str) -> None:
+        if not self._stamped:
+            # The first row is the title. The glyph in the margin already says "needs you", so a
+            # warning emoji in front of the title would only repeat it.
+            text = re.sub(r"^[^\w]+", "", text)
+        self._margin()
+        self.lines.append((style, f"  {text}\n"))
+
+    def blank(self) -> None:
+        self._margin()
+        self.lines.append(("", "\n"))
+
+    def close(self) -> list:
+        return self.lines
+
+
+def _modal_panel(border: str, box_width: int, title: str = "", title_style: str = ""):
+    """The panel an overlay draws in: the journal's margin form when that layout is active and the
+    terminal has room for the margin beside the wrapped text, else the framed one."""
+    from vael_cli.banner import uses_journal_layout
+    from vael_cli.journal import GUTTER
+    if uses_journal_layout() and box_width + GUTTER <= shutil.get_terminal_size((100, 24)).columns:
+        # The state glyph in the margin says "needs you"; a warning emoji in the title would repeat it.
+        return _MarginPanel(title, title_style)
+    return _Panel(border, box_width, title, title_style)
+
+
 def _wrap_rows(wrap, items, width, indent) -> list[tuple[int, str]]:
     """``(index, wrapped_line)`` pairs so selected styling can be re-applied per row."""
     return [(i, w) for i, label in enumerate(items) for w in wrap(label, width, subsequent_indent=indent)]
@@ -172,7 +219,7 @@ class CLITuiMixin:
         if len(detail_wrapped) > max_detail_rows:
             detail_wrapped = detail_wrapped[:max(1, max_detail_rows - 1)] + [t("cli.tui.detail_truncated")]
 
-        panel = _Panel('class:approval-border', box_width)
+        panel = _modal_panel('class:approval-border', box_width)
         panel.row('class:approval-title', title)
         panel.blank()
         for wrapped in detail_wrapped:
@@ -251,7 +298,7 @@ class CLITuiMixin:
 
         # Render title → command → choices → description; description last so any overflow
         # clips the least-critical content, never the command or choices.
-        panel = _Panel('class:approval-border', box_width)
+        panel = _modal_panel('class:approval-border', box_width)
         panel.row('class:approval-title', title)
         if not use_compact_chrome:
             panel.blank()
@@ -530,7 +577,7 @@ class CLITuiMixin:
         box_width = _panel_box_width(title, [header] + [text for _, text in preview_rows])
         rows = _status_rows(max(8, box_width - 2))
 
-        panel = _Panel('class:clarify-border', box_width, title, 'class:clarify-title')
+        panel = _modal_panel('class:clarify-border', box_width, title, 'class:clarify-title')
         panel.row('class:clarify-question', header)
         for style, text in rows:
             panel.row(style, text)
@@ -561,7 +608,7 @@ class CLITuiMixin:
             selected, state.get("_scroll_offset", 0), len(labels), term_rows)
         state["_scroll_offset"] = scroll_offset
 
-        panel = _Panel('class:clarify-border', box_width, title, 'class:clarify-title')
+        panel = _modal_panel('class:clarify-border', box_width, title, 'class:clarify-title')
         panel.blank()
         panel.row('class:clarify-hint', hint)
         panel.blank()
@@ -652,7 +699,7 @@ class CLITuiMixin:
         """Bordered ``sudo-*`` panel: blank, each body line, blank, body-final line, blank."""
         from cli import _panel_box_width
         box_width = _panel_box_width(title, body_lines)
-        panel = _Panel('class:sudo-border', box_width, title, 'class:sudo-title')
+        panel = _modal_panel('class:sudo-border', box_width, title, 'class:sudo-title')
         panel.blank()
         for i, text in enumerate(body_lines):
             if i == len(body_lines) - 1 and i > 0:
@@ -2277,46 +2324,48 @@ class CLITuiMixin:
             # Empty input/prompt styles inherit the terminal's own fg/bg so typed text is readable
             # in both light and dark schemes (a hardcoded near-white was invisible on light).
             'input-area': '',
-            'placeholder': '#888888 italic',
+            'placeholder': '#7C8B85 italic',
             'prompt': '',
-            'prompt-working': '#888888 italic',
-            'hint': '#888888 italic',
-            'status-bar': 'bg:#1a1a2e #C0C0C0',
-            'status-bar-strong': 'bg:#1a1a2e #FFD700 bold',
-            'status-bar-dim': 'bg:#1a1a2e #8B8682',
-            'status-bar-good': 'bg:#1a1a2e #8FBC8F bold',
-            'status-bar-warn': 'bg:#1a1a2e #FFD700 bold',
-            'status-bar-bad': 'bg:#1a1a2e #FF8C00 bold',
-            'status-bar-critical': 'bg:#1a1a2e #FF6B6B bold',
-            'status-bar-yolo': 'bg:#1a1a2e #FF4444 bold',
-            'status-bar-session-title': 'bg:#FFD700 #1a1a2e bold',
-            'input-rule': '#CD7F32',
+            'prompt-working': '#7C8B85 italic',
+            'hint': '#7C8B85 italic',
+            'status-bar': 'bg:#12211C #C0C0C0',
+            'status-bar-strong': 'bg:#12211C #F2F6F4 bold',
+            'status-bar-dim': 'bg:#12211C #8B8682',
+            'status-bar-good': 'bg:#12211C #8FBC8F bold',
+            'status-bar-warn': 'bg:#12211C #F2F6F4 bold',
+            'status-bar-bad': 'bg:#12211C #E0A83C bold',
+            'status-bar-critical': 'bg:#12211C #EF6B5E bold',
+            'status-bar-yolo': 'bg:#12211C #FF4444 bold',
+            'status-bar-session-title': 'bg:#F2F6F4 #12211C bold',
+            'input-rule': '#2E6F5B',
             'image-badge': '#87CEEB bold',
-            'completion-menu': 'bg:#1a1a2e #FFF8DC',
-            'completion-menu.completion': 'bg:#1a1a2e #FFF8DC',
-            'completion-menu.completion.current': 'bg:#333355 #FFD700',
-            'completion-menu.meta.completion': 'bg:#1a1a2e #888888',
-            'completion-menu.meta.completion.current': 'bg:#333355 #FFBF00',
-            'clarify-border': '#CD7F32',
-            'clarify-title': '#FFD700 bold',
-            'clarify-question': '#FFF8DC bold',
-            'clarify-choice': '#AAAAAA',
-            'clarify-selected': '#FFD700 bold',
-            'clarify-active-other': '#FFD700 italic',
+            'completion-menu': 'bg:#12211C #D3DCD7',
+            'completion-menu.completion': 'bg:#12211C #D3DCD7',
+            'completion-menu.completion.current': 'bg:#1F4A3C #F2F6F4',
+            'completion-menu.meta.completion': 'bg:#12211C #7C8B85',
+            'completion-menu.meta.completion.current': 'bg:#1F4A3C #5CC4A3',
+            'clarify-border': '#2E6F5B',
+            'clarify-title': '#F2F6F4 bold',
+            'clarify-question': '#D3DCD7 bold',
+            'clarify-choice': '#7C8B85',
+            'clarify-selected': '#F2F6F4 bold',
+            'clarify-active-other': '#F2F6F4 italic',
             'clarify-answer': '#98FB98',
-            'clarify-countdown': '#CD7F32',
-            'sudo-prompt': '#FF6B6B bold',
-            'sudo-border': '#CD7F32',
-            'sudo-title': '#FF6B6B bold',
-            'sudo-text': '#FFF8DC',
-            'approval-border': '#CD7F32',
-            'approval-title': '#FF8C00 bold',
-            'approval-desc': '#FFF8DC bold',
-            'approval-cmd': '#AAAAAA italic',
-            'approval-choice': '#AAAAAA',
-            'approval-selected': '#FFD700 bold',
+            'clarify-countdown': '#2E6F5B',
+            'sudo-prompt': '#EF6B5E bold',
+            'sudo-border': '#2E6F5B',
+            'sudo-title': '#EF6B5E bold',
+            'sudo-text': '#D3DCD7',
+            'journal-margin': 'bg:#12211C #8A9A93',
+            'journal-margin-ask': 'bg:#12211C #E0A83C bold',
+            'approval-border': '#2E6F5B',
+            'approval-title': '#E0A83C bold',
+            'approval-desc': '#D3DCD7 bold',
+            'approval-cmd': '#7C8B85 italic',
+            'approval-choice': '#7C8B85',
+            'approval-selected': '#F2F6F4 bold',
             'voice-prompt': '#87CEEB',
             'voice-recording': '#FF4444 bold',
             'voice-processing': '#FFA500 italic',
-            'voice-status': 'bg:#1a1a2e #87CEEB',
+            'voice-status': 'bg:#12211C #87CEEB',
             'voice-status-recording': 'bg:#1a1a2e #FF4444 bold'}
