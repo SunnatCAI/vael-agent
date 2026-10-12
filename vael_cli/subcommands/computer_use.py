@@ -121,7 +121,7 @@ def build_computer_use_parser(subparsers) -> None:
         "install", help="Install or repair the cua-driver binary (macOS/Windows/Linux)")
     computer_use_install.add_argument(
         "--upgrade", action="store_true",
-        help="Reconcile cua-driver with VAEL' pinned PM package and repair host setup.")
+        help="Reconcile cua-driver with VAEL's pinned PM package and repair host setup.")
     computer_use_sub.add_parser("status", help="Check the selected cua-driver and its runtime contract")
     computer_use_doctor = computer_use_sub.add_parser(
         "doctor", help="Run cua-driver `health_report` and surface the check matrix",

@@ -1553,7 +1553,7 @@ Honcho peers
   User peer:   {_pref(vael, cfg, 'peerName') or '(not set)'}
     Your identity in Honcho. Messages you send build this peer's card.
   AI peer:     {_pref(vael, cfg, 'aiPeer') or _host_key()}
-    VAEL' identity in Honcho. Seed with 'vael honcho identity <file>'.
+    VAEL's identity in Honcho. Seed with 'vael honcho identity <file>'.
     Dialectic calls ask this peer questions to warm session context.
 
   Dialectic reasoning:  {_pref(vael, cfg, 'dialecticReasoningLevel') or 'low'}  ({', '.join(REASONING_LEVELS)})

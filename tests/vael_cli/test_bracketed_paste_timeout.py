@@ -12,12 +12,12 @@ from vael_cli.cli_terminal_input import _apply_bracketed_paste_timeout_patch
 
 
 def _reset_and_apply_production_patch():
-    """Reload prompt_toolkit's parser and apply VAEL' production patch."""
+    """Reload prompt_toolkit's parser and apply VAEL's production patch."""
     import prompt_toolkit.input.vt100_parser as vt100_mod
 
     vt100_mod = importlib.reload(vt100_mod)
     # importlib.reload() preserves module dict entries that the reloaded source
-    # does not redefine, so clear VAEL' sentinel before re-applying.
+    # does not redefine, so clear VAEL's sentinel before re-applying.
     if hasattr(vt100_mod, "_vael_bp_timeout_patched"):
         delattr(vt100_mod, "_vael_bp_timeout_patched")
     _apply_bracketed_paste_timeout_patch()

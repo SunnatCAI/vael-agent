@@ -1,5 +1,5 @@
 /**
- * "Open recent session" on a bot row (vael-agent#93054): opens the profile's
+ * "Open recent session" on a bot row (hermes-agent#93054): opens the profile's
  * newest LISTED session as a tab in the bot's workspace — never in place of
  * the canonical Bot Chat — and hands a bot with nothing listable back to the
  * ordinary row click.

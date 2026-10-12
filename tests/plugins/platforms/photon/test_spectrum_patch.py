@@ -1,4 +1,4 @@
-"""Regression tests for VAEL' Spectrum mixed text+attachment workaround."""
+"""Regression tests for VAEL's Spectrum mixed text+attachment workaround."""
 
 from __future__ import annotations
 

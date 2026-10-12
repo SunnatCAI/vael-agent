@@ -96,7 +96,7 @@ def _format_missing_scopes(missing_scopes: list[str]) -> str:
 
 
 def install_deps():
-    """Sync VAEL' declared Google extra, ready for the next process."""
+    """Sync VAEL's declared Google extra, ready for the next process."""
     if pm is None:
         print("ERROR: Run this script in the VAEL environment; use vael setup first.")
         return False

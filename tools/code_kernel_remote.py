@@ -119,7 +119,7 @@ class RemoteKernel:
     cell_seq: int = 0
     # Cells currently running on this kernel. Reap/evict skip attached
     # kernels: killing one mid-cell tears the runner out from under a live
-    # poll loop (same guard as tools.code_kernel, vael-agent#101861).
+    # poll loop (same guard as tools.code_kernel, hermes-agent#101861).
     attached: int = 0
     # Owned by a live delegate_task child: exempt from LRU eviction (the child's teardown disposes it).
     pinned: bool = False

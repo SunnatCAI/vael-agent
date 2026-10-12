@@ -618,7 +618,7 @@ def _run_remote_per_call(env, env_type: str, code: str, effective_task_id: str,
                   max_tool_calls, sandbox_tools, stop_event, rpc_token))
         rpc_thread.start()
         # The token travels in a sourced env file, never in argv. No umask on
-        # the launch command: the 700 dirs + explicit 0600 writes cover VAEL'
+        # the launch command: the 700 dirs + explicit 0600 writes cover VAEL's
         # files, and user code keeps the remote's default file modes.
         launch_cmd = _ship_env_file_and_launch(
             env, sandbox_dir, "sandbox.env", "exec python3 script.py",
@@ -675,7 +675,7 @@ def _execute_remote(code: str, task_id: Optional[str], enabled_tools: Optional[L
         # run-to-completion transport. Spawn failure falls OPEN to the per-call
         # path below so a degraded remote host never blocks execution.
         try:
-            # --- Session-kernel path (vael-agent#96873) ------------------- Same always-on model as
+            # --- Session-kernel path (hermes-agent#96873) ------------------- Same always-on model as
             # local: one persistent kernel per owner, rebuilt on the run-to-completion transport (detached
             # runner + file cell protocol).
             from tools.code_kernel_remote import execute_in_remote_kernel

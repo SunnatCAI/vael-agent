@@ -183,8 +183,8 @@ const sidebars: SidebarsConfig = {
                     'user-guide/skills/bundled/autonomous-ai-agents/autonomous-ai-agents-claude-code',
                     'user-guide/skills/bundled/autonomous-ai-agents/autonomous-ai-agents-codex',
                     'user-guide/skills/bundled/autonomous-ai-agents/autonomous-ai-agents-computer-use',
-                    'user-guide/skills/bundled/autonomous-ai-agents/autonomous-ai-agents-vael-agent',
                     'user-guide/skills/bundled/autonomous-ai-agents/autonomous-ai-agents-opencode',
+                    'user-guide/skills/bundled/autonomous-ai-agents/autonomous-ai-agents-vael-agent',
                   ],
                 },
                 {
@@ -296,7 +296,6 @@ const sidebars: SidebarsConfig = {
                     'user-guide/skills/bundled/software-development/software-development-codebase-inspection',
                     'user-guide/skills/bundled/software-development/software-development-dogfood',
                     'user-guide/skills/bundled/software-development/software-development-github',
-                    'user-guide/skills/bundled/software-development/software-development-vael-agent-skill-authoring',
                     'user-guide/skills/bundled/software-development/software-development-inspecting-vael-desktop-dom',
                     'user-guide/skills/bundled/software-development/software-development-node-inspect-debugger',
                     'user-guide/skills/bundled/software-development/software-development-python-debugpy',
@@ -305,6 +304,7 @@ const sidebars: SidebarsConfig = {
                     'user-guide/skills/bundled/software-development/software-development-spike',
                     'user-guide/skills/bundled/software-development/software-development-systematic-debugging',
                     'user-guide/skills/bundled/software-development/software-development-test-driven-development',
+                    'user-guide/skills/bundled/software-development/software-development-vael-agent-skill-authoring',
                   ],
                 },
                 {
@@ -413,10 +413,10 @@ const sidebars: SidebarsConfig = {
                   items: [
                     'user-guide/skills/optional/devops/devops-actual-setup',
                     'user-guide/skills/optional/devops/devops-docker-management',
-                    'user-guide/skills/optional/devops/devops-vael-s6-container-supervision',
                     'user-guide/skills/optional/devops/devops-inference-sh-cli',
                     'user-guide/skills/optional/devops/devops-pinggy-tunnel',
                     'user-guide/skills/optional/devops/devops-setup-wizard-generator',
+                    'user-guide/skills/optional/devops/devops-vael-s6-container-supervision',
                     'user-guide/skills/optional/devops/devops-watchers',
                   ],
                 },

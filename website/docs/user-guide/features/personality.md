@@ -47,7 +47,7 @@ This keeps personality predictable.
 If VAEL loaded `SOUL.md` from whatever directory you happened to launch it in, your personality could change unexpectedly between projects. By loading only from `VAEL_HOME`, the personality belongs to the VAEL instance itself.
 
 That also makes it easier to teach users:
-- "Edit `~/.vael/SOUL.md` to change VAEL' default personality."
+- "Edit `~/.vael/SOUL.md` to change VAEL's default personality."
 
 ## Where to edit it
 

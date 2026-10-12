@@ -37,7 +37,7 @@ compiling shaders.
 ### 4. Port 8000 conflicts
 
 Common collisions: local dev servers, Jupyter, other MCP hosts. Symptom: the
-server fails to bind (Output Log) or VAEL' probe times out. Fix: change
+server fails to bind (Output Log) or VAEL's probe times out. Fix: change
 Server Port Number in Editor Preferences > Model Context Protocol AND the
 `url` in `~/.vael/config.yaml` (`mcp_servers.unreal-engine`), then restart
 both sides. Verify: `curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:8000/mcp`
@@ -54,7 +54,7 @@ if tools were lost).
 ### 5. GenerateClientConfig is not for VAEL
 
 `ModelContextProtocol.GenerateClientConfig` writes config files for Claude
-Code/Cursor/VSCode/Gemini/Codex into the project root. VAEL' connection
+Code/Cursor/VSCode/Gemini/Codex into the project root. VAEL's connection
 lives in `~/.vael/config.yaml` via `vael mcp install unreal-engine`.
 Running GenerateClientConfig neither helps nor harms VAEL — just don't
 mistake it for the VAEL setup step.
@@ -87,7 +87,7 @@ prompts don't appear at bad times.
 
 ### 9. Timeouts: VAEL gives up before Unreal does
 
-VAEL' default per-call timeout is 120 s. Asset imports, first-shader
+VAEL's default per-call timeout is 120 s. Asset imports, first-shader
 compiles, big saves, and renders can exceed it — the call "fails" while the
 editor happily finishes the work. Symptoms: timeout error, then the next
 scene query shows the operation actually completed. Fixes: raise

@@ -736,7 +736,7 @@ class TestWeixinPollLoopSyncBuf:
 class TestWeixinVoiceAlwaysDownloaded:
     """Regression tests for #27300: when WeChat (Weixin) returns a
     ``voice_item.text`` (Tencent Cloud's STT) we must still download
-    the raw audio and route it through VAEL' own STT pipeline.
+    the raw audio and route it through VAEL's own STT pipeline.
 
     Non-Chinese users currently see garbled transcriptions because the
     existing code short-circuits in two places: the voice download
@@ -793,7 +793,7 @@ class TestWeixinVoiceAlwaysDownloaded:
 
         assert len(media_paths) == 1, (
             "_collect_media dropped the voice attachment because "
-            "voice_item.text was set — VAEL' STT never gets a "
+            "voice_item.text was set — VAEL's STT never gets a "
             "chance to re-transcribe (#27300)."
         )
         assert media_types == ["audio/silk"]

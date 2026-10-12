@@ -1,4 +1,4 @@
-"""Render VAEL' prior transcript as a one-shot seed for a FRESH codex app-server thread.
+"""Render VAEL's prior transcript as a one-shot seed for a FRESH codex app-server thread.
 
 A codex thread is the model-side continuity store, so a thread that codex hands back via
 ``thread/resume`` already knows the conversation. A thread started from scratch does not: a session

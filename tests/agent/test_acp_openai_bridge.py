@@ -1,4 +1,4 @@
-"""The ACP text bridge is what makes VAEL' own tools reachable on an ACP provider.
+"""The ACP text bridge is what makes VAEL's own tools reachable on an ACP provider.
 
 ACP has no OpenAI ``tools``/``tool_calls`` channel, so ``memory``,
 ``skill_manage``, ``todo`` and friends only work if the schemas travel into the

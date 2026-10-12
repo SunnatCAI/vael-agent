@@ -241,7 +241,7 @@ _KILLED_STATUSES = frozenset({137, 143})
 
 
 def terminal_outcome(result: Any) -> str | None:
-    """How one foreground command ended, from the backend's raw result dict. VAEL' own deadline
+    """How one foreground command ended, from the backend's raw result dict. VAEL's own deadline
     and interrupt set flags on the result, so a command's own ``exit 124`` reads ``nonzero``."""
     if not isinstance(result, dict):
         return None
@@ -269,7 +269,7 @@ def terminal_outcome_fields(*, command: Any, backend: Any, outcome: str) -> dict
 
 
 def record_terminal_outcome(command: Any, backend: Any, result: Any = None, *, outcome: str | None = None) -> None:
-    """Count one foreground terminal command that reached an exit status (or VAEL' deadline).
+    """Count one foreground terminal command that reached an exit status (or VAEL's deadline).
     Commands handed to the background, refused by a guard, or whose backend failed never ran to
     an exit status and are not counted here (``vael.execution_backend.count`` covers them)."""
     try:

@@ -12,7 +12,7 @@ as Langfuse, OpenTelemetry-style collectors, and NeMo Relay.
 
 Observer hooks are intentionally backend-neutral. They expose stable lifecycle
 events, correlation IDs, sanitized payloads, timing, status, and error fields.
-They do not replace VAEL' planner, model providers, memory, tool registry,
+They do not replace VAEL's planner, model providers, memory, tool registry,
 approval UX, CLI, gateway behavior, or execution semantics.
 
 Behavior-changing request or execution wrappers are outside this observer

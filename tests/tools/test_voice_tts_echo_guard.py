@@ -2,7 +2,7 @@
 
 Contract:
   - `is_tts_echo` flags a barge-in transcript as a likely self-capture of
-    VAEL' own TTS output when it is a close character-level match for the
+    VAEL's own TTS output when it is a close character-level match for the
     text that was just spoken, regardless of language/tokenization.
   - A genuine, unrelated user interjection captured during playback must
     NOT be flagged, even though it happens to share some words.

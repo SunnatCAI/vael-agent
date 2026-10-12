@@ -420,7 +420,7 @@ export interface SettledClarifyProjection {
  *
  * Only an UNRESOLVED part (never completed: no `result` key, sealed or not)
  * can own an event. Tool call ids are not unique across turns — llama.cpp
- * emits one constant id for every call and VAEL' own deterministic ids
+ * emits one constant id for every call and VAEL's own deterministic ids
  * repeat — so a part that already carries its completion is a finished call
  * from an earlier turn, not the owner of the new one. Routing to it would
  * draw the new call over the old row and leave the live turn empty.

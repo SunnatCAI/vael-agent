@@ -31,7 +31,7 @@ UA = "python-httpx/0.27"  # CF blocks default urllib UA on many providers
 
 
 def _vael_home():
-    # Prefer VAEL' own resolver (profile-safe); fall back to env then ~/.vael.
+    # Prefer VAEL's own resolver (profile-safe); fall back to env then ~/.vael.
     try:
         from vael_constants import get_vael_home
         return str(get_vael_home())

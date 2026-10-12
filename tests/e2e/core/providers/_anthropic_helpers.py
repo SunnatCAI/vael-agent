@@ -1,6 +1,6 @@
 """Hermetic rig for the Anthropic Messages wire-conformance E2E suite.
 
-VAEL' native ``anthropic`` provider runs with NO base URL override, i.e. the
+VAEL's native ``anthropic`` provider runs with NO base URL override, i.e. the
 exact production route to ``https://api.anthropic.com`` (native thinking-signature
 policy, native headers). The child reaches the scripted fake through an
 ``HTTPS_PROXY`` that terminates TLS for ``api.anthropic.com`` with a leaf signed

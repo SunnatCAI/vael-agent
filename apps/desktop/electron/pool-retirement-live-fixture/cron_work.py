@@ -1,4 +1,4 @@
-"""A local-only script actually dispatched by VAEL' no-agent cron scheduler."""
+"""A local-only script actually dispatched by VAEL's no-agent cron scheduler."""
 
 import json
 import os

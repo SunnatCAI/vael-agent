@@ -682,7 +682,7 @@ def finalize_turn(
         "pre_transform_response": _pre_transform_response,
         "response_previewed": getattr(agent, "_response_was_previewed", False),
         "model": agent.model,
-        # requested_model / served_model: proxy-reported deployment or VAEL' own fallback route.
+        # requested_model / served_model: proxy-reported deployment or VAEL's own fallback route.
         **result_model_fields(agent),
         "provider": agent.provider,
         "base_url": agent.base_url,

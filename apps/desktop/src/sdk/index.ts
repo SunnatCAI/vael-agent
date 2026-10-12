@@ -857,7 +857,7 @@ export const host = {
     )
 
     // The profile is gone. Drop its persisted tiles now — a leftover tile
-    // restores on relaunch and re-creates the deleted profile (vael-agent#94235).
+    // restores on relaunch and re-creates the deleted profile (hermes-agent#94235).
     dropTilesForProfile(
       route ? route.profile : name,
       route
@@ -1407,7 +1407,7 @@ export const host = {
    *  they closed) are respected. Presentation only: no gateway activation,
    *  no session create. Feature-detect on older desktops.
    *
-   *  `isStaleTile` (vael-agent#90102): the caller's reconciliation probe
+   *  `isStaleTile` (hermes-agent#90102): the caller's reconciliation probe
    *  against backend truth. The tile bucket is a Local Storage cache — a
    *  persisted bot tile can name a session the backend has since superseded,
    *  and fronting it pinned the roster click to a stale finished session
@@ -2080,7 +2080,7 @@ export { compactNumber } from '@vael/shared'
  *  `approvals.timeout` (300s) so a plugin answering an approval never rejects
  *  its own RPC while the backend still applies the decision (#60654). */
 export { APPROVAL_RESPOND_TIMEOUT_MS } from '@vael/shared'
-/** VAEL' reasoning levels, so a plugin surfacing a thinking depth uses the
+/** VAEL's reasoning levels, so a plugin surfacing a thinking depth uses the
  *  same scale as the rest of the app (labels: `reasoningEffortLabel`). */
 export {
   DEFAULT_REASONING_EFFORT,

@@ -1,4 +1,4 @@
-"""POSIX advisory locks must survive VAEL' own database inspection.
+"""POSIX advisory locks must survive VAEL's own database inspection.
 
 close() on ANY file descriptor for a SQLite database cancels every POSIX
 advisory lock the process holds on that file -- including a running VACUUM's
@@ -13,7 +13,7 @@ optimize` this let an external process write into a database while VACUUM was
 rewriting it, producing "database disk image is malformed".
 
 These tests pin the behavioural contract: an external process must stay locked
-out across VAEL' inspection calls.
+out across VAEL's inspection calls.
 """
 
 from __future__ import annotations
@@ -329,7 +329,7 @@ def test_repair_connections_are_tracked_for_byte_probe_safety(tmp_path, clean_re
 
 
 def test_byte_probe_never_cancels_the_repair_exclusion(tmp_path, clean_registry):
-    """A live repair's EXCLUSIVE lock must survive VAEL' own inspection (#63386).
+    """A live repair's EXCLUSIVE lock must survive VAEL's own inspection (#63386).
 
     With the connection tracked the probe is refused, so nothing closes an fd and
     the exclusion keeps holding; if the probe were allowed through, its ``close()``

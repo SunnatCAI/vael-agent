@@ -417,7 +417,7 @@ def _script_argv(
         return [_bash, str(path)], {}, None
     if isinstance(interpreter, str) and interpreter.strip():
         # A user venv gets none of the managed-store overlays: the repo bootstrap / PYTHONPATH
-        # exist to run VAEL' own dependency venv and would shadow the user's packages.
+        # exist to run VAEL's own dependency venv and would shadow the user's packages.
         python_exe, err = _resolve_cron_interpreter(interpreter)
         return ([python_exe, str(path)] if python_exe else None), {}, err
     if sys.platform != "win32":

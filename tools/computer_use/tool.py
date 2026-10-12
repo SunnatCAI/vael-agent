@@ -824,7 +824,7 @@ def _write_cache_file(what: str, subdir: str, legacy: str, name: str, pattern: s
         return None
 
 def _persist_capture_image(cap: CaptureResult) -> Optional[str]:
-    """Copy of the capture in VAEL' media cache so attachment surfaces can deliver it (None without an image)."""
+    """Copy of the capture in VAEL's media cache so attachment surfaces can deliver it (None without an image)."""
     return _write_cache_file(
         "screenshot persistence", "cache/images", "image_cache", f"computer_use_{uuid.uuid4().hex}{_capture_image_format(cap)[1]}",
         "computer_use_*.*", _MAX_CAPTURE_FILES,

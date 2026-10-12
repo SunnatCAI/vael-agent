@@ -1,6 +1,6 @@
 """Per-provider ``session_affinity_header`` (#86241, #104449).
 
-A custom provider entry may name a header that carries VAEL' conversation id so a
+A custom provider entry may name a header that carries VAEL's conversation id so a
 session-aware proxy can correlate the requests of one agent loop. Off unless configured.
 """
 

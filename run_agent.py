@@ -643,7 +643,7 @@ class AIAgent(
             "Workaround: try `gpt-5.4` on the same OAuth profile, "
             "or switch to a different model/provider in your fallback chain. "
             "Some ChatGPT Codex accounts do not support `gpt-5.4-codex`. "
-            "See vael-agent#21444 for symptom history."
+            "See hermes-agent#21444 for symptom history."
         )
 
     def _is_openrouter_url(self) -> bool:

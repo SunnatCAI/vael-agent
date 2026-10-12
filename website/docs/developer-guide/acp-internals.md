@@ -6,7 +6,7 @@ description: "How the ACP adapter works: lifecycle, sessions, event bridge, appr
 
 # ACP Internals
 
-The ACP adapter wraps VAEL' synchronous `AIAgent` in an async JSON-RPC stdio server.
+The ACP adapter wraps VAEL's synchronous `AIAgent` in an async JSON-RPC stdio server.
 
 Key implementation files:
 
@@ -157,12 +157,12 @@ repair is session rotation, not another row.
 
 ACP does not implement its own auth store.
 
-Instead it reuses VAEL' runtime resolver:
+Instead it reuses VAEL's runtime resolver:
 
 - `acp_adapter/auth.py`
 - `vael_cli/runtime_provider.py`
 
-So ACP advertises and uses the currently configured VAEL provider/credentials. It also always advertises a terminal setup auth method (`vael-setup`, args `--setup`) so first-run ACP clients can open VAEL' interactive model/provider configuration before starting a normal ACP session.
+So ACP advertises and uses the currently configured VAEL provider/credentials. It also always advertises a terminal setup auth method (`vael-setup`, args `--setup`) so first-run ACP clients can open VAEL's interactive model/provider configuration before starting a normal ACP session.
 
 ## Working directory binding
 

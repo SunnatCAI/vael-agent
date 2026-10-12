@@ -1126,7 +1126,7 @@ function Confirm-DesktopArtifact {
         # Grant ALL APPLICATION PACKAGES (S-1-15-2-2) RX on the unpacked
         # app directory: Chromium's GPU/renderer sandboxes CHECK-fail with
         # 0x80000003 without this ACE beside orphan AppContainer SIDs under
-        # %LOCALAPPDATA% (electron/electron#51761, vael-agent#38216).
+        # %LOCALAPPDATA% (electron/electron#51761, hermes-agent#38216).
         # Best-effort -- never fail an otherwise-good install over ACL.
         try {
             $appDir = Split-Path -Parent $desktopExe

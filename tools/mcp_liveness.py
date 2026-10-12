@@ -145,7 +145,7 @@ def status(server_name: str) -> Status | None:
             elif probe.endpoint.state is not CheckState.PRESENT:
                 state = "endpoint_unavailable"
             else:
-                # The app runs and its endpoint answers: the only thing missing is VAEL' own
+                # The app runs and its endpoint answers: the only thing missing is VAEL's own
                 # MCP connection to it. Telling the user to "start" an app that IS running is
                 # the wrong instruction (#119975).
                 state = "vael_not_connected"

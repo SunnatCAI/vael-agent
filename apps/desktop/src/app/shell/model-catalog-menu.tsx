@@ -139,7 +139,7 @@ export interface ModelChoice {
  * the kanban override just holds a value in dialog state.
  *
  * `presetFor` supplies the remembered settings shown on a non-active row.
- * Returning `{}` is fine — the row then shows VAEL' defaults.
+ * Returning `{}` is fine — the row then shows VAEL's defaults.
  */
 export interface ModelMenuController {
   /** Restore a model's remembered settings after it is selected. Separate from

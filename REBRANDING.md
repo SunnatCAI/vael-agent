@@ -32,7 +32,11 @@ Hermes Agent → VAEL Agent rename. Status: the mechanical rename (the former
   else until it is regenerated (`docs/open-items.md`, P2).
 - OAuth client IDs registered with third-party servers: Nous Portal
   (`hermes-cli`, `hermes-cli-vps`), Honcho (`hermes-agent`).
-- Third-party project names and URLs (`HermesClaw`, `hermes-lcm`, …).
+- Third-party project names and URLs (`HermesClaw`, `hermes-lcm`, …), and
+  upstream issue numbers written as `hermes-agent#12345`.
+- The legacy `⟪HERMES-CONTEXT-COMPRESSION:` marker prefix, in the dispatch
+  guard only: sessions migrated from a Hermes home still replay it. New
+  markers are minted with the VAEL prefix.
 
 ## Open: external identity still pointing upstream
 
@@ -46,9 +50,10 @@ needs an owner decision, not a mechanical edit:
 - App identities. They are computed from the product name, so they now read
   `com.nousresearch.vael*`, `NousResearch.Vael*`, `chat.nous.vael` — the
   product half is renamed, the publisher half is still Nous Research's.
-- Memory providers default to a `vael` workspace/agent ID (Honcho, mem0,
-  Supermemory, RetainDB); memories stored under `hermes` need those IDs set
-  explicitly.
+- Memory providers now default to `vael` where they defaulted to `hermes`,
+  so memories stored under the old value need it set explicitly: Honcho
+  `workspace` and `aiPeer` (and the `hosts.<name>` block in `honcho.json`),
+  mem0 `agent_id`, Supermemory `container_tag`, RetainDB `agent_id`.
 - Third-party skills and plugins written for Hermes (`metadata.hermes` in
   SKILL.md, `from hermes_cli …`, `@hermes/plugin-sdk`) are not recognised.
 - Visual identity: the caduceus art and `☤`/`⚕` glyphs, icons, images.

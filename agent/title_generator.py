@@ -130,7 +130,7 @@ _CONTROL_WRAPPERS = tuple(
                 "local-command-stdout", "task-notification", "system-reminder", "ide_opened_file", "ide_selection")
 )
 
-# VAEL' own machine-authored openers: a compaction handoff or resumed session must not be titled after them.
+# VAEL's own machine-authored openers: a compaction handoff or resumed session must not be titled after them.
 _MACHINE_PREFIXES = (
     "[CONTEXT COMPACTION", LEGACY_SUMMARY_PREFIX, "[Runtime note:", "[System note:", "[SYSTEM]",
     # tui_gateway.server._MODEL_SWITCH_MARKER_PREFIX (keep in sync); persisted as role="user" because

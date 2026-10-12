@@ -425,14 +425,14 @@ tool_timeout_sec = 600.0
         │   │  │    canva, ...)       │     │
         │   │  └─ vael-tools ───────┼─────────────────┐
         │   │       (callback to     │     │           │
-        │   │        VAEL' richer  │     │           │
+        │   │        VAEL's richer   │     │           │
         │   │        tools)          │     │           │
         │   └─────────────────────────┘     │           │
         └──────────────────────────────────┘           │
                                                         │
                                                         ▼
         ┌──────────────────────────────────────────────────────────┐
-        │  vael_tools_mcp_server.py (subprocess on demand)        │
+        │  vael_tools_mcp_server.py (subprocess on demand)          │
         │   web_search, web_extract, browser_*, vision_analyze,    │
         │   image_generate, skill_view, skills_list, text_to_speech│
         └──────────────────────────────────────────────────────────┘

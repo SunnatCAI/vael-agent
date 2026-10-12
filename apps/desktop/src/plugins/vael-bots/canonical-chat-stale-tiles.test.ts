@@ -1,5 +1,5 @@
 /**
- * RED for vael-agent#120810: a Bot Chat compression leaves two tabs
+ * RED for hermes-agent#120810: a Bot Chat compression leaves two tabs
  * captioned with the bot name.
  *
  * openStoredBotChat (via openBotCanonicalChat) must run the same

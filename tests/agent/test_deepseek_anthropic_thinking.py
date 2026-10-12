@@ -16,7 +16,7 @@ supported.  Handling is the same as Kimi's ``/coding`` endpoint: strip
 Anthropic-signed blocks (DeepSeek can't validate them) but preserve unsigned
 blocks that VAEL synthesises from ``reasoning_content``.
 
-See vael-agent#16748.
+See hermes-agent#16748.
 """
 
 from __future__ import annotations

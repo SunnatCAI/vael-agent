@@ -289,7 +289,7 @@ Put global preferences in `~/.grok/config.toml` (not project-scoped
 1. **Auth is subscription-gated.** `grok login` requires a SuperGrok or X
    Premium+ subscription. If login fails or there's no `~/.grok/auth.json`,
    confirm the subscription is active before falling back to `XAI_API_KEY`.
-2. **Don't conflate VAEL' xAI auth with the `grok` CLI's auth.** VAEL'
+2. **Don't conflate VAEL's xAI auth with the `grok` CLI's auth.** VAEL's
    `x_search` runs on its own xAI OAuth; the standalone `grok` CLI has a
    separate token in `~/.grok/auth.json`. A working `x_search` does NOT mean
    `grok` is logged in.
@@ -321,6 +321,6 @@ Put global preferences in `~/.grok/config.toml` (not project-scoped
 6. **Use tmux for multi-turn interactive work** and monitor with
    `tmux capture-pane -t <session> -p -S -50`.
 7. **Verify auth before relying on it** — check `~/.grok/auth.json` or run a
-   cheap `grok -p "Say ok."` smoke test; don't assume VAEL' xAI auth carries
+   cheap `grok -p "Say ok."` smoke test; don't assume VAEL's xAI auth carries
    over.
 8. **Report results to the user** — summarize what Grok changed and what's left.

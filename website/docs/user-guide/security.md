@@ -926,7 +926,7 @@ the OpenSSL system trust paths. If initialization fails, VAEL logs the
 failure and falls back to OpenSSL defaults.
 
 For a corporate TLS proxy, install its root through your organization's
-operating-system trust procedure. VAEL' provider resolver no longer selects
+operating-system trust procedure. VAEL's provider resolver no longer selects
 trust through `VAEL_CA_BUNDLE` or the old CA-environment-variable ladder.
 Sandboxed subprocesses can have their own separate CA configuration.
 

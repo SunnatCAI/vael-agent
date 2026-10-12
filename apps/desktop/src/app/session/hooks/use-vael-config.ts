@@ -106,7 +106,7 @@ export function useVaelConfig({ activeSessionIdRef }: VaelConfigOptions) {
         // Publish the profile default regardless of whether the composer is
         // reseeded below: picker rows and preset application resolve "the
         // default" from here, so a manual model pick must not leave them
-        // rendering/applying VAEL' built-in medium over the user's config.
+        // rendering/applying VAEL's built-in medium over the user's config.
         if (!canPublish()) {
           return
         }

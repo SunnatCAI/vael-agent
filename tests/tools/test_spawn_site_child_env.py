@@ -75,7 +75,7 @@ def test_compute_host_is_vael_and_keeps_its_full_environment(child_env, monkeypa
 @pytest.mark.platforms("posix")
 def test_openviking_server_keeps_provider_keys_but_never_tier1_secrets(child_env, monkeypatch):
     # Its embedding/VLM models call providers, so provider keys pass. Bot and relay tokens never do.
-    # It finds ov.conf through OPENVIKING_CONFIG_FILE or HOME; VAEL' PYTHONPATH would shadow its
+    # It finds ov.conf through OPENVIKING_CONFIG_FILE or HOME; VAEL's PYTHONPATH would shadow its
     # own site-packages (#78153).
     _plant(monkeypatch)
     monkeypatch.setenv("TERMINAL_HOME_MODE", "profile")  # HOME stays the user's even so

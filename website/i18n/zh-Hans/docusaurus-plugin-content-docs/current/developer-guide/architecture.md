@@ -41,7 +41,7 @@ description: "VAEL Agent 内部结构——主要子系统、执行路径、数�
 ┌───────────────────┐              ┌──────────────────────┐
 │ Session Storage   │              │ Tool Backends         │
 │ (SQLite + FTS5)   │              │ Terminal (7 backends) │
-│ vael_state.py   │              │ Browser (5 backends)  │
+│ vael_state.py     │              │ Browser (5 backends)  │
 │ gateway/session.py│              │ Web (4 backends)      │
 └───────────────────┘              │ MCP (dynamic)         │
                                    │ File, Vision, etc.    │

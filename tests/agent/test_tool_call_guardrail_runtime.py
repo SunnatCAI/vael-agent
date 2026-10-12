@@ -417,6 +417,10 @@ def test_context_pruned_effectful_call_blocks_before_dispatch():
         assert _context_pruned_argument_paths(
             "write_file", {"body": f"prefix {_COMPRESSION_MARKER_PREFIX}{suffix}"}
         ) == ["$.body"]
+    # A session migrated from a Hermes home replays markers minted under the old prefix.
+    assert _context_pruned_argument_paths(
+        "write_file", {"body": "prefix ⟪HERMES-CONTEXT-COMPRESSION: 1,800 of 2,000 chars omitted"}
+    ) == ["$.body"]
 
 
 def test_read_only_tool_may_quote_current_context_prune_marker():

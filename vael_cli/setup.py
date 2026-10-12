@@ -612,7 +612,7 @@ def _run_setup_section(config: dict, section: str) -> None:
         print_info(f"Available sections: {', '.join(k for k, _, _ in SETUP_SECTIONS)}")
         return
     label, func = entry
-    _print_banner(f"│     ☤ VAEL Setup — {label:<34s} │")
+    _print_banner(f"│     ☤ VAEL Setup — {label:<34s}   │")
     _run_setup_steps([(label, lambda: func(config))])
     save_config(config)
     print()
@@ -703,9 +703,9 @@ def _run_setup_wizard_impl(args):
     from vael_cli.auth import get_active_provider
     is_existing = bool(get_env_value("OPENROUTER_API_KEY") or get_env_value("OPENAI_BASE_URL")
                        or get_active_provider() is not None)
-    _print_banner("│             ☤ VAEL Agent Setup Wizard                │",
+    _print_banner("│             ☤ VAEL Agent Setup Wizard                  │",
                   "├─────────────────────────────────────────────────────────┤",
-                  "│  Let's configure your VAEL Agent installation.       │",
+                  "│  Let's configure your VAEL Agent installation.         │",
                   "│  Press Ctrl+C at any time to exit.                     │")
     migration_ran = False
     if is_existing:

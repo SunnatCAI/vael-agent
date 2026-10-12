@@ -184,7 +184,7 @@ model:
   #       CF-Access-Client-Secret: "${CF_ACCESS_SECRET}"
   #       X-Client-Name: "vael-agent"
   #
-  # session_affinity_header: NAME of a header that carries VAEL' conversation
+  # session_affinity_header: NAME of a header that carries VAEL's conversation
   # id on every request to that provider (all api_modes + auxiliary calls). Off
   # unless set. For session-aware proxies that otherwise treat each agent-loop
   # request as a new conversation and replay the whole history upstream.
@@ -712,7 +712,7 @@ compression:
   # cap above the window is a no-op. Survives model switches and fallback activations.
   # threshold_tokens: 200000
 
-  # Existing Codex gpt-5.5 behavior: raise VAEL' compaction trigger to 85%
+  # Existing Codex gpt-5.5 behavior: raise VAEL's compaction trigger to 85%
   # for the ChatGPT Codex OAuth route. Set false to opt back down to threshold.
   codex_gpt55_autoraise: true
 
@@ -743,7 +743,7 @@ compression:
   max_attempts: 3
 
   # Codex app-server (codex CLI runtime) thread-compaction mode. The codex
-  # agent owns the real thread context on this runtime, so VAEL' summarizer
+  # agent owns the real thread context on this runtime, so VAEL's summarizer
   # cannot shrink it — compaction goes through the app server instead.
   #   native = let Codex decide when to compact its own thread (default)
   #   vael = let VAEL threshold trigger Codex thread/compact/start
@@ -755,7 +755,7 @@ compression:
   # Codex subscription, plus gpt-6-astra (and its -900k alias) on official Codex OAuth, compact
   # server-side: OpenAI prunes older context into an
   # encrypted checkpoint that VAEL replays on later turns. No other provider,
-  # route, or model is affected. VAEL' local compression stays armed as the
+  # route, or model is affected. VAEL's local compression stays armed as the
   # fallback and still handles every non-eligible session.
   codex_responses_native: false
 

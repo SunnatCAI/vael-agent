@@ -78,7 +78,7 @@ const WORKER_ACTIVE_WINDOW_S = 150
 /** True while this bot's freshest kanban/tool worker looks alive. Workers
  *  never surface in conversation lists, so without this a profile grinding
  *  through a 30-minute kanban task reads idle ("3 hr ago") the whole time
- *  (vael-agent#90268). Older gateways omit worker_session — always false. */
+ *  (hermes-agent#90268). Older gateways omit worker_session — always false. */
 export function workerActiveAt(bot: null | RosterRow | undefined, now = Date.now()): boolean {
   const ts = bot?.worker_session?.last_active || 0
 

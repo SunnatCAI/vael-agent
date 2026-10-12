@@ -28,8 +28,8 @@ If a skill is missing from this list but present in the repo, the catalog is reg
 | [`claude-code`](../user-guide/skills/bundled/autonomous-ai-agents/autonomous-ai-agents-claude-code.md) | Delegate coding to Claude Code CLI (features, PRs). | `autonomous-ai-agents/claude-code` |
 | [`codex`](../user-guide/skills/bundled/autonomous-ai-agents/autonomous-ai-agents-codex.md) | Delegate coding to OpenAI Codex CLI (features, PRs). | `autonomous-ai-agents/codex` |
 | [`computer-use`](../user-guide/skills/bundled/autonomous-ai-agents/autonomous-ai-agents-computer-use.md) | Drive the desktop background-first; escalate on signal. | `autonomous-ai-agents/computer-use` |
-| [`vael-agent`](../user-guide/skills/bundled/autonomous-ai-agents/autonomous-ai-agents-vael-agent.md) | Use, configure, theme, extend, and orchestrate VAEL Agent. | `autonomous-ai-agents/vael-agent` |
 | [`opencode`](../user-guide/skills/bundled/autonomous-ai-agents/autonomous-ai-agents-opencode.md) | Delegate coding to OpenCode CLI (features, PR review). | `autonomous-ai-agents/opencode` |
+| [`vael-agent`](../user-guide/skills/bundled/autonomous-ai-agents/autonomous-ai-agents-vael-agent.md) | Use, configure, theme, extend, and orchestrate VAEL Agent. | `autonomous-ai-agents/vael-agent` |
 
 ## creative
 
@@ -114,7 +114,6 @@ If a skill is missing from this list but present in the repo, the catalog is reg
 | [`codebase-inspection`](../user-guide/skills/bundled/software-development/software-development-codebase-inspection.md) | Inspect codebases w/ pygount: LOC, languages, ratios. | `software-development/codebase-inspection` |
 | [`dogfood`](../user-guide/skills/bundled/software-development/software-development-dogfood.md) | Exploratory QA of web apps: find bugs, evidence, reports. | `software-development/dogfood` |
 | [`github`](../user-guide/skills/bundled/software-development/software-development-github.md) | GitHub via gh CLI: PRs, issues, reviews, repos, auth. | `software-development/github` |
-| [`vael-agent-skill-authoring`](../user-guide/skills/bundled/software-development/software-development-vael-agent-skill-authoring.md) | Author in-repo SKILL.md files: frontmatter and structure. | `software-development/vael-agent-skill-authoring` |
 | [`inspecting-vael-desktop-dom`](../user-guide/skills/bundled/software-development/software-development-inspecting-vael-desktop-dom.md) | Read the live VAEL desktop DOM/CSS over CDP. | `software-development/inspecting-vael-desktop-dom` |
 | [`node-inspect-debugger`](../user-guide/skills/bundled/software-development/software-development-node-inspect-debugger.md) | Debug Node.js via --inspect + Chrome DevTools Protocol CLI. | `software-development/node-inspect-debugger` |
 | [`python-debugpy`](../user-guide/skills/bundled/software-development/software-development-python-debugpy.md) | Debug Python: pdb REPL + debugpy remote (DAP). | `software-development/python-debugpy` |
@@ -123,6 +122,7 @@ If a skill is missing from this list but present in the repo, the catalog is reg
 | [`spike`](../user-guide/skills/bundled/software-development/software-development-spike.md) | Throwaway experiments to validate an idea before build. | `software-development/spike` |
 | [`systematic-debugging`](../user-guide/skills/bundled/software-development/software-development-systematic-debugging.md) | 4-phase root cause debugging: understand bugs before fixing. | `software-development/systematic-debugging` |
 | [`test-driven-development`](../user-guide/skills/bundled/software-development/software-development-test-driven-development.md) | TDD: enforce RED-GREEN-REFACTOR, tests before code. | `software-development/test-driven-development` |
+| [`vael-agent-skill-authoring`](../user-guide/skills/bundled/software-development/software-development-vael-agent-skill-authoring.md) | Author in-repo SKILL.md files: frontmatter and structure. | `software-development/vael-agent-skill-authoring` |
 
 ## web
 

@@ -183,7 +183,7 @@ function settlePendingBotOpen(generation: number) {
  *  sidebar and center described two different conversations ("[Bots] -
  *  Sessions is not in sync again"). Side tabs stay open; they never answer a
  *  click aimed at the bot. Canonical-titled tiles at a foreign id are stale
- *  (vael-agent#90102) and are discarded. Without `canonical_session` (older
+ *  (hermes-agent#90102) and are discarded. Without `canonical_session` (older
  *  gateway) nothing can be verified, so nothing is fronted. */
 function focusExistingBotTab(bot: RosterRow): null | { registryId: string; storedSessionId: string } {
   if (typeof host.focusOpenWorkspaceSession !== 'function') {

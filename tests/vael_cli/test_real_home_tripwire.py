@@ -202,7 +202,7 @@ def test_vael_exported_scratch_tmp_is_not_the_test_temp_root(tmp_path):
     """A VAEL-launched shell hands pytest TMPDIR=<home>/cache/scratch (tagged by
     VAEL_SCRATCH_DIR). With that home guarded, honoring it would put the session
     sandbox, basetemp and every tempfile default inside the guarded root; the
-    conftest must drop VAEL' own export before anything allocates temp space."""
+    conftest must drop VAEL's own export before anything allocates temp space."""
     home = tmp_path / "home"
     scratch = home / "cache" / "scratch"
     scratch.mkdir(parents=True)

@@ -295,7 +295,7 @@ class CuaDriverBackend(_CaptureMixin, _InputMixin, ComputerUseBackend):
                                   if os.environ.get(_CUA_DRIVER_CMD_ENV, "").strip() else "Run `vael computer-use install` to repair it."))
 
         # The MCP client SDK (`mcp`) is an optional dependency (the
-        # `computer-use` / `mcp` extras), not part of VAEL' minimal core.
+        # `computer-use` / `mcp` extras), not part of VAEL's minimal core.
         # Lazy-install it on first use — the same pattern every other optional
         # backend uses — so users never hit an opaque `No module named 'mcp'`
         # at invoke time. Auto-install is gated by `security.allow_lazy_installs`

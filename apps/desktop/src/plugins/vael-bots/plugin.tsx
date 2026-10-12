@@ -722,7 +722,7 @@ export default {
       registerRoutinesPane(true)
     }
 
-    // A bot's chat before it has spoken: core's splash is VAEL' wordmark and
+    // A bot's chat before it has spoken: core's splash is VAEL's wordmark and
     // stands down for any session that exists, so the bot titles its own.
     ctx.register({
       id: 'chat-empty',

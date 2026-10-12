@@ -1,6 +1,6 @@
 """Regression coverage for required Codex identity and account headers.
 
-The official Codex endpoint must receive VAEL' own harness identity, rather
+The official Codex endpoint must receive VAEL's own harness identity, rather
 than the historical first-party compatibility identity. Live endpoint
 acceptance is a separate smoke test; these tests verify request construction.
 

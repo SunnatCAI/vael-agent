@@ -5,7 +5,7 @@
  * (per-server enable + OAuth + API keys) — pinned to the bot's own profile,
  * instead of bare checkbox stand-ins.
  *
- * All three are optional SDK namespace exports (vael-agent#87317), so every
+ * All three are optional SDK namespace exports (hermes-agent#87317), so every
  * use site is feature-detected and older desktop builds keep the staged
  * checklist UI. The sharp edge is a REMOTE bot on a build whose CapabilitiesView
  * predates `supportsFixedConnection`: rendering the live surface there would

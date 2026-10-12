@@ -526,7 +526,7 @@ class TestChannelIdentity:
 
 
 class TestSnapshotIsCredentialStore:
-    """The copied Cookies/Login Data must live inside VAEL' secret lifecycle."""
+    """The copied Cookies/Login Data must live inside VAEL's secret lifecycle."""
 
     def test_excluded_from_backup(self):
         import vael_cli.backup as bk

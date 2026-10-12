@@ -85,7 +85,7 @@ From that point on every tick is free: the scheduler runs the script, pipes its 
 
 ### What the agent decides for you
 
-When you phrase a request like "alert me when X" or "every N minutes check Y and tell me if Z", VAEL' `cronjob_manage` tool description tells it to reach for `no_agent=True` whenever the message content is fully determined by the script. It falls back to the normal LLM-driven path when the request needs reasoning (*"summarize the new issues"*, *"pick the most interesting headlines"*, *"draft a friendly reminder"*).
+When you phrase a request like "alert me when X" or "every N minutes check Y and tell me if Z", VAEL's `cronjob_manage` tool description tells it to reach for `no_agent=True` whenever the message content is fully determined by the script. It falls back to the normal LLM-driven path when the request needs reasoning (*"summarize the new issues"*, *"pick the most interesting headlines"*, *"draft a friendly reminder"*).
 
 You don't have to specify `--no-agent` yourself. Just describe the behavior.
 
@@ -164,7 +164,7 @@ We intentionally do NOT honour `#!/...` shebangs — keeping the interpreter set
 
 ### Using your own Python environment
 
-By default a Python cron script runs under VAEL' own Python environment, which only carries VAEL' own dependencies — so a script that imports `openpyxl`, a database driver, or any other package you installed would fail with `ModuleNotFoundError`.
+By default a Python cron script runs under VAEL's own Python environment, which only carries VAEL's own dependencies — so a script that imports `openpyxl`, a database driver, or any other package you installed would fail with `ModuleNotFoundError`.
 
 You can point the job at a **user-managed venv** instead with `--interpreter`:
 
@@ -264,7 +264,7 @@ Silent when both filesystems are under 90%; fires exactly one line per over-thre
 
 | Approach | What runs | When to use |
 |----------|-----------|-------------|
-| `cronjob --no-agent` (this page) | Your script on VAEL' schedule | Recurring watchdogs / alerts / metrics that don't need reasoning |
+| `cronjob --no-agent` (this page) | Your script on VAEL's schedule | Recurring watchdogs / alerts / metrics that don't need reasoning |
 | `cronjob_manage` (default, LLM) | Agent with optional pre-check script | When the message content requires reasoning over data |
 | OS cron + `curl` to a [webhook subscription](../user-guide/messaging/webhooks.md) | Your script on the OS schedule | When VAEL might be unhealthy (the thing you're monitoring) |
 

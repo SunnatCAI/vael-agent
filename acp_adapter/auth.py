@@ -45,7 +45,7 @@ def build_auth_methods() -> list[Any]:
         ))
     methods.append(TerminalAuthMethod(
         id=TERMINAL_SETUP_AUTH_METHOD_ID, name="Configure VAEL provider", type="terminal", args=["--setup"],
-        description=("Open VAEL' interactive model/provider setup in a terminal. "
+        description=("Open VAEL's interactive model/provider setup in a terminal. "
                      "Use this when VAEL has not been configured on this machine yet."),
     ))
     return methods

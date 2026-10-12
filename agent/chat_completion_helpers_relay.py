@@ -1,7 +1,7 @@
 """Relay-side accumulator for the chat_completions streaming wire.
 
 Relay invokes its collector for every post-intercept chunk and then its finalizer as soon
-as the provider stream ends — concurrently with VAEL' consumer thread, which may not have
+as the provider stream ends — concurrently with VAEL's consumer thread, which may not have
 read the last chunk yet. The finalizer therefore builds Relay's recorded response from
 collector-observed state only, never from the consumer loop's closures. Sibling of
 ``relay_llm.AnthropicStreamAccumulator``; Bedrock and Codex follow the same contract.

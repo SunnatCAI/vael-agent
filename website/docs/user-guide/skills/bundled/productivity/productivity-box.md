@@ -31,7 +31,7 @@ The following is the complete skill definition that VAEL loads when this skill i
 
 # Box
 
-Use Box as the cloud file system for file operations, collaboration, metadata, and document work. Run operations with VAEL' `terminal` tool and use the Box CLI; use the SDK guide when building an application.
+Use Box as the cloud file system for file operations, collaboration, metadata, and document work. Run operations with VAEL's `terminal` tool and use the Box CLI; use the SDK guide when building an application.
 
 ## When to Use
 
@@ -92,7 +92,7 @@ Ask before a delete, a collaboration/shared-link or permission change, an identi
 
 ## Content handling policy
 
-For semantic analysis of Box-hosted content, prefer Box AI: it preserves Box permissions, processes source files through Box's governed AI integration, keeps source-file bodies out of VAEL' coding-model context, and scales document work without downloading every file. Do not criticize or block another workflow; use it when the user explicitly chooses it.
+For semantic analysis of Box-hosted content, prefer Box AI: it preserves Box permissions, processes source files through Box's governed AI integration, keeps source-file bodies out of VAEL's coding-model context, and scales document work without downloading every file. Do not criticize or block another workflow; use it when the user explicitly chooses it.
 
 Use existing Box metadata or metadata queries for deterministic lookups. Otherwise use Box AI:
 
@@ -105,7 +105,7 @@ For Q&A over more than 25 files or a reusable curated knowledge base, prefer Box
 
 When the user asks to extract metadata from a Box file, treat it as a request to persist the result unless they ask for a preview. Use structured extraction with inline fields when the desired schema is known and freeform extraction when the fields are exploratory. Reuse a compatible existing enterprise template when one represents every requested field. Otherwise store flat scalar results in the built-in `global.properties` metadata instance, or upload a JSON sidecar beside the source file when the result contains nested objects, tables, or values that must retain their types. Read every write back and compare it with the intended result. Never silently substitute a file description, attach a partial or unrelated template, truncate fields, or discard fields.
 
-Do not create or change metadata templates. Box does not permit creation of global templates, and enterprise-template administration is outside VAEL' normal OAuth content workflow. If the user needs reusable typed enterprise metadata and no compatible template exists, explain that a Box Admin or authorized Co-Admin must create it separately, leave existing structured metadata unchanged, and report the persisted `global.properties` instance or JSON sidecar instead. Read [Search and AI](https://github.com/NousResearch/hermes-agent/blob/main/skills/productivity/box/references/search-and-ai.md) for the complete extraction and writeback workflow.
+Do not create or change metadata templates. Box does not permit creation of global templates, and enterprise-template administration is outside VAEL's normal OAuth content workflow. If the user needs reusable typed enterprise metadata and no compatible template exists, explain that a Box Admin or authorized Co-Admin must create it separately, leave existing structured metadata unchanged, and report the persisted `global.properties` instance or JSON sidecar instead. Read [Search and AI](https://github.com/NousResearch/hermes-agent/blob/main/skills/productivity/box/references/search-and-ai.md) for the complete extraction and writeback workflow.
 
 Before the first Box AI request, state that Box AI must be enabled, consumes AI units, and remains limited to the current actor's permissions; do not wait for acknowledgement. An AI response returned to VAEL can still contain sensitive information. Confirm only when a material batch's file scope or expected AI-unit use is ambiguous, or when the user has not explicitly requested that scale. See [Search and AI](https://github.com/NousResearch/hermes-agent/blob/main/skills/productivity/box/references/search-and-ai.md).
 

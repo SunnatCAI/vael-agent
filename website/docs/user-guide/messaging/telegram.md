@@ -164,7 +164,7 @@ platforms:
           - songsee          # skill commands work here too
 ```
 
-`priority_mode` controls how your list combines with VAEL' built-in priority list:
+`priority_mode` controls how your list combines with VAEL's built-in priority list:
 
 - `prepend`: put your commands first, then VAEL defaults
 - `append`: keep VAEL defaults first, then your commands

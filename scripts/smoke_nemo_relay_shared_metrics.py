@@ -279,7 +279,7 @@ telemetry:
 
 # One interactive turn (2 model calls, 1 read_file) on the canary custom model: the v5 per-turn,
 # per-conversation rows it must produce, identical in SQLite and in the export. The agent-created
-# skill is VAEL' own work, so it records no feature_adoption row (the exact name sets assert that).
+# skill is VAEL's own work, so it records no feature_adoption row (the exact name sets assert that).
 V5_EXPECTED_DIMENSIONS = {
     "vael.task_cost.count": {
         "api_calls_bucket": "2", "model": "custom", "outcome": "completed", "provider": "custom",

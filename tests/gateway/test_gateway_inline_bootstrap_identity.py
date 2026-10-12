@@ -1,4 +1,4 @@
-"""A gateway started through one of VAEL' own inline bootstraps is a gateway on every OS (#124318).
+"""A gateway started through one of VAEL's own inline bootstraps is a gateway on every OS (#124318).
 
 The store launcher (``_launchers.runtime_command``, also the Windows updater's relaunch), the
 published launcher script (POSIX shell launcher and the Windows ``.cmd`` base64 wrapper) and the

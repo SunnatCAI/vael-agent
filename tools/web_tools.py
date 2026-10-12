@@ -35,7 +35,7 @@ logger = logging.getLogger(__name__)
 def _env_value(name: str) -> str:
     """Resolve ``name`` via the config-aware env layer (``vael config set`` values), then process env.
 
-    Mirrors the SearXNG provider's ``_searxng_url()`` so that values set through VAEL' config/.env layer
+    Mirrors the SearXNG provider's ``_searxng_url()`` so that values set through VAEL's config/.env layer
     (``vael config set``, ``vael tools``) are honored here too — not just raw process-env exports.
     Without this, a config-only ``SEARXNG_URL`` (or any provider key) leaves the backend auto-detect cascade
     and ``check_web_api_key()`` blind to it. See #34290.

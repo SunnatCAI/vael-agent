@@ -579,7 +579,7 @@ _MODELS_DEV_PREFERRED: frozenset[str] = frozenset({
 })
 
 
-# OpenRouter-style ids -> Copilot ids. Dash-notation Claude ids are accepted too: VAEL' default
+# OpenRouter-style ids -> Copilot ids. Dash-notation Claude ids are accepted too: VAEL's default
 # Claude IDs use hyphens (Anthropic native) but Copilot's API only accepts dot-notation, so a
 # copilot + hyphenated default would otherwise hit HTTP 400 "model_not_supported".
 _COPILOT_MODEL_ALIASES = dict((

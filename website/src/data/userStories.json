@@ -2261,7 +2261,7 @@
     "date": "2026-05-05",
     "category": "dev-workflow",
     "headline": "Kanban multi-agent feature is game-changing",
-    "quote": "WHAT IS THE NEW KANBAN FEATURE BUILT INTO VAEL? (IT'S GAME CHANGING) — image post showing VAEL' new built-in Kanban board where a parent agent posts cards and child subagents pull them, work in parallel, and report back, turning the agent into a multi-agent project manager.",
+    "quote": "WHAT IS THE NEW KANBAN FEATURE BUILT INTO VAEL? (IT'S GAME CHANGING) — image post showing VAEL's new built-in Kanban board where a parent agent posts cards and child subagents pull them, work in parallel, and report back, turning the agent into a multi-agent project manager.",
     "size": "md",
     "id": "reddit-itsdodobitch-kanban-feature"
   },
@@ -2768,7 +2768,7 @@
     "date": "",
     "category": "integrations",
     "headline": "Built agentbox.id because no mail service felt right for agents",
-    "quote": "Inspired by VAEL' email gateway, I built agentbox.id because I couldn't find a mail service that felt light enough for agent workflows. It's live now, and I'd appreciate any feedback from this community on the approach.",
+    "quote": "Inspired by VAEL's email gateway, I built agentbox.id because I couldn't find a mail service that felt light enough for agent workflows. It's live now, and I'd appreciate any feedback from this community on the approach.",
     "size": "sm"
   },
   {

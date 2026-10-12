@@ -113,7 +113,7 @@ class CodexAppServerClient:
             DELEGATED_CHILD_ENV_MARKER, KANBAN_ENV_KEYS,
             delegated_child_subprocess_env, is_dispatcher_owned_worker_context,
         )
-        # Native shell children remain unowned. Only VAEL' managed MCP tool
+        # Native shell children remain unowned. Only VAEL's managed MCP tool
         # endpoint acts for this worker; grant it scope via its existing per-server
         # environment (the entry the runtime migration registers), never by granting
         # the whole executor process ownership.

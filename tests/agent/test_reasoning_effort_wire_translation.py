@@ -1,6 +1,6 @@
-"""Wire translation for VAEL' extended reasoning-effort vocabulary (#89503).
+"""Wire translation for VAEL's extended reasoning-effort vocabulary (#89503).
 
-VAEL' internal effort set extends the wire vocabulary with ``ultra`` (the
+VAEL's internal effort set extends the wire vocabulary with ``ultra`` (the
 /reasoning command documents none..xhigh|max|ultra). OpenAI-compatible wires —
 OpenRouter chief among them — accept exactly max|xhigh|high|medium|low|minimal|
 none and reject the extension with HTTP 400:

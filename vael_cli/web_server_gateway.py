@@ -348,7 +348,7 @@ def _profile_action_environment(
     does not override keys already present): a supposedly A2A-only profile then claims the default
     Discord token and binds the default API/BlueBubbles ports.
 
-    Named-profile actions therefore start from VAEL' standard scrubbed subprocess env, then drop
+    Named-profile actions therefore start from VAEL's standard scrubbed subprocess env, then drop
     the profile-managed keys plus every key declared by the dashboard/default profile dotenv files
     and their hydrated secret sources, and pin ``VAEL_HOME`` to the target profile. The child's
     normal startup then loads that profile's own ``.env``. A host-gateway verb (bare ``gateway``

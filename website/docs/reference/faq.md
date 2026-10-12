@@ -231,7 +231,7 @@ To isolate the source:
 3. Retry in a fresh session with another configured model or provider. A refusal that changes with the model is model/provider behavior, not a VAEL execution control.
 4. If an explicit tool error appears, use its exact text when reporting the problem.
 
-See [Security](../user-guide/security.md) for VAEL' documented execution controls and [Providers](../integrations/providers.md) for provider configuration.
+See [Security](../user-guide/security.md) for VAEL's documented execution controls and [Providers](../integrations/providers.md) for provider configuration.
 
 #### "…refused this request because of a policy on your account"
 

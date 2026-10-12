@@ -1241,7 +1241,7 @@ class OpenVikingMemoryProvider(MemoryProvider):
         # Guards the (_session_id, _turn_count) pair. sync_turn runs on the MemoryManager's background sync
         # executor while on_session_end / on_session_switch run on the caller's thread, so the
         # snapshot+reset of the turn counter and the session-id rotation must be atomic against a concurrent
-        # increment. See vael-agent#28296 review.
+        # increment. See hermes-agent#28296 review.
         self._inflight_writers: Dict[str, Set[threading.Thread]] = {}
         self._deferred_commit_sids: Set[str] = set()
         self._deferred_commit_threads: Set[threading.Thread] = set()
@@ -1948,7 +1948,7 @@ class OpenVikingMemoryProvider(MemoryProvider):
 
     @staticmethod
     def _extract_current_turn_messages(messages: Optional[List[Dict[str, Any]]], user_content: str, assistant_content: str) -> List[Dict[str, Any]]:
-        """Slice the completed turn out of VAEL' full canonical transcript: the last
+        """Slice the completed turn out of VAEL's full canonical transcript: the last
         assistant message matching assistant_content (else the last assistant message,
         else the transcript end) back to the matching (else nearest) user message."""
         if not messages:
@@ -2377,7 +2377,7 @@ class OpenVikingMemoryProvider(MemoryProvider):
         session's drain+commit is offloaded so command threads never block.
 
         The new session never accumulates messages, and memory extraction never fires for it. See
-        vael-agent#28296.
+        hermes-agent#28296.
         """
         new_id = str(new_session_id or "").strip()
         if not new_id or not self._ensure_client():

@@ -464,7 +464,7 @@ GUI 严格是一个**通过 DB 读取 + 通过 kanban_db 写入**的层，没有
            │                                                  │
            ▼                                                  │
 ┌────────────────────────┐                                    │
-│  ~/.vael/kanban.db   │ ───── append task_events ──────────┘
+│   ~/.vael/kanban.db    │ ───── append task_events ──────────┘
 │  (WAL, shared)         │
 └────────────────────────┘
 ```

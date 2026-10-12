@@ -1,6 +1,6 @@
 import { $groupChats, updateGroupChat } from './group-chat'
 
-/** Flip a group chat's "Pin to top" flag (vael-agent#89813). The roster
+/** Flip a group chat's "Pin to top" flag (hermes-agent#89813). The roster
  *  sort already treats `room.pinned` as the outer band for group rows, the
  *  same way `bot-meta.pinned` leads bot rows; this is the write site that flag
  *  never had. Presentation only: the room record is the group's sole durable

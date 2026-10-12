@@ -1,7 +1,7 @@
 """The fake NAS anonymous surface shared by the free-tier tests.
 
 One ``FakePortal`` and one ``install_portal`` behind every ``portal`` fixture: the wire contract is
-exercised through VAEL' real client code, never mocked away. Scenarios flip its behaviour
+exercised through VAEL's real client code, never mocked away. Scenarios flip its behaviour
 (``gate_closed``, ``dead_tokens``, a canned ``create_response`` / ``token_response``, or a
 ``raise_transport`` that makes the wire itself fail).
 """

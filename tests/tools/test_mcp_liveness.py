@@ -155,7 +155,7 @@ def test_connected_interactive_session_server_is_offerable_from_a_service_sessio
         declaration.unregister("example-server")
 
 def test_running_app_with_live_endpoint_reports_the_missing_connection(tmp_path, monkeypatch):
-    """The #119975 report: the app runs and its endpoint answers, only VAEL' MCP connection
+    """The #119975 report: the app runs and its endpoint answers, only VAEL's MCP connection
     is missing. That must read as a missing connection with a reconnect action — not as
     \"<slug> is not running. Start <slug>\" for an app that IS running."""
     import vael_cli.agent_plugins as agent_plugins

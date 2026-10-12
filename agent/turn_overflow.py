@@ -41,7 +41,7 @@ _UNEXPLAINED_REJECTION_FRACTION = 0.5
 
 _GITHUB_MODELS_HINT = (
     "   💡 GitHub Models free tier (models.inference.ai.azure.com) caps every",
-    "      request at ~8K tokens. VAEL' system prompt + tool schemas baseline",
+    "      request at ~8K tokens. VAEL's system prompt + tool schemas baseline",
     "      exceeds that floor, so this endpoint cannot run an agentic loop.",
     "      Use the `copilot` provider with a Copilot subscription token (`vael",
     "      setup` → GitHub Copilot), or pick any other provider.",

@@ -333,7 +333,7 @@ def _check_manifest_v2(report: "DoctorReport", manifest: Any) -> None:
 
 
 def doctor_plugin(target: str | os.PathLike[str] | None = None) -> DoctorReport:
-    """Validate one plugin through VAEL' real scanner and registration path."""
+    """Validate one plugin through VAEL's real scanner and registration path."""
     try:
         path = resolve_plugin_path(target)
     except FileNotFoundError as exc:

@@ -1,5 +1,5 @@
 /**
- * "Open recent session" (vael-agent#93054): a bot row's left click always
+ * "Open recent session" (hermes-agent#93054): a bot row's left click always
  * lands on the canonical Bot Chat — that is the bot's stable identity and
  * stays so. Multi-task users also want the freshest ORDINARY conversation
  * (a cron run, a delegated job, a `+` side thread) one gesture away, so the

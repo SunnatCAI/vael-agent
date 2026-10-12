@@ -1,4 +1,4 @@
-"""Contracts for VAEL' shared YAML reader and writer."""
+"""Contracts for VAEL's shared YAML reader and writer."""
 
 import io
 from concurrent.futures import ThreadPoolExecutor

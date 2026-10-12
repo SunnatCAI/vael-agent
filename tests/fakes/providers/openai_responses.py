@@ -1,6 +1,6 @@
 """Scripted, recording loopback server for the OpenAI **Responses** wire dialect.
 
-The external boundary VAEL' ``codex_responses`` transport talks to (ChatGPT Codex,
+The external boundary VAEL's ``codex_responses`` transport talks to (ChatGPT Codex,
 api.openai.com ``/v1/responses``, Responses-speaking relays). One real HTTP server on
 127.0.0.1 that:
 

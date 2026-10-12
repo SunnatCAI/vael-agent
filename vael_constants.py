@@ -719,7 +719,7 @@ def get_subprocess_home(env: dict[str, str] | None = None) -> str | None:
 
 
 def apply_subprocess_home_env(env: MutableMapping[str, str]) -> None:
-    """Apply VAEL' subprocess HOME contract to *env* in-place: ``HOME``/``VAEL_REAL_HOME``
+    """Apply VAEL's subprocess HOME contract to *env* in-place: ``HOME``/``VAEL_REAL_HOME``
     per the home mode, and the temp vars re-pointed at ``env["VAEL_HOME"]``'s scratch dir."""
     real_home = get_real_home(env)
     if real_home:
@@ -730,7 +730,7 @@ def apply_subprocess_home_env(env: MutableMapping[str, str]) -> None:
     apply_scratch_tmp_env(env)
 
 
-# --- Scratch dir: VAEL' own temp space, never the system /tmp ---
+# --- Scratch dir: VAEL's own temp space, never the system /tmp ---
 # System temp is tmpfs on most Linux distros and containers, so browser profiles, PTY probes,
 # download spools and every ``tempfile.mkdtemp()`` a VAEL-launched script performs eat RAM
 # and vanish on reboot. ``VAEL_HOME/cache/scratch`` is real storage with an IDLE retention:

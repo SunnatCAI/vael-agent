@@ -63,7 +63,7 @@ def _tool(*names: str, prefix: str = "") -> Callable[[dict[str, str]], bool]:
 
 
 def user_created_skill(d: dict[str, str]) -> bool:
-    """A skill created at the user's request (``agent_created`` is VAEL' own background review)."""
+    """A skill created at the user's request (``agent_created`` is VAEL's own background review)."""
     return d.get("action") == "created" and d.get("provenance") != "agent_created"
 
 

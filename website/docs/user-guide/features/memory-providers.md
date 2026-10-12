@@ -465,7 +465,7 @@ vael config set memory.provider hindsight
 echo "HINDSIGHT_API_KEY=your-key" >> ~/.vael/.env
 ```
 
-The plugin lands in `~/.vael/plugins/hindsight/` (per profile home) and is enabled under `plugins.enabled` in `config.yaml`. `vael memory setup`, `vael memory status`, `vael plugins list` and the dashboard Memory settings all work with the catalog-installed plugin. In local embedded mode the plugin installs `hindsight-all` on first use through VAEL' lazy-install path, which honours `security.allow_lazy_installs`.
+The plugin lands in `~/.vael/plugins/hindsight/` (per profile home) and is enabled under `plugins.enabled` in `config.yaml`. `vael memory setup`, `vael memory status`, `vael plugins list` and the dashboard Memory settings all work with the catalog-installed plugin. In local embedded mode the plugin installs `hindsight-all` on first use through VAEL's lazy-install path, which honours `security.allow_lazy_installs`.
 
 **Local mode UI:** `hindsight-embed -p vael ui start`
 

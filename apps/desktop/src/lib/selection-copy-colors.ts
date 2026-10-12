@@ -214,7 +214,7 @@ export function selectionInkLuma(sel: Selection, doc: Document): number | null {
  * Serialize the selection as tag-structured HTML with no paint and no
  * app-internal attributes: semantic elements (p, strong, em, a, ul, pre,
  * table, …) survive with their content and hrefs; style/class attributes —
- * the only carriers of VAEL' palette — are dropped so the paste target's
+ * the only carriers of VAEL's palette — are dropped so the paste target's
  * own color defaults apply.
  *
  * One exception to the strip-everything rule: the result carries a GENERIC

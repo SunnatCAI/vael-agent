@@ -1642,7 +1642,7 @@ class TestJobsJsonIdKeyedMap:
     """load_jobs() must flatten an ID-keyed ``jobs`` map to the list contract.
 
     A store written as ``{"jobs": {"<job_id>": {...}, ...}}`` (external tool
-    or hand edit — VAEL' own save_jobs() only ever writes a list) made
+    or hand edit — VAEL's own save_jobs() only ever writes a list) made
     load_jobs() return a dict. Every consumer iterates it as a list, so
     ``list_jobs()`` → ``_normalize_job_record`` → ``dict(<id-string>)`` raised
     ``ValueError: dictionary update sequence element #0 has length 1; 2 is

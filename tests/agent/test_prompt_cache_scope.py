@@ -361,7 +361,7 @@ class TestPerResponseRunNonceIsolation:
     telemetry or billing outcome is measured or claimed.
 
     The normalizer cannot repair that from the id alone: a physical session id
-    is an identity, and VAEL' public session API lets a client choose one
+    is an identity, and VAEL's public session API lets a client choose one
     freely (``POST /v1/sessions`` honors ``body["id"]``/``body["session_id"]``).
     These tests pin the isolation invariant that any future scope rule has to
     keep — collapsing a trailing token because it *looks* like per-run noise

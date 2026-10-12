@@ -14,7 +14,7 @@ When you select a MoA preset, the preset's aggregator is the acting model. It is
 The **aggregator is billed for the whole run**: it runs every step of the tool loop, so almost all of a preset's cost lands on the aggregator's provider. References only advise once per user turn (with the default `fanout`). If your main model is on a subscription provider but the aggregator sits elsewhere, the run is billed to the aggregator's provider, not to your subscription — `vael moa configure` and `vael moa list` print a one-line notice whenever the aggregator's provider differs from `model.provider`, and the Desktop editor, `vael model`, and `/model` mark the aggregator slot as the acting, billed model.
 :::
 
-Use MoA when a hard task benefits from multiple model perspectives but still needs VAEL' normal agent loop: tool calls, follow-up iterations, interrupts, transcript persistence, and the same session context as any other message.
+Use MoA when a hard task benefits from multiple model perspectives but still needs VAEL's normal agent loop: tool calls, follow-up iterations, interrupts, transcript persistence, and the same session context as any other message.
 
 ## Select a MoA preset as your model
 
@@ -174,7 +174,7 @@ moa:
   aggregator prompt (and the one-shot `/moa` synthesis input).
 
 Credential shapes (API-key prefixes, JWTs, private keys, DB connection
-strings) are masked by VAEL' central secret redactor; the MoA filter adds
+strings) are masked by VAEL's central secret redactor; the MoA filter adds
 email and clearly formatted phone-number redaction on top. Patterns are
 deliberately conservative for code-review-style advice: bare digit runs, line
 numbers, timestamps, git SHAs, and IP addresses are never touched — only
@@ -185,7 +185,7 @@ delimited phone formats like `(555) 123-4567` or `555-123-4567` match.
 Reference and aggregator slots may also set `reasoning_effort`. Use this when
 you want the same model to contribute at different depths, or when the
 aggregator should think harder than the advisory references. Valid values match
-VAEL' normal reasoning controls: `none`, `minimal`, `low`, `medium`, `high`,
+VAEL's normal reasoning controls: `none`, `minimal`, `low`, `medium`, `high`,
 `xhigh`, `max`, and `ultra`.
 
 ```yaml

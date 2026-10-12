@@ -11,7 +11,7 @@ Scenarios run concurrently (one fake + one hermetic home each) in a module fixtu
   ``--resume`` and calls it again; ``--reasoning high`` throughout.
 * ``refresh``  — tokens are minted with a short ``expires_in``; the vendor expires them right
   after the first response, so the next request 401s and must be retried with a re-minted token.
-* ``default_toolset`` — a turn with VAEL' default toolsets (every tool schema goes to Vertex).
+* ``default_toolset`` — a turn with VAEL's default toolsets (every tool schema goes to Vertex).
 """
 
 from __future__ import annotations
@@ -238,7 +238,7 @@ def test_expired_token_is_reminted_and_request_retried(results: dict[str, Any]) 
 
 
 def test_default_toolset_schemas_accepted_by_vertex(results: dict[str, Any]) -> None:
-    """With VAEL' default toolsets every tool declaration must survive Vertex's translation."""
+    """With VAEL's default toolsets every tool declaration must survive Vertex's translation."""
     res = results["default_toolset"]
     fake = res["fake"]
     require(fake.requests and fake.requests[0]["auth"].startswith("Bearer ya29."), "turn never reached Vertex")

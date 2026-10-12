@@ -367,7 +367,7 @@ Pool state is stored in `~/.vael/auth.json` under the `credential_pool` key:
 }
 ```
 
-The OpenRouter entry above was borrowed from an external source, so the raw key is not stored in `auth.json`. The manual Anthropic entry was intentionally added to VAEL' credential store, so its token remains persistable.
+The OpenRouter entry above was borrowed from an external source, so the raw key is not stored in `auth.json`. The manual Anthropic entry was intentionally added to VAEL's credential store, so its token remains persistable.
 
 An `env:` row is re-hydrated from the environment on every load, and the variable name does not have to be one VAEL declares for the provider: numbered siblings (`OPENROUTER_API_KEY_2`, see [Auto-Discovery](#auto-discovery)) appear here automatically, and a hand-written row pointing at any other variable is filled the same way, without the secret ever being written to `auth.json`.
 

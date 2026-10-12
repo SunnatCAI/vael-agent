@@ -397,7 +397,7 @@ pty = []
 # from `httpx` to `httpx2`. httpx2 arrives transitively, but tools/mcp_tool.py
 # and tools/mcp_oauth_manager.py import it by name to build the client objects
 # they hand to the SDK, so it is pinned here explicitly rather than left to
-# resolution. VAEL' own `httpx[socks]==0.28.1` in [dependencies] is
+# resolution. VAEL's own `httpx[socks]==0.28.1` in [dependencies] is
 # unaffected — the two distributions install side by side under different
 # module names.
 mcp = [

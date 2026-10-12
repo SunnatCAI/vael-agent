@@ -158,7 +158,7 @@ rm -f ~/.vael/cache/scratch/link-card.json
 
 ## Optional: run as an MCP server instead
 
-`@stripe/link-cli --mcp` exposes the same commands as MCP tools over stdio. To register it with VAEL' native MCP:
+`@stripe/link-cli --mcp` exposes the same commands as MCP tools over stdio. To register it with VAEL's native MCP:
 
 ```
 vael mcp add stripe-link --command "npx" --args "@stripe/link-cli --mcp"

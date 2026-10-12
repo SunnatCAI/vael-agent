@@ -1,4 +1,4 @@
-"""The codex_app_server runtime hands VAEL' composed system prompt to the codex thread (#74712, #26035).
+"""The codex_app_server runtime hands VAEL's composed system prompt to the codex thread (#74712, #26035).
 
 The standard loop sends ``_cached_system_prompt + ephemeral_system_prompt`` as its system message; the
 codex early-return used to send only cwd + raw user text, so SOUL.md / memory / channel_overrides were

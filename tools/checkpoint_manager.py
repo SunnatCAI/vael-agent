@@ -856,7 +856,7 @@ class CheckpointManager:
         Returns ``{"success", "restore": [rel...], "skipped": [rel...],
         "error"?}`` where ``restore`` lists files whose current content
         still matches what VAEL last wrote (per the agent-write ledger)
-        and ``skipped`` lists files the user hand-edited after VAEL'
+        and ``skipped`` lists files the user hand-edited after VAEL's
         last write or that VAEL never wrote at all.
         """
         hash_err = _validate_commit_hash(commit_hash)
@@ -1123,7 +1123,7 @@ class CheckpointManager:
         """Restore files to a checkpoint state.
 
         With ``safe=True`` (full-directory restores only), files the user
-        hand-edited after VAEL' last write — per the agent-write ledger —
+        hand-edited after VAEL's last write — per the agent-write ledger —
         are left untouched, and only VAEL-authored changes are reverted.
         The result gains ``skipped_user_edits`` listing the preserved paths,
         ``skipped_oversize`` listing paths kept because the size cap excluded

@@ -1,14 +1,14 @@
 ---
 sidebar_position: 17
 title: "Recurring Loops"
-description: "Re-run a prompt on a recurring interval inside your session — VAEL' take on Claude Code's /loop."
+description: "Re-run a prompt on a recurring interval inside your session — VAEL's take on Claude Code's /loop."
 ---
 
 # Recurring Loops (`/loop`)
 
 `/loop` re-runs a prompt (or a slash command) on a recurring cadence **inside your current session**. Each wakeup is a real agent turn: VAEL reads the current state fresh — the latest CI result, the newest queue depth, the file as it is now — does the work, reports back, and goes quiet until the next tick.
 
-It's VAEL' take on **Claude Code's `/loop`** (and its `/proactive` alias, which works here too). Where [`/goal`](./goals.md) is judge-driven — "keep working until this objective is achieved" — `/loop` is timer-driven: "do this again every N minutes (or whenever it makes sense) until something says stop."
+It's VAEL's take on **Claude Code's `/loop`** (and its `/proactive` alias, which works here too). Where [`/goal`](./goals.md) is judge-driven — "keep working until this objective is achieved" — `/loop` is timer-driven: "do this again every N minutes (or whenever it makes sense) until something says stop."
 
 ## When to use it
 

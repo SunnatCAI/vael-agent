@@ -242,7 +242,7 @@ build's row to `<workspace>/FINGERPRINTS.md`.
 ## Pitfalls
 
 - `scripts/shoot.mjs` needs Playwright (`npm install playwright` or
-  `playwright-core` plus a Chrome install). VAEL' `browser_exec` tool is the
+  `playwright-core` plus a Chrome install). VAEL's `browser_exec` tool is the
   lighter alternative for scroll-screenshot verification: serve the build,
   scroll in steps, capture screenshots, and inspect them yourself.
 - `scripts/kie.mjs` needs `KIE_AI_API_KEY` and paid credit; prefer

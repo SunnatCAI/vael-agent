@@ -81,7 +81,7 @@ export function describeBootstrapFailure(failedStage: string | null | undefined,
  */
 export function missingInstallPartMessage(whatIsMissing: string): string {
   return (
-    "Part of VAEL' installation is missing (it may have been deleted or quarantined by antivirus). " +
+    "Part of VAEL's installation is missing (it may have been deleted or quarantined by antivirus). " +
     'Choose Repair install below to put it back — your chats and settings are not affected. ' +
     `Details: ${whatIsMissing}`
   )

@@ -12,7 +12,7 @@ VAEL integrates with Buzz three ways. Pick by where VAEL runs and what you want 
 
 | | ① Desktop runtime | ② Relay bridge (ACP) | ③ Native gateway platform |
 |---|---|---|---|
-| **What it is** | Buzz Desktop spawns VAEL locally as a managed harness | Buzz's `buzz-acp` bridges a channel to `vael acp` over stdio | VAEL' gateway joins Buzz as a first-class messaging platform |
+| **What it is** | Buzz Desktop spawns VAEL locally as a managed harness | Buzz's `buzz-acp` bridges a channel to `vael acp` over stdio | VAEL's gateway joins Buzz as a first-class messaging platform |
 | **VAEL runs** | On your desktop, launched by Buzz | On a server, launched by `buzz-acp` | In your own gateway, alongside Telegram/Discord/etc. |
 | **Best for** | Trying VAEL inside Buzz Desktop with zero config | A hosted agent identity when Buzz owns the transport | Full VAEL: memory, skills, approvals, cron, sessions |
 | **Inbound** | ACP stdio | ACP stdio (via relay WebSocket) | NIP-42-authenticated Nostr WebSocket (poll fallback) |
@@ -36,7 +36,7 @@ The spawned VAEL uses the same config, credentials, memory, and skills as `vael`
 
 ## ③ Native gateway platform (recommended for full VAEL)
 
-The bundled `buzz` platform plugin makes Buzz a normal VAEL messaging platform — channels, DMs, mention gating, threaded replies, reactions, images, and cron delivery (`deliver=buzz`), with VAEL' own approvals, memory, and session management intact. Inbound arrives over a persistent NIP-42-authenticated Nostr WebSocket (dependency-free BIP-340 signing) with automatic fallback to CLI polling; outbound goes through the `buzz` CLI.
+The bundled `buzz` platform plugin makes Buzz a normal VAEL messaging platform — channels, DMs, mention gating, threaded replies, reactions, images, and cron delivery (`deliver=buzz`), with VAEL's own approvals, memory, and session management intact. Inbound arrives over a persistent NIP-42-authenticated Nostr WebSocket (dependency-free BIP-340 signing) with automatic fallback to CLI polling; outbound goes through the `buzz` CLI.
 
 ```bash
 vael gateway setup   # pick Buzz

@@ -12,7 +12,7 @@ Contract under test (documented in ``agent/copilot_acp_client.py`` and the ACP s
 * each model call is a fresh agent process: ``initialize`` -> ``session/new`` (absolute cwd) ->
   model selection via the advertised ``model`` config option -> ``session/prompt``; every request is
   schema-valid;
-* ACP has no tools channel: VAEL' tools travel in the prompt text, a ``<tool_call>`` block in the
+* ACP has no tools channel: VAEL's tools travel in the prompt text, a ``<tool_call>`` block in the
   agent's message runs a REAL VAEL tool, and the result is in the next call's prompt;
 * ``--resume`` in a new process runs in a new agent process whose prompt carries the persisted history
   (turn 1 in order, then the new question), with nothing duplicated;
@@ -197,7 +197,7 @@ def _calls(fake: acp.AcpFake) -> dict[int, list[dict[str, Any]]]:
 
 
 def test_vael_tool_call_round_trips_through_acp_and_persists(outcomes):
-    """A ``<tool_call>`` in the agent's message runs VAEL' real read_file; the result reaches the
+    """A ``<tool_call>`` in the agent's message runs VAEL's real read_file; the result reaches the
     NEXT call's prompt; the CLI prints the answer; state.db pairs the call and result by id."""
     sc = _flow_ok(outcomes)
     assert FINAL_ONE in sc.runs[0].stdout, sc.runs[0].describe()

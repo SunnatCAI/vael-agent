@@ -706,7 +706,7 @@ def run_gui_uninstall(args):
     skip_confirm = bool(getattr(args, "yes", False))
 
     print()
-    _print_box("│         ☤ VAEL Chat GUI Uninstaller                  │", Colors.MAGENTA)
+    _print_box("│         ☤ VAEL Chat GUI Uninstaller                    │", Colors.MAGENTA)
     print()
 
     if not summary["gui_installed"]:
@@ -777,7 +777,7 @@ def run_uninstall(args):
         return
 
     print()
-    _print_box("│            ☤ VAEL Agent Uninstaller                  │", Colors.MAGENTA)
+    _print_box("│            ☤ VAEL Agent Uninstaller                    │", Colors.MAGENTA)
     print()
 
     # Show what will be affected

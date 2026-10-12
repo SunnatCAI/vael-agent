@@ -387,7 +387,7 @@ def load_yaml_file(path: Path) -> Dict[str, Any]:
         ) from exc
     try:
         reader = yaml.YAML(typ="safe")
-        reader.version = (1, 1)  # Match VAEL' existing config scalar semantics.
+        reader.version = (1, 1)  # Match VAEL's existing config scalar semantics.
         data = reader.load(raw)
     except yaml.YAMLError as exc:
         raise ConfigReadError(
@@ -3162,7 +3162,7 @@ def main() -> int:
 
     print()
     print("  ╔══════════════════════════════════════════════════════╗")
-    print(f"  ║   OpenClaw -> VAEL Migration   [{mode_label:>8s}]   ║")
+    print(f"  ║    OpenClaw -> VAEL Migration   [{mode_label:>8s}]    ║")
     print("  ╠══════════════════════════════════════════════════════╣")
     print(f"  ║  Source:  {str(report['source_root'])[:42]:<42s}  ║")
     print(f"  ║  Target:  {str(report['target_root'])[:42]:<42s}  ║")

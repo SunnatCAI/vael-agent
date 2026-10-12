@@ -4,7 +4,7 @@
 copy in ``/Applications``. These pin the contract of ``_install_rebuilt_macos_bundles``: a stale
 or missing installed copy is (re)installed, a current one and a running one are never touched, and
 a failed swap leaves the previous bundle launchable. Which paths count as installed is decided by
-``_installed_desktop_apps``: a recorded copy that went missing comes back until VAEL' own GUI
+``_installed_desktop_apps``: a recorded copy that went missing comes back until VAEL's own GUI
 uninstall drops the record.
 """
 

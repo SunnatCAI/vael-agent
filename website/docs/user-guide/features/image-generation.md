@@ -207,7 +207,7 @@ image_gen:
 Only the variable *name* is stored in `config.yaml`; the secret stays in `.env`
 or the process environment. Availability checks and
 generation use the same resolution, so a configured `key_env` is enough — no
-`OPENAI_API_KEY` is required. Requests go through VAEL' own HTTP client, which
+`OPENAI_API_KEY` is required. Requests go through VAEL's own HTTP client, which
 honours `HTTP(S)_PROXY`/`NO_PROXY` but ignores macOS system proxies (whose
 exception list is invisible to Python), so `localhost` endpoints connect directly.
 The `OpenAI-Project` header is sent blank on image requests: an `OPENAI_PROJECT_ID`

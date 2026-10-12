@@ -436,7 +436,7 @@ def _inside_mcp_add_args(argv: list, index: int) -> bool:
 
     ``mcp add --args`` is command-argv passthrough. Flags after that point
     belong to the child MCP command (for example Docker MCP Toolkit's
-    ``--profile``), not to VAEL' own profile selector.
+    ``--profile``), not to VAEL's own profile selector.
     """
     try:
         mcp_index = argv.index("mcp", 0, index)

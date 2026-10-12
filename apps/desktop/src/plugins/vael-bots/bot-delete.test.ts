@@ -7,7 +7,7 @@
  * pool backend down FIRST. The older `cli.exec` path bypasses that
  * interception, so a backend the roster's hover pre-warm just woke (a
  * right-click hovers the row!) holds the profile dir open and the CLI's rmtree
- * races it — that is the "can't delete a bot" error (vael-agent#52279).
+ * races it — that is the "can't delete a bot" error (hermes-agent#52279).
  *
  * Ported from tests/bot-delete.test.mjs, which ran the whole plugin.js bundle
  * under `vm`.

@@ -163,7 +163,7 @@ class VaelProviderMixin:
         installed on the context here and the SDK is handed an empty 204: ``handle_auth_metadata_response``
         reads that as "stop trying", leaving the installed document in place. ``auth_server_url`` is left
         untouched, so the SEP-2352 credential binding still uses the advertised identifier (stable across
-        runs), while the RFC 9207 ``iss`` check and VAEL' refresh-token binding use the document's issuer.
+        runs), while the RFC 9207 ``iss`` check and VAEL's refresh-token binding use the document's issuer.
         Every other response goes back to the SDK unchanged, including its issuer check."""
         # This compatibility shim is only for authorization-server metadata
         # responses. Never consume arbitrary 200 responses here: MCP resource

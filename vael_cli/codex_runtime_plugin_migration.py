@@ -90,7 +90,7 @@ def _translate_one_server(name: str, vael_cfg: dict) -> tuple[Optional[dict], li
     """Translate one VAEL MCP server config to codex's inline-table dict.
 
     Returns ``(codex_entry, skipped_keys)``; ``codex_entry`` is None when the config is unusable.
-    stdio (``command``) wins over ``url`` when both are set. VAEL' ``transport: sse`` hint is
+    stdio (``command``) wins over ``url`` when both are set. VAEL's ``transport: sse`` hint is
     informational only — codex auto-negotiates. ``enabled`` is emitted only when explicitly false
     (codex defaults to true).
     """
@@ -378,7 +378,7 @@ def _looks_like_test_tempdir(path: str) -> bool:
 
 
 def _build_vael_tools_mcp_entry() -> dict:
-    """Codex stdio entry launching VAEL' own tool surface as an MCP server (browser/web/
+    """Codex stdio entry launching VAEL's own tool surface as an MCP server (browser/web/
     delegate_task/vision/memory/skills call-backs).
 
     VAEL_HOME passes through only IF SET, read from os.environ (not get_vael_home()): when
@@ -429,7 +429,7 @@ def migrate(
     ``discover_plugins`` spawns the live codex CLI (set False in tests); discovery is best-effort
     and never blocks the migration. ``default_permission_profile`` (default ":workspace"; built-ins
     carry a leading ":", user profiles do not; None leaves codex's read-only default) avoids an
-    approval prompt on every write. ``expose_vael_tools`` registers VAEL' own tool surface
+    approval prompt on every write. ``expose_vael_tools`` registers VAEL's own tool surface
     (agent/transports/vael_tools_mcp_server.py, launched on demand by codex over stdio) as an MCP
     server so the codex subprocess can call back for tools it lacks.
     """

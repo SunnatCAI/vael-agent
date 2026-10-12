@@ -114,7 +114,7 @@ def _vael_home_points_at_production(value: str) -> bool:
 # root ends up INSIDE a guarded real home (the operator's, or a custom one
 # honored below), so the session sandbox, pytest's basetemp and every
 # ``tempfile`` default in the code under test trip the real-home guard. Strip
-# VAEL' own export (the marker tells it apart from a user-set var), and
+# VAEL's own export (the marker tells it apart from a user-set var), and
 # relocate even user-set temp directories inside a guarded home. Pin the
 # system default so the import-time hook stays a no-op. The parallel runner
 # exports its own disk-backed TMPDIR anyway.

@@ -1,6 +1,6 @@
 """Scripted, recording loopback server for OpenAI **chat-completions** dialect variants.
 
-The vendor boundary behind VAEL' ``chat_completions`` transport as spoken by the
+The vendor boundary behind VAEL's ``chat_completions`` transport as spoken by the
 routes that bend the base dialect:
 
 * OpenRouter / Nous Portal: a unified ``reasoning_details`` array on the assistant

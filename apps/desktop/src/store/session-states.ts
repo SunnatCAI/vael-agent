@@ -2622,7 +2622,7 @@ export function frontMainIfSelected(storedSessionId: string): boolean {
  *  resurrects closed chats on every bot switch.
  *
  *  `isStaleTile`: the caller's reconciliation probe against backend truth
- *  (vael-agent#90102). The tile bucket is a Local Storage cache, and a
+ *  (hermes-agent#90102). The tile bucket is a Local Storage cache, and a
  *  persisted bot tile can outlive the session it names — a superseded
  *  "Bot Chat" from the retired pointer design, a re-minted canonical row, a
  *  finished session that stopped being the bot's chat. Fronting such a tile
@@ -2835,7 +2835,7 @@ export function discardSessionTile(storedSessionId: string) {
  *
  * A leftover tile RESURRECTS the deleted profile on the next launch: Bot tab
  * restore re-dials the profile's backend, whose ensure_vael_home() re-creates
- * the profile directory the delete just removed (vael-agent#94235). Same
+ * the profile directory the delete just removed (hermes-agent#94235). Same
  * discard (no ⌘⇧T) semantics as discardSessionTile — undoing the delete of the
  * owning profile would resolve to a 404 again.
  */

@@ -1,4 +1,4 @@
-"""Fold an agent-as-provider's own activity back into VAEL' turn state.
+"""Fold an agent-as-provider's own activity back into VAEL's turn state.
 
 Agent providers (ACP CLI shims, the codex app-server) run their own tools, so that
 work must never come back as pending ``tool_calls`` (VAEL would re-run it) — but

@@ -165,7 +165,7 @@ def _canonical_session_row(db, profile_path):
     The canonical chat's identity is the NAME: the session titled exactly "Bot Chat" on this profile (core
     UNIQUE(title) makes it a registry of at most one row). Complements ``last_session``: that field answers
     "what is the newest conversation", this answers "where is the forever-chat" — so a roster row's preview
-    and its click target describe the same session (vael-agent#88200) with no client-side pointer
+    and its click target describe the same session (hermes-agent#88200) with no client-side pointer
     involved.
     """
     try:
@@ -201,7 +201,7 @@ def _latest_profile_session_rows(db):
     First element mirrors session.list's deny-list (drops ``tool`` sub-agent rows and ``kanban`` dispatcher
     workers). Second element is the newest DENIED row — the freshest kanban/tool worker — so roster UIs can
     show that a profile is actively working even though worker sessions never surface in conversation lists
-    (vael-agent#90268). Workers heartbeat ``last_activity_at`` every ≤60s while running (#72016), so a
+    (hermes-agent#90268). Workers heartbeat ``last_activity_at`` every ≤60s while running (#72016), so a
     live worker's ``last_active`` stays fresh and the client can apply its own liveness window. Best-effort:
     any failure (missing state.db, locked db, older schema) degrades to (None, None) rather than failing the
     whole profiles.list call.

@@ -747,7 +747,7 @@ _DIFF_LINE_COLORS = (("@@", "hunk"), ("-", "minus"), ("+", "plus"), (" ", "dim")
 
 
 def _render_inline_unified_diff(diff: str) -> list[str]:
-    """Render unified diff lines in VAEL' inline transcript style."""
+    """Render unified diff lines in VAEL's inline transcript style."""
     rendered: list[str] = []
     from_file = to_file = None
     for raw_line in diff.splitlines():

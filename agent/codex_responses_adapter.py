@@ -588,7 +588,7 @@ def _chat_messages_to_responses_input(
     pre-checkpoint item from every later request, on a model that cannot decrypt the blob (#85914). Default
     False = pre-feature wire, which is also correct for every caller that never sends ``context_management``
     (auxiliary/compression client, ad-hoc ``convert_messages``). Dropping the checkpoint costs nothing:
-    VAEL' local history is never truncated by native compaction, so the full conversation is still on the
+    VAEL's local history is never truncated by native compaction, so the full conversation is still on the
     wire.
     """
     items: List[Dict[str, Any]] = []

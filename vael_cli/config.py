@@ -1316,7 +1316,7 @@ def _persist_migration(config: Dict[str, Any]) -> None:
     persist values that DIFFER from the schema default, plus explicit removals/renames of user
     data. Every migration step MUST write through here (``save_config`` with default-stripping
     ON, no ``merge_existing``) so the invariant cannot regress one migration at a time. A migration
-    is VAEL' own write, never a user turning a feature off."""
+    is VAEL's own write, never a user turning a feature off."""
     from vael_cli.observability.shared_metrics_disabled import vael_applied_write
 
     with vael_applied_write():
@@ -3122,7 +3122,7 @@ def show_config():
 
     print()
     print(color("┌─────────────────────────────────────────────────────────┐", Colors.CYAN))
-    print(color("│              ☤ VAEL Configuration                    │", Colors.CYAN))
+    print(color("│              ☤ VAEL Configuration                      │", Colors.CYAN))
     print(color("└─────────────────────────────────────────────────────────┘", Colors.CYAN))
     _show_managed_banner()
 

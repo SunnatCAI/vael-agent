@@ -619,7 +619,7 @@ Common flags for migration subcommands:
 vael codex-runtime migrate [--dry-run] [--json]
 ```
 
-Runs the `~/.codex/config.toml` migration that `/codex-runtime codex_app_server` triggers, without a chat session: VAEL' `mcp_servers` (plus installed codex plugins and the `default_permissions` default) are projected into the managed block for the selected profile (`vael -p <name> codex-runtime migrate`). User text outside the block is kept verbatim; a user-owned `[mcp_servers.<name>]` with the same name as a VAEL server is preserved and the VAEL projection for that name skipped (reported as `preserved_user_servers`). The result is validated as TOML before an atomic write; exit code is 1 when the report contains errors.
+Runs the `~/.codex/config.toml` migration that `/codex-runtime codex_app_server` triggers, without a chat session: VAEL's `mcp_servers` (plus installed codex plugins and the `default_permissions` default) are projected into the managed block for the selected profile (`vael -p <name> codex-runtime migrate`). User text outside the block is kept verbatim; a user-owned `[mcp_servers.<name>]` with the same name as a VAEL server is preserved and the VAEL projection for that name skipped (reported as `preserved_user_servers`). The result is validated as TOML before an atomic write; exit code is 1 when the report contains errors.
 
 | Flag | Description |
 |------|-------------|
@@ -1528,7 +1528,7 @@ vael moa configure [name]
 vael moa delete <name>
 ```
 
-`vael moa configure` reuses VAEL' provider → model picker for each reference model and the aggregator. A preset is an execution-mode configuration, not a primary model or provider.
+`vael moa configure` reuses VAEL's provider → model picker for each reference model and the aggregator. A preset is an execution-mode configuration, not a primary model or provider.
 
 ## `vael fallback`
 

@@ -334,7 +334,7 @@ def unmetered_backend_calls() -> Iterator[None]:
 def record_execution_backend(kind: str, backend: Any, result: Any = None, *, error_class: str | None = None) -> Any:
     """Count one tool call that reached its backend; returns ``result`` unchanged. ``backend`` may be a
     callable so resolving it costs nothing while collection is off. Calls the background review /
-    curator forks make are VAEL' own work, not the user's (terminal.outcome skips them too)."""
+    curator forks make are VAEL's own work, not the user's (terminal.outcome skips them too)."""
     from tools.skill_provenance import is_background_review
 
     if _UNMETERED.get() or is_background_review():

@@ -303,7 +303,7 @@ def derive_skill_meta(skill_path: Path, source_dir: Path, source_kind: str) -> d
         "category": category,
         "sub": sub,
         "slug": slug,
-        "rel_path": str(rel),
+        "rel_path": rel.as_posix(),  # shown in docs and URLs: never the host's separator
     }
 
 
@@ -343,6 +343,7 @@ def render_skill_page(
     title = f"{name}"
     # Heuristic nicer title from name
     display_name = name.replace("-", " ").replace("_", " ").title()
+    display_name = re.sub(r"\bVael\b", "VAEL", display_name)  # the product name is an all-caps word
 
     vael_meta = (fm.get("metadata") or {}).get("vael") or {}
     tags = vael_meta.get("tags") or []

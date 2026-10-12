@@ -31,7 +31,7 @@ secrets:
 
 - The helper command string is YOUR configuration — same trust level as the `.env` file you control.
 - Output is hard-capped at 1 MiB; a runaway helper can't wedge startup (process group killed on timeout).
-- The helper's **stderr is discarded** — vault CLI diagnostics can carry secret material, so they never reach VAEL' output. Failures log structured fields only (exit code / signal / errno), never the command string.
+- The helper's **stderr is discarded** — vault CLI diagnostics can carry secret material, so they never reach VAEL's output. Failures log structured fields only (exit code / signal / errno), never the command string.
 - Whitespace-only values are treated as "no value" — a placeholder entry never flows into an Authorization header.
 - POSIX-only (needs `/bin/sh`). On Windows the source reports itself unconfigured and startup continues.
 

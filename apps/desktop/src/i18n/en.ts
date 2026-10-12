@@ -515,17 +515,17 @@ export const en: Translations = {
     // Plain causes for a local backend boot failure (`classifyBootFailure`);
     // the raw output stays behind "Show recent logs".
     causes: {
-      exitedEarly: "VAEL' background service stopped right after starting.",
-      timedOut: "VAEL' background service didn't answer in time.",
+      exitedEarly: "VAEL's background service stopped right after starting.",
+      timedOut: "VAEL's background service didn't answer in time.",
       permission: "VAEL couldn't write to its data folder (permission problem).",
       diskFull: 'The disk is full, so VAEL could not start.',
       portInUse: 'Another program is using the network port VAEL needs.',
-      installMissing: "Part of VAEL' installation is missing. Choose Repair install to put it back."
+      installMissing: "Part of VAEL's installation is missing. Choose Repair install to put it back."
     },
     failure: {
       title: "VAEL couldn't start",
       description:
-        "VAEL' background service didn't come up. Try one of the recovery steps below. Nothing here deletes your chats or settings.",
+        "VAEL's background service didn't come up. Try one of the recovery steps below. Nothing here deletes your chats or settings.",
       details: 'Details',
       remoteTitle: 'Remote gateway sign-in required',
       remoteDescription:
@@ -610,7 +610,7 @@ export const en: Translations = {
       gatewayAuthFailed:
         'This VAEL no longer accepts your saved sign-in. Open Gateways and sign in again (or paste a new access token), then retry.',
       methodNotAllowed:
-        "VAEL' background service is out of step with the app, probably after an update. Restart it to fix this.",
+        "VAEL's background service is out of step with the app, probably after an update. Restart it to fix this.",
       microphonePermission: 'Microphone permission was denied.',
       openaiRejectedApiKey: "OpenAI didn't accept your API key. Update it in Settings → Keys, then try again.",
       openaiTtsNeedsKey: 'Voice needs an OpenAI key. Add one in Settings → Keys.',

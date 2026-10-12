@@ -373,7 +373,7 @@ Every `api_mode` gate (`determine_api_mode`, runtime resolution, agent construct
 | `aws_sdk` | AWS SDK credential chain (IAM role, profile, env) | `bedrock` plugin only |
 | `external_process` | Auth handled by a subprocess the agent spawns (see [External-process providers](#external-process-acp-providers)) | `copilot-acp` plugin, out-of-tree ACP plugins |
 
-Every profile is mirrored into VAEL' auth registry under the `auth_type` it declares (two exclusions: an `api_key` profile with empty `env_vars`, and the aggregator/user-supplied slugs `openrouter`/`custom` plus the bespoke-refresh built-ins `copilot`/`kimi-coding`/`zai`), so `vael auth`,
+Every profile is mirrored into VAEL's auth registry under the `auth_type` it declares (two exclusions: an `api_key` profile with empty `env_vars`, and the aggregator/user-supplied slugs `openrouter`/`custom` plus the bespoke-refresh built-ins `copilot`/`kimi-coding`/`zai`), so `vael auth`,
 `--provider <name>` and runtime resolution accept it whatever its shape. What differs is who performs the
 login: `api_key` profiles get the built-in key prompt / env-var resolution; every other `auth_type` is
 **provider-owned** — the plugin ships the two hooks below, and a non-api-key profile without an

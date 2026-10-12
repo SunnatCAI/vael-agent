@@ -89,7 +89,7 @@ def _mock_url_download(captured: dict, raise_exc: Exception | None = None):
 
 
 def test_generate_uses_env_only_proxy_http_client(monkeypatch):
-    """The SDK client is built on VAEL' env-only-proxy httpx client: a macOS system proxy (seen by
+    """The SDK client is built on VAEL's env-only-proxy httpx client: a macOS system proxy (seen by
     httpx via ``getproxies()``, ExceptionsList dropped) must not be mounted for a custom endpoint
     (#64888), unlike a plain ``httpx.Client()`` under the same conditions (control)."""
     import httpx

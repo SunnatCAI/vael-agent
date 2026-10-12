@@ -116,7 +116,7 @@ def test_foreground_terminal_commands_count_by_kind_and_outcome(direct_runtime, 
         ("ls /definitely/not/here", 30), ("echo ok", 30), ("sh -c 'exit 124'", 30), ("sleep 5", 1),
     )]
     assert [r["exit_code"] for r in results] == [2, 0, 124, 124]
-    terminal_tool("true", task_id="harness", _host_local=True)  # VAEL' own control plane: never counted
+    terminal_tool("true", task_id="harness", _host_local=True)  # VAEL's own control plane: never counted
     rows = _rows(tmp_path, contract.TERMINAL_OUTCOME_METRIC, "backend", "command_kind", "outcome")
     assert rows == sorted([
         ("local", "file_ops", "nonzero", 1), ("local", "shell_builtin", "ok", 1),

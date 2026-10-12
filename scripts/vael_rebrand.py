@@ -69,6 +69,9 @@ PROTECT = [
     re.compile(r"(git@github\.com:|github:|ghcr\.io/|docker\.io/)?nousresearch[/.]hermes[\w.:/-]*", re.I),
     re.compile(r"Docs-hermes--agent\.nousresearch\.com"),
     re.compile(r"hermes-agent\.nousresearch\.\.\."),
+    re.compile(r"\bhermes-agent#\d+"),  # upstream issue / PR numbers
+    # markers minted before the rename and still replayed by migrated sessions
+    re.compile(r"HERMES-CONTEXT-COMPRESSION"),
     # Nous model family names
     re.compile(r"(?<![A-Za-z0-9_])(nous[-_/ ])?hermes(-[2-5](?![0-9])|[2-5](?=[:.-]))[\w.:-]*", re.I),
     re.compile(r"(?<![A-Za-z0-9_])Hermes [2-5](?![0-9])[\w.:-]*"),
@@ -165,6 +168,26 @@ def protected_spans(text: str, patterns: list[re.Pattern[str]]) -> list[tuple[in
     return merged
 
 
+POSSESSIVE_TAIL = re.compile(r"'(?=( |\r?\n)\s*[#/*\"]*\s*[A-Za-z`*(\[])")
+
+
+def closes_string(prefix: str) -> bool:
+    """True when a quote appended to *prefix* (one line) would close a string opened on it."""
+    inside = False
+    for i, ch in enumerate(prefix):
+        if ch != "'":
+            continue
+        before = prefix[i - 1] if i else ""
+        after = prefix[i + 1] if i + 1 < len(prefix) else ""
+        if before.isalnum() and after.isalpha():
+            continue  # apostrophe inside a word
+        if inside:
+            inside = False
+        elif not before.isalnum():
+            inside = True  # a quote right after a word is a possessive, not an opener
+    return inside
+
+
 def transform(text: str, patterns: list[re.Pattern[str]], residual: Counter[str] | None = None) -> str:
     if "hermes" not in text.lower():
         return text
@@ -188,6 +211,13 @@ def transform(text: str, patterns: list[re.Pattern[str]], residual: Counter[str]
             before = text[start - 1] if start else ""
             after = text[end] if end < len(text) else ""
             new = "Vael" if IDENT.match(before) or IDENT.match(after) else "VAEL"
+            # "Hermes' config" is a possessive of a name ending in s; VAEL needs the s spelled out.
+            if new == "VAEL" and POSSESSIVE_TAIL.match(text, end):
+                line_start = text.rfind("\n", 0, start) + 1
+                if not closes_string(text[line_start:start]):
+                    out.extend((text[pos:start], "VAEL's"))
+                    pos = end + 1
+                    continue
         else:  # odd casing: leave it for a human
             if residual is not None:
                 residual[word] += 1

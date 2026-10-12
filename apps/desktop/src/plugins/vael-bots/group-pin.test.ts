@@ -1,5 +1,5 @@
 /**
- * "Pin to top" for group chats (vael-agent#89813): the flag the roster sort
+ * "Pin to top" for group chats (hermes-agent#89813): the flag the roster sort
  * already honours gets a write site on the room record, and the pin survives
  * a reload through the same durable group-chats persistence the room uses —
  * never through any bot's profile meta.

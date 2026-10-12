@@ -385,7 +385,7 @@ interface CliExecResult {
  * roster's hover pre-warm just woke (right-click hovers the row!) holds the
  * profile dir open — the CLI's rmtree races the live backend and the
  * renderer's socket reconnect respawns it mid-delete, resurrecting the
- * directory (vael-agent#52279). That is the "can't delete a bot" error. */
+ * directory (hermes-agent#52279). That is the "can't delete a bot" error. */
 export async function deleteBot(bot: RosterRow) {
   const route = botConnectionRoute(bot)
 

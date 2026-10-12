@@ -333,7 +333,7 @@ class FakeAppServer:
                 self._pending_cv.notify_all()
 
     def server_request(self, method: str, params: dict, timeout: float = 60.0) -> dict:
-        """Issue a server-initiated request and block for VAEL' reply."""
+        """Issue a server-initiated request and block for VAEL's reply."""
         with self._pending_cv:
             self._next_server_id += 1
             rid = self._next_server_id
@@ -729,7 +729,7 @@ def run_codex_scenario(root: Path, turns: list[dict], runs: list[dict], *, confi
     fake = FakeCodex(root, turns, **scenario)
     model = {"provider": "openai", "default": "gpt-5.5", "openai_runtime": "codex_app_server",
              "codex_bin": str(fake.bin)}
-    # The app-server owns auth; the key only satisfies VAEL' provider resolution and never leaves.
+    # The app-server owns auth; the key only satisfies VAEL's provider resolution and never leaves.
     home = make_home(root, model, env_file={"OPENAI_API_KEY": "sk-fake-codex-e2e"}, extra_config=config)
     results, session_id = [], None
     for run in runs:

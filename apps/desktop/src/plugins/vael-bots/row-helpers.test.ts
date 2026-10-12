@@ -8,7 +8,7 @@
  *  - the "6d ago" class — canonical Bot Chats are hidden from session lists,
  *    so a bot DM'd all day read as a week idle because its newest VISIBLE
  *    session was a week old. Liveness keys off `botActivitySession`, and
- *    kanban/tool workers count too (vael-agent#90268): a profile grinding
+ *    kanban/tool workers count too (hermes-agent#90268): a profile grinding
  *    through a 30-minute task must not read "3 hr ago" the whole time.
  */
 

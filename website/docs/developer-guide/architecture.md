@@ -41,7 +41,7 @@ This page is the top-level map of VAEL Agent internals. Use it to orient yoursel
 ┌───────────────────┐              ┌──────────────────────┐
 │ Session Storage   │              │ Tool Backends         │
 │ (SQLite + FTS5)   │              │ Terminal (7 backends) │
-│ vael_state.py   │              │ Browser (5 backends)  │
+│ vael_state.py     │              │ Browser (5 backends)  │
 │ gateway/session.py│              │ Web (4 backends)      │
 └───────────────────┘              │ MCP (dynamic)         │
                                    │ File, Vision, etc.    │

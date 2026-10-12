@@ -58,7 +58,7 @@ def install_served_model_capture(agent: Any, client: Any) -> None:
 
 def result_model_fields(agent: Any) -> dict[str, Optional[str]]:
     """``requested_model`` / ``served_model`` for the turn result: the proxy header when the
-    last response carried one, else VAEL' own fallback route (primary → active model)."""
+    last response carried one, else VAEL's own fallback route (primary → active model)."""
     served = getattr(agent, "last_served_model", None)
     requested = agent.model
     if not served and getattr(agent, "_fallback_activated", False):

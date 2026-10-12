@@ -238,7 +238,7 @@ Load on demand; keep SKILL.md-level rules in mind throughout.
 - **Modal dialogs block everything.** A tool call that opens (or collides
   with) a modal editor dialog stalls until a human dismisses it. If a call
   hangs indefinitely, tell the user to check the editor for a dialog.
-- **Timeouts on long operations.** VAEL' per-call default is 120 s; asset
+- **Timeouts on long operations.** VAEL's per-call default is 120 s; asset
   imports, big level saves, and renders can exceed it. Raise
   `mcp_servers.unreal-engine.timeout` in `~/.vael/config.yaml` for
   render/import-heavy sessions.

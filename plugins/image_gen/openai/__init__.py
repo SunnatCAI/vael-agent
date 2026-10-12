@@ -77,7 +77,7 @@ def _resolve_endpoint() -> Tuple[str, str]:
 
 
 def _build_client(openai: Any, base_url: str, api_key: str) -> Any:
-    """``openai.OpenAI`` on VAEL' env-only-proxy httpx client, so a local/custom endpoint never
+    """``openai.OpenAI`` on VAEL's env-only-proxy httpx client, so a local/custom endpoint never
     routes through a macOS system proxy whose ExceptionsList httpx cannot see (#64888). The project
     header is blanked: an ``OPENAI_PROJECT_ID`` set for chat makes ``/images/generations`` 403 on
     projects with a model allow-list, and the key already carries the project (#60748)."""

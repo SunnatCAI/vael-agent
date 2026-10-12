@@ -377,7 +377,7 @@ def check_macos_full_disk_access() -> None:
                    "Privacy & Security → Full Disk Access — or run:\n"
                    "      open \"x-apple.systempreferences:com.apple.preference.security?Privacy_AllFiles\"\n"
                    "    then enable your terminal (and VAEL.app if you use Desktop), and restart them once. "
-                   "With VAEL' stable signing identities the grant survives every update.")
+                   "With VAEL's stable signing identities the grant survives every update.")
     except OSError:
         pass  # missing dir / other error: indeterminate, stay silent
     else:

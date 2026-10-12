@@ -44,7 +44,7 @@ _STATIC_PROVIDER_ENV_BLOCKLIST = frozenset({
     # registry mirrors env_vars only for api_key profiles, and discovering the provider plugins
     # from here, at import, would re-mirror them over a plugin's own registry entry.
     "NOUS_API_KEY", "QWEN_API_KEY",
-    # VAEL' own secrets read in code: the anonymous-inference secret, dashboard auth
+    # VAEL's own secrets read in code: the anonymous-inference secret, dashboard auth
     # (basic, OIDC, drain) and the Google Meet realtime key.
     "VAEL_ANON_API_SECRET", "VAEL_DASHBOARD_BASIC_AUTH_PASSWORD",
     "VAEL_DASHBOARD_BASIC_AUTH_SECRET", "VAEL_DASHBOARD_DRAIN_SECRET",

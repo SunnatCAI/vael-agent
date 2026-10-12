@@ -381,7 +381,7 @@ def _reach_sandbox_cdp(cdp: str) -> str:
 
 
 def _resolve_managed_chromium_cdp(env: dict, task_id: Optional[str], session_name: str = "") -> Optional[str]:
-    """Point the harness at VAEL' packaged Chromium, launched through agent-browser for this cache key —
+    """Point the harness at VAEL's packaged Chromium, launched through agent-browser for this cache key —
     the same browser the built-in tools drive. Left alone, the harness discovers the user's INSTALLED
     Chrome on its default profile, which needs the chrome://inspect toggle + an Allow popup per run and
     is blocked outright on Chrome >=136; on a headless box it just reports ``chrome-not-running``.
@@ -421,7 +421,7 @@ def _resolve_backend_cdp(env: dict, task_id: Optional[str], session_name: str = 
     Precedence: (1) ``BU_CDP_WS``/``BU_CDP_URL`` already in env (operator override); (2) ``BROWSER_CDP_URL``
     env / ``browser.cdp_url`` (``/browser connect``); (3) a cloud provider via the legacy ``_get_session_info()``
     so browser_exec shares the SAME session machinery (per-task cache, expiry, reaper, atexit);
-    (4) the local engine — ``browser.engine: lightpanda`` or VAEL' packaged Chromium via agent-browser
+    (4) the local engine — ``browser.engine: lightpanda`` or VAEL's packaged Chromium via agent-browser
     (never the harness's own discovery of the user's installed Chrome); (5) BU direct-API configs → None:
     the CLI reaches BU cloud natively (BU_AUTOSPAWN). ``session_name`` (BU_NAME) keys the session cache so
     each name gets its OWN browser — what makes named sessions concurrent-safe.

@@ -988,7 +988,7 @@ def test_validate_openviking_reachability_uses_health_only(monkeypatch):
 
 
 # ---------------------------------------------------------------------------
-# on_session_switch — flush + commit + rotate behavior (vael-agent#28296)
+# on_session_switch — flush + commit + rotate behavior (hermes-agent#28296)
 # ---------------------------------------------------------------------------
 
 def _make_provider_with_session(session_id: str, turn_count: int):
@@ -1102,7 +1102,7 @@ def test_end_then_switch_does_not_double_commit():
 
 
 def test_session_needs_commit_guard_wins_over_stale_turn_count():
-    """Regression for vael-agent#28296 review (M3): once a session is marked
+    """Regression for hermes-agent#28296 review (M3): once a session is marked
     committed, _session_needs_commit must return False even if turn_count is
     still positive. A racing sync_turn can re-increment _turn_count after the
     commit+reset; without the guard ordering, a follow-up finalizer would

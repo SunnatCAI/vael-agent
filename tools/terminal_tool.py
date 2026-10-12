@@ -1242,7 +1242,7 @@ def _run_foreground(
     metered: bool = True,
 ) -> str:
     """Execute in the foreground with retry on transient errors, then finalize. ``metered``
-    is False for VAEL' own control-plane commands (``_host_local``)."""
+    is False for VAEL's own control-plane commands (``_host_local``)."""
     from vael_cli.observability.shared_metrics_harness import record_terminal_outcome
     max_retries = 3
     env_type, eff, effective_timeout = plan.env_type, plan.effective_task_id, plan.effective_timeout
@@ -1274,7 +1274,7 @@ def _run_foreground(
             break
         except Exception as e:
             # A backend exception (e.g. an SSH connect timeout) never reached an exit status, so it
-            # is not a terminal outcome; VAEL' own deadline arrives as ``vael_timed_out``.
+            # is not a terminal outcome; VAEL's own deadline arrives as ``vael_timed_out``.
             if "timeout" in str(e).lower():
                 return _error_json(f"Command timed out after {effective_timeout} seconds", exit_code=124)
             # Retry on transient errors

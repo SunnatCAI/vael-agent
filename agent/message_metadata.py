@@ -8,7 +8,7 @@ from uuid import uuid4
 from typing import Any, List, Mapping, MutableMapping, Optional, TypeVar
 
 
-# These fields describe VAEL' durable record and timeline display, not
+# These fields describe VAEL's durable record and timeline display, not
 # provider-visible message content. The request builder strips them from every
 # outgoing copy and the token estimator ignores them: one set, so an estimate
 # never prices bytes the provider never receives (an edit's inline_diff in

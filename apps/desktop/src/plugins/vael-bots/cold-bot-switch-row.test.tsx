@@ -1,6 +1,6 @@
 /**
  * The pending cold-open mark is a spinner on the clicked row, not a new owner.
- * Highlight still follows the chat on screen (vael-agent#120277).
+ * Highlight still follows the chat on screen (hermes-agent#120277).
  */
 
 import { cleanup, render, screen } from '@testing-library/react'

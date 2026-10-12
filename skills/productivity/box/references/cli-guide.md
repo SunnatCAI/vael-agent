@@ -1,6 +1,6 @@
 # Box CLI guide
 
-Run Box commands through VAEL' `terminal` tool. Prefer the documented command in this skill over exploratory help calls. Use help only when a required option is absent here or the installed CLI rejects the syntax.
+Run Box commands through VAEL's `terminal` tool. Prefer the documented command in this skill over exploratory help calls. Use help only when a required option is absent here or the installed CLI rejects the syntax.
 
 ## Use one command runner
 

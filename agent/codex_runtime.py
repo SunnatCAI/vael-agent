@@ -275,7 +275,7 @@ _CODEX_PROGRESS_DELTA_METHODS = frozenset(m for m, _ in _CODEX_TEXT_DELTA_METHOD
     "item/commandExecution/outputDelta", "item/fileChange/outputDelta",
 }
 _CODEX_PROGRESS_ITEM_TYPES = _CODEX_TOOL_ITEM_TYPES | {"agentMessage", "reasoning"}
-# Internal MCP server wrapping VAEL' native tools: its inner dispatch has no tool_progress_callback, so the
+# Internal MCP server wrapping VAEL's native tools: its inner dispatch has no tool_progress_callback, so the
 # codex-level mcpToolCall IS the display event and the mcp.vael-tools.* prefix is stripped (users see VAEL tools).
 _STATIC_TOOL_NAMES = {"commandExecution": "exec_command", "fileChange": "apply_patch", "webSearch": "web_search"}
 _STABLE_ID_PREFIXES = {"commandExecution": "exec", "fileChange": "apply_patch"}
@@ -498,7 +498,7 @@ def _codex_developer_instructions(agent) -> str:
 # Durable codex thread binding: ``sessions.model_config.codex_thread_id`` (vael_state), written after the
 # turn's projected rows were committed, read by the next AIAgent built for the same VAEL session so an
 # API-server restart (or the per-request agents of /api/sessions/{id}/chat) resumes the model-side thread
-# instead of starting an empty one while VAEL' own transcript continues (#100531).
+# instead of starting an empty one while VAEL's own transcript continues (#100531).
 _CODEX_THREAD_ID_KEY = "codex_thread_id"
 _CODEX_THREAD_RESUME_NOTICE = "Codex thread could not be resumed; starting a new one."
 
@@ -536,7 +536,7 @@ def _start_codex_thread(agent) -> str:
 
 def _codex_model_provider(agent) -> str | None:
     """codex's ``[model_providers.<id>]`` for a named custom provider (``providers.<name>``); None means codex's
-    own provider. Only the stable id is sent and codex resolves base_url/env_key itself, so VAEL' credential
+    own provider. Only the stable id is sent and codex resolves base_url/env_key itself, so VAEL's credential
     never enters the JSON-RPC payload (#75186)."""
     if str(getattr(agent, "provider", "") or "").strip().lower() != "custom":
         return None
@@ -580,7 +580,7 @@ def _ensure_codex_session(agent, messages: List[Dict[str, Any]] | None = None) -
     from agent.transports.codex_app_server_session import CodexAppServerSession, _ServerRequestRouting
     from vael_cli.codex_runtime_switch import get_configured_codex_binary
     from vael_cli.config import load_config
-    # Approval callback: VAEL' standard prompt flow when a CLI thread installed one.
+    # Approval callback: VAEL's standard prompt flow when a CLI thread installed one.
     approval_callback = None
     with suppress(Exception):
         from tools.terminal_tool import _get_approval_callback
@@ -594,7 +594,7 @@ def _ensure_codex_session(agent, messages: List[Dict[str, Any]] | None = None) -
     except Exception:
         logger.debug("codex app-server: approval-bypass lookup failed; keeping fail-closed default", exc_info=True)
     # Bridge codex JSON-RPC notifications (item/started, item/completed, item/agentMessage/delta, ...) into
-    # VAEL' gateway UI callbacks (tool_progress_callback, _fire_stream_delta,
+    # VAEL's gateway UI callbacks (tool_progress_callback, _fire_stream_delta,
     # _emit_interim_assistant_message). Without this, Discord/Telegram users see no live tool-progress or
     # interim commentary while codex_app_server is running — only the final answer (#33200). Supersedes the
     # narrower item/started-only bridge from #38835.

@@ -55,7 +55,7 @@ class TestCodexItemToToolName:
         ) == "web_search"
 
     def test_vael_tools_mcp_server_emits_bare_tool_name(self):
-        """The vael-tools MCP server wraps VAEL' own tools for codex;
+        """The vael-tools MCP server wraps VAEL's own tools for codex;
         the inner dispatch subprocess can't fire native progress events,
         so the codex-level event IS the display event — shown without the
         mcp.vael-tools.* namespacing (from #26541 by @simpolism)."""

@@ -15,7 +15,7 @@ description: "构建一个自动化 AI 代码审查器，监控你的仓库、�
 ```
 ┌───────────────────────────────────────────────────────────────────┐
 │                                                                   │
-│   Cron Timer  ──▶  VAEL Agent  ──▶  GitHub API  ──▶  Review     │
+│    Cron Timer  ──▶  VAEL Agent  ──▶  GitHub API  ──▶  Review      │
 │   (every 2h)       + gh CLI           (PR diffs)       delivery   │
 │                    + skill                             (Telegram, │
 │                    + memory                            Discord,   │

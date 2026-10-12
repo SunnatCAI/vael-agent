@@ -9,7 +9,7 @@ lock has been cancelled, it unlinks the live -wal/-shm pair and splits the
 store into two concurrent generations. Both generations report
 ``integrity_check ok`` while an old-generation acknowledged write is lost.
 
-VAEL' own corruption banners used to instruct exactly that command
+VAEL's own corruption banners used to instruct exactly that command
 (`sqlite3 ~/.vael/state.db ".recover"`). The fix routes operators to
 `vael sessions recover --source ...`, whose lane snapshots the damaged
 bundle before any shell touches it, and refuses a WAL-reset-vulnerable

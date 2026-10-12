@@ -41,7 +41,7 @@ Gmail, Calendar, Drive, Contacts, Sheets, and Docs — through VAEL-managed OAut
 ## Scripts
 
 - `scripts/setup.py` — OAuth2 setup (run once to authorize)
-- `scripts/google_api.py` — compatibility wrapper CLI. It prefers `gws` for operations when available, while preserving VAEL' existing JSON output contract.
+- `scripts/google_api.py` — compatibility wrapper CLI. It prefers `gws` for operations when available, while preserving VAEL's existing JSON output contract.
 
 ## First-Time Setup
 
@@ -49,7 +49,7 @@ The setup is fully non-interactive — you drive it step by step so it works
 on CLI, Telegram, Discord, or any platform.
 
 Run the setup script with Python from the VAEL environment, not an unrelated
-system Python. `--install-deps` syncs VAEL' declared Google extra through PM;
+system Python. `--install-deps` syncs VAEL's declared Google extra through PM;
 after syncing, restart VAEL and rerun the OAuth command. If VAEL is not
 importable, use `vael setup` first rather than installing packages with pip.
 

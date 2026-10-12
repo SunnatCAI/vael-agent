@@ -168,7 +168,7 @@ export function registerTerminalIpc({
 
     // Strip color/theme-detection vars that ride along when Electron is launched
     // from a non-tty agent shell (Cursor's runner sets NO_COLOR/FORCE_COLOR=0
-    // /TERM=dumb; some terminals set COLORFGBG which would flip VAEL' TUI into
+    // /TERM=dumb; some terminals set COLORFGBG which would flip VAEL's TUI into
     // light-mode). Our PTY is a real xterm-compat terminal — force truecolor.
     delete env.NO_COLOR
     delete env.FORCE_COLOR

@@ -18,8 +18,8 @@ Not using OpenAI Codex? `vael setup --portal` configures a non-Codex backend wit
 - Run OpenAI agent turns against your **ChatGPT subscription** (no API key required) using the same auth flow Codex CLI uses.
 - Use **Codex's own toolset and sandbox** — `shell` for terminal/read/write/search, `apply_patch` for structured edits, `update_plan` for planning, all running inside seatbelt/landlock sandboxing.
 - **Native Codex plugins** — Linear, GitHub, Gmail, Calendar, Canva, etc. — installed via `codex plugin` are auto-migrated and active in your VAEL session.
-- **VAEL' richer tools come along** — web_search, web_extract, browser automation, vision, image generation, skills, and TTS work via an MCP callback. Codex calls back into VAEL for tools it doesn't have built in.
-- **Memory and skill nudges keep working** — Codex's events are projected into VAEL' message shape so the self-improvement loop sees a normal-looking transcript.
+- **VAEL's richer tools come along** — web_search, web_extract, browser automation, vision, image generation, skills, and TTS work via an MCP callback. Codex calls back into VAEL for tools it doesn't have built in.
+- **Memory and skill nudges keep working** — Codex's events are projected into VAEL's message shape so the self-improvement loop sees a normal-looking transcript.
 - **Your VAEL persona rides along** — the composed system prompt (SOUL.md, MEMORY.md/USER.md, per-channel `system_prompt` overrides) is sent to the codex thread once as developer instructions when the thread starts, and Codex's built-in personality is disabled so it cannot compete with yours.
 
 ## What tools the model actually has
@@ -32,7 +32,7 @@ These ship with `codex app-server` itself — no VAEL involvement, no MCP, no pl
 
 - **`shell`** — runs arbitrary shell commands inside the sandbox. This is how the model reads files (`cat`, `head`, `tail`), writes them (`echo > foo`, heredocs), searches them (`find`, `rg`, `grep`), navigates directories (`ls`, `cd`), runs builds, manages processes, and anything else you'd do in bash.
 - **`apply_patch`** — applies a structured multi-file diff in Codex's patch format. The model uses this for non-trivial code edits (adding a function, refactoring across files); shell heredocs are still available for one-off writes.
-- **`update_plan`** — codex's internal todo / plan tracker. Equivalent of VAEL' `todo` tool, but managed entirely inside codex's runtime.
+- **`update_plan`** — codex's internal todo / plan tracker. Equivalent of VAEL's `todo` tool, but managed entirely inside codex's runtime.
 - **`view_image`** — load a local image file into the conversation so the model can see it.
 - **`web_search`** — codex has its own built-in web search when configured. VAEL also exposes `web_search` (Firecrawl-backed) via the callback below; the model picks whichever it prefers.
 
@@ -63,20 +63,20 @@ VAEL registers itself as an MCP server so codex can call back for tools codex do
 - **`web_search`** / **`web_extract`** — Firecrawl-backed; tends to be cleaner than scraping for structured content.
 - **`browser_navigate` / `browser_click` / `browser_type` / `browser_press` / `browser_snapshot` / `browser_scroll` / `browser_back` / `browser_get_images` / `browser_console` / `browser_vision`** — full browser automation via Camofox or Browserbase.
 - **`vision_analyze`** — call a separate vision model to inspect an image (different from codex's `view_image` which loads it into the conversation).
-- **`image_generate`** — image generation through VAEL' image_gen plugin chain.
-- **`skill_view` / `skills_list`** — read from VAEL' skill library.
-- **`text_to_speech`** — TTS through VAEL' configured provider.
+- **`image_generate`** — image generation through VAEL's image_gen plugin chain.
+- **`skill_view` / `skills_list`** — read from VAEL's skill library.
+- **`text_to_speech`** — TTS through VAEL's configured provider.
 
-When the model wants one of these, codex spawns the `vael_tools_mcp_server` subprocess via stdio MCP, the call is dispatched through `model_tools.handle_function_call()` (same code path as VAEL' default runtime), and the result is returned to codex like any other MCP response.
+When the model wants one of these, codex spawns the `vael_tools_mcp_server` subprocess via stdio MCP, the call is dispatched through `model_tools.handle_function_call()` (same code path as VAEL's default runtime), and the result is returned to codex like any other MCP response.
 
 ### What's NOT available on this runtime
 
 These four VAEL tools require the running AIAgent context (mid-loop state) to dispatch, and a stateless MCP callback can't drive them. Switch back to the default runtime (`/codex-runtime auto`) when you need any of them:
 
 - **`delegate_task`** — spawn subagents
-- **`memory`** — VAEL' persistent memory store
+- **`memory`** — VAEL's persistent memory store
 - **`session_search`** — cross-session search
-- **`todo`** — VAEL' todo store (codex's `update_plan` is the in-runtime equivalent)
+- **`todo`** — VAEL's todo store (codex's `update_plan` is the in-runtime equivalent)
 
 ## Workflow features (`/goal`, kanban, cron)
 
@@ -163,7 +163,7 @@ uses:
    ```bash
    codex login                  # writes tokens to ~/.codex/auth.json
    ```
-   VAEL' own `vael auth add openai-codex` writes to `~/.vael/auth.json` — that's a separate session. **Run `codex login` separately** if you haven't.
+   VAEL's own `vael auth add openai-codex` writes to `~/.vael/auth.json` — that's a separate session. **Run `codex login` separately** if you haven't.
 
    <a id="named-custom-providers"></a>**Or: a named custom provider.** A `providers.<name>` entry in VAEL config can use this runtime when the **same name** is defined as a Codex provider. VAEL config:
 
@@ -190,9 +190,9 @@ uses:
    wire_api = "responses"
    ```
 
-   VAEL sends only `model` and `modelProvider = "my-gateway"` on `thread/start`; codex resolves `base_url` and reads the key from `env_key` in its own environment. **VAEL never forwards the API key**, so `MY_GATEWAY_API_KEY` must be present in the process environment VAEL runs in — `~/.vael/.env` is loaded at startup and provider credentials are inherited by the codex subprocess. Auxiliary calls (titles, compression, memory review) still use VAEL' own `providers.my-gateway` entry.
+   VAEL sends only `model` and `modelProvider = "my-gateway"` on `thread/start`; codex resolves `base_url` and reads the key from `env_key` in its own environment. **VAEL never forwards the API key**, so `MY_GATEWAY_API_KEY` must be present in the process environment VAEL runs in — `~/.vael/.env` is loaded at startup and provider credentials are inherited by the codex subprocess. Auxiliary calls (titles, compression, memory review) still use VAEL's own `providers.my-gateway` entry.
 
-   Caveats: the name after `custom:` is the `providers:` config key and must match the `[model_providers.<name>]` table name exactly — if it does not exist on the codex side, codex reports an unknown provider rather than silently using the VAEL endpoint. Anonymous `provider: custom` (a bare `base_url`) is not eligible: it has no stable name to hand to codex, so it stays on VAEL' standard runtime.
+   Caveats: the name after `custom:` is the `providers:` config key and must match the `[model_providers.<name>]` table name exactly — if it does not exist on the codex side, codex reports an unknown provider rather than silently using the VAEL endpoint. Anonymous `provider: custom` (a bare `base_url`) is not eligible: it has no stable name to hand to codex, so it stays on VAEL's standard runtime.
 
 3. **(Optional) Install the Codex plugins you want.** When you enable the runtime, VAEL auto-migrates whichever curated plugins you've already installed via Codex CLI:
    ```bash
@@ -214,7 +214,7 @@ That command:
 - Persists `model.openai_runtime: codex_app_server` to your config.yaml.
 - Migrates user MCP servers from `~/.vael/config.yaml` to `~/.codex/config.toml`.
 - **Discovers and migrates installed native Codex plugins** (Linear, GitHub, Gmail, Calendar, Canva, etc.) by querying Codex's `plugin/list` RPC.
-- **Registers VAEL' own tools as an MCP server** so the codex subprocess can call back for tools codex doesn't ship with.
+- **Registers VAEL's own tools as an MCP server** so the codex subprocess can call back for tools codex doesn't ship with.
 - **Writes `default_permissions = ":workspace"`** so the sandbox allows writes within the workspace without prompting for every operation.
 - Tells you what was migrated. Takes effect on the **next** session — the current cached agent keeps the prior runtime so prompt caches stay valid.
 
@@ -247,7 +247,7 @@ The value is a single executable path, not a shell command — no quoting or ext
 
 ## Self-improvement loop (memory + skill nudges)
 
-VAEL' background self-improvement fires on counter thresholds:
+VAEL's background self-improvement fires on counter thresholds:
 
 - Every 10 user prompts → a forked review agent looks at the conversation and decides whether anything should be saved to memory.
 - Every 10 tool iterations within a single turn → same idea but for skills (`skill_manage` writes).
@@ -264,13 +264,13 @@ How the wiring stays equivalent:
 | Skill trigger (`_iters_since_skill >= _skill_nudge_interval`) | computed after the loop | computed after the codex turn |
 | `_spawn_background_review(messages_snapshot=..., review_memory=..., review_skills=...)` | called when either trigger fires | called identically when either trigger fires |
 
-One detail: the review fork itself needs to call VAEL' agent-loop tools (`memory`, `skill_manage`), which require VAEL' own dispatch. So when the parent agent is on `codex_app_server`, the review fork is **downgraded to `codex_responses`** — same OAuth credentials, same `openai-codex` provider, but talks to OpenAI's Responses API directly so VAEL owns the loop and the agent-loop tools work. This is invisible to the user.
+One detail: the review fork itself needs to call VAEL's agent-loop tools (`memory`, `skill_manage`), which require VAEL's own dispatch. So when the parent agent is on `codex_app_server`, the review fork is **downgraded to `codex_responses`** — same OAuth credentials, same `openai-codex` provider, but talks to OpenAI's Responses API directly so VAEL owns the loop and the agent-loop tools work. This is invisible to the user.
 
 Net effect: enable the codex runtime and your memory + skill nudges keep firing exactly as they would otherwise.
 
 ## How approvals work
 
-Codex requests approval before executing commands or applying patches. These get translated into VAEL' standard "Dangerous Command" prompt:
+Codex requests approval before executing commands or applying patches. These get translated into VAEL's standard "Dangerous Command" prompt:
 
 ```
 ╭───────────────────────────────────────╮
@@ -296,10 +296,10 @@ For `apply_patch` (file edit) approvals, VAEL shows a summary of what changed (`
 
 Codex has three built-in permission profiles:
 - `:read-only` — no writes; every shell command requires approval
-- `:workspace` — writes within the current workspace allowed without prompts (VAEL' default when you enable the runtime)
+- `:workspace` — writes within the current workspace allowed without prompts (VAEL's default when you enable the runtime)
 - `:danger-no-sandbox` — no sandbox at all (don't use this unless you understand it)
 
-You can override the default in `~/.codex/config.toml` outside VAEL' managed block:
+You can override the default in `~/.codex/config.toml` outside VAEL's managed block:
 
 ```toml
 default_permissions = ":read-only"
@@ -309,7 +309,7 @@ default_permissions = ":read-only"
 
 ## Auxiliary tasks and ChatGPT subscription token cost
 
-When this runtime is on with the `openai-codex` provider, **auxiliary tasks (title generation, context compression, vision auto-detect, the background self-improvement review fork) also flow through your ChatGPT subscription by default**, because VAEL' auxiliary client uses the main provider/model when no per-task override is set.
+When this runtime is on with the `openai-codex` provider, **auxiliary tasks (title generation, context compression, vision auto-detect, the background self-improvement review fork) also flow through your ChatGPT subscription by default**, because VAEL's auxiliary client uses the main provider/model when no per-task override is set.
 
 This isn't specific to `codex_app_server` — it's true for the existing `codex_responses` path too — but it's more visible here because you're explicitly opting in for the subscription billing.
 
@@ -331,7 +331,7 @@ auxiliary:
     model: google/gemini-3-flash-preview
 ```
 
-The self-improvement review fork inherits the main runtime via `_current_main_runtime()` and VAEL downgrades it from `codex_app_server` to `codex_responses` automatically (so the fork can actually call `memory` and `skill_manage` — VAEL' own agent-loop tools). That fork still uses your subscription auth unless you've routed aux tasks elsewhere.
+The self-improvement review fork inherits the main runtime via `_current_main_runtime()` and VAEL downgrades it from `codex_app_server` to `codex_responses` automatically (so the fork can actually call `memory` and `skill_manage` — VAEL's own agent-loop tools). That fork still uses your subscription auth unless you've routed aux tasks elsewhere.
 
 ## Editing `~/.codex/config.toml` safely
 
@@ -356,7 +356,7 @@ Anything **outside** that block is yours. Re-running migration (via `/codex-runt
 
 Anything you add **inside** the managed block will get clobbered on the next migration. If you need a tweak that requires editing the managed block, file an issue and we'll add the knob.
 
-**Same-name servers.** If your own `[mcp_servers.<name>]` table (outside the block) uses the same name as a server in VAEL' `mcp_servers`, your table wins: VAEL skips its projection for that name instead of emitting a second `[mcp_servers.<name>]` header (which is invalid TOML and would stop codex from starting). The migration report lists such names under "Kept N user-owned MCP server(s)". To let VAEL manage the server, delete your table and re-run the migration. The rendered file is parsed as TOML before it replaces `config.toml`; an unparsable result is reported and the existing file is left untouched.
+**Same-name servers.** If your own `[mcp_servers.<name>]` table (outside the block) uses the same name as a server in VAEL's `mcp_servers`, your table wins: VAEL skips its projection for that name instead of emitting a second `[mcp_servers.<name>]` header (which is invalid TOML and would stop codex from starting). The migration report lists such names under "Kept N user-owned MCP server(s)". To let VAEL manage the server, delete your table and re-run the migration. The rendered file is parsed as TOML before it replaces `config.toml`; an unparsable result is reported and the existing file is left untouched.
 
 ### Running the migration from a script
 
@@ -395,7 +395,7 @@ This matches the boundary OpenClaw arrived at after some early experimentation: 
 
 ## MCP server migration
 
-VAEL' `mcp_servers` config is auto-translated to the TOML format Codex expects. The migration runs every time you enable the runtime and is idempotent — re-runs replace the managed section but preserve any user-edited Codex config.
+VAEL's `mcp_servers` config is auto-translated to the TOML format Codex expects. The migration runs every time you enable the runtime and is idempotent — re-runs replace the managed section but preserve any user-edited Codex config.
 
 What translates:
 
@@ -414,7 +414,7 @@ What's not migrated:
 
 Plugins installed via `codex plugin` (Linear, GitHub, Gmail, Calendar, Canva, etc.) are discovered through Codex's `plugin/list` RPC. For each plugin where `installed: true`, VAEL writes a `[plugins."<name>@openai-curated"]` block enabling it in your VAEL session.
 
-This means: when your friend says "I have Calendar and GitHub set up in my Codex CLI" and they enable VAEL' codex runtime, VAEL activates those automatically. No re-configuration needed.
+This means: when your friend says "I have Calendar and GitHub set up in my Codex CLI" and they enable VAEL's codex runtime, VAEL activates those automatically. No re-configuration needed.
 
 What's NOT migrated:
 - Plugins you haven't installed yet — install them in Codex first.
@@ -466,11 +466,11 @@ This runtime is **opt-in beta**. Working as of VAEL Agent 2026.5 + Codex CLI 0.1
 
 Known limitations:
 
-- **VAEL auth and codex auth are separate sessions.** You need both `codex login` AND `vael auth add openai-codex` for the cleanest UX (the runtime uses codex's session for the LLM call). This is a deliberate design choice in VAEL' `_import_codex_cli_tokens` — VAEL won't share OAuth state with codex CLI to avoid clobbering each other on token refresh.
+- **VAEL auth and codex auth are separate sessions.** You need both `codex login` AND `vael auth add openai-codex` for the cleanest UX (the runtime uses codex's session for the LLM call). This is a deliberate design choice in VAEL's `_import_codex_cli_tokens` — VAEL won't share OAuth state with codex CLI to avoid clobbering each other on token refresh.
 - **`delegate_task`, `memory`, `session_search`, `todo` are unavailable on this runtime.** They need the running AIAgent context which a stateless MCP callback can't provide. Use `/codex-runtime auto` when you need these.
 - **No inline patch preview in approval prompts when codex doesn't track the changeset.** Codex's `fileChange` approval params don't always carry the changeset. VAEL caches the data from the corresponding `item/started` notification when possible, but if approval arrives before the item has streamed, the prompt falls back to whatever `reason` codex provides.
 - **`fallback_providers` fail over only on quota and rate-limit failures.** When a codex app-server turn fails with a billing / usage-limit / rate-limit error, VAEL switches to the configured [fallback provider](./fallback-providers.md) and retries the same turn on it; auth failures (`codex login` expired), turn timeouts and unknown-model errors do not fail over on this runtime and surface as the turn's error instead.
-- **Prior VAEL history is seeded only into a thread codex starts from scratch.** A codex thread that codex hands back via `thread/resume` already holds the conversation. When no resumable thread exists — the session ran on another provider before `/model` switched to openai-codex, codex could not resume the stored thread, or the running thread was retired — the new thread's `developerInstructions` carry VAEL' system prompt followed by the session's prior turns (user and assistant text, tool names, tool-result previews; the most recent ~32K characters). When the composed prompt changes mid-session (for example `/personality` in the TUI or Desktop), the next turn retires the running thread and starts a new one carrying the updated prompt plus that same history seed.
+- **Prior VAEL history is seeded only into a thread codex starts from scratch.** A codex thread that codex hands back via `thread/resume` already holds the conversation. When no resumable thread exists — the session ran on another provider before `/model` switched to openai-codex, codex could not resume the stored thread, or the running thread was retired — the new thread's `developerInstructions` carry VAEL's system prompt followed by the session's prior turns (user and assistant text, tool names, tool-result previews; the most recent ~32K characters). When the composed prompt changes mid-session (for example `/personality` in the TUI or Desktop), the next turn retires the running thread and starts a new one carrying the updated prompt plus that same history seed.
 - **The codex thread itself does survive a restart.** After each committed turn VAEL stores the codex thread id on the session row (`codex_thread_id` in the session's `model_config`, `vael sessions` / `state.db`). The next agent built for that same VAEL session — a later `/api/sessions/{id}/chat` request, or the first turn after the API server or gateway restarts — issues `thread/resume` for the stored id before `turn/start`, so the model keeps its own memory of the earlier turns (that is why no history seed is sent on resume). When codex cannot hand the thread back (its rollout was deleted, `CODEX_HOME` changed, the previous app-server was killed while still writing it), VAEL fails closed: it drops the stored id, starts a fresh thread and shows one line — `Codex thread could not be resumed; starting a new one.` — on the status rail of the surface you are on (CLI, TUI/Desktop, messaging gateway). A `/new` session never resumes an older thread.
 - **Sub-second cancellation isn't guaranteed.** Mid-stream interrupts (Ctrl+C while codex is responding) are sent via `turn/interrupt`, but if codex has already flushed the final message, you get the response anyway.
 
@@ -508,14 +508,14 @@ If you find a bug, [open an issue](https://github.com/NousResearch/hermes-agent/
         │   │  │    canva, ...)       │     │
         │   │  └─ vael-tools ───────┼─────────────────┐
         │   │       (callback to     │     │           │
-        │   │        VAEL' richer  │     │           │
+        │   │        VAEL's richer   │     │           │
         │   │        tools)          │     │           │
         │   └─────────────────────────┘     │           │
         └──────────────────────────────────┘           │
                                                         │
                                                         ▼
         ┌──────────────────────────────────────────────────────────┐
-        │  vael_tools_mcp_server.py (subprocess on demand)        │
+        │  vael_tools_mcp_server.py (subprocess on demand)          │
         │   web_search, web_extract, browser_*, vision_analyze,    │
         │   image_generate, skill_view, skills_list, text_to_speech│
         └──────────────────────────────────────────────────────────┘

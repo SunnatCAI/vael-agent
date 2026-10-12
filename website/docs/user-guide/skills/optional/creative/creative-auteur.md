@@ -59,7 +59,7 @@ Not for polishing a UI someone else built, and not for backend-only work.
 ### What it actually does
 
 1. Commits the art direction **in writing before any markup** — one hue, one type system, a motion budget, named anti-references.
-2. Generates or sources the assets: VAEL' `image_generate` tool, Blender, depth maps, CC0 meshes and HDRIs with their licences recorded.
+2. Generates or sources the assets: VAEL's `image_generate` tool, Blender, depth maps, CC0 meshes and HDRIs with their licences recorded.
 3. Builds from proven recipes — one WebGL context, transform/opacity motion, scroll state machines.
 4. **Gates the result**: `slopscan` fails the build on concrete slop, `motionqa` fails it on dropped frames, `systemscan` fails it on cross-route drift.
 

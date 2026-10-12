@@ -32,12 +32,12 @@ explicitly allowlisted set.
 │  Docker Network: internal (no internet)     │
 │                                             │
 │   ┌──────────────┐   ┌──────────────────┐   │
-│   │ vael-agent │   │ vael-dashboard │   │
+│   │ vael-agent   │   │ vael-dashboard   │   │
 │   └──────┬───────┘   └────────┬─────────┘   │
 │          │                    │              │
 │          ▼                    │              │
 │   ┌──────────────┐            │              │
-│   │ vael-gtw   │◄───────────┘              │
+│   │ vael-gtw     │◄───────────┘              │
 │   └──────┬───────┘                           │
 │          │                                   │
 └──────────┼───────────────────────────────────┘

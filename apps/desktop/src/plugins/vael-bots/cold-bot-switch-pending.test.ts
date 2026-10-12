@@ -1,6 +1,6 @@
 /**
  * Cold bot switch acknowledges the clicked row before the backend answers
- * (vael-agent#120277).
+ * (hermes-agent#120277).
  *
  * The mark is published only after the fronted-tab check misses, and before
  * prepareBotSource. It is not chat ownership: highlight, routing, drafts, and

@@ -191,7 +191,7 @@ def test_terminal_calls_count_against_the_configured_backend(home):
 
     assert json.loads(terminal_tool("echo hi"))["exit_code"] == 0
     assert json.loads(terminal_tool("exit 3"))["exit_code"] == 3  # the command failed, the backend did not
-    terminal_tool("echo control-plane", _host_local=True)  # VAEL' own children are not user work
+    terminal_tool("echo control-plane", _host_local=True)  # VAEL's own children are not user work
 
     assert _rows(home, "vael.execution_backend.count") == [
         ({"backend": "local", "error_class": "none", "kind": "terminal", "outcome": "success"}, 2),

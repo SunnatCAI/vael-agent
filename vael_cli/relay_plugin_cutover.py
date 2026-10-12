@@ -1,4 +1,4 @@
-"""Shared migration guards for VAEL' native NeMo Relay ownership."""
+"""Shared migration guards for VAEL's native NeMo Relay ownership."""
 
 from __future__ import annotations
 

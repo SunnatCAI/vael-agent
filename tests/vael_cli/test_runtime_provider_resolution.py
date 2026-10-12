@@ -811,7 +811,7 @@ def test_codex_app_server_opt_in_routes_only_named_custom_providers(monkeypatch)
     resolved = rp.resolve_runtime_provider(requested="custom:my-gateway")
     assert (resolved["provider"], resolved["requested_provider"], resolved["api_mode"]) == (
         "custom", "custom:my-gateway", "codex_app_server")
-    assert resolved["api_key"] == "test-key"  # VAEL' own aux/fallback client keeps the credential
+    assert resolved["api_key"] == "test-key"  # VAEL's own aux/fallback client keeps the credential
 
     anonymous = rp.resolve_runtime_provider(requested="custom", explicit_base_url="https://gateway.example.com/v1",
                                             explicit_api_key="k")
