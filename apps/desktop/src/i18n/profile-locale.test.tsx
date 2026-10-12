@@ -3,9 +3,9 @@ import { afterEach, expect, it, vi } from 'vitest'
 
 import { setApiRequestConnection } from '@/api/client'
 import type { VaelApiRequest } from '@/global'
-import type { VaelConfigRecord } from '@/vael'
 import { $activeGatewayProfile } from '@/store/profile'
 import { $connection } from '@/store/session'
+import type { VaelConfigRecord } from '@/vael'
 
 import { useI18n } from './context'
 import { ProfileI18nProvider as I18nProvider } from './profile-provider'

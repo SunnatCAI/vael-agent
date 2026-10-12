@@ -706,7 +706,7 @@ damaged application files, repair through the
 
 ```bash
 # Reset a stuck macOS microphone prompt
-tccutil reset Microphone com.nousresearch.hermes
+tccutil reset Microphone com.nousresearch.vael
 ```
 
 ### Windows: the SSH client is missing or broken
@@ -817,7 +817,7 @@ button, so it looks like there is nothing to re-check. If that happens, reset
 the stale grant once and re-grant:
 
 ```bash
-tccutil reset ScreenCapture com.nousresearch.hermes   # repeat per service
+tccutil reset ScreenCapture com.nousresearch.vael   # repeat per service
 ```
 
 then toggle the fresh entry ON in System Settings and fully quit & relaunch
@@ -855,7 +855,7 @@ detected and never re-signed.
 One-time note: changing the signing identity (including the first update after
 this fix) changes the app's identity once, so macOS will re-prompt one final
 time. Grants are stable from then on. If a permission gets stuck, reset it with
-`tccutil reset All com.nousresearch.hermes` and re-grant.
+`tccutil reset All com.nousresearch.vael` and re-grant.
 
 ## See also
 

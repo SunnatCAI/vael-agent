@@ -1,8 +1,8 @@
 import type { Dispatch, SetStateAction } from 'react'
 
-import type { VaelGateway } from '@/vael'
 import type { IconComponent } from '@/lib/icons'
 import type { EnvVarInfo } from '@/types/vael'
+import type { VaelGateway } from '@/vael'
 
 export type SettingsView =
   | 'about'

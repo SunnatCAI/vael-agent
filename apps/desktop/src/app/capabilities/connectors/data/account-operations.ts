@@ -6,8 +6,8 @@ import type {
 } from '@vael/shared'
 import { atom } from 'nanostores'
 
-import type { ProfileScope } from '@/vael'
 import { type ConnectionTarget, parseConnectionTarget } from '@/store/connection-request'
+import type { ProfileScope } from '@/vael'
 
 import { invalidateConnectors } from './keys'
 import { accountOperationStatus } from './rpc'

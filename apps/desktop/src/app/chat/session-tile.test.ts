@@ -1,12 +1,12 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import type { VaelConnection } from '@/global'
-import { getSession } from '@/vael'
 import { clearSessionDraft, stashSessionDraft } from '@/store/composer'
 import { $gatewaySwitching } from '@/store/gateway-switch'
 import { $activeGatewayProfile, $profiles } from '@/store/profile'
 import { $connection, $gatewayState, $sessions, setSessions } from '@/store/session'
 import { $sessionTiles, openSessionTile, reopenLastClosedTile, type SessionTile } from '@/store/session-states'
+import { getSession } from '@/vael'
 
 import {
   sessionTileResumeFailure,

@@ -16,10 +16,10 @@ import {
   connectionScoped,
   getApiRequestConnection,
   getApiRequestProfile,
-  vaelApi,
   type ProfileScope,
   profileScoped,
-  sessionReadOwnerPin
+  sessionReadOwnerPin,
+  vaelApi
 } from './client'
 
 const SESSION_LIST_REQUEST_TIMEOUT_MS = 60_000

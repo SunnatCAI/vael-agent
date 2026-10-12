@@ -239,7 +239,7 @@ rm "$HOME/.vael/vael-agent/.vael-bootstrap-complete"
 # Rebuild a broken Python venv
 rm -rf "$HOME/.vael/vael-agent/venv"
 # Reset a stuck macOS microphone prompt (macOS only)
-tccutil reset Microphone com.nousresearch.hermes
+tccutil reset Microphone com.nousresearch.vael
 ```
 
 **Windows (PowerShell):**

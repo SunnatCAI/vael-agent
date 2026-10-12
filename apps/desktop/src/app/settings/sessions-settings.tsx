@@ -4,15 +4,6 @@ import { restoreListedSession } from '@/app/session/hooks/use-session-actions/ut
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Tip } from '@/components/ui/tooltip'
-import {
-  deleteSession,
-  getVaelConfigRecord,
-  listAllProfileSessions,
-  peekConfigReadOrigin,
-  retainConfigReadOrigin,
-  saveVaelConfig,
-  setSessionArchived
-} from '@/vael'
 import { useI18n } from '@/i18n'
 import { sessionTitle } from '@/lib/chat-runtime'
 import { pathLeaf } from '@/lib/display-path'
@@ -24,7 +15,16 @@ import { notify, notifyError } from '@/store/notifications'
 import { applyConfiguredDefaultProjectDir, ensureDefaultWorkspaceCwd } from '@/store/session'
 import { untombstoneSessions } from '@/store/session-removal'
 import { forgetSessionUnread } from '@/store/session-unread'
-import type { VaelConfigRecord, SessionInfo } from '@/types/vael'
+import type { SessionInfo, VaelConfigRecord } from '@/types/vael'
+import {
+  deleteSession,
+  getVaelConfigRecord,
+  listAllProfileSessions,
+  peekConfigReadOrigin,
+  retainConfigReadOrigin,
+  saveVaelConfig,
+  setSessionArchived
+} from '@/vael'
 
 import { EmptyState, ListRow, SectionHeading, SettingsContent, SettingsSkeleton, ToggleRow } from './primitives'
 import { SETTING_IDS, settingElementId } from './settings-manifest'

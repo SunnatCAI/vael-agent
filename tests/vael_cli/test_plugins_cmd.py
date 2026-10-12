@@ -32,7 +32,7 @@ def _write_portable_app_plugin(root: Path, app: Path) -> None:
     (root / "plugin.json").write_text(json.dumps({
         "$schema": PLUGIN_SCHEMA_V1,
         "name": "example-plugin",
-        "extensions": {"com.nousresearch.hermes": {"servers": {"worker": {
+        "extensions": {"com.nousresearch.vael": {"servers": {"worker": {
             "app": {os_family(): {"presence": "executable", "location": str(app)}},
             "requires": {"app": True},
         }}}},

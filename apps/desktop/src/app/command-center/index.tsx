@@ -10,8 +10,6 @@ import { SearchField } from '@/components/ui/search-field'
 import { SegmentedControl } from '@/components/ui/segmented-control'
 import { ResponsiveTabs } from '@/components/ui/tab-dropdown'
 import { Tip } from '@/components/ui/tooltip'
-import { getActionStatus, getLogs, getStatus, getUsageAnalytics, restartGateway, updateVael } from '@/vael'
-import type { ActionStatusResponse, AnalyticsResponse, SessionInfo, StatusResponse } from '@/vael'
 import { useI18n } from '@/i18n'
 import { sessionTitle } from '@/lib/chat-runtime'
 import {
@@ -34,6 +32,8 @@ import { $pinnedSessionIds, pinSession, SIDEBAR_SESSIONS_PAGE_SIZE, unpinSession
 import { notify } from '@/store/notifications'
 import { $sessionProfilesTruncated, $sessions, sessionPinId } from '@/store/session'
 import { confirmSharedGatewayRestart } from '@/store/system-actions'
+import { getActionStatus, getLogs, getStatus, getUsageAnalytics, restartGateway, updateVael } from '@/vael'
+import type { ActionStatusResponse, AnalyticsResponse, SessionInfo, StatusResponse } from '@/vael'
 
 import { SidebarLoadMoreRow } from '../chat/sidebar/load-more-row'
 import { useRefreshHotkey } from '../hooks/use-refresh-hotkey'

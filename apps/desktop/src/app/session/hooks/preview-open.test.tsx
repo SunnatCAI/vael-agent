@@ -1,5 +1,5 @@
-import type { GatewayEvent } from '@vael/shared'
 import { act, cleanup, render, waitFor } from '@testing-library/react'
+import type { GatewayEvent } from '@vael/shared'
 import { useEffect } from 'react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 

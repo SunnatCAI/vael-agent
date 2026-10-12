@@ -29,12 +29,12 @@ function request(sequence: number = 65536, token: string = 'ab12cd34ef56ab78'): 
     identity: {
       token,
       displayName: 'VAEL no-registry-needed',
-      appId: `com.nousresearch.hermes-channel-${token}`,
+      appId: `com.nousresearch.vael-channel-${token}`,
       appNamePascal: `VaelChannel${token}`,
       artifactNamePascal: `VaelChannel${token}`,
       cliName: 'vael-no-registry-needed',
       windowsExecutableName: 'vael-no-registry-needed',
-      msixAppIdWithOrg: `NousResearch.HermesChannel${token}`
+      msixAppIdWithOrg: `NousResearch.VaelChannel${token}`
     },
     bundleEnv: { VAEL_GUEST_ONBOARDING: '1' },
     publicBase: 'https://builds.example.test'

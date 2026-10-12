@@ -1,6 +1,6 @@
 import { foldPersonalityName } from '@/lib/personalities'
 import { asText, normalize } from '@/lib/text'
-import type { ConfigFieldSchema, VaelConfigRecord, ToolsetInfo } from '@/types/vael'
+import type { ConfigFieldSchema, ToolsetInfo, VaelConfigRecord } from '@/types/vael'
 
 import { BUILTIN_PERSONALITIES, ENUM_OPTIONS, PROVIDER_GROUPS, SECTIONS } from './constants'
 

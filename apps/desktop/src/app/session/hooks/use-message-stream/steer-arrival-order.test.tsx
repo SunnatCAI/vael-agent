@@ -1,4 +1,3 @@
-import type { GatewayEvent } from '@vael/shared'
 // Repro for "when I steer it often sends out of order — a user bubble way
 // above" (#73793 / #83151 class). Drives the REAL stream reducer
 // (useMessageStream.handleGatewayEvent) and the REAL steer entry point
@@ -17,6 +16,7 @@ import type { GatewayEvent } from '@vael/shared'
 // mutates the same ClientSessionState the gateway events reduce into.
 import { QueryClient } from '@tanstack/react-query'
 import { act, cleanup, render, renderHook } from '@testing-library/react'
+import type { GatewayEvent } from '@vael/shared'
 import { useEffect, useRef } from 'react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 

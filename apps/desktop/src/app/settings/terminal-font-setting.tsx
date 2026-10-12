@@ -7,10 +7,10 @@ import {
   TERMINAL_FONT_SUGGESTIONS
 } from '@/app/right-sidebar/terminal/terminal-font'
 import { Button } from '@/components/ui/button'
-import { saveVaelConfig } from '@/vael'
 import { useI18n } from '@/i18n'
 import { notifyError } from '@/store/notifications'
 import type { VaelConfigRecord } from '@/types/vael'
+import { saveVaelConfig } from '@/vael'
 
 import { setVaelConfigCache, useVaelConfigRecord } from '../hooks/use-config-record'
 import { useOnProfileSwitch } from '../hooks/use-on-profile-switch'

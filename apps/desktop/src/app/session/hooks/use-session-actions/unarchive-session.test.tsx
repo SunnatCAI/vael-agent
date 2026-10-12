@@ -9,9 +9,9 @@ import type { MutableRefObject } from 'react'
 import { useEffect } from 'react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import { type SessionInfo, setSessionArchived } from '@/vael'
 import { $sessions, setSessions } from '@/store/session'
 import { $archivedSessions } from '@/store/sidebar-archive'
+import { type SessionInfo, setSessionArchived } from '@/vael'
 
 import type { ClientSessionState } from '../../../types'
 

@@ -1,9 +1,8 @@
-import { DEFAULT_REASONING_EFFORT, type ModelOptionsResult } from '@vael/shared'
 import { useStore } from '@nanostores/react'
 import { useQuery } from '@tanstack/react-query'
+import { DEFAULT_REASONING_EFFORT, type ModelOptionsResult } from '@vael/shared'
 
 import { useSessionView } from '@/app/chat/session-view'
-import type { VaelGateway } from '@/vael'
 import { useI18n } from '@/i18n'
 import { modelOptionsQueryKey, requestModelOptions } from '@/lib/model-options'
 import { currentPickerSelection } from '@/lib/model-status-label'
@@ -16,6 +15,7 @@ import {
   setCurrentReasoningEffort
 } from '@/store/session'
 import { sessionTileDelegate } from '@/store/session-states'
+import type { VaelGateway } from '@/vael'
 
 import type { ModelMenuController } from './model-catalog-menu'
 

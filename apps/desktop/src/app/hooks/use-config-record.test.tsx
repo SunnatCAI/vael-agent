@@ -3,16 +3,16 @@ import { act, cleanup, renderHook, waitFor } from '@testing-library/react'
 import { createElement } from 'react'
 import { afterEach, expect, it, vi } from 'vitest'
 
-import type * as VaelApi from '@/vael'
-import { bindConfigReadOrigin, getVaelConfigRecord } from '@/vael'
 import { queryClient } from '@/lib/query-client'
 import { $connection } from '@/store/session'
+import type * as VaelApi from '@/vael'
+import { bindConfigReadOrigin, getVaelConfigRecord } from '@/vael'
 
 import {
-  VAEL_CONFIG_KEY,
-  vaelConfigCacheWriter,
   setVaelConfigCache,
-  useVaelConfigRecord
+  useVaelConfigRecord,
+  VAEL_CONFIG_KEY,
+  vaelConfigCacheWriter
 } from './use-config-record'
 
 vi.mock('@/vael', async importOriginal => ({

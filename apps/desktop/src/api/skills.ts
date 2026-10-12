@@ -9,7 +9,7 @@ import type {
 } from '@/types/vael'
 import type { ActionResponse } from '@/types/vael'
 
-import { capabilityScoped, vaelApi, type ProfileScope, profileScoped } from './client'
+import { capabilityScoped, type ProfileScope, profileScoped, vaelApi } from './client'
 
 export function getSkills(profile?: ProfileScope): Promise<SkillInfo[]> {
   return window.vaelDesktop.api<SkillInfo[]>({

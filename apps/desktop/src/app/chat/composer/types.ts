@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react'
 
 import type { SubmitTextOptions } from '@/app/session/hooks/use-prompt-actions/utils'
-import type { VaelGateway, ResolvedOwner } from '@/vael'
+import type { ResolvedOwner, VaelGateway } from '@/vael'
 
 import type { DroppedFile } from '../hooks/use-composer-actions'
 

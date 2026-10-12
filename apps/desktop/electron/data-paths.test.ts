@@ -4,7 +4,7 @@ import path from 'node:path'
 
 import { afterEach, test, vi } from 'vitest'
 
-import { platformDefaultVaelHome, resolveDesktopVaelHome, resolveDesktopUserData } from './data-paths'
+import { platformDefaultVaelHome, resolveDesktopUserData, resolveDesktopVaelHome } from './data-paths'
 import { controlSocketPath } from './ssh-connection'
 
 afterEach((): void => {

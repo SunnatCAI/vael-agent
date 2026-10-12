@@ -16,13 +16,13 @@ import type {
 
 import {
   capabilityScoped,
-  vaelApi,
-  vaelApiAs,
   type OwnerScope,
   ownerScoped,
   type ProfileScope,
   profileScoped,
-  type ResolvedOwner
+  type ResolvedOwner,
+  vaelApi,
+  vaelApiAs
 } from './client'
 
 export const AUDIO_SPEAK_MIN_REQUEST_TIMEOUT_MS = 180_000

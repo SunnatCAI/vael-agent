@@ -1,8 +1,8 @@
 import { atom } from 'nanostores'
 
 import { translateNow } from '@/i18n'
-import { type VaelOpenTarget, resolveVaelOpenPath } from '@/lib/vael-open-target'
 import { persistString, storedString } from '@/lib/storage'
+import { resolveVaelOpenPath, type VaelOpenTarget } from '@/lib/vael-open-target'
 
 import { recordFeatureToggle } from './desktop-metrics'
 import { $gateway } from './gateway'

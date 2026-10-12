@@ -1,4 +1,3 @@
-import type { GatewayEvent } from '@vael/shared'
 // A turn that ends WITHOUT its message.complete (turn crash, reconnect gap,
 // steer race) used to leave its streaming bubble pending:true forever. The
 // next user message then landed after it, stranding a live thinking indicator
@@ -6,6 +5,7 @@ import type { GatewayEvent } from '@vael/shared'
 // running=false is the turn's finally-block signal and the only settle edge
 // those paths still emit, so it must finalize the bubble.
 import { act, cleanup } from '@testing-library/react'
+import type { GatewayEvent } from '@vael/shared'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { clearAllPrompts, sessionApprovalRequest, setApprovalRequest } from '@/store/prompts'

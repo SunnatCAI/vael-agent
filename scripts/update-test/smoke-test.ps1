@@ -39,7 +39,7 @@ function Find-RealPython {
   $wa = Join-Path $env:ProgramFiles 'WindowsApps'
   if (Test-Path -LiteralPath $wa) {
     $cands += Get-ChildItem -LiteralPath $wa -Directory -ErrorAction SilentlyContinue |
-      Where-Object { $_.Name -like 'NousResearch.Hermes*' } |
+      Where-Object { $_.Name -like 'NousResearch.Vael*' } |
       ForEach-Object {
         Get-ChildItem -LiteralPath (Join-Path $_.FullName 'app\resources\agent-payload\tools') -Directory -ErrorAction SilentlyContinue |
           Where-Object { $_.Name -like 'python-*' } | ForEach-Object { Join-Path $_.FullName 'python.exe' }

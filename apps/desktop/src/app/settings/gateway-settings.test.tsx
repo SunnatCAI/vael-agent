@@ -1,5 +1,5 @@
-import { GatewayReauthRequiredError } from '@vael/shared'
 import { act, cleanup, fireEvent, render, screen, waitFor, within } from '@testing-library/react'
+import { GatewayReauthRequiredError } from '@vael/shared'
 import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { deferred } from '@/test/deferred'

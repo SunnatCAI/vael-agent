@@ -4,7 +4,6 @@ import { StatusDot } from '@/components/status-dot'
 import { Button } from '@/components/ui/button'
 import { LogView } from '@/components/ui/log-view'
 import { Tip } from '@/components/ui/tooltip'
-import { getLogs } from '@/vael'
 import { useI18n } from '@/i18n'
 import { LayoutDashboard, Power, RefreshCw } from '@/lib/icons'
 import { platformStatusTone } from '@/lib/platform-status'
@@ -14,6 +13,7 @@ import { reconnectGateway } from '@/store/gateway-reconnect'
 import { notifyError } from '@/store/notifications'
 import { runGatewayRestart } from '@/store/system-actions'
 import type { StatusResponse } from '@/types/vael'
+import { getLogs } from '@/vael'
 
 interface GatewayMenuPanelProps {
   gatewayState: string

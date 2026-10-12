@@ -287,7 +287,7 @@ CANARY_FEED_XML = (
     '<?xml version="1.0" encoding="utf-8"?>\n'
     '<AppInstaller Uri="https://r2.example/releases/win32/canary/canary.appinstaller" '
     'Version="0.27.2.9" xmlns="http://schemas.microsoft.com/appx/appinstaller/2017/2">\n'
-    '  <MainPackage Name="NousResearch.HermesBundled" Publisher="CN=..." Version="0.27.2.9" '
+    '  <MainPackage Name="NousResearch.VaelBundled" Publisher="CN=..." Version="0.27.2.9" '
     'Uri="https://r2.example/releases/win32/canary/VaelBundled-0.27.2.9-win.msixbundle" />\n'
     "</AppInstaller>\n"
 )

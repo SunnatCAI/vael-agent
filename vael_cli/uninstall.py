@@ -915,9 +915,9 @@ def _macos_cache_leftover_dirs() -> "list[Path]":
     caches = Path.home() / "Library" / "Caches"
     return [
         caches / "VAEL",
-        caches / "com.nousresearch.hermes",
+        caches / "com.nousresearch.vael",
         caches / "vael-setup",
-        caches / "com.nousresearch.hermes.setup",
+        caches / "com.nousresearch.vael.setup",
     ]
 
 

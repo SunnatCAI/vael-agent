@@ -2,10 +2,10 @@ import { cleanup, fireEvent, render, screen } from '@testing-library/react'
 import { atom } from 'nanostores'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 
-import type * as VaelModule from '@/vael'
-import type { SessionInfo } from '@/vael'
 import type * as SessionStore from '@/store/session'
 import type * as SessionStatesStore from '@/store/session-states'
+import type * as VaelModule from '@/vael'
+import type { SessionInfo } from '@/vael'
 
 import { SidebarSessionRow } from './session-row'
 

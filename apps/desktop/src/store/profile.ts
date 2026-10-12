@@ -2,7 +2,6 @@ import { LOCAL_CONNECTION_ID, registryBackendScopeKey } from '@vael/shared'
 import { atom, batch, computed } from 'nanostores'
 
 import type { VaelConnection } from '@/global'
-import { getProfiles, vaelApi, setApiRequestProfile, STARTUP_REQUEST_TIMEOUT_MS } from '@/vael'
 import { sortByProfileOrder as sortProfilesByOrder } from '@/lib/profile-order'
 import { invalidateProfileScopedQueries } from '@/lib/query-client'
 import {
@@ -34,6 +33,7 @@ import { $connection, clearComposerSelectionOwner, setComposerSelectionOwner, se
 import type { SessionOwnerRoute } from '@/store/session-request-router'
 import { resetStarmapGraph } from '@/store/starmap'
 import type { ProfileInfo } from '@/types/vael'
+import { getProfiles, setApiRequestProfile, STARTUP_REQUEST_TIMEOUT_MS, vaelApi } from '@/vael'
 
 // Canonical key for a profile: trimmed, empty → "default". Used everywhere we
 // compare a session's owning profile against the live gateway's profile.

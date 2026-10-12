@@ -15,7 +15,6 @@ import {
   DialogTitle,
   preventCloseButtonAutoFocus
 } from '@/components/ui/dialog'
-import { getGlobalModelOptions } from '@/vael'
 import { type Translations, useI18n } from '@/i18n'
 import { CheckCircle2, Loader2 } from '@/lib/icons'
 import { FREE_TIER_MODEL, friendlyWait, NOUS_PROVIDER_ID, refreshFreeTierStatus } from '@/store/free-tier'
@@ -32,6 +31,7 @@ import {
 } from '@/store/free-tier-sign-in'
 import { refreshOnboardingProviders } from '@/store/onboarding'
 import { $currentModel, setModelPickerOpen } from '@/store/session'
+import { getGlobalModelOptions } from '@/vael'
 
 interface FreeTierSignInDialogProps {
   /** The app's model-assignment path. Used only to re-home a live session that

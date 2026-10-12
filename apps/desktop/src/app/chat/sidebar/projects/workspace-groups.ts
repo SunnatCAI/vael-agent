@@ -1,6 +1,6 @@
 import type { VaelGitBranch, VaelGitWorktree } from '@/global'
-import type { ProjectInfo, SessionInfo } from '@/vael'
 import { normalize } from '@/lib/text'
+import type { ProjectInfo, SessionInfo } from '@/vael'
 
 import { rankSessions } from '../order'
 

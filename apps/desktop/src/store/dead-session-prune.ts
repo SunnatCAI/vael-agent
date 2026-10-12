@@ -19,13 +19,13 @@
  * the id is deferred to a later pass instead of being dropped.
  */
 
-import { getSession } from '@/vael'
 import { mapPool } from '@/lib/pool'
 import { clearSessionDraft, stashedDraftScopes } from '@/store/composer'
 import { $queuedPromptsBySession, clearQueuedPrompts } from '@/store/composer-queue'
 import { $pinnedSessionIds, unpinSession } from '@/store/layout'
 import { $activeGatewayProfile, $profiles, normalizeProfileKey } from '@/store/profile'
 import { $sessions } from '@/store/session'
+import { getSession } from '@/vael'
 
 import { forgetPinSyncState } from './session-pin-sync'
 

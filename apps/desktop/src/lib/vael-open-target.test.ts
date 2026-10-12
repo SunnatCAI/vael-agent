@@ -2,8 +2,8 @@ import { describe, expect, it } from 'vitest'
 
 import {
   normalizeVaelOpenString,
-  pathFromVaelDeepLink,
   pathFromOpenDeepLink,
+  pathFromVaelDeepLink,
   resolveVaelOpenPath
 } from './vael-open-target'
 

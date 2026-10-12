@@ -1,6 +1,6 @@
-import { getApiRequestConnection, getApiRequestProfile, type ProfileScope } from '@/vael'
 import { RECONNECT_ATTEMPT_TIMEOUT_MS, withTimeout } from '@/lib/with-timeout'
 import { requestGatewayForAgent } from '@/store/gateway'
+import { getApiRequestConnection, getApiRequestProfile, type ProfileScope } from '@/vael'
 
 export interface OnboardingScope {
   connectionId?: null | string

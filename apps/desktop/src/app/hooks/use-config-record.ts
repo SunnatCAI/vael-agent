@@ -1,6 +1,9 @@
 import { useStore } from '@nanostores/react'
 import { replaceEqualDeep, useQuery } from '@tanstack/react-query'
 
+import { queryClient } from '@/lib/query-client'
+import { $activeConnectionId } from '@/store/connections'
+import type { VaelConfigRecord } from '@/types/vael'
 import {
   getVaelConfigRecord,
   peekConfigReadOrigin,
@@ -8,9 +11,6 @@ import {
   profileScopeKey,
   retainConfigReadOrigin
 } from '@/vael'
-import { queryClient } from '@/lib/query-client'
-import { $activeConnectionId } from '@/store/connections'
-import type { VaelConfigRecord } from '@/types/vael'
 
 // One shared cache for the whole profile config record (`GET /api/config`).
 // Every settings surface (MCP, model, config) reads and writes through this key

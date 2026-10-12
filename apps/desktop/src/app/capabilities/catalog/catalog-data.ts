@@ -1,5 +1,5 @@
-import { skillCatalogInstallIdentifier } from '@vael/shared'
 import { queryOptions, useQuery } from '@tanstack/react-query'
+import { skillCatalogInstallIdentifier } from '@vael/shared'
 
 import { queryClient } from '@/lib/query-client'
 

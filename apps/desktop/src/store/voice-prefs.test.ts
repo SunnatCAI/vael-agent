@@ -5,8 +5,8 @@ vi.mock('@/vael', () => ({
   saveVaelConfig: vi.fn(async () => undefined)
 }))
 
-import { saveVaelConfig } from '@/vael'
 import { isVoiceStopCommand } from '@/lib/voice-stop-word'
+import { saveVaelConfig } from '@/vael'
 
 import {
   $bargeInEnabled,

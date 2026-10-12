@@ -1,6 +1,6 @@
-import type { PluginRestOptions } from '@vael/plugin-sdk'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { act, cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react'
+import type { PluginRestOptions } from '@vael/plugin-sdk'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 // Test harness drives the host's request scope, as a connection switch does.

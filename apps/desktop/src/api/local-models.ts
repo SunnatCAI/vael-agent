@@ -1,6 +1,6 @@
 import type { LocalCatalogModel, LocalHardware, LocalModelsStatus, LocalRuntimeJob } from '@/types/vael'
 
-import { vaelApi, profileScoped } from './client'
+import { profileScoped, vaelApi } from './client'
 
 export interface LocalModelsScope {
   connectionId: string | null

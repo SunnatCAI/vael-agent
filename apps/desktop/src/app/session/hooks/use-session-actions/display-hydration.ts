@@ -1,7 +1,7 @@
 import type { MutableRefObject } from 'react'
 
-import type { SessionInfo } from '@/vael'
 import { isSessionRemovalPending } from '@/store/session-removal'
+import type { SessionInfo } from '@/vael'
 
 import type { ClientSessionState } from '../../../types'
 

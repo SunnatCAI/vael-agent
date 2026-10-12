@@ -43,4 +43,4 @@ function unwrapExpectedNotFound(value: unknown): unknown {
   return value
 }
 
-export { VAEL_API_EXPECTED_404, isExpectedNotFoundSentinel, unwrapExpectedNotFound }
+export { isExpectedNotFoundSentinel, unwrapExpectedNotFound, VAEL_API_EXPECTED_404 }

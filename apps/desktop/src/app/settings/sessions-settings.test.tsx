@@ -2,10 +2,10 @@
 import { act, cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import { listAllProfileSessions, setSessionArchived } from '@/vael'
 import { en } from '@/i18n/en'
 import { $messagingSessions, $sessions, setMessagingSessions, setSessions } from '@/store/session'
 import type { SessionInfo } from '@/types/vael'
+import { listAllProfileSessions, setSessionArchived } from '@/vael'
 
 import { SessionsSettings } from './sessions-settings'
 

@@ -4,11 +4,11 @@ import { useLocation, useNavigate } from 'react-router'
 
 import { Button } from '@/components/ui/button'
 import { ConfirmDialog } from '@/components/ui/confirm-dialog'
-import type { VaelGateway, ProfileScope } from '@/vael'
 import { useI18n } from '@/i18n'
 import { $freeTierStatus } from '@/store/free-tier'
 import { openFreeTierSignIn } from '@/store/free-tier-sign-in'
 import { notifyError, readableError } from '@/store/notifications'
+import type { ProfileScope, VaelGateway } from '@/vael'
 
 import { installBundledEntry } from '../mcp/install-catalog-entry'
 import { useMcpServers } from '../mcp/use-mcp-servers'

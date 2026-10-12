@@ -1,7 +1,7 @@
 import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import type * as VaelModule from '@/vael'
 import type { ProfileInfo, SessionInfo } from '@/types/vael'
+import type * as VaelModule from '@/vael'
 
 const getSessionMock = vi.fn<(id: string, profile?: null | string) => Promise<SessionInfo>>()
 

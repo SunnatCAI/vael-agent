@@ -11,9 +11,9 @@ import type {
 import {
   connectionScoped,
   getApiRequestConnection,
-  vaelApi,
   profileScoped,
-  STARTUP_REQUEST_TIMEOUT_MS
+  STARTUP_REQUEST_TIMEOUT_MS,
+  vaelApi
 } from './client'
 
 // The cron trigger endpoint intentionally waits for the whole job so its

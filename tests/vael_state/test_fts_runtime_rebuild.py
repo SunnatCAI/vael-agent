@@ -147,7 +147,7 @@ class TestRuntimeFtsRebuild:
             ),
             ("tmux", "new-session", "/opt/vael-agent/.venv/bin/vael gateway"),
             ("python3", "/opt/vael-agent/tools/check_state.py"),
-            ("hermes-monitor", "gateway"),
+            ("vael-monitor", "gateway"),
             ("vaelctl", "serve"),
             ("python3", "worker.py", "vael_cli.main"),
             ("python3", "-m", "other.module", "vael_cli.main"),

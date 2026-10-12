@@ -1,5 +1,4 @@
 import { capabilityScoped } from '@/api/client'
-import { addMcpServer, getMcpCatalog, listMcpServers, removeMcpServer } from '@/vael'
 import { translateNow } from '@/i18n'
 import { completeMcpDesktopOAuth, McpOAuthCancelled } from '@/lib/mcp-dashboard-oauth'
 import { prettyName } from '@/lib/text'
@@ -7,6 +6,7 @@ import { type ComposerSuggestion, registerDraftProvider } from '@/store/composer
 import { $gateway } from '@/store/gateway'
 import { notifyError } from '@/store/notifications'
 import type { McpCatalogEntry } from '@/types/vael'
+import { addMcpServer, getMcpCatalog, listMcpServers, removeMcpServer } from '@/vael'
 
 /**
  * The MCP draft provider — the suggestion bus's founding member (PR #85036).

@@ -14,7 +14,6 @@
  * the other just learned.
  */
 
-import { getVaelConfigRecord, type McpTestResult, setMcpServerEnabled, testMcpServer } from '@/vael'
 import { translateNow } from '@/i18n'
 import { classifyProbe, freshProbe, probeCache, probeKey } from '@/lib/mcp-probe-cache'
 import { getServers, serverEnabled } from '@/lib/mcp-servers'
@@ -22,6 +21,7 @@ import { persistString, storedString } from '@/lib/storage'
 import { notify, notifyError } from '@/store/notifications'
 import { $activeGatewayProfile, normalizeProfileKey } from '@/store/profile'
 import { $gatewayState } from '@/store/session'
+import { getVaelConfigRecord, type McpTestResult, setMcpServerEnabled, testMcpServer } from '@/vael'
 
 // A constant, not a config knob: the sweep is cheap (a handful of sequential
 // HTTP probes at most) and the notification is transition-gated below, so

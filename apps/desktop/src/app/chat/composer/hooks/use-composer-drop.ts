@@ -6,9 +6,9 @@ import { isSessionRemote } from '@/store/session-states'
 
 import {
   extractDroppedFiles,
-  VAEL_PATHS_MIME,
   type OsDropStagingContext,
-  partitionDroppedFiles
+  partitionDroppedFiles,
+  VAEL_PATHS_MIME
 } from '../../hooks/use-composer-actions'
 import { dragHasAttachments, droppedFileInlineRefs, type InlineRefInput } from '../inline-refs'
 import type { ChatBarProps } from '../types'

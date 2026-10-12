@@ -311,7 +311,7 @@ def check_macos_tcc_grants() -> None:
     # --setup-tcc-identity or notarized build (certificate-anchored) is the strongest anchor.
     check_ok("macOS TCC signing identity is stable", _TCC_STABLE_DETAIL["certificate" in dr.lower()])
     check_info("If macOS still re-prompts for permissions (toggle shows ON): the stored grant is stale — run "
-               "`tccutil reset ScreenCapture com.nousresearch.hermes` (repeat per affected service), toggle it ON in "
+               "`tccutil reset ScreenCapture com.nousresearch.vael` (repeat per affected service), toggle it ON in "
                "System Settings, then fully quit & relaunch VAEL once.")
 
 

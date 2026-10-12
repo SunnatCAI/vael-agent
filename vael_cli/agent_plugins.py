@@ -14,7 +14,7 @@ from urllib.parse import urlsplit
 from agent.skill_utils import yaml_load
 from vael_platform.declaration import Declaration, parse_declaration
 
-_VAEL_EXTENSION = "com.nousresearch.hermes"
+_VAEL_EXTENSION = "com.nousresearch.vael"
 _LIVENESS: Dict[str, dict] = {}
 
 

@@ -1,6 +1,9 @@
 import { useQuery } from '@tanstack/react-query'
 import { useEffect, useMemo, useRef, useState } from 'react'
 
+import { useI18n } from '@/i18n'
+import { notifyError } from '@/store/notifications'
+import type { VaelConfigRecord } from '@/types/vael'
 import {
   getElevenLabsVoices,
   getVaelConfigSchema,
@@ -8,11 +11,8 @@ import {
   profileScopeKey,
   saveVaelConfigRecord
 } from '@/vael'
-import { useI18n } from '@/i18n'
-import { notifyError } from '@/store/notifications'
-import type { VaelConfigRecord } from '@/types/vael'
 
-import { vaelConfigCacheWriter, useVaelConfigRecord } from '../hooks/use-config-record'
+import { useVaelConfigRecord, vaelConfigCacheWriter } from '../hooks/use-config-record'
 
 import { ConfigField } from './config-field'
 import { SECTIONS } from './constants'

@@ -9,8 +9,8 @@
  * frame's contentWindow and the identifier is charset-checked.
  */
 
-import type * as VaelSdk from '@vael/plugin-sdk'
 import { act, cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react'
+import type * as VaelSdk from '@vael/plugin-sdk'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { translateBots } from './i18n-test-helper'

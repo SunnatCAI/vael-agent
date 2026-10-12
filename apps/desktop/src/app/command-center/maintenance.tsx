@@ -3,6 +3,13 @@ import { useCallback, useEffect, useState } from 'react'
 import { PageLoader } from '@/components/page-loader'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
+import { useI18n } from '@/i18n'
+import { AlertCircle } from '@/lib/icons'
+import { cn } from '@/lib/utils'
+import { upsertDesktopActionTask } from '@/store/activity'
+import { confirm } from '@/store/confirm'
+import { notify, notifyError } from '@/store/notifications'
+import type { ActionStatusResponse } from '@/types/vael'
 import {
   type ActionResponse,
   type CuratorStatusResponse,
@@ -19,13 +26,6 @@ import {
   runSecurityAudit,
   setCuratorPaused
 } from '@/vael'
-import { useI18n } from '@/i18n'
-import { AlertCircle } from '@/lib/icons'
-import { cn } from '@/lib/utils'
-import { upsertDesktopActionTask } from '@/store/activity'
-import { confirm } from '@/store/confirm'
-import { notify, notifyError } from '@/store/notifications'
-import type { ActionStatusResponse } from '@/types/vael'
 
 const ACTION_POLL_MS = 1200
 const ACTION_POLL_LIMIT = 240 // ~5 minutes of polling before giving up.

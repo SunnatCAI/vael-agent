@@ -10,10 +10,10 @@ import {
   attachmentPreviewDataUrl,
   type DroppedFile,
   extractDroppedFiles,
-  VAEL_PATHS_MIME,
   partitionDroppedFiles,
   resolveImageAttachmentPreview,
-  useComposerActions
+  useComposerActions,
+  VAEL_PATHS_MIME
 } from './use-composer-actions'
 
 // A Finder/Explorer drop carries a native File handle; an in-app drag (project

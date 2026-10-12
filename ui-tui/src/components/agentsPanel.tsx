@@ -1,6 +1,6 @@
+import { useStore } from '@nanostores/react'
 import { Box, stringWidth, Text, useStdout } from '@vael/ink'
 import { mix } from '@vael/shared/color'
-import { useStore } from '@nanostores/react'
 import { useEffect, useState } from 'react'
 
 import { $agentDockCollapsed, useAgentRoster } from '../app/agentRoster.js'

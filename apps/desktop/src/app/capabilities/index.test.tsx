@@ -5,9 +5,9 @@ import { MemoryRouter } from 'react-router'
 import type * as ReactRouterDom from 'react-router'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import type * as VaelApi from '@/vael'
 import { queryClient } from '@/lib/query-client'
 import type * as HubActions from '@/store/hub-actions'
+import type * as VaelApi from '@/vael'
 
 import { parseCatalog } from './catalog/catalog-data'
 import { $catalogCardView } from './catalog/store'

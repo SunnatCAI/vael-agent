@@ -1,5 +1,5 @@
-import type { GatewayEvent } from '@vael/shared'
 import { act, cleanup } from '@testing-library/react'
+import type { GatewayEvent } from '@vael/shared'
 import { afterEach, describe, expect, it } from 'vitest'
 
 import { chatMessageText, toChatMessages } from '@/lib/chat-messages'

@@ -1,4 +1,3 @@
-import { getLocalModelsJobs, getLocalModelsStatus } from '@/vael'
 import type { Translations } from '@/i18n/types'
 import { queryClient } from '@/lib/query-client'
 import { localSetupDue } from '@/lib/tips/local-cta'
@@ -8,6 +7,7 @@ import { localRuntimeInstallBusy, startLocalRuntimeInstall } from '@/store/local
 import { $connection } from '@/store/session'
 import { $activeTip, $retiredTips, $tipsEnabled, $tipShownAt, dismissTip, showTip } from '@/store/tips'
 import type { LocalModelsStatus, LocalRuntimeJob } from '@/types/vael'
+import { getLocalModelsJobs, getLocalModelsStatus } from '@/vael'
 
 let snapshot: { readAt: number; status: LocalModelsStatus | null; jobs: LocalRuntimeJob[] } | null = null
 let pending = false

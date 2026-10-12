@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 
 import { Button } from '@/components/ui/button'
-import { getMemoryProviderOAuthStatus, startMemoryProviderOAuth } from '@/vael'
 import { Check, ExternalLink, Loader2 } from '@/lib/icons'
 import { notifyError } from '@/store/notifications'
 import type { MemoryProviderOAuthStatus } from '@/types/vael'
+import { getMemoryProviderOAuthStatus, startMemoryProviderOAuth } from '@/vael'
 
 const POLL_MS = 1500
 const POLL_TIMEOUT_MS = 120_000

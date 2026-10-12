@@ -1,10 +1,10 @@
 import type { ConnectionAnswer, ConnectorPolicyGetResult } from '@vael/shared'
 import { useCallback, useRef, useState } from 'react'
 
-import type { ProfileScope } from '@/vael'
 import { translateNow } from '@/i18n'
 import { queryClient } from '@/lib/query-client'
 import { notifyError } from '@/store/notifications'
+import type { ProfileScope } from '@/vael'
 
 import type { SaveResult } from '../use-tools-editor'
 

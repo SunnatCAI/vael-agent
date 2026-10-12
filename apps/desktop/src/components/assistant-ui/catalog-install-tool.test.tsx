@@ -1,6 +1,6 @@
 import type { ToolCallMessagePartProps } from '@assistant-ui/react'
-import type { ConnectionOperationTarget, ConnectionRequestPayload } from '@vael/shared'
 import { act, cleanup, fireEvent, render, screen, waitFor, within } from '@testing-library/react'
+import type { ConnectionOperationTarget, ConnectionRequestPayload } from '@vael/shared'
 import { atom } from 'nanostores'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 

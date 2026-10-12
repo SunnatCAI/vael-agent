@@ -1,7 +1,7 @@
 import { ConfirmDialog } from '@/components/ui/confirm-dialog'
-import { deleteLearningNode, type ProfileScope } from '@/vael'
 import { type Translations, useI18n } from '@/i18n'
 import { notify } from '@/store/notifications'
+import { deleteLearningNode, type ProfileScope } from '@/vael'
 
 export const ARCHIVE_SKILL_DESCRIPTION = 'The skill is archived and can be restored with `vael curator restore`.'
 

@@ -3,14 +3,6 @@ import { type ReactElement, useCallback, useEffect, useRef, useState } from 'rea
 
 import { Button } from '@/components/ui/button'
 import { SearchField } from '@/components/ui/search-field'
-import {
-  downloadBrowsedModel,
-  type HFFileGroup,
-  type HFSearchHit,
-  listHFRepoFiles,
-  searchHFModels,
-  sideloadLocalModel
-} from '@/vael'
 import { useI18n } from '@/i18n'
 import { Cpu, Download, FolderOpen, Loader2, Search } from '@/lib/icons'
 import { cn } from '@/lib/utils'
@@ -26,6 +18,14 @@ import {
 } from '@/store/local-runtime-jobs'
 import { notify, notifyError } from '@/store/notifications'
 import type { LocalRuntimeJob } from '@/types/vael'
+import {
+  downloadBrowsedModel,
+  type HFFileGroup,
+  type HFSearchHit,
+  listHFRepoFiles,
+  searchHFModels,
+  sideloadLocalModel
+} from '@/vael'
 
 import { downloadStatusText, gbLabel, LocalModelDownloadActions, ProgressBar } from './local-model-download-progress'
 import { useScopedLocalModelsOwner } from './local-models-owner'

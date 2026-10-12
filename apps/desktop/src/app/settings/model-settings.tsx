@@ -1,6 +1,6 @@
+import { useStore } from '@nanostores/react'
 import type { ModelOptionProvider } from '@vael/shared'
 import { DEFAULT_REASONING_EFFORT, isReasoningEffort, REASONING_EFFORT_VALUES } from '@vael/shared'
-import { useStore } from '@nanostores/react'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import { Button } from '@/components/ui/button'
@@ -8,24 +8,6 @@ import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Switch } from '@/components/ui/switch'
-import {
-  getAuxiliaryModels,
-  getGlobalModelInfo,
-  getGlobalModelOptions,
-  getMoaModels,
-  getRecommendedDefaultModel,
-  saveVaelConfig,
-  saveMoaModels,
-  setEnvVar,
-  setModelAssignment
-} from '@/vael'
-import type {
-  AuxiliaryModelsResponse,
-  AuxiliaryTaskAssignment,
-  MoaConfigResponse,
-  MoaModelSlot,
-  StaleAuxAssignment
-} from '@/vael'
 import { useI18n } from '@/i18n'
 import { isCodeSkewRestartRequired } from '@/lib/code-skew-error'
 import { AlertTriangle, Cpu, Loader2 } from '@/lib/icons'
@@ -36,8 +18,26 @@ import { $customModels, withCustomModels } from '@/store/custom-models'
 import { setMainModelAssignment } from '@/store/model-assignment'
 import { notify, notifyError, readableError } from '@/store/notifications'
 import { startManualLocalEndpoint, startManualOnboarding, startManualProviderOAuth } from '@/store/onboarding'
+import {
+  getAuxiliaryModels,
+  getGlobalModelInfo,
+  getGlobalModelOptions,
+  getMoaModels,
+  getRecommendedDefaultModel,
+  saveMoaModels,
+  saveVaelConfig,
+  setEnvVar,
+  setModelAssignment
+} from '@/vael'
+import type {
+  AuxiliaryModelsResponse,
+  AuxiliaryTaskAssignment,
+  MoaConfigResponse,
+  MoaModelSlot,
+  StaleAuxAssignment
+} from '@/vael'
 
-import { vaelConfigCacheWriter, invalidateVaelConfig, useVaelConfigRecord } from '../hooks/use-config-record'
+import { invalidateVaelConfig, useVaelConfigRecord, vaelConfigCacheWriter } from '../hooks/use-config-record'
 import { useOnProfileSwitch } from '../hooks/use-on-profile-switch'
 import { PanelEmpty } from '../overlays/panel'
 

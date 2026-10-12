@@ -1,10 +1,10 @@
+import { useQueryClient } from '@tanstack/react-query'
 import { refusalPolicy } from '@vael/shared/billing-policy'
 import {
   driveChargeSettlement,
   SETTLEMENT_POLL_CAP_MS,
   SETTLEMENT_POLL_INTERVAL_MS
 } from '@vael/shared/charge-settlement'
-import { useQueryClient } from '@tanstack/react-query'
 import { useCallback, useRef, useState } from 'react'
 
 import { type Translations, useI18n } from '@/i18n'

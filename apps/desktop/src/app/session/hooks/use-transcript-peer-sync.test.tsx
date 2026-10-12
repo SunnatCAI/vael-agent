@@ -2,10 +2,10 @@ import { act, cleanup, render } from '@testing-library/react'
 import { useRef } from 'react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import type * as VaelModule from '@/vael'
 import { textPart } from '@/lib/chat-messages'
 import { createClientSessionState } from '@/lib/chat-runtime'
 import { $sessionTiles, publishSessionState } from '@/store/session-states'
+import type * as VaelModule from '@/vael'
 
 vi.mock('@/vael', async importOriginal => {
   const actual = await importOriginal<typeof VaelModule>()

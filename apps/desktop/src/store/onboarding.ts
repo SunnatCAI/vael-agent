@@ -1,6 +1,16 @@
 import type { ModelOptionProvider } from '@vael/shared'
 import { atom } from 'nanostores'
 
+import { translateNow } from '@/i18n'
+import { isProviderSetupErrorMessage } from '@/lib/provider-setup-errors'
+import { evaluateRuntimeReadiness, type RuntimeReadinessResult } from '@/lib/runtime-readiness'
+import { ackFreeTierNotice, freeTierReadyPending, refreshFreeTierStatus, setFreeTierRoute } from '@/store/free-tier'
+import { $gatewayBootGeneration } from '@/store/live-sync'
+import { setMainModelAssignment } from '@/store/model-assignment'
+import { dismissNotification, notify, notifyError } from '@/store/notifications'
+import { guidedOnboardingActive } from '@/store/onboarding-gate'
+import { captureOnboardingScope, type OnboardingScope } from '@/store/onboarding-scope'
+import type { OAuthProvider, OAuthStartResponse } from '@/types/vael'
 import {
   cancelOAuthSession,
   getGlobalModelOptions,
@@ -13,16 +23,6 @@ import {
   submitOAuthCode,
   validateProviderCredential
 } from '@/vael'
-import { translateNow } from '@/i18n'
-import { isProviderSetupErrorMessage } from '@/lib/provider-setup-errors'
-import { evaluateRuntimeReadiness, type RuntimeReadinessResult } from '@/lib/runtime-readiness'
-import { ackFreeTierNotice, freeTierReadyPending, refreshFreeTierStatus, setFreeTierRoute } from '@/store/free-tier'
-import { $gatewayBootGeneration } from '@/store/live-sync'
-import { setMainModelAssignment } from '@/store/model-assignment'
-import { dismissNotification, notify, notifyError } from '@/store/notifications'
-import { guidedOnboardingActive } from '@/store/onboarding-gate'
-import { captureOnboardingScope, type OnboardingScope } from '@/store/onboarding-scope'
-import type { OAuthProvider, OAuthStartResponse } from '@/types/vael'
 
 type PkceStart = Extract<OAuthStartResponse, { flow: 'pkce' }>
 type DeviceStart = Extract<OAuthStartResponse, { flow: 'device_code' }>

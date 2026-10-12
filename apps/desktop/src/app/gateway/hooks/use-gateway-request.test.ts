@@ -1,5 +1,5 @@
-import type { GatewayWsUrlResult } from '@vael/shared'
 import { act, renderHook } from '@testing-library/react'
+import type { GatewayWsUrlResult } from '@vael/shared'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 const gatewayMocks = vi.hoisted(() => ({
@@ -50,8 +50,6 @@ vi.mock('@/vael', async importOriginal => {
   return { ...actual, VaelGateway: FakeVaelGateway }
 })
 
-import type * as VaelModule from '@/vael'
-import type { VaelGateway } from '@/vael'
 import {
   $gateway,
   closeSecondaryGateways,
@@ -61,6 +59,8 @@ import {
 } from '@/store/gateway'
 import { $activeGatewayProfile } from '@/store/profile'
 import { $connection, $gatewayState } from '@/store/session'
+import type * as VaelModule from '@/vael'
+import type { VaelGateway } from '@/vael'
 
 import { useGatewayRequest } from './use-gateway-request'
 

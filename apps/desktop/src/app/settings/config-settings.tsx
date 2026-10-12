@@ -6,7 +6,6 @@ import { useSearchParams } from 'react-router'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { getElevenLabsVoices, getVaelConfigSchema, saveVaelConfig } from '@/vael'
 import { useI18n } from '@/i18n'
 import { triggerHaptic } from '@/lib/haptics'
 import { isSubmitEnter } from '@/lib/ime'
@@ -29,8 +28,9 @@ import { normalizeProfileKey } from '@/store/profile'
 import { repoDiscoveryPolicyFromConfig, repoDiscoveryPolicySignature, scanAndRecordRepos } from '@/store/projects'
 import { $settingsRequestProfile } from '@/store/settings-scope'
 import type { ConfigFieldSchema, VaelConfigRecord } from '@/types/vael'
+import { getElevenLabsVoices, getVaelConfigSchema, saveVaelConfig } from '@/vael'
 
-import { vaelConfigCacheWriter, useVaelConfigRecord } from '../hooks/use-config-record'
+import { useVaelConfigRecord, vaelConfigCacheWriter } from '../hooks/use-config-record'
 import { useOnProfileSwitch } from '../hooks/use-on-profile-switch'
 import { PanelEmpty } from '../overlays/panel'
 

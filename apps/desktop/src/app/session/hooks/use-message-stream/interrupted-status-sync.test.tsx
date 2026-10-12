@@ -1,10 +1,10 @@
-import type { GatewayEvent } from '@vael/shared'
 // #81114: a Stop/interrupt seals the assistant bubble, but background work
 // keeps running and its completions still arrive. Those completions must
 // retire the status-stack rows (subagent/delegate) that have no poll to
 // cover them — otherwise spinners run forever and async results only appear
 // after the next user message forces a re-hydrate.
 import { act, cleanup } from '@testing-library/react'
+import type { GatewayEvent } from '@vael/shared'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { finalizeUserInterruptedMessages } from '@/app/session/hooks/use-prompt-actions/rewind'

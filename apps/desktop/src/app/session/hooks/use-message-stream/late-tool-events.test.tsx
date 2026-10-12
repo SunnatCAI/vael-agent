@@ -1,4 +1,3 @@
-import type { GatewayEventName } from '@vael/shared'
 // Tool events route to the bubble that owns the call id, not to whatever is
 // streaming now. A result that lands AFTER its part was sealed (interim
 // commentary, mid-turn user insert, turn settle) must re-attach to that part
@@ -6,6 +5,7 @@ import type { GatewayEventName } from '@vael/shared'
 // but a call id that repeats across turns (llama.cpp emits one constant id)
 // must never be routed back onto a finished row from an earlier turn.
 import { act, cleanup } from '@testing-library/react'
+import type { GatewayEventName } from '@vael/shared'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 
 import { appendMidTurnUserMessage } from '@/app/session/hooks/use-prompt-actions/rewind'

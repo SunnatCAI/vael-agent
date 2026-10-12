@@ -79,8 +79,8 @@ def test_full_uninstall_sweeps_macos_caches_and_dashboard_launchd(monkeypatch, t
 
     removed_caches, removed_jobs = [], []
     cache_dirs = [tmp_path / "caches" / name for name in
-                  ("VAEL", "com.nousresearch.hermes", "vael-setup",
-                   "com.nousresearch.hermes.setup")]
+                  ("VAEL", "com.nousresearch.vael", "vael-setup",
+                   "com.nousresearch.vael.setup")]
     for d in cache_dirs:
         d.mkdir(parents=True)
         (d / "Cache").write_text("x", encoding="utf-8")

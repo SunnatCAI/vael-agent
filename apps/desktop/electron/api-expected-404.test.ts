@@ -2,7 +2,7 @@ import assert from 'node:assert/strict'
 
 import { test } from 'vitest'
 
-import { VAEL_API_EXPECTED_404, isExpectedNotFoundSentinel, unwrapExpectedNotFound } from './api-expected-404'
+import { isExpectedNotFoundSentinel, unwrapExpectedNotFound, VAEL_API_EXPECTED_404 } from './api-expected-404'
 
 test('a handler-produced sentinel is recognized', () => {
   assert.equal(isExpectedNotFoundSentinel({ [VAEL_API_EXPECTED_404]: '404: {"detail":"Session not found"}' }), true)

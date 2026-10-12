@@ -1,4 +1,3 @@
-import type { GatewayEvent } from '@vael/shared'
 // Repro for #119543: user sends a new message while the previous turn's
 // `background_review` fork is still in flight. The fork itself emits nothing
 // to the desktop, but the supersede window is where the previous turn's own
@@ -12,6 +11,7 @@ import type { GatewayEvent } from '@vael/shared'
 // orphans of a dead attempt and must be dropped at the boundary — never
 // materialized into the transcript.
 import { act, cleanup } from '@testing-library/react'
+import type { GatewayEvent } from '@vael/shared'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 
 import { chatMessageText } from '@/lib/chat-messages'

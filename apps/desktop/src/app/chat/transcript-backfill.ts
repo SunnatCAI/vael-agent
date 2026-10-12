@@ -15,7 +15,6 @@
  * drift on the next page.
  */
 
-import { getOlderSessionMessages, getSessionMessages, type ProfileScope } from '@/vael'
 import { type ChatMessage, chatMessageText, toChatMessages } from '@/lib/chat-messages'
 import {
   recordTranscriptBackfillPage,
@@ -24,6 +23,7 @@ import {
   transcriptTailState
 } from '@/store/transcript-tail'
 import type { SessionMessage, SessionMessagesResponse } from '@/types/vael'
+import { getOlderSessionMessages, getSessionMessages, type ProfileScope } from '@/vael'
 
 /**
  * Compaction projection can stamp the session's opening USER row

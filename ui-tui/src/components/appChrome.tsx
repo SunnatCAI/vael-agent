@@ -1,7 +1,7 @@
+import { useStore } from '@nanostores/react'
 import { Box, type ScrollBoxHandle, stringWidth, Text } from '@vael/ink'
 import { compactNumber } from '@vael/shared/format'
 import type { Usage } from '@vael/shared/gateway-events'
-import { useStore } from '@nanostores/react'
 import { type ReactNode, type RefObject, useEffect, useMemo, useRef, useState } from 'react'
 import unicodeSpinners from 'unicode-animations'
 

@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import { setApiRequestConnection } from '@/vael'
 import { $connection } from '@/store/session'
+import { setApiRequestConnection } from '@/vael'
 
 import { desktopGit } from './desktop-git'
 

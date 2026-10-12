@@ -120,7 +120,7 @@ function channelRecord(channel: 'stable' | 'canary', sequence: number): FixtureR
       appNamePascal: 'VAEL',
       artifactNamePascal: 'VAEL',
       appId: 'chat.nous.vael',
-      msixAppIdWithOrg: 'NousResearch.Hermes',
+      msixAppIdWithOrg: 'NousResearch.Vael',
       cliName: 'vael',
       windowsExecutableName: 'vael'
     },
@@ -146,7 +146,7 @@ function buildManifest(
     appNamePascal: 'VAEL',
     artifactNamePascal: 'VAEL',
     appId: 'chat.nous.vael',
-    msixAppIdWithOrg: 'NousResearch.Hermes',
+    msixAppIdWithOrg: 'NousResearch.Vael',
     cliName: 'vael',
     windowsExecutableName: 'vael'
   }

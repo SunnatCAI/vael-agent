@@ -21,10 +21,10 @@ def channel_request(commit: str, sequence: int = 65536) -> dict:
         "windowsVersion": f"0.{sequence // 65536}.{sequence % 65536}.0",
         "identity": {
             "token": token, "displayName": "VAEL unregistered-preview",
-            "appId": f"com.nousresearch.hermes-channel-{token}",
+            "appId": f"com.nousresearch.vael-channel-{token}",
             "appNamePascal": f"VaelChannel{token}", "artifactNamePascal": "VaelBundled",
             "cliName": "vael-unregistered-preview", "windowsExecutableName": "vael-unregistered-preview",
-            "msixAppIdWithOrg": f"NousResearch.HermesChannel{token}",
+            "msixAppIdWithOrg": f"NousResearch.VaelChannel{token}",
         },
         "bundleEnv": {"VAEL_GUEST_ONBOARDING": "1", "VAEL_HOME": None},
         "publicBase": "https://builds.example.test",

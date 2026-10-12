@@ -1,6 +1,6 @@
-import type * as VaelSdk from '@vael/plugin-sdk'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { act, cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react'
+import type * as VaelSdk from '@vael/plugin-sdk'
 import { useState } from 'react'
 import { afterEach, expect, it, vi } from 'vitest'
 

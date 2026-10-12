@@ -1,12 +1,11 @@
-import { type GatewayEvent, registryBackendScopeKey } from '@vael/shared'
 import { useStore } from '@nanostores/react'
 import { act, cleanup, render, waitFor } from '@testing-library/react'
+import { type GatewayEvent, registryBackendScopeKey } from '@vael/shared'
 import { useEffect, useMemo, useRef } from 'react'
 import { afterEach, beforeEach, describe, expect, it, type Mock, vi } from 'vitest'
 
 import { createSessionRpcDispatcher } from '@/app/contrib/session-rpc-dispatcher'
 import { prepareDefaultNewSession } from '@/app/session/new-session-route'
-import { getSession } from '@/vael'
 import { $defaultProfileRoute } from '@/store/default-profile'
 import {
   activeGateway,
@@ -48,6 +47,7 @@ import {
 import { foregroundSessionScopes } from '@/store/session-states'
 import { deferred } from '@/test/deferred'
 import type { SessionInfo } from '@/types/vael'
+import { getSession } from '@/vael'
 
 import type { ClientSessionState } from '../../types'
 

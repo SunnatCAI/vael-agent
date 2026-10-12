@@ -1,12 +1,12 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import type * as VaelModule from '@/vael'
-import { getSession } from '@/vael'
 import { $activeGatewayProfile, $profiles } from '@/store/profile'
 import { $projectTree } from '@/store/projects'
 import { $cronSessions, $messagingSessions, $sessions, $unlistedSessionOwnerRows } from '@/store/session'
 import { $removedSessionIds, tombstoneSessions, untombstoneSessions } from '@/store/session-removal'
 import type { SessionInfo } from '@/types/vael'
+import type * as VaelModule from '@/vael'
+import { getSession } from '@/vael'
 
 import { cachedSessionRow, resolveStoredSession } from './utils'
 

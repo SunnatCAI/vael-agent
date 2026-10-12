@@ -1,5 +1,5 @@
-import { stringWidth, Text } from '@vael/ink'
 import { useStore } from '@nanostores/react'
+import { stringWidth, Text } from '@vael/ink'
 
 import { type GoalLine, useGoalLine } from '../app/goalStatus.js'
 import { $uiState } from '../app/uiStore.js'

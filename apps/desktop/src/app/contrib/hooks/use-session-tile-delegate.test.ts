@@ -3,7 +3,6 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { reasoningEffortPending } from '@/app/chat/session-view'
 import type { ClientSessionState } from '@/app/types'
-import type * as VaelModule from '@/vael'
 import { type ChatMessage, textPart } from '@/lib/chat-messages'
 import { createClientSessionState } from '@/lib/chat-runtime'
 import { $notifications } from '@/store/notifications'
@@ -11,6 +10,7 @@ import { $cronRunReadOnlyVerdicts, recordCronRunVerdict } from '@/store/read-onl
 import { setSessionOwnerHint, setSessions } from '@/store/session'
 import { $sessionTiles, sessionTileDelegate } from '@/store/session-states'
 import type { SessionInfo } from '@/types/vael'
+import type * as VaelModule from '@/vael'
 
 import { useSessionTileDelegate } from './use-session-tile-delegate'
 

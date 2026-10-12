@@ -1,12 +1,12 @@
-import { isGatewayReauthRequired } from '@vael/shared'
 import { useStore } from '@nanostores/react'
+import { isGatewayReauthRequired } from '@vael/shared'
 import { useCallback, useEffect, useRef } from 'react'
 
-import type { VaelGateway } from '@/vael'
 import { resolveDesktopGatewayWsUrl } from '@/lib/gateway-ws-url'
 import { RECONNECT_ATTEMPT_TIMEOUT_MS, withTimeout } from '@/lib/with-timeout'
 import { $gateway, activeGateway, ensureActiveGatewayOpen, isActivePrimary } from '@/store/gateway'
 import { $gatewayState, setConnection } from '@/store/session'
+import type { VaelGateway } from '@/vael'
 
 export function useGatewayRequest() {
   const gatewayState = useStore($gatewayState)

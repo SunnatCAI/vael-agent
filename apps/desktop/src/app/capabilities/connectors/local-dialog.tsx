@@ -2,8 +2,8 @@ import { compactNumber } from '@vael/shared'
 import { useLocation, useNavigate } from 'react-router'
 
 import { PanelEmpty } from '@/app/overlays/panel'
-import type { ProfileScope } from '@/vael'
 import { useI18n } from '@/i18n'
+import type { ProfileScope } from '@/vael'
 
 import type { McpServersController } from '../mcp/use-mcp-servers'
 

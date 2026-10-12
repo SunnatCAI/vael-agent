@@ -1,10 +1,10 @@
 import { useCallback, useState } from 'react'
 
-import { type ProfileScope, saveVaelConfigRecord } from '@/vael'
 import { useI18n } from '@/i18n'
 import { notify, notifyError } from '@/store/notifications'
+import { type ProfileScope, saveVaelConfigRecord } from '@/vael'
 
-import { vaelConfigCacheWriter, useVaelConfigRecord } from '../hooks/use-config-record'
+import { useVaelConfigRecord, vaelConfigCacheWriter } from '../hooks/use-config-record'
 
 import { ToggleRow } from './primitives'
 

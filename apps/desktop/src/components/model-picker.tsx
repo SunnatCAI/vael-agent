@@ -1,7 +1,7 @@
-import type { ModelOptionProvider, ModelPricing } from '@vael/shared'
-import { fuzzyRank, modelSearchText } from '@vael/shared'
 import { useStore } from '@nanostores/react'
 import { useQuery } from '@tanstack/react-query'
+import type { ModelOptionProvider, ModelPricing } from '@vael/shared'
+import { fuzzyRank, modelSearchText } from '@vael/shared'
 import { type ReactElement, useMemo, useRef, useState } from 'react'
 
 import { useI18n } from '@/i18n'
@@ -20,8 +20,8 @@ import {
 } from '@/store/local-runtime-jobs'
 import type { LocalModelLoadProgress, LocalRuntimeJob } from '@/types/vael'
 
-import type { VaelGateway } from '../vael'
 import { startManualOnboarding } from '../store/onboarding'
+import type { VaelGateway } from '../vael'
 
 import { InlineNotice } from './notifications'
 import { Button } from './ui/button'

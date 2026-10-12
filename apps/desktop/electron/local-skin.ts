@@ -4,7 +4,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 
-import type { VaelSkin, SkinColors } from '@vael/shared/skin'
+import type { SkinColors, VaelSkin } from '@vael/shared/skin'
 import { parse } from 'yaml'
 
 const PROFILE_NAME_RE = /^[a-z0-9][a-z0-9_-]{0,63}$/

@@ -18,9 +18,9 @@
  * dispatch at all for a row whose connection is gone.
  */
 
-import type * as VaelSdk from '@vael/plugin-sdk'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+import type * as VaelSdk from '@vael/plugin-sdk'
 import type { ReactNode } from 'react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 

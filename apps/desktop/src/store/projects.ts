@@ -10,7 +10,6 @@ import {
   type SidebarProjectTree
 } from '@/app/chat/sidebar/projects/workspace-groups'
 import type { VaelGitBaseBranch, VaelGitBranch } from '@/global'
-import { getVaelConfig, vaelApi, type VaelGateway, type SessionInfo } from '@/vael'
 import { translateNow } from '@/i18n'
 import { desktopDefaultCwd, isDesktopFsRemoteMode, selectDesktopPaths, writeDesktopFileText } from '@/lib/desktop-fs'
 import { desktopGit } from '@/lib/desktop-git'
@@ -46,6 +45,7 @@ import {
   tombstoneRowIds
 } from '@/store/session-removal'
 import type { ProjectInfo, ProjectsPayload } from '@/types/vael'
+import { getVaelConfig, type SessionInfo, vaelApi, type VaelGateway } from '@/vael'
 
 import { recordFeatureUse } from './desktop-metrics'
 

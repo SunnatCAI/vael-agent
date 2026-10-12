@@ -3,8 +3,8 @@
  * Highlight still follows the chat on screen (vael-agent#120277).
  */
 
-import type * as VaelSdk from '@vael/plugin-sdk'
 import { cleanup, render, screen } from '@testing-library/react'
+import type * as VaelSdk from '@vael/plugin-sdk'
 import { afterEach, beforeEach, expect, it, vi } from 'vitest'
 
 import { BotRow } from './bot-row'

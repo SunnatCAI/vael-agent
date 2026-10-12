@@ -1,8 +1,8 @@
-import { applyDocumentLocale, isRecord } from '@vael/shared/i18n'
 import { useStore } from '@nanostores/react'
+import { applyDocumentLocale, isRecord } from '@vael/shared/i18n'
 import { createContext, type ReactNode, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 
-import { getVaelConfigRecord, type VaelConfigRecord, retainConfigReadOrigin, saveVaelConfig } from '@/vael'
+import { getVaelConfigRecord, retainConfigReadOrigin, saveVaelConfig, type VaelConfigRecord } from '@/vael'
 
 import { TRANSLATIONS } from './catalog'
 import {

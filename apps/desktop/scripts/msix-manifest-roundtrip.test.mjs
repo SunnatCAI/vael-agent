@@ -39,7 +39,7 @@ function makeFakeDesktop(version) {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'msix-roundtrip-'))
   fs.writeFileSync(
     path.join(dir, 'product-identity.cjs'),
-    "module.exports = { store: false, light: false, displayName: 'VAEL', appId: 'com.nousresearch.hermes-bundled', channel: 'latest', artifactNamePascal: 'VaelBundled', msixAppIdWithOrg: 'NousResearch.HermesBundled' }\n"
+    "module.exports = { store: false, light: false, displayName: 'VAEL', appId: 'com.nousresearch.vael-bundled', channel: 'latest', artifactNamePascal: 'VaelBundled', msixAppIdWithOrg: 'NousResearch.VaelBundled' }\n"
   )
   fs.writeFileSync(path.join(dir, 'package.json'), JSON.stringify({ name: 'vael-desktop', version }))
   return dir

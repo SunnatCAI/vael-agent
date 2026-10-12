@@ -29,7 +29,7 @@ origin/main show the whole history as new, and CI base-scope is wrong.
 
 ## Wake word model regeneration — P2, blocking-demo: no
 
-- Reason: tools/wakewords/hey_vael.tflite is byte-identical to the old hey_vael.tflite (SHA-256 744FDD81FEDC28FF1B9268BAEE20876CDF9BF1BC6F06BC2ED5C9CBEBC1A44B1D); only the filename changed. The weights still key the 'hey hermes' utterance, so users must still SAY 'hey hermes' — the 'hey vael' phrase does not trigger detection.
-- Approach: train (or commission) a new openWakeWord-compatible .tflite for the 'hey vael' utterance, ship it alongside or replacing the current file, add 'hey vael' to _BUNDLED_MODEL_ALIASES + default phrase, update the loader comment and wake-word docs.
+- Reason: tools/wakewords/hey_vael.tflite is byte-identical to the old hey_vael.tflite (SHA-256 744FDD81FEDC28FF1B9268BAEE20876CDF9BF1BC6F06BC2ED5C9CBEBC1A44B1D); only the filename changed. The weights still key the 'hey hermes' utterance, so users must still SAY 'hey hermes' — the 'hey hermes' phrase does not trigger detection.
+- Approach: train (or commission) a new openWakeWord-compatible .tflite for the 'hey hermes' utterance, ship it alongside or replacing the current file, add 'hey hermes' to _BUNDLED_MODEL_ALIASES + default phrase, update the loader comment and wake-word docs.
 - Effort: needs audio training data + validation across engines (openwakeword/porcupine/sherpa); not a code-only change. Tracked here until then.
 

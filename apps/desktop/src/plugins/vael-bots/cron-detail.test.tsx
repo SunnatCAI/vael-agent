@@ -7,8 +7,8 @@
  * and no second mutation path beside the row's own switch and delete.
  */
 
-import type * as VaelSdk from '@vael/plugin-sdk'
 import { cleanup, render, screen, within } from '@testing-library/react'
+import type * as VaelSdk from '@vael/plugin-sdk'
 import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest'
 
 import { translateBots } from './i18n-test-helper'

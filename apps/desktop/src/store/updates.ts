@@ -15,7 +15,6 @@ import type {
   DesktopVersionInfo,
   VaelConnection
 } from '@/global'
-import { checkVaelUpdate, getActionStatus, updateVael } from '@/vael'
 import { translateNow } from '@/i18n'
 import { persistString, storedString } from '@/lib/storage'
 import { $connectionsRegistry, refreshConnectionsRegistry } from '@/store/connections'
@@ -23,6 +22,7 @@ import { reconnectGateway } from '@/store/gateway-reconnect'
 import { dismissNotification, notify } from '@/store/notifications'
 import { $connection } from '@/store/session'
 import type { BackendUpdateCheckResponse } from '@/types/vael'
+import { checkVaelUpdate, getActionStatus, updateVael } from '@/vael'
 
 /** Keyed per retired-channel revision: a new retirement (or a revision bump on
  *  the same channel) re-shows the notice, a plain re-check never does. */

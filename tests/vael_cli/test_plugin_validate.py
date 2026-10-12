@@ -35,7 +35,7 @@ def _portable_plugin(root: Path, servers: dict, declarations: dict) -> Path:
     (root / "plugin.json").write_text(json.dumps({
         "$schema": PLUGIN_SCHEMA_V1,
         "name": "example-plugin",
-        "extensions": {"com.nousresearch.hermes": {"servers": declarations}},
+        "extensions": {"com.nousresearch.vael": {"servers": declarations}},
     }), encoding="utf-8")
     (root / "mcp.json").write_text(json.dumps({
         "$schema": MCP_SCHEMA_V1,

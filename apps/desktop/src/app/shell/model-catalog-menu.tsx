@@ -1,7 +1,7 @@
-import type { ModelOptionProvider, ModelOptionsResult, ModelPricing } from '@vael/shared'
-import { DEFAULT_REASONING_EFFORT } from '@vael/shared'
 import { useStore } from '@nanostores/react'
 import { useQuery } from '@tanstack/react-query'
+import type { ModelOptionProvider, ModelOptionsResult, ModelPricing } from '@vael/shared'
+import { DEFAULT_REASONING_EFFORT } from '@vael/shared'
 import {
   createContext,
   type ReactElement,
@@ -30,7 +30,6 @@ import {
 import { HighlightMatches } from '@/components/ui/highlight-matches'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Tip, TipHintLabel } from '@/components/ui/tooltip'
-import type { VaelGateway } from '@/vael'
 import { useI18n } from '@/i18n'
 import { triggerHaptic } from '@/lib/haptics'
 import { isSubmitEnter } from '@/lib/ime'
@@ -63,6 +62,7 @@ import {
 import { $collapsedProviders, toggleCollapsedProvider } from '@/store/provider-collapse'
 import { $defaultReasoningEffort } from '@/store/session'
 import type { LocalModelLoadProgress, LocalRuntimeJob } from '@/types/vael'
+import type { VaelGateway } from '@/vael'
 
 import { type FastControl, ModelEditSubmenu, resolveFastControl } from './model-edit-submenu'
 import { ModelMenuRowIcon, useModelMenuRowDecoration } from './model-menu-row-decorations'

@@ -1,7 +1,6 @@
 import type { PromptSubmitResult } from '@vael/shared'
 import { type MutableRefObject, useCallback } from 'react'
 
-import { getSession, PROMPT_SUBMIT_REQUEST_TIMEOUT_MS } from '@/vael'
 import { translateNow, type Translations } from '@/i18n'
 import { type ChatMessage, finalizeInterruptedMessages, textPart } from '@/lib/chat-messages'
 import { optimisticAttachmentRef } from '@/lib/chat-runtime'
@@ -38,6 +37,7 @@ import {
 } from '@/store/session'
 import { $sessionStates, $sessionTiles } from '@/store/session-states'
 import type { SessionInfo } from '@/types/vael'
+import { getSession, PROMPT_SUBMIT_REQUEST_TIMEOUT_MS } from '@/vael'
 
 import {
   profileScopeForTranscriptSession,

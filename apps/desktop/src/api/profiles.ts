@@ -6,7 +6,7 @@ import type {
   ProfilesResponse
 } from '@/types/vael'
 
-import { capabilityScoped, vaelApi, type ProfileScope, STARTUP_REQUEST_TIMEOUT_MS } from './client'
+import { capabilityScoped, type ProfileScope, STARTUP_REQUEST_TIMEOUT_MS, vaelApi } from './client'
 
 export function getProfiles(scope?: ProfileScope): Promise<ProfilesResponse> {
   return vaelApi<ProfilesResponse>({

@@ -2,9 +2,9 @@ import { cleanup, fireEvent, render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
+import { $sessions } from '@/store/session'
 import type * as VaelApi from '@/vael'
 import type { SessionInfo } from '@/vael'
-import { $sessions } from '@/store/session'
 
 import { CommandCenterView } from './index'
 

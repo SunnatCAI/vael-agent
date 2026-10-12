@@ -1,10 +1,10 @@
 import { requestComposerFocus, requestComposerInsert } from '@/app/chat/composer/focus'
-import { getSkills } from '@/vael'
 import { translateNow } from '@/i18n'
 import type { ChatMessage } from '@/lib/chat-messages'
 import { type ComposerSuggestion, registerDraftProvider } from '@/store/composer-suggestions'
 import { $activeSessionId, $currentCwd, $messages } from '@/store/session'
 import { $sessionStates } from '@/store/session-states'
+import { getSkills } from '@/vael'
 
 /**
  * Skill-match draft provider: the draft names a skill the user has, so offer

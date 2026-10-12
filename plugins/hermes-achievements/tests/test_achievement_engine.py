@@ -67,7 +67,7 @@ class AchievementEngineTests(unittest.TestCase):
             "threshold_metric": "total_terminal_calls",
             "tiers": [{"name": "Copper", "threshold": 40}],
         }
-        with TemporaryDirectory() as data_dir, patch.object(plugin_api, "ACHIEVEMENTS", [definition]), patch.object(plugin_api, "_data_dir", return_value=Path(data_dir)), patch.object(plugin_api, "get_hermes_home", return_value=Path(data_dir)):
+        with TemporaryDirectory() as data_dir, patch.object(plugin_api, "ACHIEVEMENTS", [definition]), patch.object(plugin_api, "_data_dir", return_value=Path(data_dir)), patch.object(plugin_api, "get_vael_home", return_value=Path(data_dir)):
             unlocked = plugin_api._compute_from_scan({"aggregate": {"total_terminal_calls": 40}, "sessions": []})
             rescanned = plugin_api._compute_from_scan({"aggregate": {"total_terminal_calls": 39}, "sessions": []})
             partial = plugin_api._compute_from_scan({"aggregate": {"total_terminal_calls": 39}, "sessions": []}, is_partial=True)
@@ -198,10 +198,10 @@ class CompactionScanTests(unittest.TestCase):
     def test_scan_stats_survive_compaction_and_v1_checkpoint_is_rescanned(self):
         """#112273: compaction archives the active rows (active=0, compacted=1); the scan must
         keep counting them, and a schema-1 (active-only) checkpoint must not be reused."""
-        import hermes_state
-        from hermes_state import SessionDB
+        import vael_state
+        from vael_state import SessionDB
 
-        with TemporaryDirectory() as tmp, patch.object(plugin_api, "_data_dir", return_value=Path(tmp) / "data"), patch.object(plugin_api, "get_hermes_home", return_value=Path(tmp)):
+        with TemporaryDirectory() as tmp, patch.object(plugin_api, "_data_dir", return_value=Path(tmp) / "data"), patch.object(plugin_api, "get_vael_home", return_value=Path(tmp)):
             db = SessionDB(Path(tmp) / "state.db")
             try:
                 db.create_session("s1", "cli", model="m")
@@ -214,7 +214,7 @@ class CompactionScanTests(unittest.TestCase):
             # A schema-1 (active-only) checkpoint for this session must be ignored, not reused.
             stale = {"fingerprint": None, "stats": {"tool_call_count": 0}}
             plugin_api._write_json(plugin_api.CHECKPOINT_FILE, {"schema_version": 1, "generated_at": 1, "sessions": {"s1": stale}})
-            with patch.object(hermes_state, "SessionDB", lambda read_only=True: SessionDB(Path(tmp) / "state.db", read_only=read_only)):
+            with patch.object(vael_state, "SessionDB", lambda read_only=True: SessionDB(Path(tmp) / "state.db", read_only=read_only)):
                 scan = plugin_api.scan_sessions()
 
         self.assertEqual(scan["aggregate"]["max_distinct_tools_in_session"], 20)

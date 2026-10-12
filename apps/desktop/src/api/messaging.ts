@@ -13,7 +13,7 @@ import type {
   WebhooksResponse
 } from '@/types/vael'
 
-import { vaelApi, profileScoped } from './client'
+import { profileScoped, vaelApi } from './client'
 
 export function getMessagingPlatforms(profile?: null | string): Promise<MessagingPlatformsResponse> {
   return vaelApi<MessagingPlatformsResponse>({

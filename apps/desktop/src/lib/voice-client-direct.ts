@@ -1,4 +1,4 @@
-import { vaelApiAs, type OwnerScope, ownerScoped, type ResolvedOwner } from '@/api/client'
+import { type OwnerScope, ownerScoped, type ResolvedOwner, vaelApiAs } from '@/api/client'
 import { getApiRequestConnection, getApiRequestProfile, vaelApi } from '@/vael'
 
 /**

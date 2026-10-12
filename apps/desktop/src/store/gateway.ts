@@ -11,7 +11,6 @@ import {
 import { atom } from 'nanostores'
 
 import type { VaelConnection } from '@/global'
-import { VaelGateway, setApiRequestConnection } from '@/vael'
 import { translateNow } from '@/i18n'
 import {
   decideLivenessForceClose,
@@ -29,6 +28,7 @@ import { notifyError, RECOVERY_ACTIONS } from '@/store/notifications'
 import { markNativeNotifyBaseline } from '@/store/notify-baseline'
 import { setConnection, setGatewayState } from '@/store/session'
 import { stampSecondaryProfileOwner } from '@/store/session-event-provenance'
+import { setApiRequestConnection, VaelGateway } from '@/vael'
 
 // ── Multi-profile gateway routing ──────────────────────────────────────────
 // Concurrent sessions across profiles need concurrent sockets: the renderer's

@@ -1,6 +1,6 @@
-import type { GatewayEvent } from '@vael/shared'
 import { QueryClient } from '@tanstack/react-query'
 import { render } from '@testing-library/react'
+import type { GatewayEvent } from '@vael/shared'
 import { useEffect, useRef } from 'react'
 import { vi } from 'vitest'
 

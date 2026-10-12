@@ -71,7 +71,7 @@ async function fixture(): Promise<{
       artifactNamePascal: 'VaelH1234567890abcdef',
       cliName: 'vael-fresh-preview-29',
       windowsExecutableName: 'VaelH1234567890abcdef.exe',
-      msixAppIdWithOrg: 'NousResearch.HermesH1234567890abcdef'
+      msixAppIdWithOrg: 'NousResearch.VaelH1234567890abcdef'
     }
   }
 

@@ -594,7 +594,7 @@ class TestAnchoredAliasesBootE2E:
                 ["codesign", "-d", "-r-", str(executable)],
                 check=True, capture_output=True, text=True, timeout=30,
             )
-            assert 'designated => identifier "com.nousresearch.hermes.managed-python"' in identity.stdout
+            assert 'designated => identifier "com.nousresearch.vael.managed-python"' in identity.stdout
             probe = subprocess.run(
                 [str(venv_bin / name), "-c",
                  "import encodings, sys; print(sys.prefix)"],

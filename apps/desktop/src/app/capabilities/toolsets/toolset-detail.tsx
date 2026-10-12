@@ -2,9 +2,9 @@ import { compactNumber } from '@vael/shared'
 import { useNavigate } from 'react-router'
 
 import { Button } from '@/components/ui/button'
-import { type ProfileScope, profileScopeKey } from '@/vael'
 import { useI18n } from '@/i18n'
 import type { ToolsetInfo } from '@/types/vael'
+import { type ProfileScope, profileScopeKey } from '@/vael'
 
 import { ToolChip } from '../../master-detail'
 import { PanelPill } from '../../overlays/panel'

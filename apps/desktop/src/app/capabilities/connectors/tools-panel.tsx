@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 
-import type { ProfileScope } from '@/vael'
 import { isToolEnabled } from '@/lib/mcp-tool-filter'
+import type { ProfileScope } from '@/vael'
 
 import { okProbe } from '../mcp/mcp-status'
 import type { McpServersController } from '../mcp/use-mcp-servers'

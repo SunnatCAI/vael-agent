@@ -2,11 +2,11 @@
 import { describe, expect, it, vi } from 'vitest'
 
 import {
-  VAEL_HUB_FALLBACK_ORIGIN,
-  VAEL_HUB_ORIGIN,
   isVaelHubClipboardWrite,
   isVaelHubExternalUrl,
-  isVaelHubOrigin
+  isVaelHubOrigin,
+  VAEL_HUB_FALLBACK_ORIGIN,
+  VAEL_HUB_ORIGIN
 } from './hub-iframe-policy'
 import { createWindowOpenHandler, describeDeniedUrl } from './window-open-policy'
 

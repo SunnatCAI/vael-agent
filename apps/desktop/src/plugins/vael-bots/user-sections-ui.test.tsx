@@ -7,8 +7,8 @@
  * identical guard (#93528) for the same class in a sibling vael-bots surface.
  */
 
-import type * as VaelSdk from '@vael/plugin-sdk'
 import { cleanup, fireEvent, render, screen } from '@testing-library/react'
+import type * as VaelSdk from '@vael/plugin-sdk'
 import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest'
 
 import { translateBots } from './i18n-test-helper'

@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import type * as VaelApi from '@/vael'
 import type { FreeTierRequester } from '@/store/free-tier'
+import type * as VaelApi from '@/vael'
 
 const startOAuthLogin = vi.fn()
 const pollOAuthSession = vi.fn()

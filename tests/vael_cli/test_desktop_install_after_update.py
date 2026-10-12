@@ -66,7 +66,7 @@ def _patch_sigs(monkeypatch, summaries):
     monkeypatch.setattr(main_desktop, "_macos_signature_summary", lambda codesign, app: summaries(app))
 
 
-def _publisher_sig(app, team="TEAM0123", ident="com.nousresearch.hermes", verified=True):
+def _publisher_sig(app, team="TEAM0123", ident="com.nousresearch.vael", verified=True):
     return {"team": team, "identifier": ident, "verified": verified}
 
 
@@ -148,7 +148,7 @@ def test_matching_publisher_signing_swaps(rebuilt, tmp_path, monkeypatch):
 def test_adhoc_installed_still_swaps(rebuilt, tmp_path, monkeypatch):
     """Ad-hoc installs (the local development flow) keep swapping regardless of rebuild sig."""
     stale = _bundle(tmp_path / "Applications", b"stale")
-    sigs = {stale: {"team": None, "identifier": "com.nousresearch.hermes", "verified": True}}
+    sigs = {stale: {"team": None, "identifier": "com.nousresearch.vael", "verified": True}}
     _patch_sigs(monkeypatch, lambda app: sigs.get(app))
 
     installed, problems = main_desktop._install_rebuilt_macos_bundles(rebuilt, [stale], running=set())

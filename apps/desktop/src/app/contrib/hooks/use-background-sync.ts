@@ -8,7 +8,6 @@ import {
 } from '@/app/chat/transcript-backfill'
 import { sessionCreatedThisRun } from '@/app/session/hooks/use-session-actions/created-this-run'
 import { preserveLocalPendingTurnMessages } from '@/app/session/hooks/use-session-actions/utils'
-import { getLatestSessionMessages, type ProfileScope } from '@/vael'
 import {
   type ChatMessage,
   preserveLocalAssistantErrors,
@@ -56,6 +55,7 @@ import {
   setSessionTodos,
   todosForHydration
 } from '@/store/todos'
+import { getLatestSessionMessages, type ProfileScope } from '@/vael'
 
 import type { ClientSessionState } from '../../types'
 import type { GatewayRequester } from '../types'

@@ -3,9 +3,9 @@ import { atom } from 'nanostores'
 import type { ReactNode } from 'react'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 
-import { setApiRequestConnection, setApiRequestProfile } from '@/vael'
 import { clearVoiceClientConfigCache } from '@/lib/voice-client-direct'
 import { $autoSpeakReplies } from '@/store/voice-prefs'
+import { setApiRequestConnection, setApiRequestProfile } from '@/vael'
 
 import { ComposerScopeProvider, MAIN_COMPOSER_SCOPE } from '../scope'
 

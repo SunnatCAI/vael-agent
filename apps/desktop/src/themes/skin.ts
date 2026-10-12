@@ -16,7 +16,7 @@
  */
 
 import { ensureContrast, mix } from '@vael/shared/color'
-import type { VaelSkin, SkinColors } from '@vael/shared/skin'
+import type { SkinColors, VaelSkin } from '@vael/shared/skin'
 
 import { luminance, normalizeHex, readableInk } from './color'
 import type { DesktopTheme, DesktopThemeColors } from './types'

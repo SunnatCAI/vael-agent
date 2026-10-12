@@ -70,7 +70,7 @@ class TestSendMessageBlocks:
         adapter, client = _make_adapter(
             {"unfurl_links": False, "unfurl_media": False}
         )
-        content = "[Hermes](https://example.com/hermes)"
+        content = "[VAEL](https://example.com/vael)"
 
         await adapter.send("C1", content)
 

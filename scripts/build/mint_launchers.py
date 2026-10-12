@@ -72,7 +72,7 @@ def make_maker(bin_dir, shebang_python, wrapper_text):
 
 def mint_one(bin_dir, shebang_python, wrapper_text, spec):
     """Mint one launcher exe; returns its absolute path. distlib also
-    writes a python-versioned twin (hermes-3.14.exe) — the payload ships
+    writes a python-versioned twin (vael-3.14.exe) — the payload ships
     exactly one name per entry, so the twin is removed."""
     maker = make_maker(bin_dir, shebang_python, wrapper_text)
     filenames = maker.make(f"{spec['name']} = {spec['module']}:{spec['func']}")

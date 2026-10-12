@@ -12,9 +12,9 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
-import { deleteLearningNode, editLearningNode, getLearningNode } from '@/vael'
 import { notifyError } from '@/store/notifications'
 import { evictStarmapNode, loadStarmapGraph } from '@/store/starmap'
+import { deleteLearningNode, editLearningNode, getLearningNode } from '@/vael'
 
 import { useOnProfileSwitch } from '../hooks/use-on-profile-switch'
 

@@ -1,6 +1,6 @@
-import type { ModelOptionsResult } from '@vael/shared'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { act, cleanup, fireEvent, render, renderHook, type RenderResult, screen } from '@testing-library/react'
+import type { ModelOptionsResult } from '@vael/shared'
 import { MemoryRouter } from 'react-router'
 import { afterEach, beforeEach, expect, it, vi } from 'vitest'
 

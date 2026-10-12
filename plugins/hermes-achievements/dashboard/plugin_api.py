@@ -16,7 +16,7 @@ from typing import Any, Dict, List, Optional, Set
 
 from fastapi import APIRouter
 
-from hermes_constants import get_hermes_home
+from vael_constants import get_vael_home
 
 router = APIRouter()
 
@@ -153,7 +153,7 @@ def _data_dir() -> Path:
         return plugin_data_dir("hermes-achievements")
     except Exception:
         # Standalone dashboard import (no plugins package on sys.path): same layout, computed locally.
-        root = get_hermes_home() / "plugin-data" / "hermes-achievements"
+        root = get_vael_home() / "plugin-data" / "hermes-achievements"
         root.mkdir(parents=True, exist_ok=True)
         return root
 
@@ -161,7 +161,7 @@ def _data_dir() -> Path:
 def _data_file(name: str) -> Path:
     path = _data_dir() / name
     if not path.exists():
-        legacy = get_hermes_home() / "plugins" / "hermes-achievements" / name
+        legacy = get_vael_home() / "plugins" / "hermes-achievements" / name
         if legacy.exists():
             try:
                 # Two statements so the read (utf-8-sig, tolerates a BOM)
@@ -555,7 +555,7 @@ def scan_sessions(limit: Optional[int] = None, progress_callback: Optional[Any] 
     intermediate snapshots.
     """
     try:
-        from hermes_state import SessionDB
+        from vael_state import SessionDB
 
         # The scan only reads. A writable open here was a second writer connection (schema
         # init, write lock, close-time checkpoint) beside the dashboard's own store on every

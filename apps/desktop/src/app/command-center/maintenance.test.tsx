@@ -1,9 +1,9 @@
 import { act, cleanup, fireEvent, render, screen } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
+import { $desktopActionTasks } from '@/store/activity'
 import type * as VaelApi from '@/vael'
 import { getActionStatus } from '@/vael'
-import { $desktopActionTasks } from '@/store/activity'
 
 import { MaintenancePanel } from './maintenance'
 

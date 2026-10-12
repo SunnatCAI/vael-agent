@@ -214,7 +214,7 @@ import {
   resolveServedDashboardToken
 } from './dashboard-token'
 import { resolveDashboardWebDist } from './dashboard-web-dist'
-import { resolveDesktopVaelHome, resolveDesktopUserData } from './data-paths'
+import { resolveDesktopUserData, resolveDesktopVaelHome } from './data-paths'
 import { loadOrCreateInstallationId, sshOwnershipId } from './desktop-installation'
 import { formatDesktopLogLine, formatLogStamp } from './desktop-log-line'
 import {
@@ -315,7 +315,7 @@ import {
 import { assertNoSecondLocalBackend, assertNotPassiveSpawn } from './host-backend-singleton'
 import { lookupPublishedSessionToken } from './host-published-token'
 import { claimHostSpawnGate } from './host-spawn-gate'
-import { VAEL_HUB_FALLBACK_ORIGIN, VAEL_HUB_ORIGIN, isVaelHubClipboardWrite } from './hub-iframe-policy'
+import { isVaelHubClipboardWrite, VAEL_HUB_FALLBACK_ORIGIN, VAEL_HUB_ORIGIN } from './hub-iframe-policy'
 import { requestHudClose } from './hud-close'
 import { cursorPointInWindow } from './hud-cursor'
 import { startHudGameOverlayWatch } from './hud-game-overlay'
@@ -651,7 +651,6 @@ import {
   MIN_WIDTH as WINDOW_MIN_WIDTH
 } from './window-state'
 import { hiddenWindowsChildOptions, windowsShellCommand } from './windows-child-options'
-import { buildPathExtCandidates, chooseUpdaterArgs, resolveVenvVaelCommand } from './windows-vael-path'
 import {
   connectWindowsRemote,
   detectRemotePlatform,
@@ -686,6 +685,7 @@ import {
   writeGpuStackCookieMarker
 } from './windows-stack-cookie-fallback'
 import { readWindowsUserEnvVar } from './windows-user-env'
+import { buildPathExtCandidates, chooseUpdaterArgs, resolveVenvVaelCommand } from './windows-vael-path'
 import { isPackagedInstallPath as isPackagedInstallPathUnderRoots } from './workspace-cwd'
 import { readWslWindowsClipboardImage } from './wsl-clipboard-image'
 import { resolvePickerDefaultPath, setActiveGatewayProfile, setWslBridgeProfileState } from './wsl-path-bridge'
@@ -1804,12 +1804,12 @@ Menu.setApplicationMenu(null)
 // Windows toast notifications silently no-op unless an AppUserModelID is set:
 // `new Notification().show()` returns without error and nothing appears. The
 // AUMID must match the installed Start Menu shortcut's AUMID, which
-// electron-builder derives from the build `appId` (com.nousresearch.hermes) —
+// electron-builder derives from the build `appId` (com.nousresearch.vael) —
 // keep this string in sync with package.json `build.appId`. macOS/Linux don't
 // need this, so gate it on Windows. (Fixes: desktop approval/turn notifications
 // never firing on Windows.)
 if (IS_WINDOWS) {
-  app.setAppUserModelId(IDENTITY_APP_NAME ? PRODUCT_IDENTITY.appId : 'com.nousresearch.hermes')
+  app.setAppUserModelId(IDENTITY_APP_NAME ? PRODUCT_IDENTITY.appId : 'com.nousresearch.vael')
 }
 
 // Seed the native About panel with the best-known VAEL version. This is

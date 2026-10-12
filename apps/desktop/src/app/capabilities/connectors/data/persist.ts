@@ -1,7 +1,7 @@
-import { type ProfileScope, profileScopeKey } from '@/vael'
 import { queryClient } from '@/lib/query-client'
 import { readJson, writeJson } from '@/lib/storage'
 import { $freeTierStatus } from '@/store/free-tier'
+import { type ProfileScope, profileScopeKey } from '@/vael'
 
 import { MCP_CATALOG_KEY } from '../../mcp/mcp-status'
 import type { LocalServerInput } from '../types'

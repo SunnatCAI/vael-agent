@@ -12,7 +12,6 @@ import {
   DialogTitle
 } from '@/components/ui/dialog'
 import type { VaelConnection } from '@/global'
-import { saveVaelConfigRecord } from '@/vael'
 import { useI18n } from '@/i18n'
 import { Check, Globe } from '@/lib/icons'
 import { notify, notifyError } from '@/store/notifications'
@@ -24,8 +23,9 @@ import {
   releaseRealProfilePrompt
 } from '@/store/real-profile-consent'
 import { $connection } from '@/store/session'
+import { saveVaelConfigRecord } from '@/vael'
 
-import { vaelConfigCacheWriter, useVaelConfigRecord } from '../../hooks/use-config-record'
+import { useVaelConfigRecord, vaelConfigCacheWriter } from '../../hooks/use-config-record'
 
 interface RealProfileConsentDialogProps {
   /** The Browser tab this pane renders — used only to claim the prompt so

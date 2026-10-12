@@ -127,9 +127,9 @@ def test_stable_branded_channel_reuses_the_published_stable_identity(monkeypatch
     from vael_cli.release_channels import ChannelError, canonical_json
     from scripts.releases import channel_releases
     product = {"token": "f204dc6857361e33", "displayName": "VAEL Agent",
-               "appId": "com.nousresearch.hermes-bundled", "appNamePascal": "VaelBundled",
+               "appId": "com.nousresearch.vael-bundled", "appNamePascal": "VaelBundled",
                "artifactNamePascal": "VaelBundled", "cliName": "vael",
-               "windowsExecutableName": "VAEL Agent", "msixAppIdWithOrg": "NousResearch.HermesBundled"}
+               "windowsExecutableName": "VAEL Agent", "msixAppIdWithOrg": "NousResearch.VaelBundled"}
     monkeypatch.setattr(channel_releases, "product_identity", lambda tag: dict(product))
     with object_server() as (url, objects, headers, requests, faults):
         pub = publisher(url)

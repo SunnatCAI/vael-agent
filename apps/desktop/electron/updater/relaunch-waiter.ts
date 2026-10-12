@@ -25,7 +25,7 @@ export interface RelaunchWaiterOptions {
   processId: number
   /** Wall-clock ms the parent process started (PID-reuse guard). */
   processStartTimeMs: number
-  /** The MSIX identity name of this install (e.g. NousResearch.HermesBundled). */
+  /** The MSIX identity name of this install (e.g. NousResearch.VaelBundled). */
   identityName: string
   /** Absolute path to the waiter script inside the payload repo snapshot. */
   scriptPath: string

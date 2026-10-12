@@ -1,10 +1,9 @@
-import { JsonRpcGatewayError } from '@vael/shared'
 import { act, cleanup, render, waitFor } from '@testing-library/react'
+import { JsonRpcGatewayError } from '@vael/shared'
 import type { MutableRefObject } from 'react'
 import { useEffect, useRef } from 'react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import { getLatestSessionMessages, getSession } from '@/vael'
 import { en } from '@/i18n/en'
 import { textPart, toChatMessages } from '@/lib/chat-messages'
 import { createClientSessionState } from '@/lib/chat-runtime'
@@ -32,6 +31,7 @@ import {
 import { dropSessionState, publishSessionState } from '@/store/session-states'
 import { $wakeWord, resetWakeWordState } from '@/store/wake-word'
 import type { SessionInfo } from '@/types/vael'
+import { getLatestSessionMessages, getSession } from '@/vael'
 
 import { clearSingleFlightSessionResumeState } from './single-flight-resume'
 import { SESSION_COMPRESS_TIMEOUT_MS } from './slash'

@@ -7,14 +7,14 @@
 export {
   getApiRequestConnection,
   getApiRequestProfile,
-  vaelApi,
-  VaelGateway,
   profileScopeKey,
   PROMPT_SUBMIT_REQUEST_TIMEOUT_MS,
   resolveOwnerNow,
   setApiRequestConnection,
   setApiRequestProfile,
-  STARTUP_REQUEST_TIMEOUT_MS
+  STARTUP_REQUEST_TIMEOUT_MS,
+  vaelApi,
+  VaelGateway
 } from './api/client'
 export type { ProfileScope, ResolvedOwner } from './api/client'
 export * from './api/config'
@@ -66,8 +66,6 @@ export type {
   ElevenLabsVoice,
   ElevenLabsVoicesResponse,
   EnvVarInfo,
-  VaelConfig,
-  VaelConfigRecord,
   LogsResponse,
   McpCatalogEntry,
   McpCatalogResponse,
@@ -125,6 +123,8 @@ export type {
   ToolsetInfo,
   ToolsetModel,
   ToolsetModelsResponse,
+  VaelConfig,
+  VaelConfigRecord,
   WebhookCreatePayload,
   WebhookCreateResponse,
   WebhookEnableResponse,

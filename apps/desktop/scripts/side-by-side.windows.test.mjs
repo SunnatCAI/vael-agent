@@ -94,7 +94,7 @@ foreach ($asset in @(@('Square44x44Logo.png',44,44), @('Square150x150Logo.png',1
     identity: { token: 'ab12cd34ef56ab78', displayName: 'VAEL sdk-preview',
       appId: 'ai.vael.channel.hab12cd34ef56ab78', appNamePascal: 'VaelChannelab12cd34ef56ab78',
       artifactNamePascal: 'VaelChannelab12cd34ef56ab78', cliName: 'vael-sdk-preview',
-      windowsExecutableName: 'VaelChannelab12cd34ef56ab78', msixAppIdWithOrg: 'NousResearch.HermesChannelab12cd34ef56ab78' },
+      windowsExecutableName: 'VaelChannelab12cd34ef56ab78', msixAppIdWithOrg: 'NousResearch.VaelChannelab12cd34ef56ab78' },
     bundleEnv: {}, publicBase: 'https://example.invalid'
   })
   const cases = [

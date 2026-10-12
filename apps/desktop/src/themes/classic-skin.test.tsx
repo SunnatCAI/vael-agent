@@ -1,5 +1,5 @@
-import { contrastRatio } from '@vael/shared/color'
 import { act, cleanup, render } from '@testing-library/react'
+import { contrastRatio } from '@vael/shared/color'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import type { useTheme } from './context'

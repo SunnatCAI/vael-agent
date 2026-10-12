@@ -1024,7 +1024,7 @@ export function useTerminalSession({
         term.loadAddon(webgl)
         webglRef.current = webgl
       } catch (err) {
-        console.warn('[hermes-terminal] WebGL unavailable; falling back to DOM', err)
+        console.warn('[vael-terminal] WebGL unavailable; falling back to DOM', err)
       }
 
       // Join the shared-atlas refresh fan-out: this terminal's atlas-clear

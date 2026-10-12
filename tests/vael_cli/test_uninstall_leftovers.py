@@ -80,11 +80,11 @@ def test_remove_desktop_app_leftovers_removes_vael_library_entries(fake_home):
     library = fake_home / "Library"
     ours = []
     for parent, name in (
-        ("Caches", "com.nousresearch.hermes"),
+        ("Caches", "com.nousresearch.vael"),
         ("Logs", "VAEL"),
-        ("WebKit", "com.nousresearch.hermes"),
-        ("HTTPStorages", "com.nousresearch.hermes"),
-        ("Saved Application State", "com.nousresearch.hermes.savedState"),
+        ("WebKit", "com.nousresearch.vael"),
+        ("HTTPStorages", "com.nousresearch.vael"),
+        ("Saved Application State", "com.nousresearch.vael.savedState"),
     ):
         d = library / parent / name
         d.mkdir(parents=True)

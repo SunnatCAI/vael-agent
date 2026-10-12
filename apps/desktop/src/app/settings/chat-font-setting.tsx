@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 
 import { Button } from '@/components/ui/button'
-import { saveVaelConfig } from '@/vael'
 import { useI18n } from '@/i18n'
 import { notifyError } from '@/store/notifications'
 import {
@@ -11,6 +10,7 @@ import {
   setChatFontFamilyFromConfig
 } from '@/themes/chat-font'
 import type { VaelConfigRecord } from '@/types/vael'
+import { saveVaelConfig } from '@/vael'
 
 import { setVaelConfigCache, useVaelConfigRecord } from '../hooks/use-config-record'
 import { useOnProfileSwitch } from '../hooks/use-on-profile-switch'

@@ -1,6 +1,6 @@
 import { LOCAL_CONNECTION_ID } from '@vael/shared'
 
-import { capabilityScoped, vaelApi, type OwnerScope } from '@/api/client'
+import { capabilityScoped, type OwnerScope, vaelApi } from '@/api/client'
 import type { VaelConnection } from '@/global'
 import { translateNow } from '@/i18n'
 import { desktopFsCacheKey, isReadFileErrorResult, readDesktopFileDataUrl } from '@/lib/desktop-fs'

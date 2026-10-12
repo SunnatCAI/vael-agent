@@ -1,8 +1,8 @@
-import type { SessionInfo } from '@/vael'
 import type { ChatMessage } from '@/lib/chat-messages'
 import { $messages, setMessages } from '@/store/session'
 import type { SessionProfileRoute } from '@/store/session-request-router'
 import { loadTranscriptTail, type TranscriptTailScope } from '@/store/transcript-tail-cache'
+import type { SessionInfo } from '@/vael'
 
 export function transcriptRestScope(
   owner: SessionProfileRoute | undefined,

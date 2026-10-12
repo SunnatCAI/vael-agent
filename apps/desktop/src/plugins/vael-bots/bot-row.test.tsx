@@ -15,8 +15,8 @@
  * old plugin.js bundle and rendered it against a hand-built jsx stub.
  */
 
-import type * as VaelSdk from '@vael/plugin-sdk'
 import { act, fireEvent, render, screen } from '@testing-library/react'
+import type * as VaelSdk from '@vael/plugin-sdk'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { BotRow } from './bot-row'

@@ -1,8 +1,8 @@
 import { graftRefreshedTailOntoBackfill } from '@/app/chat/transcript-backfill'
-import { getLatestSessionMessages, type ProfileScope } from '@/vael'
 import { type ChatMessage, chatMessageText, preserveLocalAssistantErrors, toChatMessages } from '@/lib/chat-messages'
 import { knownSessionOwner, ownerLookupSessionRows } from '@/store/session'
 import type { SessionOwnerScope } from '@/store/session-request-router'
+import { getLatestSessionMessages, type ProfileScope } from '@/vael'
 
 /** REST scope for a session owner. Undefined when the owner is unknown. */
 export function profileScopeForSessionOwner(owner: SessionOwnerScope): ProfileScope {

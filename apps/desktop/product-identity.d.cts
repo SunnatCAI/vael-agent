@@ -5,7 +5,7 @@ interface ProductIdentity {
   store: boolean
   /** Display name. e.g. "VAEL Light" */
   displayName: string
-  /** OS-level app identity. e.g. "com.nousresearch.hermes-light" */
+  /** OS-level app identity. e.g. "com.nousresearch.vael-light" */
   appId: string
   /** app name in pascal case. e.g. "VaelLight" */
   appNamePascal: string
@@ -15,7 +15,7 @@ interface ProductIdentity {
   windowsExecutableName: string
   /** Exposed payload CLI command. */
   cliName: string
-  /** OS-level app identity w/ org prefix. e.g. "NousResearch.HermesLight" */
+  /** OS-level app identity w/ org prefix. e.g. "NousResearch.VaelLight" */
   msixAppIdWithOrg: string
   /** R2 identity token on channel builds; absent on legacy products. */
   readonly token?: string

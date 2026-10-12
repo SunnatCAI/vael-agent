@@ -3,7 +3,6 @@ import { act, cleanup, fireEvent, render as renderUi, screen, waitFor } from '@t
 import type { ReactNode } from 'react'
 import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import type { VaelGateway } from '@/vael'
 import { handleApprovalKey, releaseApprovalKey } from '@/lib/keybinds/approval-keys'
 import { $gateway } from '@/store/gateway'
 import {
@@ -16,6 +15,7 @@ import {
 import { hasOpenServerRequest, rememberServerRequest, resetServerRequestsForTests } from '@/store/server-requests'
 import { $activeSessionId } from '@/store/session'
 import { stubMenuDomApis, stubResizeObserver } from '@/test/jsdom'
+import type { VaelGateway } from '@/vael'
 
 import { PendingApprovalStack } from './approval'
 

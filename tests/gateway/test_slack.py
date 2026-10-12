@@ -1172,7 +1172,7 @@ class TestStandaloneSendUserDmResolution:
             result = await _slack_mod._standalone_send(
                 config,
                 "C123",
-                "[Hermes](https://example.com/hermes)",
+                "[VAEL](https://example.com/vael)",
             )
 
         assert result["success"] is True

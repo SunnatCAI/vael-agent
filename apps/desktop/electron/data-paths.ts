@@ -2,5 +2,5 @@
 // The app imports these names here (extensionless, for the tsc/esbuild build);
 // the CI smoke driver imports the .mjs directly because Node's type-stripping
 // cannot resolve extensionless TypeScript imports.
-export { platformDefaultVaelHome, resolveDesktopVaelHome, resolveDesktopUserData } from './data-paths.mjs'
+export { platformDefaultVaelHome, resolveDesktopUserData, resolveDesktopVaelHome } from './data-paths.mjs'
 export type { VaelHomeOptions } from './data-paths.mjs'

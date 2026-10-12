@@ -1,5 +1,5 @@
-import type { OnboardingCatalogPlugin } from '@vael/shared'
 import { useQuery } from '@tanstack/react-query'
+import type { OnboardingCatalogPlugin } from '@vael/shared'
 
 import { resolveSessionOwner } from '@/app/session/hooks/use-session-actions/utils'
 import { queryClient } from '@/lib/query-client'

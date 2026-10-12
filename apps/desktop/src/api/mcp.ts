@@ -1,6 +1,6 @@
 import type { McpCatalogResponse, McpServerSummary } from '@/types/vael'
 
-import { capabilityScoped, vaelApi, type ProfileScope, profileScoped } from './client'
+import { capabilityScoped, type ProfileScope, profileScoped, vaelApi } from './client'
 
 export interface McpTestResult {
   ok: boolean
