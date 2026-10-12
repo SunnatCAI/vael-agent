@@ -35,10 +35,10 @@ def server():
     with patch.dict(
         "sys.modules",
         {
-            "hermes_constants": MagicMock(get_hermes_home=MagicMock(return_value="/tmp/hermes_test")),
-            "hermes_cli.env_loader": MagicMock(),
-            "hermes_cli.banner": MagicMock(),
-            "hermes_state": MagicMock(),
+            "vael_constants": MagicMock(get_vael_home=MagicMock(return_value="/tmp/vael_test")),
+            "vael_cli.env_loader": MagicMock(),
+            "vael_cli.banner": MagicMock(),
+            "vael_state": MagicMock(),
         },
     ):
         mod = importlib.import_module("tui_gateway.server")

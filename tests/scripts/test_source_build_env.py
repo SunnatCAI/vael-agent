@@ -16,10 +16,10 @@ ASSETS = ROOT / "tests/install/e2e-assets"
 def _stamp_probe(tmp_path, shell):
     repo = tmp_path / "installed source"
     for relative in (
-        "scripts/write_install_stamp.py", "hermes_cli/__init__.py",
-        "hermes_cli/update_channel.py", "hermes_cli/release_channels.py",
+        "scripts/write_install_stamp.py", "vael_cli/__init__.py",
+        "vael_cli/update_channel.py", "vael_cli/release_channels.py",
         "pm/paths.py", "pm/environments.py",
-        "hermes_cli/steward.py", "hermes_constants.py",
+        "vael_cli/steward.py", "vael_constants.py",
     ):
         dest = repo / relative
         dest.parent.mkdir(parents=True, exist_ok=True)
@@ -28,7 +28,7 @@ def _stamp_probe(tmp_path, shell):
     # package so a new sibling import cannot break the fixture.
     shutil.copytree(ROOT / "scripts/releases", repo / "scripts/releases",
                     ignore=shutil.ignore_patterns("__pycache__"))
-    env = dict(os.environ, HOME=str(tmp_path), HERMES_HOME=str(tmp_path / "home"),
+    env = dict(os.environ, HOME=str(tmp_path), VAEL_HOME=str(tmp_path / "home"),
                GIT_CONFIG_GLOBAL=str(tmp_path / "gitconfig"), GIT_CONFIG_NOSYSTEM="1")
     (tmp_path / "gitconfig").write_text('[url "file:///staged/serve.git"]\n'
                                       '\tinsteadOf = https://github.com/NousResearch/hermes-agent.git\n',
@@ -57,9 +57,9 @@ def _stamp_probe(tmp_path, shell):
                    capture_output=True, text=True, timeout=30)
     assert json.loads((tmp_path / "contaminated.json").read_text(encoding="utf-8-sig"))["commit"] == new
     overrides = dict(GITHUB_SHA=new, GITHUB_REF="refs/heads/workflow", GITHUB_REF_NAME="workflow",
-                     GITHUB_HEAD_REF="workflow", GITHUB_BASE_REF="main", HERMES_BUILD_COMMIT=new,
-                     HERMES_PAYLOAD_TAG="v1.2.3", HERMES_PAYLOAD_VERSION="1.2.3",
-                     HERMES_DESKTOP_VARIANT="bundled")
+                     GITHUB_HEAD_REF="workflow", GITHUB_BASE_REF="main", VAEL_BUILD_COMMIT=new,
+                     VAEL_PAYLOAD_TAG="v1.2.3", VAEL_PAYLOAD_VERSION="1.2.3",
+                     VAEL_DESKTOP_VARIANT="bundled")
     env.update(overrides, ASSETS=str(ASSETS), PROBE_PYTHON=sys.executable,
                PROBE_ROOT=str(repo), PROBE_OUT=str(tmp_path / "stamp.json"),
                PROBE_ENV=str(tmp_path / "child-env.json"))
@@ -84,8 +84,8 @@ if source_build_env "$PROBE_PYTHON" -I -S -c 'raise SystemExit(23)'; then exit 9
 "$PROBE_PYTHON" -I -S -c 'import json, os; print(json.dumps(dict(os.environ)))'
 ''']
     elif shell == "node":
-        env["HERMES_DESKTOP_USER_DATA_DIR"] = str(tmp_path / "user-data")
-        env["HERMES_PYTHON_SRC_ROOT"] = str(repo)
+        env["VAEL_DESKTOP_USER_DATA_DIR"] = str(tmp_path / "user-data")
+        env["VAEL_PYTHON_SRC_ROOT"] = str(repo)
         command = [shell, "--input-type=module", "-e", '''
 import { pathToFileURL } from 'node:url';
 import { spawnSync } from 'node:child_process';
@@ -154,7 +154,7 @@ if ($LASTEXITCODE) { exit $LASTEXITCODE }
                                    "https://github.com/NousResearch/hermes-agent.git"], env=child,
                                   cwd=tmp_path, check=True, capture_output=True, text=True, timeout=30)
         assert redirect.stdout.strip() == "file:///staged/serve.git"
-        assert child["HERMES_HOME"] == env["HERMES_HOME"]
+        assert child["VAEL_HOME"] == env["VAEL_HOME"]
         parent = json.loads(result.stdout.splitlines()[-1])
         assert {key: parent[key] for key in overrides} == overrides
 
@@ -167,7 +167,7 @@ def test_posix_build_children_stamp_old_and_new_without_changing_parent(tmp_path
 
 @pytest.mark.platforms("windows", "posix")
 def test_powershell_build_children_stamp_old_and_new_without_changing_parent(tmp_path):
-    path = os.pathsep.join(p for p in os.get_exec_path() if ".hermes" not in Path(p).parts)
+    path = os.pathsep.join(p for p in os.get_exec_path() if ".vael" not in Path(p).parts)
     # Windows PowerShell 5.1 is what install-e2e-windows-run.yml drives windows-e2e.ps1 (the
     # asset's real consumer) with; pwsh is the only PowerShell a POSIX host offers.
     order = ("powershell", "pwsh") if os.name == "nt" else ("pwsh", "powershell")

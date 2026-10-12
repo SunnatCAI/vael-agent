@@ -33,27 +33,27 @@ def _clean_state():
 
 class TestRegisterCredentialFiles:
     def test_dict_with_path_key(self, tmp_path):
-        hermes_home = tmp_path / ".hermes"
-        hermes_home.mkdir()
-        (hermes_home / "token.json").write_text("{}")
+        vael_home = tmp_path / ".vael"
+        vael_home.mkdir()
+        (vael_home / "token.json").write_text("{}")
 
-        with patch.dict(os.environ, {"HERMES_HOME": str(hermes_home)}):
+        with patch.dict(os.environ, {"VAEL_HOME": str(vael_home)}):
             missing = register_credential_files([{"path": "token.json"}])
 
         assert missing == []
         mounts = get_credential_file_mounts()
         assert len(mounts) == 1
-        assert mounts[0]["host_path"] == str(hermes_home / "token.json")
-        assert mounts[0]["container_path"] == "/root/.hermes/token.json"
+        assert mounts[0]["host_path"] == str(vael_home / "token.json")
+        assert mounts[0]["container_path"] == "/root/.vael/token.json"
 
 
     def test_path_takes_precedence_over_name(self, tmp_path):
         """When both path and name are present, path wins."""
-        hermes_home = tmp_path / ".hermes"
-        hermes_home.mkdir()
-        (hermes_home / "real.json").write_text("{}")
+        vael_home = tmp_path / ".vael"
+        vael_home.mkdir()
+        (vael_home / "real.json").write_text("{}")
 
-        with patch.dict(os.environ, {"HERMES_HOME": str(hermes_home)}):
+        with patch.dict(os.environ, {"VAEL_HOME": str(vael_home)}):
             missing = register_credential_files([
                 {"path": "real.json", "name": "wrong.json"},
             ])
@@ -65,34 +65,34 @@ class TestRegisterCredentialFiles:
 
 class TestSkillsDirectoryMount:
     def test_returns_mount_when_skills_dir_exists(self, tmp_path):
-        hermes_home = tmp_path / ".hermes"
-        skills_dir = hermes_home / "skills"
+        vael_home = tmp_path / ".vael"
+        skills_dir = vael_home / "skills"
         skills_dir.mkdir(parents=True)
         (skills_dir / "test-skill").mkdir()
         (skills_dir / "test-skill" / "SKILL.md").write_text("# test")
 
-        with patch.dict(os.environ, {"HERMES_HOME": str(hermes_home)}):
+        with patch.dict(os.environ, {"VAEL_HOME": str(vael_home)}):
             mounts = get_skills_directory_mount()
 
         assert len(mounts) >= 1
         assert mounts[0]["host_path"] == str(skills_dir)
-        assert mounts[0]["container_path"] == "/root/.hermes/skills"
+        assert mounts[0]["container_path"] == "/root/.vael/skills"
 
 
     def test_custom_container_base(self, tmp_path):
-        hermes_home = tmp_path / ".hermes"
-        (hermes_home / "skills").mkdir(parents=True)
+        vael_home = tmp_path / ".vael"
+        (vael_home / "skills").mkdir(parents=True)
 
-        with patch.dict(os.environ, {"HERMES_HOME": str(hermes_home)}):
-            mounts = get_skills_directory_mount(container_base="/home/user/.hermes")
+        with patch.dict(os.environ, {"VAEL_HOME": str(vael_home)}):
+            mounts = get_skills_directory_mount(container_base="/home/user/.vael")
 
-        assert mounts[0]["container_path"] == "/home/user/.hermes/skills"
+        assert mounts[0]["container_path"] == "/home/user/.vael/skills"
 
     @pytest.mark.require_symlinks
     def test_symlinks_are_sanitized(self, tmp_path):
         """Symlinks in skills dir should be excluded from the mount."""
-        hermes_home = tmp_path / ".hermes"
-        skills_dir = hermes_home / "skills"
+        vael_home = tmp_path / ".vael"
+        skills_dir = vael_home / "skills"
         skills_dir.mkdir(parents=True)
         (skills_dir / "legit.md").write_text("# real skill")
         # Create a symlink pointing outside the skills tree
@@ -100,7 +100,7 @@ class TestSkillsDirectoryMount:
         secret.write_text("TOP SECRET")
         (skills_dir / "evil_link").symlink_to(secret)
 
-        with patch.dict(os.environ, {"HERMES_HOME": str(hermes_home)}):
+        with patch.dict(os.environ, {"VAEL_HOME": str(vael_home)}):
             mounts = get_skills_directory_mount()
 
         assert len(mounts) >= 1
@@ -118,8 +118,8 @@ class TestSkillsDirectoryMount:
     def test_sanitized_copy_skips_bookkeeping_dirs(self, tmp_path):
         """The symlink-safe copy is what gets mounted, so it must apply the
         same EXCLUDED_SKILL_DIRS rule as the per-file sync path."""
-        hermes_home = tmp_path / ".hermes"
-        skills_dir = hermes_home / "skills"
+        vael_home = tmp_path / ".vael"
+        skills_dir = vael_home / "skills"
         (skills_dir / "cat" / "myskill" / "references").mkdir(parents=True)
         (skills_dir / "cat" / "myskill" / "SKILL.md").write_text("# skill")
         (skills_dir / "cat" / "myskill" / "references" / "api.md").write_text("ref")
@@ -132,7 +132,7 @@ class TestSkillsDirectoryMount:
         secret.write_text("TOP SECRET")
         (skills_dir / "evil_link").symlink_to(secret)
 
-        with patch.dict(os.environ, {"HERMES_HOME": str(hermes_home)}):
+        with patch.dict(os.environ, {"VAEL_HOME": str(vael_home)}):
             mounts = get_skills_directory_mount()
 
         safe_path = Path(mounts[0]["host_path"])
@@ -145,12 +145,12 @@ class TestSkillsDirectoryMount:
 
     def test_no_symlinks_returns_original_dir(self, tmp_path):
         """When no symlinks exist, the original dir is returned (no copy)."""
-        hermes_home = tmp_path / ".hermes"
-        skills_dir = hermes_home / "skills"
+        vael_home = tmp_path / ".vael"
+        skills_dir = vael_home / "skills"
         skills_dir.mkdir(parents=True)
         (skills_dir / "skill.md").write_text("ok")
 
-        with patch.dict(os.environ, {"HERMES_HOME": str(hermes_home)}):
+        with patch.dict(os.environ, {"VAEL_HOME": str(vael_home)}):
             mounts = get_skills_directory_mount()
 
         assert mounts[0]["host_path"] == str(skills_dir)
@@ -159,8 +159,8 @@ class TestSkillsDirectoryMount:
 class TestIterSkillsFiles:
     @pytest.mark.require_symlinks
     def test_returns_files_skipping_symlinks(self, tmp_path):
-        hermes_home = tmp_path / ".hermes"
-        skills_dir = hermes_home / "skills"
+        vael_home = tmp_path / ".vael"
+        skills_dir = vael_home / "skills"
         (skills_dir / "cat" / "myskill").mkdir(parents=True)
         (skills_dir / "cat" / "myskill" / "SKILL.md").write_text("# skill")
         (skills_dir / "cat" / "myskill" / "scripts").mkdir()
@@ -170,12 +170,12 @@ class TestIterSkillsFiles:
         secret.write_text("nope")
         (skills_dir / "cat" / "myskill" / "evil").symlink_to(secret)
 
-        with patch.dict(os.environ, {"HERMES_HOME": str(hermes_home)}):
+        with patch.dict(os.environ, {"VAEL_HOME": str(vael_home)}):
             files = iter_skills_files()
 
         paths = {f["container_path"] for f in files}
-        assert "/root/.hermes/skills/cat/myskill/SKILL.md" in paths
-        assert "/root/.hermes/skills/cat/myskill/scripts/run.sh" in paths
+        assert "/root/.vael/skills/cat/myskill/SKILL.md" in paths
+        assert "/root/.vael/skills/cat/myskill/scripts/run.sh" in paths
         # Symlink should be excluded
         assert not any("evil" in f["container_path"] for f in files)
 
@@ -187,8 +187,8 @@ class TestIterSkillsFiles:
         tree were packed up on every sync even though the sandbox never
         reads them. Sync now honours EXCLUDED_SKILL_DIRS like discovery.
         """
-        hermes_home = tmp_path / ".hermes"
-        skills_dir = hermes_home / "skills"
+        vael_home = tmp_path / ".vael"
+        skills_dir = vael_home / "skills"
         (skills_dir / "cat" / "myskill").mkdir(parents=True)
         (skills_dir / "cat" / "myskill" / "SKILL.md").write_text("# skill")
         # Progressive-disclosure support files must still be synced.
@@ -204,12 +204,12 @@ class TestIterSkillsFiles:
         cache.mkdir()
         (cache / "helper.cpython-311.pyc").write_text("bytecode")
 
-        with patch.dict(os.environ, {"HERMES_HOME": str(hermes_home)}):
+        with patch.dict(os.environ, {"VAEL_HOME": str(vael_home)}):
             files = iter_skills_files()
 
         paths = {f["container_path"] for f in files}
-        assert "/root/.hermes/skills/cat/myskill/SKILL.md" in paths
-        assert "/root/.hermes/skills/cat/myskill/references/api.md" in paths
+        assert "/root/.vael/skills/cat/myskill/SKILL.md" in paths
+        assert "/root/.vael/skills/cat/myskill/references/api.md" in paths
         for excluded in (
             ".hub",
             ".archive",
@@ -220,10 +220,10 @@ class TestIterSkillsFiles:
             assert not any(excluded in path for path in paths), excluded
 
     def test_empty_when_no_skills_dir(self, tmp_path):
-        hermes_home = tmp_path / ".hermes"
-        hermes_home.mkdir()
+        vael_home = tmp_path / ".vael"
+        vael_home.mkdir()
 
-        with patch.dict(os.environ, {"HERMES_HOME": str(hermes_home)}):
+        with patch.dict(os.environ, {"VAEL_HOME": str(vael_home)}):
             assert iter_skills_files() == []
 
 class TestPathTraversalSecurity:
@@ -239,11 +239,11 @@ class TestPathTraversalSecurity:
     """
 
     def test_dotdot_traversal_rejected(self, tmp_path, monkeypatch):
-        """'../sensitive' must not escape HERMES_HOME."""
-        monkeypatch.setenv("HERMES_HOME", str(tmp_path / ".hermes"))
-        (tmp_path / ".hermes").mkdir()
+        """'../sensitive' must not escape VAEL_HOME."""
+        monkeypatch.setenv("VAEL_HOME", str(tmp_path / ".vael"))
+        (tmp_path / ".vael").mkdir()
 
-        # Create a sensitive file one level above hermes_home
+        # Create a sensitive file one level above vael_home
         sensitive = tmp_path / "sensitive.json"
         sensitive.write_text('{"secret": "value"}')
 
@@ -254,11 +254,11 @@ class TestPathTraversalSecurity:
 
     def test_deep_traversal_rejected(self, tmp_path, monkeypatch):
         """'../../etc/passwd' style traversal must be rejected."""
-        hermes_home = tmp_path / ".hermes"
-        hermes_home.mkdir()
-        monkeypatch.setenv("HERMES_HOME", str(hermes_home))
+        vael_home = tmp_path / ".vael"
+        vael_home.mkdir()
+        monkeypatch.setenv("VAEL_HOME", str(vael_home))
 
-        # Create a fake sensitive file outside hermes_home
+        # Create a fake sensitive file outside vael_home
         ssh_dir = tmp_path / ".ssh"
         ssh_dir.mkdir()
         (ssh_dir / "id_rsa").write_text("PRIVATE KEY")
@@ -270,9 +270,9 @@ class TestPathTraversalSecurity:
 
     def test_absolute_path_rejected(self, tmp_path, monkeypatch):
         """Absolute paths must be rejected regardless of whether they exist."""
-        hermes_home = tmp_path / ".hermes"
-        hermes_home.mkdir()
-        monkeypatch.setenv("HERMES_HOME", str(hermes_home))
+        vael_home = tmp_path / ".vael"
+        vael_home.mkdir()
+        monkeypatch.setenv("VAEL_HOME", str(vael_home))
 
         # Create a file at an absolute path
         sensitive = tmp_path / "absolute.json"
@@ -284,31 +284,31 @@ class TestPathTraversalSecurity:
         assert get_credential_file_mounts() == []
 
 
-    def test_nested_subdir_inside_hermes_home_allowed(self, tmp_path, monkeypatch):
-        """Files in subdirectories of HERMES_HOME must be allowed."""
-        hermes_home = tmp_path / ".hermes"
-        hermes_home.mkdir()
-        subdir = hermes_home / "creds"
+    def test_nested_subdir_inside_vael_home_allowed(self, tmp_path, monkeypatch):
+        """Files in subdirectories of VAEL_HOME must be allowed."""
+        vael_home = tmp_path / ".vael"
+        vael_home.mkdir()
+        subdir = vael_home / "creds"
         subdir.mkdir()
         (subdir / "oauth.json").write_text("{}")
-        monkeypatch.setenv("HERMES_HOME", str(hermes_home))
+        monkeypatch.setenv("VAEL_HOME", str(vael_home))
 
         result = register_credential_file("creds/oauth.json")
 
         assert result is True
 
     def test_symlink_traversal_rejected(self, tmp_path, monkeypatch):
-        """A symlink inside HERMES_HOME pointing outside must be rejected."""
-        hermes_home = tmp_path / ".hermes"
-        hermes_home.mkdir()
-        monkeypatch.setenv("HERMES_HOME", str(hermes_home))
+        """A symlink inside VAEL_HOME pointing outside must be rejected."""
+        vael_home = tmp_path / ".vael"
+        vael_home.mkdir()
+        monkeypatch.setenv("VAEL_HOME", str(vael_home))
 
-        # Create a sensitive file outside hermes_home
+        # Create a sensitive file outside vael_home
         sensitive = tmp_path / "sensitive.json"
         sensitive.write_text('{"secret": "value"}')
 
-        # Create a symlink inside hermes_home pointing outside
-        symlink = hermes_home / "evil_link.json"
+        # Create a symlink inside vael_home pointing outside
+        symlink = vael_home / "evil_link.json"
         try:
             symlink.symlink_to(sensitive)
         except (OSError, NotImplementedError):
@@ -316,7 +316,7 @@ class TestPathTraversalSecurity:
 
         result = register_credential_file("evil_link.json")
 
-        # The resolved path escapes HERMES_HOME — must be rejected
+        # The resolved path escapes VAEL_HOME — must be rejected
         assert result is False
         assert get_credential_file_mounts() == []
 
@@ -328,20 +328,20 @@ class TestPathTraversalSecurity:
 class TestConfigPathTraversal:
     """terminal.credential_files in config.yaml must also reject traversal."""
 
-    def _write_config(self, hermes_home: Path, cred_files: list):
-        import hermes_yaml as yaml
-        config_path = hermes_home / "config.yaml"
+    def _write_config(self, vael_home: Path, cred_files: list):
+        import vael_yaml as yaml
+        config_path = vael_home / "config.yaml"
         config_path.write_text(yaml.safe_dump({"terminal": {"credential_files": cred_files}}))
 
     def test_config_traversal_rejected(self, tmp_path, monkeypatch):
-        """'../secret' in config.yaml must not escape HERMES_HOME."""
-        hermes_home = tmp_path / ".hermes"
-        hermes_home.mkdir()
-        monkeypatch.setenv("HERMES_HOME", str(hermes_home))
+        """'../secret' in config.yaml must not escape VAEL_HOME."""
+        vael_home = tmp_path / ".vael"
+        vael_home.mkdir()
+        monkeypatch.setenv("VAEL_HOME", str(vael_home))
 
         sensitive = tmp_path / "secret.json"
         sensitive.write_text("{}")
-        self._write_config(hermes_home, ["../secret.json"])
+        self._write_config(vael_home, ["../secret.json"])
 
         mounts = get_credential_file_mounts()
         host_paths = [m["host_path"] for m in mounts]
@@ -350,25 +350,25 @@ class TestConfigPathTraversal:
 
     def test_config_absolute_path_rejected(self, tmp_path, monkeypatch):
         """Absolute paths in config.yaml must be rejected."""
-        hermes_home = tmp_path / ".hermes"
-        hermes_home.mkdir()
-        monkeypatch.setenv("HERMES_HOME", str(hermes_home))
+        vael_home = tmp_path / ".vael"
+        vael_home.mkdir()
+        monkeypatch.setenv("VAEL_HOME", str(vael_home))
 
         sensitive = tmp_path / "abs.json"
         sensitive.write_text("{}")
-        self._write_config(hermes_home, [str(sensitive)])
+        self._write_config(vael_home, [str(sensitive)])
 
         mounts = get_credential_file_mounts()
         assert mounts == []
 
     def test_config_legitimate_file_works(self, tmp_path, monkeypatch):
-        """Normal files inside HERMES_HOME via config must still mount."""
-        hermes_home = tmp_path / ".hermes"
-        hermes_home.mkdir()
-        monkeypatch.setenv("HERMES_HOME", str(hermes_home))
+        """Normal files inside VAEL_HOME via config must still mount."""
+        vael_home = tmp_path / ".vael"
+        vael_home.mkdir()
+        monkeypatch.setenv("VAEL_HOME", str(vael_home))
 
-        (hermes_home / "oauth.json").write_text("{}")
-        self._write_config(hermes_home, ["oauth.json"])
+        (vael_home / "oauth.json").write_text("{}")
+        self._write_config(vael_home, ["oauth.json"])
 
         mounts = get_credential_file_mounts()
         assert len(mounts) == 1
@@ -384,63 +384,63 @@ class TestCacheDirectoryMounts:
 
     def test_returns_existing_cache_dirs(self, tmp_path, monkeypatch):
         """Existing cache dirs are returned with correct container paths."""
-        hermes_home = tmp_path / ".hermes"
-        hermes_home.mkdir()
-        (hermes_home / "cache" / "documents").mkdir(parents=True)
-        (hermes_home / "cache" / "audio").mkdir(parents=True)
-        (hermes_home / "cache" / "videos").mkdir(parents=True)
-        monkeypatch.setenv("HERMES_HOME", str(hermes_home))
+        vael_home = tmp_path / ".vael"
+        vael_home.mkdir()
+        (vael_home / "cache" / "documents").mkdir(parents=True)
+        (vael_home / "cache" / "audio").mkdir(parents=True)
+        (vael_home / "cache" / "videos").mkdir(parents=True)
+        monkeypatch.setenv("VAEL_HOME", str(vael_home))
 
         mounts = get_cache_directory_mounts()
         paths = {m["container_path"] for m in mounts}
-        assert "/root/.hermes/cache/documents" in paths
-        assert "/root/.hermes/cache/audio" in paths
-        assert "/root/.hermes/cache/videos" in paths
+        assert "/root/.vael/cache/documents" in paths
+        assert "/root/.vael/cache/audio" in paths
+        assert "/root/.vael/cache/videos" in paths
 
 
     def test_legacy_dir_names_resolved(self, tmp_path, monkeypatch):
         """Old-style dir names (e.g. document_cache) are resolved correctly.
 
         Populates the legacy dirs with a sentinel file so they count as
-        ``has content`` for ``get_hermes_dir``'s populated-legacy check
+        ``has content`` for ``get_vael_dir``'s populated-legacy check
         (see #27602 — empty legacy stubs are no longer honoured).
         """
-        hermes_home = tmp_path / ".hermes"
-        hermes_home.mkdir()
-        # Use legacy dir name with content — get_hermes_dir prefers
+        vael_home = tmp_path / ".vael"
+        vael_home.mkdir()
+        # Use legacy dir name with content — get_vael_dir prefers
         # populated old over new.
-        legacy_doc = hermes_home / "document_cache"
-        legacy_img = hermes_home / "image_cache"
+        legacy_doc = vael_home / "document_cache"
+        legacy_img = vael_home / "image_cache"
         legacy_doc.mkdir()
         legacy_img.mkdir()
         (legacy_doc / "cached.txt").write_bytes(b"x")
         (legacy_img / "cached.png").write_bytes(b"x")
-        monkeypatch.setenv("HERMES_HOME", str(hermes_home))
+        monkeypatch.setenv("VAEL_HOME", str(vael_home))
 
         mounts = get_cache_directory_mounts()
         host_paths = {m["host_path"] for m in mounts}
-        assert str(hermes_home / "document_cache") in host_paths
-        assert str(hermes_home / "image_cache") in host_paths
+        assert str(vael_home / "document_cache") in host_paths
+        assert str(vael_home / "image_cache") in host_paths
         # Container paths always use the new layout
         container_paths = {m["container_path"] for m in mounts}
-        assert "/root/.hermes/cache/documents" in container_paths
-        assert "/root/.hermes/cache/images" in container_paths
+        assert "/root/.vael/cache/documents" in container_paths
+        assert "/root/.vael/cache/images" in container_paths
 
-    def test_empty_hermes_home(self, tmp_path, monkeypatch):
+    def test_empty_vael_home(self, tmp_path, monkeypatch):
         """Empty home → every staging dir is created and mounted (#76577).
 
         Docker snapshots the mount list at container creation; skipping
         not-yet-existing dirs meant the first attachment/clipboard file after
         container start dangled forever. All _CACHE_DIRS entries mount."""
-        hermes_home = tmp_path / ".hermes"
-        hermes_home.mkdir()
-        monkeypatch.setenv("HERMES_HOME", str(hermes_home))
+        vael_home = tmp_path / ".vael"
+        vael_home.mkdir()
+        monkeypatch.setenv("VAEL_HOME", str(vael_home))
 
         mounts = get_cache_directory_mounts()
         container_paths = {m["container_path"] for m in mounts}
-        assert "/root/.hermes/attachments" in container_paths
-        assert "/root/.hermes/images" in container_paths
-        assert "/root/.hermes/cache/images" in container_paths
+        assert "/root/.vael/attachments" in container_paths
+        assert "/root/.vael/images" in container_paths
+        assert "/root/.vael/cache/images" in container_paths
         for mount in mounts:
             assert Path(mount["host_path"]).is_dir()
 
@@ -455,17 +455,17 @@ class TestCacheDirectoryMounts:
         remote host."""
         from tools.environments.file_sync import iter_sync_files
 
-        hermes_home = tmp_path / ".hermes"
-        hermes_home.mkdir()
-        monkeypatch.setenv("HERMES_HOME", str(hermes_home))
-        paste = hermes_home / "composer-pastes" / "pasted_content_20260924_x.txt"
+        vael_home = tmp_path / ".vael"
+        vael_home.mkdir()
+        monkeypatch.setenv("VAEL_HOME", str(vael_home))
+        paste = vael_home / "composer-pastes" / "pasted_content_20260924_x.txt"
         paste.parent.mkdir()
         paste.write_text("pasted body", encoding="utf-8")
 
         mounts = get_cache_directory_mounts()
-        assert "/root/.hermes/composer-pastes" in {m["container_path"] for m in mounts}
+        assert "/root/.vael/composer-pastes" in {m["container_path"] for m in mounts}
 
-        synced = {Path(host) for host, _ in iter_sync_files("~/.hermes")}
+        synced = {Path(host) for host, _ in iter_sync_files("~/.vael")}
         assert paste in synced
 
 
@@ -475,15 +475,15 @@ class TestCacheDirectoryMounts:
         This is the reverse mapping vision uses to translate a container-visible
         path back to the host mount; it must recognise the ``images/`` dir.
         """
-        hermes_home = tmp_path / ".hermes"
-        (hermes_home / "images").mkdir(parents=True)
-        upload = hermes_home / "images" / "upload_20260722_181019_1.png"
+        vael_home = tmp_path / ".vael"
+        (vael_home / "images").mkdir(parents=True)
+        upload = vael_home / "images" / "upload_20260722_181019_1.png"
         upload.write_bytes(bytes.fromhex("89504e470d0a1a0a"))
-        monkeypatch.setenv("HERMES_HOME", str(hermes_home))
+        monkeypatch.setenv("VAEL_HOME", str(vael_home))
 
         assert (
             map_cache_path_to_container(str(upload))
-            == "/root/.hermes/images/upload_20260722_181019_1.png"
+            == "/root/.vael/images/upload_20260722_181019_1.png"
         )
 
 
@@ -491,15 +491,15 @@ class TestMapCachePathToContainer:
     """Tests for map_cache_path_to_container() — the backend-agnostic mapper."""
 
     def test_maps_path_under_cache_dir(self, tmp_path, monkeypatch):
-        hermes_home = tmp_path / ".hermes"
-        img_dir = hermes_home / "cache" / "images"
+        vael_home = tmp_path / ".vael"
+        img_dir = vael_home / "cache" / "images"
         img_dir.mkdir(parents=True)
         host_path = str(img_dir / "generated.png")
-        monkeypatch.setenv("HERMES_HOME", str(hermes_home))
+        monkeypatch.setenv("VAEL_HOME", str(vael_home))
 
         assert (
             map_cache_path_to_container(host_path)
-            == "/root/.hermes/cache/images/generated.png"
+            == "/root/.vael/cache/images/generated.png"
         )
 
 
@@ -508,37 +508,37 @@ class TestMapCachePathToContainer:
         Docker snapshots mounts at container creation, so a dir that appears
         later would dangle for the container's whole life. The map must
         therefore succeed (and the dir exist) even before first use."""
-        hermes_home = tmp_path / ".hermes"
-        hermes_home.mkdir()
-        monkeypatch.setenv("HERMES_HOME", str(hermes_home))
+        vael_home = tmp_path / ".vael"
+        vael_home.mkdir()
+        monkeypatch.setenv("VAEL_HOME", str(vael_home))
 
-        mapped = map_cache_path_to_container(str(hermes_home / "cache" / "images" / "x.png"))
-        assert mapped == "/root/.hermes/cache/images/x.png"
-        assert (hermes_home / "cache" / "images").is_dir()
+        mapped = map_cache_path_to_container(str(vael_home / "cache" / "images" / "x.png"))
+        assert mapped == "/root/.vael/cache/images/x.png"
+        assert (vael_home / "cache" / "images").is_dir()
 
 
 class TestToAgentVisiblePathPerBackend:
     """#76577 follow-up: translation covers every backend that relocates the
-    Hermes cache — not just docker — and skips the ones where the host path
+    VAEL cache — not just docker — and skips the ones where the host path
     stays correct (local; singularity auto-binds the host home)."""
 
     def _staged(self, tmp_path, monkeypatch):
-        hermes_home = tmp_path / ".hermes"
-        (hermes_home / "attachments").mkdir(parents=True)
-        monkeypatch.setenv("HERMES_HOME", str(hermes_home))
-        return str(hermes_home / "attachments" / "drop.zip")
+        vael_home = tmp_path / ".vael"
+        (vael_home / "attachments").mkdir(parents=True)
+        monkeypatch.setenv("VAEL_HOME", str(vael_home))
+        return str(vael_home / "attachments" / "drop.zip")
 
-    def test_docker_maps_to_root_hermes(self, tmp_path, monkeypatch):
+    def test_docker_maps_to_root_vael(self, tmp_path, monkeypatch):
         staged = self._staged(tmp_path, monkeypatch)
         monkeypatch.setenv("TERMINAL_ENV", "docker")
         from tools.credential_files import to_agent_visible_cache_path
-        assert to_agent_visible_cache_path(staged) == "/root/.hermes/attachments/drop.zip"
+        assert to_agent_visible_cache_path(staged) == "/root/.vael/attachments/drop.zip"
 
-    def test_ssh_maps_to_tilde_hermes(self, tmp_path, monkeypatch):
+    def test_ssh_maps_to_tilde_vael(self, tmp_path, monkeypatch):
         staged = self._staged(tmp_path, monkeypatch)
         monkeypatch.setenv("TERMINAL_ENV", "ssh")
         from tools.credential_files import to_agent_visible_cache_path
-        assert to_agent_visible_cache_path(staged) == "~/.hermes/attachments/drop.zip"
+        assert to_agent_visible_cache_path(staged) == "~/.vael/attachments/drop.zip"
 
     @pytest.mark.parametrize("backend", ["local", "singularity", ""])
     def test_untranslated_backends_keep_host_path(self, tmp_path, monkeypatch, backend):
@@ -555,18 +555,18 @@ class TestToAgentVisiblePathPerBackend:
 
     def test_symlinked_home_maps_resolved_path(self, tmp_path, monkeypatch):
         """#103147: ``@file:`` expansion resolves the staged path, but the mount roots
-        keep HERMES_HOME's symlinked spelling; the resolved path must still map."""
-        real_home = tmp_path / "real-hermes"
+        keep VAEL_HOME's symlinked spelling; the resolved path must still map."""
+        real_home = tmp_path / "real-vael"
         (real_home / "attachments").mkdir(parents=True)
-        link_home = tmp_path / ".hermes"
+        link_home = tmp_path / ".vael"
         link_home.symlink_to(real_home, target_is_directory=True)
-        monkeypatch.setenv("HERMES_HOME", str(link_home))
+        monkeypatch.setenv("VAEL_HOME", str(link_home))
         monkeypatch.setenv("TERMINAL_ENV", "docker")
         staged = link_home / "attachments" / "paste.txt"
         staged.write_text("x", encoding="utf-8")
         from tools.credential_files import to_agent_visible_cache_path
-        assert to_agent_visible_cache_path(str(staged.resolve())) == "/root/.hermes/attachments/paste.txt"
-        assert to_agent_visible_cache_path(str(staged)) == "/root/.hermes/attachments/paste.txt"
+        assert to_agent_visible_cache_path(str(staged.resolve())) == "/root/.vael/attachments/paste.txt"
+        assert to_agent_visible_cache_path(str(staged)) == "/root/.vael/attachments/paste.txt"
         # A sibling outside the mounted dirs still passes through.
         outside = real_home / "notes.txt"
         assert to_agent_visible_cache_path(str(outside)) == str(outside)
@@ -577,20 +577,20 @@ class TestIterCacheFiles:
 
     def test_enumerates_files(self, tmp_path, monkeypatch):
         """Regular files in cache dirs are returned."""
-        hermes_home = tmp_path / ".hermes"
-        doc_dir = hermes_home / "cache" / "documents"
+        vael_home = tmp_path / ".vael"
+        doc_dir = vael_home / "cache" / "documents"
         doc_dir.mkdir(parents=True)
         (doc_dir / "upload.zip").write_bytes(b"PK\x03\x04")
         (doc_dir / "report.pdf").write_bytes(b"%PDF-1.4")
         old = time.time() - 25 * 3600
         os.utime(doc_dir / "report.pdf", (old, old))
         # cache/generated is never swept: sync only its last-24h files (#126445).
-        gen_dir = hermes_home / "cache" / "generated" / "images"
+        gen_dir = vael_home / "cache" / "generated" / "images"
         gen_dir.mkdir(parents=True)
         (gen_dir / "fresh.png").write_bytes(b"\x89PNG")
         (gen_dir / "stale.png").write_bytes(b"\x89PNG")
         os.utime(gen_dir / "stale.png", (old, old))
-        monkeypatch.setenv("HERMES_HOME", str(hermes_home))
+        monkeypatch.setenv("VAEL_HOME", str(vael_home))
 
         entries = iter_cache_files()
         names = {Path(e["container_path"]).name for e in entries}
@@ -600,13 +600,13 @@ class TestIterCacheFiles:
     @pytest.mark.require_symlinks
     def test_skips_symlinks(self, tmp_path, monkeypatch):
         """Symlinks inside cache dirs are skipped."""
-        hermes_home = tmp_path / ".hermes"
-        doc_dir = hermes_home / "cache" / "documents"
+        vael_home = tmp_path / ".vael"
+        doc_dir = vael_home / "cache" / "documents"
         doc_dir.mkdir(parents=True)
         real_file = doc_dir / "real.txt"
         real_file.write_text("content")
         (doc_dir / "link.txt").symlink_to(real_file)
-        monkeypatch.setenv("HERMES_HOME", str(hermes_home))
+        monkeypatch.setenv("VAEL_HOME", str(vael_home))
 
         entries = iter_cache_files()
         names = [Path(e["container_path"]).name for e in entries]
@@ -616,19 +616,19 @@ class TestIterCacheFiles:
 
     def test_empty_cache(self, tmp_path, monkeypatch):
         """No cache dirs → empty list."""
-        hermes_home = tmp_path / ".hermes"
-        hermes_home.mkdir()
-        monkeypatch.setenv("HERMES_HOME", str(hermes_home))
+        vael_home = tmp_path / ".vael"
+        vael_home.mkdir()
+        monkeypatch.setenv("VAEL_HOME", str(vael_home))
 
         assert iter_cache_files() == []
 
 
 class TestMasterCredentialStoresAreNeverMountable:
-    """Containment is not enough — HERMES_HOME *is* where the keys live.
+    """Containment is not enough — VAEL_HOME *is* where the keys live.
 
     ``required_credential_files`` is skill-declared frontmatter, and skills are
     installed from the hub. The traversal guard already stops
-    ``../../.ssh/id_rsa`` from escaping HERMES_HOME, but every master
+    ``../../.ssh/id_rsa`` from escaping VAEL_HOME, but every master
     credential store sits *inside* it: a one-line declaration would otherwise
     bind-mount ``.env`` (every provider key) or ``auth.json`` (all provider
     tokens and OAuth grants) read-only into the sandbox the skill's own code
@@ -641,7 +641,7 @@ class TestMasterCredentialStoresAreNeverMountable:
 
     @staticmethod
     def _home(tmp_path):
-        home = tmp_path / ".hermes"
+        home = tmp_path / ".vael"
         home.mkdir()
         (home / ".env").write_text("OPENAI_API_KEY=sk-proj-REAL\n")
         (home / "auth.json").write_text('{"providers":{}}')
@@ -667,7 +667,7 @@ class TestMasterCredentialStoresAreNeverMountable:
     )
     def test_master_credential_store_is_refused(self, tmp_path, rel_path):
         home = self._home(tmp_path)
-        with patch.dict(os.environ, {"HERMES_HOME": str(home)}):
+        with patch.dict(os.environ, {"VAEL_HOME": str(home)}):
             assert register_credential_file(rel_path) is False, (
                 f"{rel_path} would be bind-mounted into the sandbox"
             )
@@ -676,22 +676,22 @@ class TestMasterCredentialStoresAreNeverMountable:
     def test_per_service_token_still_mounts(self, tmp_path):
         """The module's legitimate purpose must keep working."""
         home = self._home(tmp_path)
-        with patch.dict(os.environ, {"HERMES_HOME": str(home)}):
+        with patch.dict(os.environ, {"VAEL_HOME": str(home)}):
             assert register_credential_file("google_token.json") is True
             mounts = get_credential_file_mounts()
         assert [m["container_path"] for m in mounts] == [
-            "/root/.hermes/google_token.json"
+            "/root/.vael/google_token.json"
         ]
 
     def test_refused_entry_does_not_block_the_rest_of_the_batch(self, tmp_path):
         home = self._home(tmp_path)
-        with patch.dict(os.environ, {"HERMES_HOME": str(home)}):
+        with patch.dict(os.environ, {"VAEL_HOME": str(home)}):
             missing = register_credential_files([".env", "google_token.json"])
             mounts = get_credential_file_mounts()
 
         paths = [m["container_path"] for m in mounts]
-        assert "/root/.hermes/google_token.json" in paths
-        assert "/root/.hermes/.env" not in paths
+        assert "/root/.vael/google_token.json" in paths
+        assert "/root/.vael/.env" not in paths
         assert ".env" in missing, "a refused store is reported back to the skill"
 
 
@@ -704,7 +704,7 @@ class TestMasterCredentialStoresAreNeverMountable:
         import tools.credential_files as cf
 
         home = self._home(tmp_path)
-        with patch.dict(os.environ, {"HERMES_HOME": str(home)}), \
+        with patch.dict(os.environ, {"VAEL_HOME": str(home)}), \
                 patch.object(cf, "get_read_block_error", None):
             with caplog.at_level("ERROR", logger="tools.credential_files"):
                 assert cf.register_credential_file("google_token.json") is False
@@ -720,7 +720,7 @@ class TestMasterCredentialStoresAreNeverMountable:
         def _boom(path):
             raise RuntimeError("guard exploded")
 
-        with patch.dict(os.environ, {"HERMES_HOME": str(home)}), \
+        with patch.dict(os.environ, {"VAEL_HOME": str(home)}), \
                 patch.object(cf, "get_read_block_error", _boom):
             with caplog.at_level("ERROR", logger="tools.credential_files"):
                 assert cf.register_credential_file("google_token.json") is False

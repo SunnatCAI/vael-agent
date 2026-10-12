@@ -1,4 +1,4 @@
-import type { SessionInfo } from '@/types/hermes'
+import type { SessionInfo } from '@/types/vael'
 
 /** A `SessionInfo` with every field at its zero value.
  *

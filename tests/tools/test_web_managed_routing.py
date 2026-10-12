@@ -88,11 +88,11 @@ def local_gateway(monkeypatch):
 def test_only_managed_search_may_use_billed_fallback(
     monkeypatch, tmp_path, local_gateway, selection, direct_key, expected_paths,
 ):
-    from hermes_cli.config import atomic_config_write
+    from vael_cli.config import atomic_config_write
     from tools import web_tools
     from tests.tools.conftest import register_all_web_providers
 
-    monkeypatch.setenv("HERMES_HOME", str(tmp_path))
+    monkeypatch.setenv("VAEL_HOME", str(tmp_path))
     atomic_config_write(tmp_path / "config.yaml", {
         "web": {**selection, "keyless_rescue": False, "cache_enabled": True},
     })
@@ -119,15 +119,15 @@ def test_only_managed_search_may_use_billed_fallback(
             managed = path == "/perplexity/search"
             assert body.get("search_type") == ("fast" if managed else None)
             assert body["search_context_size"] == "low"
-            assert headers.get("X-Pplx-Integration") == (None if managed else "hermes-agent")
+            assert headers.get("X-Pplx-Integration") == (None if managed else "vael-agent")
 
 
 def test_managed_search_without_identity_names_the_gateway(monkeypatch, tmp_path, local_gateway):
-    from hermes_cli.config import atomic_config_write
+    from vael_cli.config import atomic_config_write
     from tools import managed_tool_gateway, web_tools
     from tests.tools.conftest import register_all_web_providers
 
-    monkeypatch.setenv("HERMES_HOME", str(tmp_path))
+    monkeypatch.setenv("VAEL_HOME", str(tmp_path))
     atomic_config_write(tmp_path / "config.yaml", {"web": {"backend": "nous", "keyless_rescue": False}})
     monkeypatch.delenv("PERPLEXITY_API_KEY", raising=False)
     monkeypatch.delenv("TOOL_GATEWAY_USER_TOKEN", raising=False)
@@ -135,17 +135,17 @@ def test_managed_search_without_identity_names_the_gateway(monkeypatch, tmp_path
     register_all_web_providers()
 
     error = json.loads(web_tools.web_search_tool("local fixture", limit=3))["error"]
-    assert "no usable Nous identity" in error and "hermes tools" in error
+    assert "no usable Nous identity" in error and "vael tools" in error
     assert "PERPLEXITY_API_KEY" not in error
     assert local_gateway == []
 
 
 def test_unentitled_managed_search_gets_fast_search_but_no_billed_fallback(monkeypatch, tmp_path, local_gateway):
-    from hermes_cli.config import atomic_config_write
+    from vael_cli.config import atomic_config_write
     from tools import managed_tool_gateway, web_tools
     from tests.tools.conftest import register_all_web_providers
 
-    monkeypatch.setenv("HERMES_HOME", str(tmp_path))
+    monkeypatch.setenv("VAEL_HOME", str(tmp_path))
     atomic_config_write(tmp_path / "config.yaml", {"web": {"backend": "nous", "keyless_rescue": False}})
     monkeypatch.delenv("PERPLEXITY_API_KEY", raising=False)
     monkeypatch.setattr(managed_tool_gateway, "managed_nous_tools_enabled", lambda **kw: False)

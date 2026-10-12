@@ -14,10 +14,10 @@ Premium scroll-driven landing pages; scroll = timeline.
 
 | | |
 |---|---|
-| Source | Optional — install with `hermes skills install official/web-development/scrollcraft` |
+| Source | Optional — install with `vael skills install official/web-development/scrollcraft` |
 | Path | `optional-skills/web-development/scrollcraft` |
 | Version | `1.0.0` |
-| Author | nateherkai (upstream scroll-craft), ported by Hermes Agent |
+| Author | nateherkai (upstream scroll-craft), ported by VAEL Agent |
 | License | MIT |
 | Platforms | linux, macos, windows |
 | Tags | `web-development`, `landing-page`, `scrollytelling`, `animation`, `design`, `frontend` |
@@ -25,7 +25,7 @@ Premium scroll-driven landing pages; scroll = timeline.
 ## Reference: full SKILL.md
 
 :::info
-The following is the complete skill definition that Hermes loads when this skill is triggered. This is what the agent sees as instructions when the skill is active.
+The following is the complete skill definition that VAEL loads when this skill is triggered. This is what the agent sees as instructions when the skill is active.
 :::
 
 # scrollcraft
@@ -147,7 +147,7 @@ viewport-heights.
 
 Full pipeline, prompt scaffolds and model notes: [references/assets.md](https://github.com/NousResearch/hermes-agent/blob/main/optional-skills/web-development/scrollcraft/references/assets.md).
 
-**Hermes-native paths first:**
+**VAEL-native paths first:**
 
 - **User-supplied footage and photos** — no key, no spend, a first-class route.
   Grade and encode them.
@@ -242,7 +242,7 @@ build's row to `<workspace>/FINGERPRINTS.md`.
 ## Pitfalls
 
 - `scripts/shoot.mjs` needs Playwright (`npm install playwright` or
-  `playwright-core` plus a Chrome install). Hermes' `browser_exec` tool is the
+  `playwright-core` plus a Chrome install). VAEL' `browser_exec` tool is the
   lighter alternative for scroll-screenshot verification: serve the build,
   scroll in steps, capture screenshots, and inspect them yourself.
 - `scripts/kie.mjs` needs `KIE_AI_API_KEY` and paid credit; prefer

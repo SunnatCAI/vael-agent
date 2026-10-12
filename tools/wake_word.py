@@ -82,8 +82,8 @@ _DEFAULTS: Dict[str, Any] = {
 
 # Bundled "hey hermes" model (tools/wakewords/) — the default; alias names resolve
 # to it, not to an openWakeWord built-in.
-_BUNDLED_MODEL_NAME = "hey_hermes"
-_BUNDLED_MODEL_ALIASES = frozenset({"", "hey_hermes", "hey hermes", "hermes"})
+_BUNDLED_MODEL_NAME = "hey_vael"
+_BUNDLED_MODEL_ALIASES = frozenset({"", "hey_vael", "hey hermes", "vael"})
 
 
 # Model filename is vael; wake phrase is still "hey hermes"
@@ -100,7 +100,7 @@ def load_wake_word_config() -> Dict[str, Any]:
     """Return the ``wake_word`` config section, shape-guarded to a dict."""
     cfg = None
     with suppress(Exception):
-        from hermes_cli.config import load_config
+        from vael_cli.config import load_config
         cfg = load_config().get("wake_word")
     return cfg if isinstance(cfg, dict) else {}
 
@@ -196,7 +196,7 @@ def wake_surface_enabled(surface: str, cfg: Optional[Dict[str, Any]] = None) -> 
 
 def _active_profile_name() -> str:
     with suppress(Exception):
-        from hermes_cli.profiles import get_active_profile_name
+        from vael_cli.profiles import get_active_profile_name
         return get_active_profile_name() or "default"
     return "default"
 
@@ -207,8 +207,8 @@ def enrolled_profile_phrases() -> Dict[str, str]:
     ``"hey <profile>"``; the sherpa engine listens for all and routes to the match. Unreadable → skipped."""
     phrases: Dict[str, str] = {}
     with suppress(Exception):
-        from hermes_cli.config import read_user_config_raw
-        from hermes_cli.profiles import get_profile_dir, list_profiles
+        from vael_cli.config import read_user_config_raw
+        from vael_cli.profiles import get_profile_dir, list_profiles
         for info in list_profiles():
             name = getattr(info, "name", None) or str(info)
             with suppress(Exception):
@@ -282,7 +282,7 @@ def _resample_audio_frame(np, frame, output_length: int):
 def silent_audio_hint(details: Dict[str, Any]) -> str:
     """Platform-specific remediation for an armed stream delivering silence."""
     if sys.platform == "darwin":
-        return ("Microphone delivers only silence. Grant the Hermes backend "
+        return ("Microphone delivers only silence. Grant the VAEL backend "
                 "microphone access in System Settings > Privacy & Security > "
                 "Microphone, then toggle the wake word.")
     fix = ("Set wake_word.input_device to a different PortAudio input device"
@@ -409,7 +409,7 @@ def check_wake_word_requirements(cfg: Optional[Dict[str, Any]] = None, *,
         missing = " and ".join(
             name for name, ok in (("speech-to-text", stt_ok), ("text-to-speech", tts_ok)) if not ok
         )
-        hint = (f"Wake word needs {missing} configured — run `hermes tools` "
+        hint = (f"Wake word needs {missing} configured — run `vael tools` "
                 f"(Voice section) or see the voice-mode docs.")
 
     capture_mode = resolve_capture_mode(cfg)
@@ -759,7 +759,7 @@ class WakeWordDetector:
                 self.on_failure(self)
 
 
-# ── Process-wide singleton (mirrors hermes_cli.voice's continuous API) ──
+# ── Process-wide singleton (mirrors vael_cli.voice's continuous API) ──
 
 _detector: Optional[WakeWordDetector] = None
 _detector_owner: object | None = None
@@ -768,8 +768,8 @@ _detector_lock = threading.Lock()
 
 
 def _lock_path() -> Path:
-    from hermes_constants import get_default_hermes_root
-    return get_default_hermes_root() / "runtime" / "wake-word.lock"
+    from vael_constants import get_default_vael_root
+    return get_default_vael_root() / "runtime" / "wake-word.lock"
 
 
 def _flock(handle, acquire: bool) -> None:

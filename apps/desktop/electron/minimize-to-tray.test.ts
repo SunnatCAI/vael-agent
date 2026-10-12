@@ -111,7 +111,7 @@ class Window extends EventEmitter {
 
 let home: string
 beforeEach(() => {
-  home = fs.mkdtempSync(path.join(os.tmpdir(), 'hermes-tray-'))
+  home = fs.mkdtempSync(path.join(os.tmpdir(), 'vael-tray-'))
   native.windows = []
   native.trays = []
   native.fail = false
@@ -239,8 +239,8 @@ test('opt-in minimize and primary Close preserve windows while explicit Quit sti
   main.minimize()
   expect(main.visible).toBe(true)
   main.restore()
-  await native.ipc.get('hermes:minimize-to-tray:set')!(null, true)
-  expect(native.ipc.get('hermes:minimize-to-tray:get')!()).toEqual({ enabled: true, available: true })
+  await native.ipc.get('vael:minimize-to-tray:set')!(null, true)
+  expect(native.ipc.get('vael:minimize-to-tray:get')!()).toEqual({ enabled: true, available: true })
   main.minimize()
   await flushDeferredHide()
   expect(main.destroyed).toBe(false)

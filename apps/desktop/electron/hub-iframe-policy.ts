@@ -12,11 +12,11 @@
  */
 
 /** The docs site served from Vercel. */
-export const HERMES_HUB_ORIGIN = 'https://hermes-agent.nousresearch.com'
+export const VAEL_HUB_ORIGIN = 'https://hermes-agent.nousresearch.com'
 /** The equivalent GitHub Pages deployment of the same site. */
-export const HERMES_HUB_FALLBACK_ORIGIN = 'https://nousresearch.github.io'
+export const VAEL_HUB_FALLBACK_ORIGIN = 'https://nousresearch.github.io'
 
-const HUB_ORIGINS = new Set([HERMES_HUB_ORIGIN, HERMES_HUB_FALLBACK_ORIGIN])
+const HUB_ORIGINS = new Set([VAEL_HUB_ORIGIN, VAEL_HUB_FALLBACK_ORIGIN])
 
 /**
  * Exact-origin membership — `origin` comes from the frame's own `origin`
@@ -24,7 +24,7 @@ const HUB_ORIGINS = new Set([HERMES_HUB_ORIGIN, HERMES_HUB_FALLBACK_ORIGIN])
  * is `null` for sandboxed frames and unique for `data:` URLs, so those can
  * never alias the hub.
  */
-export function isHermesHubOrigin(origin: string | null | undefined): boolean {
+export function isVaelHubOrigin(origin: string | null | undefined): boolean {
   return typeof origin === 'string' && HUB_ORIGINS.has(origin)
 }
 
@@ -37,7 +37,7 @@ const HUB_EXTERNAL_SCHEMES = new Set(['http:', 'https:', 'mailto:'])
  * external-open.ts enforces; anything else (file:, javascript:, custom
  * schemes) stays denied with no side effect.
  */
-export function isHermesHubExternalUrl(url: string): boolean {
+export function isVaelHubExternalUrl(url: string): boolean {
   try {
     return HUB_EXTERNAL_SCHEMES.has(new URL(url).protocol)
   } catch {
@@ -50,6 +50,6 @@ export function isHermesHubExternalUrl(url: string): boolean {
  * permission? Only the exact hub origins, and ONLY the write direction —
  * clipboard reads from embedded web content stay denied everywhere.
  */
-export function isHermesHubClipboardWrite(origin: string | null | undefined): boolean {
-  return isHermesHubOrigin(origin)
+export function isVaelHubClipboardWrite(origin: string | null | undefined): boolean {
+  return isVaelHubOrigin(origin)
 }

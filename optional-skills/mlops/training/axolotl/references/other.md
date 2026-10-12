@@ -410,7 +410,7 @@ axolotl inference your_config.yml --gradio
 
 Example 4 (bash):
 ```bash
-cat ~/.hermes/cache/scratch/prompt.txt | axolotl inference your_config.yml \
+cat ~/.vael/cache/scratch/prompt.txt | axolotl inference your_config.yml \
   --base-model="./completed-model" --prompter=None
 ```
 

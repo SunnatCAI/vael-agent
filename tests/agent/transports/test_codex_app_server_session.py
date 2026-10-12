@@ -179,8 +179,8 @@ class TestLifecycle:
         method_calls = [m for (m, _) in client.requests if m == "thread/start"]
         assert len(method_calls) == 1
 
-    def test_thread_start_carries_hermes_prompt_and_disables_codex_personality(self):
-        """thread/start carries cwd, Hermes' composed prompt as developerInstructions and
+    def test_thread_start_carries_vael_prompt_and_disables_codex_personality(self):
+        """thread/start carries cwd, VAEL' composed prompt as developerInstructions and
         personality "none" (#74712, #72104, #26035). We intentionally do NOT pass `permissions`
         (experimentalApi-gated + requires a matching config.toml [permissions] table)."""
         client = FakeClient()
@@ -201,7 +201,7 @@ class TestLifecycle:
         """#75186: for ``provider=custom`` + a configured ``providers.<name>`` entry, the session built by
         ``_ensure_codex_session`` sends ``model`` + ``modelProvider=<name>`` on thread/start and never the
         API key; openai/openai-codex agents send the selected model with codex's own provider."""
-        import hermes_cli.runtime_provider as rp
+        import vael_cli.runtime_provider as rp
         from agent.codex_runtime import _ensure_codex_session
         from agent.transports import codex_app_server_session as sess_mod
         monkeypatch.setattr(rp, "load_config", lambda: {
@@ -227,7 +227,7 @@ class TestLifecycle:
         assert thread_start_params(provider="openai-codex", requested_provider="openai-codex", model="gpt-5.4") == {
             **base, "model": "gpt-5.4"}
         assert thread_start_params(provider="custom", requested_provider="custom", model="gpt-5.4") == {**base, "model": "gpt-5.4"}
-        # ``-900k`` is a Hermes-side alias the backend rejects; codex gets the base slug.
+        # ``-900k`` is a VAEL-side alias the backend rejects; codex gets the base slug.
         assert thread_start_params(provider="openai-codex", requested_provider="openai-codex",
                                    model="gpt-5.6-sol-900k")["model"] == "gpt-5.6-sol"
         # The OpenAI API-key rung arrives as provider=custom with no codex model_providers id: codex's own
@@ -1158,7 +1158,7 @@ class TestTransportLoss:
         steer_session._issue_interrupt("turn-fake-001")  # must not raise
 
 
-def test_only_current_turn_progress_reaches_hermes_activity_clock():
+def test_only_current_turn_progress_reaches_vael_activity_clock():
     from agent.activity_tracking import ActivityTrackingMixin
     from agent.codex_runtime import make_codex_app_server_event_bridge
 

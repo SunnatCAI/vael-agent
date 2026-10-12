@@ -52,7 +52,7 @@ def test_entrypoint_exports_child_environment_and_only_github_deltas(tmp_path):
     shutil.copyfile(ENTRYPOINT, entry)
     # Replace only the installer boundary; the wrapper runs as a real child.
     (entry.parent.parent / HELPER.name).write_text(r'''
-function Initialize-HermesArm64BuildTools {
+function Initialize-VaelArm64BuildTools {
     param([string]$StateRoot, [string]$OpenSSLRoot)
     if (-not $StateRoot -or -not $OpenSSLRoot) { throw 'missing build roots' }
     if ($env:FAIL_BUILD_SETUP) { throw 'fixture installer failed' }
@@ -164,8 +164,8 @@ New-Item -ItemType Directory -Force (Join-Path $vcpkg 'ports\openssl'), (Join-Pa
 foreach ($relative in @('lib\libcrypto.lib', 'lib\libssl.lib', 'include\openssl\ssl.h')) {
     [IO.File]::WriteAllText((Join-Path $prefix $relative), 'fixture')
 }
-function Get-HermesArm64VisualStudio { return $vs }
-function Get-HermesClang { param([string]$VisualStudio); return (Join-Path $vs 'clang.exe') }
+function Get-VaelArm64VisualStudio { return $vs }
+function Get-VaelClang { param([string]$VisualStudio); return (Join-Path $vs 'clang.exe') }
 function Get-Command {
     param([string]$Name)
     switch ($Name) {
@@ -176,7 +176,7 @@ function Get-Command {
         default { throw "Unexpected command discovery: $Name" }
     }
 }
-function Invoke-HermesBuildCommand { throw 'Unexpected installation' }
+function Invoke-VaelBuildCommand { throw 'Unexpected installation' }
 function Invoke-WebRequest { throw 'Unexpected download' }
 Remove-Item Env:VCPKG_ROOT -ErrorAction SilentlyContinue
 $env:VCPKG_INSTALLATION_ROOT = $vcpkg
@@ -195,7 +195,7 @@ $inheritedPath = $env:PATH
 $cargoBin = Join-Path $cargoHome 'bin'
 $expectedPath = $devDir + '\;' + $inheritedPath
 if ($cargoBin -notin ($expectedPath -split ';')) { $expectedPath = $cargoBin + ';' + $expectedPath }
-Initialize-HermesArm64BuildTools -StateRoot $Root -OpenSSLRoot $openssl
+Initialize-VaelArm64BuildTools -StateRoot $Root -OpenSSLRoot $openssl
 if ($env:CARGO_HOME -ne $cargoHome -or $env:RUSTUP_HOME -ne $rustupHome) { throw 'Rust homes lost' }
 if ($env:RUSTUP_TOOLCHAIN -ne 'caller-selected-toolchain') { throw 'Caller Rust toolchain lost' }
 if ($env:PATH -ne $expectedPath) { throw 'PATH lost or reordered' }
@@ -210,7 +210,7 @@ foreach ($name in @('PATH', 'INCLUDE', 'LIB', 'VSCMD_ARG_HOST_ARCH', 'VSCMD_ARG_
     $prepared[$name] = (Get-Item "env:$name").Value
 }
 foreach ($i in 1..3) {
-    Initialize-HermesArm64BuildTools -StateRoot $Root -OpenSSLRoot $openssl
+    Initialize-VaelArm64BuildTools -StateRoot $Root -OpenSSLRoot $openssl
     foreach ($name in $prepared.Keys) {
         if ((Get-Item "env:$name").Value -cne $prepared[$name]) { throw "Repeated setup changed $name" }
     }
@@ -219,7 +219,7 @@ foreach ($i in 1..3) {
 foreach ($invalid in @('INCLUDE', 'LIB', 'VSCMD_ARG_HOST_ARCH', 'VSCMD_ARG_TGT_ARCH', 'VSINSTALLDIR')) {
     foreach ($name in $prepared.Keys) { Set-Item "env:$name" $prepared[$name] }
     Set-Item "env:$invalid" $(if ($invalid -in @('INCLUDE', 'LIB')) { '' } else { 'other' })
-    Initialize-HermesArm64BuildTools -StateRoot $Root -OpenSSLRoot $openssl
+    Initialize-VaelArm64BuildTools -StateRoot $Root -OpenSSLRoot $openssl
     foreach ($name in $prepared.Keys | Where-Object { $_ -ne 'PATH' }) {
         if ((Get-Item "env:$name").Value -cne $prepared[$name]) { throw "Did not repair $invalid" }
     }
@@ -227,7 +227,7 @@ foreach ($invalid in @('INCLUDE', 'LIB', 'VSCMD_ARG_HOST_ARCH', 'VSCMD_ARG_TGT_A
 $env:VSCMD_ARG_TGT_ARCH = 'x64'
 [IO.File]::WriteAllText((Join-Path $devDir 'VsDevCmd.bat'), "@exit /b 19`r`n")
 $failed = $false
-try { Initialize-HermesArm64BuildTools -StateRoot $Root -OpenSSLRoot $openssl } catch {
+try { Initialize-VaelArm64BuildTools -StateRoot $Root -OpenSSLRoot $openssl } catch {
     if ($_.Exception.Message -notmatch 'Could not initialize') { throw }
     $failed = $true
 }
@@ -246,7 +246,7 @@ param([string]$Helper, [string]$Root)
 $ErrorActionPreference = 'Stop'
 . $Helper
 $prefix = Join-Path $Root 'installed\arm64-windows-static-md'
-function Invoke-HermesBuildCommand {
+function Invoke-VaelBuildCommand {
     param([string]$Command, [string[]]$Arguments)
     if ($Arguments[0] -ne 'install' -or $Arguments[1] -ne 'openssl:arm64-windows-static-md') {
         throw 'incorrect installation request'
@@ -260,12 +260,12 @@ function Invoke-HermesBuildCommand {
     }
 }
 $calls = 0
-$first = Install-HermesArm64OpenSSL -Vcpkg 'fixture-vcpkg' -Root $Root
-$second = Install-HermesArm64OpenSSL -Vcpkg 'fixture-vcpkg' -Root $Root
+$first = Install-VaelArm64OpenSSL -Vcpkg 'fixture-vcpkg' -Root $Root
+$second = Install-VaelArm64OpenSSL -Vcpkg 'fixture-vcpkg' -Root $Root
 if ($calls -ne 1 -or $first -ne $prefix -or $second -ne $prefix) { throw 'warm setup installed twice' }
 Remove-Item (Join-Path $prefix 'include\openssl\ssl.h')
 $rejected = $false
-try { Install-HermesArm64OpenSSL -Vcpkg 'fixture-vcpkg' -Root $Root } catch {
+try { Install-VaelArm64OpenSSL -Vcpkg 'fixture-vcpkg' -Root $Root } catch {
     if ($_.Exception.Message -notmatch 'installation is damaged') { throw }
     $rejected = $true
 }
@@ -290,15 +290,15 @@ $ErrorActionPreference = 'Stop'
 $command = Join-Path $Root 'child with spaces.cmd'
 [IO.File]::WriteAllText($command, "@echo off`r`necho native-progress 1>&2`r`nexit /b 19`r`n")
 $failed = $false
-try { Invoke-HermesBuildCommand $command @() } catch {
+try { Invoke-VaelBuildCommand $command @() } catch {
     if ($_.Exception.Message -notmatch 'exit code 19') { throw }
     $failed = $true
 }
 if (-not $failed -or $ErrorActionPreference -ne 'Stop') { throw 'failure or shell preference was lost' }
 [IO.File]::WriteAllText($command, "@echo off`r`necho native-progress 1>&2`r`nexit /b 0`r`n")
-Invoke-HermesBuildCommand $command @()
+Invoke-VaelBuildCommand $command @()
 $failed = $false
-try { Invoke-HermesBuildCommand (Join-Path $Root 'absent.exe') @() } catch { $failed = $true }
+try { Invoke-VaelBuildCommand (Join-Path $Root 'absent.exe') @() } catch { $failed = $true }
 if (-not $failed) { throw 'missing executable was accepted after a successful command' }
 $a = Join-Path $Root 'cmd'
 $b = Join-Path $Root 'bin'

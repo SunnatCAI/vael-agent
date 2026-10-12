@@ -3,11 +3,11 @@
 
 from __future__ import annotations
 
-# First, like every entry point: stdio, import-path and environ-lifetime fixes (hermes_bootstrap).
+# First, like every entry point: stdio, import-path and environ-lifetime fixes (vael_bootstrap).
 # Only as ``python -m``: tests import this module, and the bootstrap's TMPDIR/scratch exports
 # must not fire in a library importer.
 if __name__ == "__main__":
-    import hermes_bootstrap  # noqa: F401
+    import vael_bootstrap  # noqa: F401
 
 import argparse
 import concurrent.futures
@@ -82,7 +82,7 @@ class ComputeHost:
         self._transport = _HostTransport(self.emit)
         self._heartbeat_secs = (
             float(heartbeat_secs) if heartbeat_secs is not None
-            else float(os.environ.get("HERMES_COMPUTE_HOST_HEARTBEAT_SECS") or "15"))
+            else float(os.environ.get("VAEL_COMPUTE_HOST_HEARTBEAT_SECS") or "15"))
         if self._heartbeat_secs > 0:
             for target, name in (
                 (self._heartbeat_loop, "compute-host-heartbeat"),
@@ -254,8 +254,8 @@ class ComputeHost:
             with contextlib.suppress(Exception):
                 server._ensure_session_db_row(session)
             with contextlib.suppress(Exception):
-                import hermes_undo
-                hermes_undo.on_user_message_appended(session["session_key"])
+                import vael_undo
+                vael_undo.on_user_message_appended(session["session_key"])
             with contextlib.suppress(Exception):
                 server._persist_branch_seed(session)
             server._run_prompt_submit(
@@ -334,11 +334,11 @@ class ComputeHost:
         owns_db = False
         try:
             if profile_home:
-                from hermes_constants import set_hermes_home_override
+                from vael_constants import set_vael_home_override
                 from agent.secret_scope import build_profile_secret_scope, set_secret_scope
-                from hermes_cli.env_loader import hydrate_profile_secret_sources
-                from hermes_state_registry import acquire
-                home_token = set_hermes_home_override(profile_home)
+                from vael_cli.env_loader import hydrate_profile_secret_sources
+                from vael_state_registry import acquire
+                home_token = set_vael_home_override(profile_home)
                 # External sources first (1Password / Bitwarden / secrets.command): this isolated
                 # turn process never ran the launch dotenv path for the routed profile, so without
                 # hydration the scope is built on an empty external snapshot and a vault-only
@@ -365,13 +365,13 @@ class ComputeHost:
         finally:
             if owns_db and session_db is not None:
                 with contextlib.suppress(Exception):
-                    from hermes_state_registry import release_or_close
+                    from vael_state_registry import release_or_close
                     release_or_close(session_db)
             if home_token is not None:
                 with contextlib.suppress(Exception):
-                    from hermes_constants import reset_hermes_home_override
+                    from vael_constants import reset_vael_home_override
                     from agent.secret_scope import reset_secret_scope
-                    reset_hermes_home_override(home_token)
+                    reset_vael_home_override(home_token)
                     reset_secret_scope(secret_token)
         try:
             from tui_gateway.transport import bind_transport, reset_transport
@@ -529,13 +529,13 @@ def _rss_mb(pid: int) -> float:
 
 def _default_workers() -> int:
     try:
-        return max(2, int(os.environ.get("HERMES_TUI_RPC_POOL_WORKERS") or "8"))
+        return max(2, int(os.environ.get("VAEL_TUI_RPC_POOL_WORKERS") or "8"))
     except (TypeError, ValueError):
         return 8
 
 
 def run_host(stdin: Any = None, stdout: Any = None) -> None:
-    os.environ["HERMES_COMPUTE_HOST_CHILD"] = "1"
+    os.environ["VAEL_COMPUTE_HOST_CHILD"] = "1"
     # JSONL framing is byte-oriented; avoid text-stream read-ahead on Windows pipes.
     stdin = stdin if stdin is not None else getattr(sys.stdin, "buffer", sys.stdin)
     host = ComputeHost(stdout=stdout or sys.stdout)
@@ -558,7 +558,7 @@ def run_host(stdin: Any = None, stdout: Any = None) -> None:
     host.emit({
         "type": "hello", "host_pid": os.getpid(), "boot_id": host._boot_id,
         "build_sha": _build_sha(), "cwd": os.getcwd(),
-        "hermes_home": os.environ.get("HERMES_HOME", "")})
+        "vael_home": os.environ.get("VAEL_HOME", "")})
 
     def _reader() -> None:
         for raw in stdin:

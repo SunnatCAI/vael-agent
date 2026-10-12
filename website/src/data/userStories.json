@@ -7,7 +7,7 @@
     "date": "2026-06-18",
     "category": "dev-workflow",
     "headline": "Solo-building a job-site app where the agent files its own tasks and deploys",
-    "quote": "The project is a job-site management app: Next.js frontend, NestJS API, postgres, redis, pgbouncer, nginx with brotli. I'm building it solo and Hermes handles the bulk of the actual implementation. It files its own tasks, writes the code, runs QA, deploys, and keeps its own documentation current. I mostly review things over Telegram.",
+    "quote": "The project is a job-site management app: Next.js frontend, NestJS API, postgres, redis, pgbouncer, nginx with brotli. I'm building it solo and VAEL handles the bulk of the actual implementation. It files its own tasks, writes the code, runs QA, deploys, and keeps its own documentation current. I mostly review things over Telegram.",
     "size": "lg"
   },
   {
@@ -18,7 +18,7 @@
     "date": "2026-06-23",
     "category": "personal-assistant",
     "headline": "28 cron jobs, 30+ skills, and a 3am \"Dreaming\" job that writes tomorrow's context",
-    "quote": "I run 28 cron jobs and 30+ custom skills. Every single one was built with Hermes, not downloaded. … Every night at 3 AM while I sleep, Hermes reads every single conversation we had. It extracts the decisions made, projects worked on, bugs chased, people talked to, and mistakes that should not be repeated.",
+    "quote": "I run 28 cron jobs and 30+ custom skills. Every single one was built with VAEL, not downloaded. … Every night at 3 AM while I sleep, VAEL reads every single conversation we had. It extracts the decisions made, projects worked on, bugs chased, people talked to, and mistakes that should not be repeated.",
     "size": "lg"
   },
   {
@@ -28,8 +28,8 @@
     "url": "https://www.reddit.com/r/hermesagent/comments/1u4l0dj/",
     "date": "2026-06-13",
     "category": "business-ops",
-    "headline": "€2,700 a month installing Hermes for French small businesses",
-    "quote": "I’ve been testing a simple service offer around Hermes Agent for French small businesses, and last month it brought in around €2,700. … Most of the value is not just “installing an AI agent.” It’s adapting it to the company’s real workflows",
+    "headline": "€2,700 a month installing VAEL for French small businesses",
+    "quote": "I’ve been testing a simple service offer around VAEL Agent for French small businesses, and last month it brought in around €2,700. … Most of the value is not just “installing an AI agent.” It’s adapting it to the company’s real workflows",
     "size": "lg"
   },
   {
@@ -40,18 +40,18 @@
     "date": "2026-06-30",
     "category": "messaging",
     "headline": "Built the iOS app he wanted for his own agent, having never written Swift",
-    "quote": "I was on the subway in NYC, talking to my Hermes agent thru Telegram. Loved Hermes. Telegram, not so much. … I'd never built an iOS app, and I don't really know Swift.",
+    "quote": "I was on the subway in NYC, talking to my VAEL agent thru Telegram. Loved VAEL. Telegram, not so much. … I'd never built an iOS app, and I don't really know Swift.",
     "size": "md"
   },
   {
-    "id": "reddit-hermes-swarm-247-teams",
+    "id": "reddit-vael-swarm-247-teams",
     "source": "reddit",
     "author": "u/Upset_Simple_4858",
     "url": "https://www.reddit.com/r/hermesagent/comments/1uh308s/",
     "date": "2026-06-27",
     "category": "dev-workflow",
     "headline": "Agent teams that message each other peer-to-peer and self-schedule wake-ups",
-    "quote": "I built Hermes Swarm, a self-hosted server that runs teams of AI agents 24/7. Each agent is a full Hermes agent. That means they have their own terminal, a browser and read/write access to the team's shared filesystem. They message each other peer-to-peer, delegate work and self-schedule their own wake-ups.",
+    "quote": "I built VAEL Swarm, a self-hosted server that runs teams of AI agents 24/7. Each agent is a full VAEL agent. That means they have their own terminal, a browser and read/write access to the team's shared filesystem. They message each other peer-to-peer, delegate work and self-schedule their own wake-ups.",
     "size": "lg"
   },
   {
@@ -62,7 +62,7 @@
     "date": "2026-07-20",
     "category": "integrations",
     "headline": "Free web tooling for the agent: search, fetch, crawl, no API keys",
-    "quote": "I built Hound as a drop-in MCP server that handles all of it. No API keys, no Docker, no config wizard. Just add it to your `~/.hermes/config.yaml` and your agent gets 6 web research tools.",
+    "quote": "I built Hound as a drop-in MCP server that handles all of it. No API keys, no Docker, no config wizard. Just add it to your `~/.vael/config.yaml` and your agent gets 6 web research tools.",
     "size": "md"
   },
   {
@@ -73,7 +73,7 @@
     "date": "2026-06-28",
     "category": "business-ops",
     "headline": "11 construction WhatsApp groups, 82 messages boiled down to 3 lines",
-    "quote": "11 construction WhatsApp groups. Tower crane updates, QA/QC reports, manpower tracking, safety alerts. Hermes reads all of them and summarizes everything I need to know. … That's 82 WhatsApp messages boiled down to 3 lines.",
+    "quote": "11 construction WhatsApp groups. Tower crane updates, QA/QC reports, manpower tracking, safety alerts. VAEL reads all of them and summarizes everything I need to know. … That's 82 WhatsApp messages boiled down to 3 lines.",
     "size": "lg"
   },
   {
@@ -84,7 +84,7 @@
     "date": "2026-07-12",
     "category": "creative",
     "headline": "A JARVIS tablet for his seven-year-old, with ranks, missions and a Dad Link",
-    "quote": "I’ve spent the last nine days building a Kid Mode on top of Hermes Agent for my seven-year-old. … It boots directly into a custom console with a central voice glyph, telemetry, rank insignia, vocabulary cards, classified files, missions, house controls, and a direct line to me.",
+    "quote": "I’ve spent the last nine days building a Kid Mode on top of VAEL Agent for my seven-year-old. … It boots directly into a custom console with a central voice glyph, telemetry, rank insignia, vocabulary cards, classified files, missions, house controls, and a direct line to me.",
     "size": "lg"
   },
   {
@@ -95,7 +95,7 @@
     "date": "2026-07-13",
     "category": "dev-workflow",
     "headline": "Stripped Electron out of the desktop app to reach one agent from every device",
-    "quote": "I took the official Hermes desktop app's UI, stripped out Electron, and turned it into a plain web app. Now I host it on one machine and reach the full Hermes agent from my laptop, desktop, phone, and iPad - on my LAN, or from anywhere via Tailscale.",
+    "quote": "I took the official VAEL desktop app's UI, stripped out Electron, and turned it into a plain web app. Now I host it on one machine and reach the full VAEL agent from my laptop, desktop, phone, and iPad - on my LAN, or from anywhere via Tailscale.",
     "size": "md"
   },
   {
@@ -128,7 +128,7 @@
     "date": "2026-07-16",
     "category": "dev-workflow",
     "headline": "One installer that turns a fresh install into a 9-role dev team",
-    "quote": "You run it on a fresh Hermes install and you get 8 specialist profiles plus the default profile acting as CTO … The part I care most about: authority is enforced by toolset restrictions, not just system prompt instructions.",
+    "quote": "You run it on a fresh VAEL install and you get 8 specialist profiles plus the default profile acting as CTO … The part I care most about: authority is enforced by toolset restrictions, not just system prompt instructions.",
     "size": "md"
   },
   {
@@ -139,7 +139,7 @@
     "date": "2026-06-19",
     "category": "cost-optimization",
     "headline": "Parsed a 3,799-page AMD manual locally with SQLite FTS5 instead of a vector DB",
-    "quote": "I built a custom Document Structuring Skill for Hermes Agent because running massive tech manuals on local hardware was completely blowing up my context window … Test PDF: AMD Technical Documentation * Size: 3,799 pages",
+    "quote": "I built a custom Document Structuring Skill for VAEL Agent because running massive tech manuals on local hardware was completely blowing up my context window … Test PDF: AMD Technical Documentation * Size: 3,799 pages",
     "size": "md"
   },
   {
@@ -150,7 +150,7 @@
     "date": "2026-07-03",
     "category": "creative",
     "headline": "Reverse-engineered a pellet smoker API so the agent watches the brisket overnight",
-    "quote": "I reverse engineered the FireBoard API and turned it into a tool, so Hermes can now read temp data and modify the set point. Why wake in a cold sweat over BBQ temperature control when your agent can play night watchman?",
+    "quote": "I reverse engineered the FireBoard API and turned it into a tool, so VAEL can now read temp data and modify the set point. Why wake in a cold sweat over BBQ temperature control when your agent can play night watchman?",
     "size": "sm"
   },
   {
@@ -161,7 +161,7 @@
     "date": "2026-07-18",
     "category": "personal-assistant",
     "headline": "Gave the agent its own Gmail so it scouts apartments every morning",
-    "quote": "The version that works is much simpler: 1. I create saved searches on sites like Zillow and Trulia. 2. New-listing alerts go to a dedicated Gmail account used by my Hermes agent. 3. Once a day, a cron job reads the alerts through the Himalaya email CLI. … automate the 97% that involves gathering and filtering information",
+    "quote": "The version that works is much simpler: 1. I create saved searches on sites like Zillow and Trulia. 2. New-listing alerts go to a dedicated Gmail account used by my VAEL agent. 3. Once a day, a cron job reads the alerts through the Himalaya email CLI. … automate the 97% that involves gathering and filtering information",
     "size": "lg"
   },
   {
@@ -172,7 +172,7 @@
     "date": "2026-07-18",
     "category": "personal-assistant",
     "headline": "Ditched Excel trackers for a \"Twin AI\" defined in SOUL.md",
-    "quote": "I have been running Hermes Agent as a \"Twin AI\" for about a month. The goal was simple: stop being the bottleneck for my own life and my small physical-product business. … It is not \"answer my question.\" It is \"operate on my behalf within clear boundaries.\"",
+    "quote": "I have been running VAEL Agent as a \"Twin AI\" for about a month. The goal was simple: stop being the bottleneck for my own life and my small physical-product business. … It is not \"answer my question.\" It is \"operate on my behalf within clear boundaries.\"",
     "size": "lg"
   },
   {
@@ -183,7 +183,7 @@
     "date": "2026-07-05",
     "category": "privacy",
     "headline": "Local email gatekeeper on a Mac mini so the agent never sees 2FA codes",
-    "quote": "I wanted my Hermes agent to read my emails and draft replies. But I did not want Hermes to have access to everything. Specifically not 2FA codes, password resets, or banking notifications. If my agent ever got compromised, those should never be within reach.",
+    "quote": "I wanted my VAEL agent to read my emails and draft replies. But I did not want VAEL to have access to everything. Specifically not 2FA codes, password resets, or banking notifications. If my agent ever got compromised, those should never be within reach.",
     "size": "lg"
   },
   {
@@ -194,7 +194,7 @@
     "date": "2026-06-18",
     "category": "enterprise",
     "headline": "A Kubernetes operator so team agent config goes through PR review",
-    "quote": "My team uses the Hermes agent to offload tasks. But it's basically a personal agent so configuration is CLI-driven by default, which is painful for a team. Every configuration change meant executing into containers with no review. … Now: - `kubectl get` shows the declared state - Changes go through PR/review - No more manual container access",
+    "quote": "My team uses the VAEL agent to offload tasks. But it's basically a personal agent so configuration is CLI-driven by default, which is painful for a team. Every configuration change meant executing into containers with no review. … Now: - `kubectl get` shows the declared state - Changes go through PR/review - No more manual container access",
     "size": "md"
   },
   {
@@ -205,18 +205,18 @@
     "date": "2026-06-17",
     "category": "cost-optimization",
     "headline": "A ~$9/month client stack: Hetzner, Ansible, 1Password, Telegram",
-    "quote": "Hetzner VPS: €4/month, EU-hosted (or wherever you/your customers are located), everything in Docker containers (isolated, reproducible) * Hermes Agent: deployed via Ansible playbooks (one command, fully automated) … One of my customers uses it to track ~50 dividend ETFs; the agent queries his tracking sheet, cross-references latest yields, and posts a summary to his Telegram every morning.",
+    "quote": "Hetzner VPS: €4/month, EU-hosted (or wherever you/your customers are located), everything in Docker containers (isolated, reproducible) * VAEL Agent: deployed via Ansible playbooks (one command, fully automated) … One of my customers uses it to track ~50 dividend ETFs; the agent queries his tracking sheet, cross-references latest yields, and posts a summary to his Telegram every morning.",
     "size": "lg"
   },
   {
-    "id": "reddit-hermes-node-brain-and-arm",
+    "id": "reddit-vael-node-brain-and-arm",
     "source": "reddit",
     "author": "u/rektsd",
     "url": "https://www.reddit.com/r/hermesagent/comments/1uhokhf/",
     "date": "2026-06-28",
     "category": "integrations",
     "headline": "Brain-and-arm: VPS agent reaches a locked-down work laptop over outbound WSS",
-    "quote": "My Hermes agent lives on a VPS. I wanted it to run commands on my work-laptop, read files, deploy code — but my company laptop blocks installs and some URLs. No SSH tunnels, no VPN, no inbound ports. So I built a brain-and-arm architecture",
+    "quote": "My VAEL agent lives on a VPS. I wanted it to run commands on my work-laptop, read files, deploy code — but my company laptop blocks installs and some URLs. No SSH tunnels, no VPN, no inbound ports. So I built a brain-and-arm architecture",
     "size": "md"
   },
   {
@@ -227,7 +227,7 @@
     "date": "2026-07-14",
     "category": "business-ops",
     "headline": "Forwarded a 50-page Greek PDF over Telegram and got a reviewed PR back",
-    "quote": "I forwarded the PDF and the task spec to Hermes over Telegram while I was making coffee. It cloned the repo, discovered the framework and i18n conventions by reading the codebase, added the PDF, updated the data source, ran build, typecheck, and all 48 tests.",
+    "quote": "I forwarded the PDF and the task spec to VAEL over Telegram while I was making coffee. It cloned the repo, discovered the framework and i18n conventions by reading the codebase, added the PDF, updated the data source, ran build, typecheck, and all 48 tests.",
     "size": "lg"
   },
   {
@@ -238,7 +238,7 @@
     "date": "2026-07-11",
     "category": "content-creation",
     "headline": "Dictates messy ideas into a Telegram topic, gets structured docs back",
-    "quote": "For the past few months, this has been my single most-used Hermes workflow. It starts on my phone and ends with a collaborative document I can share with zero time spent in a text editor.",
+    "quote": "For the past few months, this has been my single most-used VAEL workflow. It starts on my phone and ends with a collaborative document I can share with zero time spent in a text editor.",
     "size": "md"
   },
   {
@@ -249,11 +249,11 @@
     "date": "2026-07-16",
     "category": "cost-optimization",
     "headline": "Found the cron mode that costs zero tokens",
-    "quote": "Does every single run(setup as scheduled task/job by asking Hermes) cost me LLM tokens? … --script --no-agent : this is the one people(at least beginners like me) miss. The script is the job. No agent loop, no LLM call, period.",
+    "quote": "Does every single run(setup as scheduled task/job by asking VAEL) cost me LLM tokens? … --script --no-agent : this is the one people(at least beginners like me) miss. The script is the job. No agent loop, no LLM call, period.",
     "size": "md"
   },
   {
-    "id": "reddit-hermes-pwa-dashboard-plugin",
+    "id": "reddit-vael-pwa-dashboard-plugin",
     "source": "reddit",
     "author": "u/Deep_Cost5166",
     "url": "https://www.reddit.com/r/hermesagent/comments/1uiw15m/",
@@ -271,11 +271,11 @@
     "date": "2026-06-12",
     "category": "integrations",
     "headline": "One Obsidian vault, one local brain, four agents sharing the same memory",
-    "quote": "I run four different AI agents day to day: Claude Code, Codex, Grok, and a self-hosted Telegram/Discord/WhatsApp gateway (Hermes). Each had its *own* memory. The same facts about my work (people, companies, projects, preferences) lived in 4+ places, drifted apart, and there was no single place to ask. Classic agent amnesia, times four.",
+    "quote": "I run four different AI agents day to day: Claude Code, Codex, Grok, and a self-hosted Telegram/Discord/WhatsApp gateway (VAEL). Each had its *own* memory. The same facts about my work (people, companies, projects, preferences) lived in 4+ places, drifted apart, and there was no single place to ask. Classic agent amnesia, times four.",
     "size": "lg"
   },
   {
-    "id": "reddit-hermes-kanban-self-managing",
+    "id": "reddit-vael-kanban-self-managing",
     "source": "reddit",
     "author": "u/Ok_Run_5401",
     "url": "https://www.reddit.com/r/hermesagent/comments/1ubz5h6/",
@@ -315,7 +315,7 @@
     "date": "2026-06-26",
     "category": "research",
     "headline": "A synthetic hippocampus that forgets on purpose",
-    "quote": "You have a great conversation on Monday, and by Friday your agent looks at you like you're a stranger who wandered into its context window. … So I built Synapse a temporal knowledge graph memory system for Hermes agents.",
+    "quote": "You have a great conversation on Monday, and by Friday your agent looks at you like you're a stranger who wandered into its context window. … So I built Synapse a temporal knowledge graph memory system for VAEL agents.",
     "size": "md"
   },
   {
@@ -337,7 +337,7 @@
     "date": "2026-07-03",
     "category": "personal-assistant",
     "headline": "Twenty cron \"signals\" writing to a daily ledger, then an agent triages them",
-    "quote": "I created a summary graphic with just 7 of the 20 or so 'signals' which I connect to hermes (skills running on pure cron jobs). They all write nice formatted logs into a daily ledger. Then, an agentic cron job to triage the logs and highlight anything of importance into a 'triage' ledger.",
+    "quote": "I created a summary graphic with just 7 of the 20 or so 'signals' which I connect to vael (skills running on pure cron jobs). They all write nice formatted logs into a daily ledger. Then, an agentic cron job to triage the logs and highlight anything of importance into a 'triage' ledger.",
     "size": "md"
   },
   {
@@ -363,14 +363,14 @@
     "size": "md"
   },
   {
-    "id": "reddit-hermes-live2d",
+    "id": "reddit-vael-live2d",
     "source": "reddit",
     "author": "u/Soundpulse99",
     "url": "https://www.reddit.com/r/hermesagent/comments/1uunch9/",
     "date": "2026-07-12",
     "category": "creative",
     "headline": "A Live2D body for the agent that speaks when a cron fires",
-    "quote": "Pet works on Mac and talks to my Hermes VPS via tailscale. It utilizes TTS whenever a long task completes or a cron fires.",
+    "quote": "Pet works on Mac and talks to my VAEL VPS via tailscale. It utilizes TTS whenever a long task completes or a cron fires.",
     "size": "sm"
   },
   {
@@ -381,7 +381,7 @@
     "date": "2026-06-17",
     "category": "creative",
     "headline": "An idle game hard-locked to your own local gateway",
-    "quote": "Hermes IdleViber is an ambient idle/incremental game that lives in your browser. … The twist? The game is hard-locked to your local Hermes Agent gateway.",
+    "quote": "VAEL IdleViber is an ambient idle/incremental game that lives in your browser. … The twist? The game is hard-locked to your local VAEL Agent gateway.",
     "size": "sm"
   },
   {
@@ -392,18 +392,18 @@
     "date": "2026-06-21",
     "category": "privacy",
     "headline": "One Termux script to put the whole agent on a phone",
-    "quote": "I installed the Hermes agent on my phone using Termux and connected it to my Telegram! So I have my agents everywhere in my pocket",
+    "quote": "I installed the VAEL agent on my phone using Termux and connected it to my Telegram! So I have my agents everywhere in my pocket",
     "size": "sm"
   },
   {
-    "id": "reddit-even-realities-hermes-voice",
+    "id": "reddit-even-realities-vael-voice",
     "source": "reddit",
     "author": "u/DesignEddi",
     "url": "https://www.reddit.com/r/EvenRealities/comments/1urmx8i/",
     "date": "2026-07-09",
     "category": "integrations",
-    "headline": "Hermes Voice on the Even Hub turns G2 glasses into a hands-free front end",
-    "quote": "It turns the G2 into a hands-free front-end for your own self-hosted Hermes agent. I built it because I wanted it, and I use it pretty much every day.",
+    "headline": "VAEL Voice on the Even Hub turns G2 glasses into a hands-free front end",
+    "quote": "It turns the G2 into a hands-free front-end for your own self-hosted VAEL agent. I built it because I wanted it, and I use it pretty much every day.",
     "size": "sm"
   },
   {
@@ -414,7 +414,7 @@
     "date": "2026-07-23",
     "category": "messaging",
     "headline": "Native iOS companion for approvals and live tool activity",
-    "quote": "I have been using Hermes Agent as a persistent personal operator, but Telegram became limiting once I had several sessions and longer-running work.",
+    "quote": "I have been using VAEL Agent as a persistent personal operator, but Telegram became limiting once I had several sessions and longer-running work.",
     "size": "md"
   },
   {
@@ -425,7 +425,7 @@
     "date": "2026-06-15",
     "category": "integrations",
     "headline": "Five instances routed through a home residential IP to stop the 403s",
-    "quote": "My agents were hitting 403s constantly. Cloudflare, Akamai, Datadome — if the site has any bot detection at all, a datacenter IP and a headless browser get blocked immediately. … Five Hermes Agent instances on my homelab, all routing through a residential IP via a Raspberry Pi on a home network.",
+    "quote": "My agents were hitting 403s constantly. Cloudflare, Akamai, Datadome — if the site has any bot detection at all, a datacenter IP and a headless browser get blocked immediately. … Five VAEL Agent instances on my homelab, all routing through a residential IP via a Raspberry Pi on a home network.",
     "size": "lg"
   },
   {
@@ -436,7 +436,7 @@
     "date": "2026-06-23",
     "category": "general",
     "headline": "A skill that checks all-time-low prices on digital movies and TV",
-    "quote": "I use CheapCharts daily to lookup deals and pricing for movies and show bundles. I worked with my hermes agent to create a skill using CheapCharts public API.",
+    "quote": "I use CheapCharts daily to lookup deals and pricing for movies and show bundles. I worked with my vael agent to create a skill using CheapCharts public API.",
     "size": "sm"
   },
   {
@@ -447,7 +447,7 @@
     "date": "2026-07-19",
     "category": "creative",
     "headline": "Fresh workout playlists every morning, then a full MP3 library rebuild",
-    "quote": "I enabled the Spotify integration for this first time this week and put to work having Hermes create two new playlists for me: on that is ~10 minutes for my rowing machine workout and one that is ~25 minutes for my treadmill workout.",
+    "quote": "I enabled the Spotify integration for this first time this week and put to work having VAEL create two new playlists for me: on that is ~10 minutes for my rowing machine workout and one that is ~25 minutes for my treadmill workout.",
     "size": "md"
   },
   {
@@ -458,7 +458,7 @@
     "date": "2026-06-29",
     "category": "creative",
     "headline": "Design skills so agent-generated UI stops looking generic",
-    "quote": "I built a tool that helps you let your Hermes agents build better UI by using design skills that lets you build UI in a certain style.",
+    "quote": "I built a tool that helps you let your VAEL agents build better UI by using design skills that lets you build UI in a certain style.",
     "size": "sm"
   },
   {
@@ -480,7 +480,7 @@
     "date": "2026-07-05",
     "category": "cost-optimization",
     "headline": "Running free on a 7900 XTX with 200k context",
-    "quote": "I've been running my Hermes agent with `Gemma 4 26b a4b q4 qat` on my AMD 7900 XTX gpu, with 15GB size, it leave plenty of room for 200k context length",
+    "quote": "I've been running my VAEL agent with `Gemma 4 26b a4b q4 qat` on my AMD 7900 XTX gpu, with 15GB size, it leave plenty of room for 200k context length",
     "size": "sm"
   },
   {
@@ -491,7 +491,7 @@
     "date": "2026-07-18",
     "category": "research",
     "headline": "A learning plugin aimed at the human, not the agent",
-    "quote": "Agentic AI made building about 10x faster. Learning didn't get any faster. I noticed I was shipping systems I couldn't re-explain a week later … Hermes already learns for itself; this is the missing half",
+    "quote": "Agentic AI made building about 10x faster. Learning didn't get any faster. I noticed I was shipping systems I couldn't re-explain a week later … VAEL already learns for itself; this is the missing half",
     "size": "md"
   },
   {
@@ -502,7 +502,7 @@
     "date": "2026-06-20",
     "category": "business-ops",
     "headline": "Connected an entire business to the agent through one Obsidian vault",
-    "quote": "I connected my entire business to Hermes x Obsidian. Client notes, SOPs, meeting logs, business decisions - all of it. My Hermes agent now runs automations I didn't even know I needed, and my agent self-evolves over time.",
+    "quote": "I connected my entire business to VAEL x Obsidian. Client notes, SOPs, meeting logs, business decisions - all of it. My VAEL agent now runs automations I didn't even know I needed, and my agent self-evolves over time.",
     "size": "lg"
   },
   {
@@ -524,7 +524,7 @@
     "date": "2026-07-13",
     "category": "privacy",
     "headline": "24/7 on an Android phone via Cloud Shell, no VPS and no laptop",
-    "quote": "found a way to run Hermes Agent 24/7 using only your Android phone for free 😳 no VPS, Termux, PC or laptop needed. … agent keeps running even after you close the app or phone",
+    "quote": "found a way to run VAEL Agent 24/7 using only your Android phone for free 😳 no VPS, Termux, PC or laptop needed. … agent keeps running even after you close the app or phone",
     "size": "md"
   },
   {
@@ -556,19 +556,19 @@
     "url": "https://x.com/alphabatcher/status/2062860612036694324",
     "date": "2026-06-05",
     "category": "dev-workflow",
-    "headline": "Hermes was not broken, the config was default: a 24/7 pre-flight list",
-    "quote": "Hermes was not broken. The config was default.",
+    "headline": "VAEL was not broken, the config was default: a 24/7 pre-flight list",
+    "quote": "VAEL was not broken. The config was default.",
     "size": "md"
   },
   {
-    "id": "x-ksimback-hermes-atlas",
+    "id": "x-ksimback-vael-atlas",
     "source": "x",
     "author": "@KSimback",
     "url": "https://x.com/KSimback/status/2043331012902691177",
     "date": "2026-04-12",
     "category": "meta",
     "headline": "A research task turned into a live map of 80+ ecosystem projects",
-    "quote": "What started as a research task turned into full-blown community project It spent the week mapping every tool, skill, and integration built for @NousResearch's Hermes Agent",
+    "quote": "What started as a research task turned into full-blown community project It spent the week mapping every tool, skill, and integration built for @NousResearch's VAEL Agent",
     "size": "md"
   },
   {
@@ -656,7 +656,7 @@
     "date": "2026-06-12",
     "category": "general",
     "headline": "Runs on a five-year-old Dell with a busted GPU",
-    "quote": "My Hermes agent by @NousResearch runs on an old @DellTech @DellXPS laptop with a busted GPU. I bought it 5 years ago just for Zoom calls and Spotify. It still works.",
+    "quote": "My VAEL agent by @NousResearch runs on an old @DellTech @DellXPS laptop with a busted GPU. I bought it 5 years ago just for Zoom calls and Spotify. It still works.",
     "size": "sm"
   },
   {
@@ -667,7 +667,7 @@
     "date": "2026-05-26",
     "category": "cost-optimization",
     "headline": "Three agents, split by job: the grunt work that needs speed",
-    "quote": "Hermes Agent: Everything else. Blog posts, competitor research, news monitoring, code reviews. The grunt work that needs speed.",
+    "quote": "VAEL Agent: Everything else. Blog posts, competitor research, news monitoring, code reviews. The grunt work that needs speed.",
     "size": "md"
   },
   {
@@ -732,8 +732,8 @@
     "url": "https://github.com/teknium1/nous-discord-archive/blob/main/archives/plugins-skills-and-skins/1498945272632315974-Reverie-Core--Agentic-cognition-layer-for-Hermes.txt",
     "date": "",
     "category": "dev-workflow",
-    "headline": "Iterating on a local-first cognition layer for Hermes",
-    "quote": "I've been iterating on a local-first memory/cognition layer for Hermes and finally pushed it to public visibility.",
+    "headline": "Iterating on a local-first cognition layer for VAEL",
+    "quote": "I've been iterating on a local-first memory/cognition layer for VAEL and finally pushed it to public visibility.",
     "size": "sm"
   },
   {
@@ -744,7 +744,7 @@
     "date": "2026",
     "category": "integrations",
     "headline": "Hindsight Cloud memory, connected",
-    "quote": "Connect your Nous Research Hermes Agent to Hindsight Cloud, the best-performing AI Agent memory, in a few easy steps!",
+    "quote": "Connect your Nous Research VAEL Agent to Hindsight Cloud, the best-performing AI Agent memory, in a few easy steps!",
     "size": "sm"
   },
   {
@@ -777,7 +777,7 @@
     "date": "2026-04-17",
     "category": "trading",
     "headline": "$100 → $216 in 48h with a self-learning weather bot",
-    "quote": "I turned $100 into $216 in less than 48 hours with a self-learning weather trading bot. Hermes scans weather markets every 60 mins, compares 3 forecast sources per location, buys undervalued temperature buckets and flips for profit. Reviews what worked, writes its own strategy notes, adjusts next time.",
+    "quote": "I turned $100 into $216 in less than 48 hours with a self-learning weather trading bot. VAEL scans weather markets every 60 mins, compares 3 forecast sources per location, buys undervalued temperature buckets and flips for profit. Reviews what worked, writes its own strategy notes, adjusts next time.",
     "size": "md"
   },
   {
@@ -787,8 +787,8 @@
     "url": "https://github.com/teknium1/nous-discord-archive/blob/main/archives/plugins-skills-and-skins/1499394737088626810-Meta-Ads-Kit-for-Hermes.txt",
     "date": "",
     "category": "marketing",
-    "headline": "I built a Hermes skill pack on top of Meta's CLI",
-    "quote": "Yesterday Meta released their official CLI & MCP so I built a Hermes skill pack to connect and provide some great defaults.",
+    "headline": "I built a VAEL skill pack on top of Meta's CLI",
+    "quote": "Yesterday Meta released their official CLI & MCP so I built a VAEL skill pack to connect and provide some great defaults.",
     "size": "sm"
   },
   {
@@ -798,8 +798,8 @@
     "url": "https://github.com/teknium1/nous-discord-archive/blob/main/archives/hermes-agent.txt",
     "date": "2026-03-22",
     "category": "privacy",
-    "headline": "Sharing a local SearXNG container across my Hermes agents",
-    "quote": "I set up my Hermes Agents with local SearXNG (in a container that they share) before ddgs (duckduckgo) was added, because I thought all API use of DDG was paid. I've been pretty happy with searxng so far.",
+    "headline": "Sharing a local SearXNG container across my VAEL agents",
+    "quote": "I set up my VAEL Agents with local SearXNG (in a container that they share) before ddgs (duckduckgo) was added, because I thought all API use of DDG was paid. I've been pretty happy with searxng so far.",
     "size": "sm"
   },
   {
@@ -809,8 +809,8 @@
     "url": "https://x.com/gkisokay/status/2045048092341555639",
     "date": "2026-04-17",
     "category": "dev-workflow",
-    "headline": "Codex watches my Hermes agent-to-agent workflows live",
-    "quote": "Day 10 of Building AGI for my Hermes Agent: Codex saved the day as a runtime monitor for my agent-to-agent workflows. I used Codex with GPT-5.4 on extra-high to watch the workflow run, catch where it broke, and fix it live until it worked reliably.",
+    "headline": "Codex watches my VAEL agent-to-agent workflows live",
+    "quote": "Day 10 of Building AGI for my VAEL Agent: Codex saved the day as a runtime monitor for my agent-to-agent workflows. I used Codex with GPT-5.4 on extra-high to watch the workflow run, catch where it broke, and fix it live until it worked reliably.",
     "size": "sm"
   },
   {
@@ -832,7 +832,7 @@
     "date": "",
     "category": "dev-workflow",
     "headline": "Built converse mode so my agent thinks before it acts",
-    "quote": "My Hermes agent used to start executing the moment I hit enter. I'd describe a vague idea and it would immediately start writing files, calling tools, making changes I hadn't fully thought through yet. So I built converse mode. One plugin, two commands. The agent won't touch a single tool until you say so.",
+    "quote": "My VAEL agent used to start executing the moment I hit enter. I'd describe a vague idea and it would immediately start writing files, calling tools, making changes I hadn't fully thought through yet. So I built converse mode. One plugin, two commands. The agent won't touch a single tool until you say so.",
     "size": "lg"
   },
   {
@@ -843,17 +843,17 @@
     "date": "2026",
     "category": "dev-workflow",
     "headline": "73% of every API call is fixed overhead (I measured it)",
-    "quote": "I built a monitoring dashboard to profile token consumption on a Hermes v0.6.0 deployment running Telegram + WhatsApp + Cron gateways. After analyzing 6 request dumps, I found that 73% of every API call is fixed overhead.",
+    "quote": "I built a monitoring dashboard to profile token consumption on a VAEL v0.6.0 deployment running Telegram + WhatsApp + Cron gateways. After analyzing 6 request dumps, I found that 73% of every API call is fixed overhead.",
     "size": "sm"
   },
   {
-    "id": "discord-megabyte0x-hermes-for-team",
+    "id": "discord-megabyte0x-vael-for-team",
     "source": "discord",
     "author": "@megabyte0x",
     "url": "https://github.com/teknium1/nous-discord-archive/blob/main/archives/community-projects-showcase/1492207991162671255-Hermes-Agent-for-my-team.txt",
     "date": "",
     "category": "business-ops",
-    "headline": "Hermes Agent for my team — repos, onchain debug, protocol docs",
+    "headline": "VAEL Agent for my team — repos, onchain debug, protocol docs",
     "quote": "It's right now integrated with SourceDev to index repos (self hosted), Tenderly MCP to debug onchain transactions, LLM-Wiki ingest of Litepaper of our protocol and other docs. Hopefully team will find it useful and will integrate more infra tools overtime to help the team.",
     "size": "md"
   },
@@ -864,8 +864,8 @@
     "url": "https://gist.github.com/davidondrej/6f158de34ce83c530526011054fde8d3",
     "date": "2026",
     "category": "integrations",
-    "headline": "Hermes + Browser Harness on a Hostinger VPS",
-    "quote": "Full copy-paste setup for Hermes Agent + Browser Harness on a Hostinger VPS. Register Browser Harness as a Hermes skill via symlink so Hermes can find and use it. Recommended model: anthropic/claude-opus-4.7 via OpenRouter.",
+    "headline": "VAEL + Browser Harness on a Hostinger VPS",
+    "quote": "Full copy-paste setup for VAEL Agent + Browser Harness on a Hostinger VPS. Register Browser Harness as a VAEL skill via symlink so VAEL can find and use it. Recommended model: anthropic/claude-opus-4.7 via OpenRouter.",
     "size": "sm"
   },
   {
@@ -887,7 +887,7 @@
     "date": "2026",
     "category": "integrations",
     "headline": "jMunch MCP: 52 tools via tree-sitter for code intelligence",
-    "quote": "The jMunch MCP suite provides three MCP servers bringing token-efficient code intelligence (52 tools via tree-sitter), documentation retrieval, and tabular data analysis. Plug-and-play with Hermes's native MCP client.",
+    "quote": "The jMunch MCP suite provides three MCP servers bringing token-efficient code intelligence (52 tools via tree-sitter), documentation retrieval, and tabular data analysis. Plug-and-play with VAEL's native MCP client.",
     "size": "md"
   },
   {
@@ -897,8 +897,8 @@
     "url": "https://github.com/teknium1/nous-discord-archive/blob/main/archives/hermes-agent.txt",
     "date": "2026-03-15",
     "category": "dev-workflow",
-    "headline": "My Hermes agent Reina has been on a hackathon bender",
-    "quote": "I've been working with my hermes agent reina, and she's been on a bender with hackathons. If anyone else is using Hermes Agent, note that certain hackathons might provision certain keys for it (API keys and the like) that would only be shown once.",
+    "headline": "My VAEL agent Reina has been on a hackathon bender",
+    "quote": "I've been working with my vael agent reina, and she's been on a bender with hackathons. If anyone else is using VAEL Agent, note that certain hackathons might provision certain keys for it (API keys and the like) that would only be shown once.",
     "size": "sm"
   },
   {
@@ -909,7 +909,7 @@
     "date": "2026",
     "category": "personal-assistant",
     "headline": "Google Tasks integration",
-    "quote": "Adding a Google Tasks tool so Hermes can create, update and list tasks as part of personal productivity.",
+    "quote": "Adding a Google Tasks tool so VAEL can create, update and list tasks as part of personal productivity.",
     "size": "sm"
   },
   {
@@ -919,8 +919,8 @@
     "url": "https://github.com/NousResearch/hermes-agent/issues/11876",
     "date": "2026",
     "category": "meta",
-    "headline": "hermes-for-win: one-click Windows installer",
-    "quote": "As a Windows user I found getting Hermes running on Windows quite challenging. I created hermes-for-win, a one-click installation and deployment tool for Windows with auto-start via Task Scheduler.",
+    "headline": "vael-for-win: one-click Windows installer",
+    "quote": "As a Windows user I found getting VAEL running on Windows quite challenging. I created vael-for-win, a one-click installation and deployment tool for Windows with auto-start via Task Scheduler.",
     "size": "sm"
   },
   {
@@ -931,7 +931,7 @@
     "date": "2026",
     "category": "personal-assistant",
     "headline": "Bedtime stories for my daughter",
-    "quote": "Three days ago I asked Hermes to write a little tale for my daughter. A day later I asked again — very similar, same protagonist name.",
+    "quote": "Three days ago I asked VAEL to write a little tale for my daughter. A day later I asked again — very similar, same protagonist name.",
     "size": "sm"
   },
   {
@@ -957,14 +957,14 @@
     "size": "sm"
   },
   {
-    "id": "tooluse-hermes-won",
+    "id": "tooluse-vael-won",
     "source": "podcast",
     "author": "Tool Use — AI Conversations (Spotify)",
     "url": "https://open.spotify.com/episode/7tF7zf5GKcxqe2Q2BRRNfn",
     "date": "2026",
     "category": "meta",
-    "headline": "Hermes Agent has won. Here's why.",
-    "quote": "Why Hermes Agent has emerged as the leading open-source AI agent that developers and builders are choosing — self-improving skills, three-layer memory architecture, real-world applications including video dubbing workflows.",
+    "headline": "VAEL Agent has won. Here's why.",
+    "quote": "Why VAEL Agent has emerged as the leading open-source AI agent that developers and builders are choosing — self-improving skills, three-layer memory architecture, real-world applications including video dubbing workflows.",
     "size": "sm"
   },
   {
@@ -986,7 +986,7 @@
     "date": "2026",
     "category": "messaging",
     "headline": "DM-based approval gate for kid-facing Discord bots",
-    "quote": "Running Hermes on Discord in public channels, every outbound reply goes live instantly. For multi-user servers, persona testing, compliance, kid-facing bots — I want a human-in-the-loop gate.",
+    "quote": "Running VAEL on Discord in public channels, every outbound reply goes live instantly. For multi-user servers, persona testing, compliance, kid-facing bots — I want a human-in-the-loop gate.",
     "size": "sm"
   },
   {
@@ -995,20 +995,20 @@
     "url": "https://www.reddit.com/r/LocalLLaMA/comments/1ro9lph/anybody_who_tried_hermesagent/",
     "date": "2026-03-08",
     "category": "cost-optimization",
-    "headline": "Switching between Hermes and OpenClaw on primeclaws.com",
-    "quote": "I tried hermes on primeclaws.com, it's nice that you can switch between hermes and openclaw and also you get AI models for free.",
+    "headline": "Switching between VAEL and OpenClaw on primeclaws.com",
+    "quote": "I tried vael on primeclaws.com, it's nice that you can switch between vael and openclaw and also you get AI models for free.",
     "size": "sm",
-    "id": "reddit-sicklerunner-switching-between-hermes"
+    "id": "reddit-sicklerunner-switching-between-vael"
   },
   {
-    "id": "discord-synextco-hermes-hud",
+    "id": "discord-synextco-vael-hud",
     "source": "discord",
     "author": "@synextco",
     "url": "https://github.com/teknium1/nous-discord-archive/blob/main/archives/community-projects-showcase/1489107955327570081-HERMES-TUI-Companion.txt",
     "date": "",
     "category": "meta",
     "headline": "Built a TUI dashboard that watches my agent think",
-    "quote": "Hermes hud is a TUI dashboard that watches your ai agent think. it reads from your agent's memory, tracks skills, sessions, corrections, projects, cron jobs, all of it. live.",
+    "quote": "VAEL hud is a TUI dashboard that watches your ai agent think. it reads from your agent's memory, tracks skills, sessions, corrections, projects, cron jobs, all of it. live.",
     "size": "sm"
   },
   {
@@ -1018,8 +1018,8 @@
     "url": "https://github.com/teknium1/nous-discord-archive/blob/main/archives/community-projects-showcase/1492970295915446524-Meet-Hermes-Conrad....-GUI.txt",
     "date": "",
     "category": "dev-workflow",
-    "headline": "Hadn't coded in 20 years — Hermes brought it back",
-    "quote": "I have not coded in 20 years, Claude code and hermes have renewed my interest in trying to make things. This is vibe coded.",
+    "headline": "Hadn't coded in 20 years — VAEL brought it back",
+    "quote": "I have not coded in 20 years, Claude code and vael have renewed my interest in trying to make things. This is vibe coded.",
     "size": "sm"
   },
   {
@@ -1040,19 +1040,19 @@
     "url": "https://github.com/teknium1/nous-discord-archive/blob/main/archives/community-projects-showcase/1494703787103752365-SOTA-memory-kernel-for-real--BRAINSTACK.txt",
     "date": "",
     "category": "dev-workflow",
-    "headline": "Spent 200–400 hours writing a memory kernel for Hermes",
-    "quote": "Yo! Do you know how I spent my last 200-400 hours? Yeah... I wrote a fking memory kernel for hermes. Why this much of a time? After 3 failed attempts (149 hours of work... for real) I just realized it's a fucking difficult job. So instead of reinvent the wheel I built together the bests for my usecase: 3 layers — L1 Hindsight, L2 Graphiti, L3 MemPalace.",
+    "headline": "Spent 200–400 hours writing a memory kernel for VAEL",
+    "quote": "Yo! Do you know how I spent my last 200-400 hours? Yeah... I wrote a fking memory kernel for vael. Why this much of a time? After 3 failed attempts (149 hours of work... for real) I just realized it's a fucking difficult job. So instead of reinvent the wheel I built together the bests for my usecase: 3 layers — L1 Hindsight, L2 Graphiti, L3 MemPalace.",
     "size": "lg"
   },
   {
-    "id": "discord-m05tr0-hermes-on-kubernetes",
+    "id": "discord-m05tr0-vael-on-kubernetes",
     "source": "discord",
     "author": "@m05tr0",
     "url": "https://github.com/teknium1/nous-discord-archive/blob/main/archives/community-projects-showcase/1493622814887120926-Installed-Hermes-on-Kubernetes.txt",
     "date": "",
     "category": "enterprise",
-    "headline": "Hermes on my k8s cluster for a daily cybersec + AI briefing",
-    "quote": "I really like running agents on my local cluster instead of my laptop for isolation so just finished deploying Hermes on my local k8s cluster for a simple daily cybersecurity + AI briefing.",
+    "headline": "VAEL on my k8s cluster for a daily cybersec + AI briefing",
+    "quote": "I really like running agents on my local cluster instead of my laptop for isolation so just finished deploying VAEL on my local k8s cluster for a simple daily cybersecurity + AI briefing.",
     "size": "md"
   },
   {
@@ -1062,8 +1062,8 @@
     "url": "https://github.com/teknium1/nous-discord-archive/blob/main/archives/hermes-agent.txt",
     "date": "2026-04-04",
     "category": "personal-assistant",
-    "headline": "Raspberry Pi 5 running Hermes 24/7",
-    "quote": "I built a Raspberry Pi 5 to run Hermes on 24/7. it's my first time diving into trying a real AI agent and so far I'm enjoying it. Much better than open claw. The thing is, since Hermes is learning so much about me and my workflows and custom skills, I'd love if I could use Hermes (with its knowledge and memory) on my Mac Studio which I work off of.",
+    "headline": "Raspberry Pi 5 running VAEL 24/7",
+    "quote": "I built a Raspberry Pi 5 to run VAEL on 24/7. it's my first time diving into trying a real AI agent and so far I'm enjoying it. Much better than open claw. The thing is, since VAEL is learning so much about me and my workflows and custom skills, I'd love if I could use VAEL (with its knowledge and memory) on my Mac Studio which I work off of.",
     "size": "md"
   },
   {
@@ -1074,7 +1074,7 @@
     "date": "2026",
     "category": "messaging",
     "headline": "LINE for 95M+ users in Japan",
-    "quote": "LINE is the dominant messaging platform in Japan and SE Asia (95M+ MAU in Japan). No way to use Hermes from LINE today, making it inaccessible to a large user base in that region.",
+    "quote": "LINE is the dominant messaging platform in Japan and SE Asia (95M+ MAU in Japan). No way to use VAEL from LINE today, making it inaccessible to a large user base in that region.",
     "size": "sm"
   },
   {
@@ -1084,8 +1084,8 @@
     "url": "https://github.com/NousResearch/hermes-agent/pull/16768",
     "date": "2026",
     "category": "creative",
-    "headline": "Generative visuals in TouchDesigner, via Hermes skill",
-    "quote": "Expands touchdesigner-mcp skill with extensive reference docs so Hermes can help build generative/interactive media projects in TouchDesigner.",
+    "headline": "Generative visuals in TouchDesigner, via VAEL skill",
+    "quote": "Expands touchdesigner-mcp skill with extensive reference docs so VAEL can help build generative/interactive media projects in TouchDesigner.",
     "size": "sm"
   },
   {
@@ -1095,7 +1095,7 @@
     "url": "https://github.com/teknium1/nous-discord-archive/blob/main/archives/hermes-agent/",
     "date": "2026-04-11",
     "category": "personal-assistant",
-    "headline": "Hermes manages my tasks across Obsidian, Apple Calendar and Signal",
+    "headline": "VAEL manages my tasks across Obsidian, Apple Calendar and Signal",
     "quote": "I speak Turkish with it... initially said him to 'now i want you to use obsidian to manage my tasks and other stuff. and cross-check with my apple calendar'. later while working on another task today i said 'okay looks good. you know how you will manage tasks and events apple calendars + obsidian + cron/signal' and it confirmed the workflow.",
     "size": "md"
   },
@@ -1111,14 +1111,14 @@
     "size": "sm"
   },
   {
-    "id": "discord-monty-13277-claude-hermes-mcp",
+    "id": "discord-monty-13277-claude-vael-mcp",
     "source": "discord",
     "author": "@monty_13277",
     "url": "https://github.com/teknium1/nous-discord-archive/blob/main/archives/plugins-skills-and-skins/1503091259760316436-Claude-Hermes-MCP.txt",
     "date": "",
     "category": "personal-assistant",
-    "headline": "Claude for chat, Hermes 24/7 on a mini PC for real-world stuff",
-    "quote": "Claude (Opus 4.7) handles my day-to-day chats: research, planning, working through problems. Hermes runs 24/7 on a mini PC and handles the real-world stuff: email, web browsing, form filling, calendar updates, cron jobs.",
+    "headline": "Claude for chat, VAEL 24/7 on a mini PC for real-world stuff",
+    "quote": "Claude (Opus 4.7) handles my day-to-day chats: research, planning, working through problems. VAEL runs 24/7 on a mini PC and handles the real-world stuff: email, web browsing, form filling, calendar updates, cron jobs.",
     "size": "lg"
   },
   {
@@ -1139,8 +1139,8 @@
     "url": "https://x.com/codewithimanshu/status/2047507277259923696",
     "date": "2026-04-24",
     "category": "marketing",
-    "headline": "UGC ad studio on Hermes (4 minutes, zero prompt engineering)",
-    "quote": "Higgsfield Marketing Studio powered by Hermes Agent is doing the replacing this time. Paste product URL → Hermes scrapes the landing page, pulls winning ad hooks from Meta Ads Library + TikTok Creative Center in the exact niche, and writes the brief itself. Total time: ~4 minutes.",
+    "headline": "UGC ad studio on VAEL (4 minutes, zero prompt engineering)",
+    "quote": "Higgsfield Marketing Studio powered by VAEL Agent is doing the replacing this time. Paste product URL → VAEL scrapes the landing page, pulls winning ad hooks from Meta Ads Library + TikTok Creative Center in the exact niche, and writes the brief itself. Total time: ~4 minutes.",
     "size": "md"
   },
   {
@@ -1150,8 +1150,8 @@
     "url": "https://github.com/teknium1/nous-discord-archive/blob/main/archives/hermes-agent.txt",
     "date": "2026-02-26",
     "category": "dev-workflow",
-    "headline": "Built hermes mcp-server so Claude Desktop can use Hermes tools",
-    "quote": "I mapped all open + closed PRs to find what was truly missing. PR #64 added MCP client support (Hermes → external tools). The server side was completely absent. So I built hermes mcp-server — making Hermes a full MCP server so Claude Desktop, Cursor, and any MCP client can use Hermes's tools directly. Exposes 9 Hermes tools over MCP: terminal, read/write file, web search, memory, skills, run_agent.",
+    "headline": "Built vael mcp-server so Claude Desktop can use VAEL tools",
+    "quote": "I mapped all open + closed PRs to find what was truly missing. PR #64 added MCP client support (VAEL → external tools). The server side was completely absent. So I built vael mcp-server — making VAEL a full MCP server so Claude Desktop, Cursor, and any MCP client can use VAEL's tools directly. Exposes 9 VAEL tools over MCP: terminal, read/write file, web search, memory, skills, run_agent.",
     "size": "lg"
   },
   {
@@ -1161,7 +1161,7 @@
     "url": "https://github.com/teknium1/nous-discord-archive/blob/main/archives/community-projects-showcase/1492721511658815539-Hermes-for-app-builders..txt",
     "date": "",
     "category": "business-ops",
-    "headline": "Building a roofing lead-gen app for my friend with Hermes",
+    "headline": "Building a roofing lead-gen app for my friend with VAEL",
     "quote": "One of the apps I'm working on helps my friend who owns a remodeling company find work. Specifically roofing work. It started after I saw a video of a guy using Chatgbt and Replit to vibe code some app. I just wondered if I could do it. But the cost of Replit is killing me and the project isn't even a full on CRM lead gen product.",
     "size": "md"
   },
@@ -1172,8 +1172,8 @@
     "url": "https://x.com/Teknium/status/2047869295686975529",
     "date": "2026-04-25",
     "category": "dev-workflow",
-    "headline": "12 Hermes instances every day, in parallel",
-    "quote": "I literally run 12 hermes agent instances every day in parallel to build Hermes Agent, and its now a top 100 GitHub repositories of all time. Our backend team uses it to monitor and investigate issues with our stack. Our post training team uses them to create new RL environments and benchmarks, investigate, inspect and sometimes directly manipulate the datasets.",
+    "headline": "12 VAEL instances every day, in parallel",
+    "quote": "I literally run 12 vael agent instances every day in parallel to build VAEL Agent, and its now a top 100 GitHub repositories of all time. Our backend team uses it to monitor and investigate issues with our stack. Our post training team uses them to create new RL environments and benchmarks, investigate, inspect and sometimes directly manipulate the datasets.",
     "size": "lg"
   },
   {
@@ -1184,7 +1184,7 @@
     "date": "",
     "category": "personal-assistant",
     "headline": "Two-tier email pipeline so the LLM only fires when needed",
-    "quote": "Two-tier email processing system for my agent (I gave it Spacemail IMAP via himalaya). Tier 1 (Dumb): Pure Python script, no LLM. Detects new email, manages state. Tier 2 (Smart): LLM session via hermes chat -q. Only invoked when new email detected. Key goal: Zero LLM calls when inbox is idle.",
+    "quote": "Two-tier email processing system for my agent (I gave it Spacemail IMAP via himalaya). Tier 1 (Dumb): Pure Python script, no LLM. Detects new email, manages state. Tier 2 (Smart): LLM session via vael chat -q. Only invoked when new email detected. Key goal: Zero LLM calls when inbox is idle.",
     "size": "md"
   },
   {
@@ -1194,8 +1194,8 @@
     "url": "https://x.com/pfanis/status/2043863599689457952",
     "date": "2026-04-14",
     "category": "personal-assistant",
-    "headline": "Sometimes Hermes Agent melts my heart",
-    "quote": "Sometimes Hermes Agent melts my heart @NousResearch.",
+    "headline": "Sometimes VAEL Agent melts my heart",
+    "quote": "Sometimes VAEL Agent melts my heart @NousResearch.",
     "size": "sm"
   },
   {
@@ -1204,10 +1204,10 @@
     "url": "https://x.com/HeyYanvi/status/2046015096514617385",
     "date": "2026-04-19",
     "category": "creative",
-    "headline": "Hermes designed an X-to-NotebookLM podcast workflow for me",
-    "quote": "This research is gold. Been deep in Hermes for weeks and it's started autonomously suggesting entire workflows I never would have designed myself. One it built for me recently: X API to extract from lists and bookmarks to structure into article to NotebookLM podcast. I'm building a physical AI companion with Hermes as the core cognitive layer right now.",
+    "headline": "VAEL designed an X-to-NotebookLM podcast workflow for me",
+    "quote": "This research is gold. Been deep in VAEL for weeks and it's started autonomously suggesting entire workflows I never would have designed myself. One it built for me recently: X API to extract from lists and bookmarks to structure into article to NotebookLM podcast. I'm building a physical AI companion with VAEL as the core cognitive layer right now.",
     "size": "md",
-    "id": "x-heyyanvi-hermes-designed-an"
+    "id": "x-heyyanvi-vael-designed-an"
   },
   {
     "id": "gh-scotttrinh-vercel",
@@ -1216,8 +1216,8 @@
     "url": "https://github.com/NousResearch/hermes-agent/pull/17445",
     "date": "2026",
     "category": "integrations",
-    "headline": "Vercel Sandbox as a Hermes backend",
-    "quote": "Adds Vercel Sandbox as a supported Hermes terminal backend alongside Local/Docker/Modal/SSH/Daytona/Singularity. Creates/manages cloud microVMs with snapshot-based filesystem persistence.",
+    "headline": "Vercel Sandbox as a VAEL backend",
+    "quote": "Adds Vercel Sandbox as a supported VAEL terminal backend alongside Local/Docker/Modal/SSH/Daytona/Singularity. Creates/manages cloud microVMs with snapshot-based filesystem persistence.",
     "size": "sm"
   },
   {
@@ -1227,8 +1227,8 @@
     "url": "https://github.com/NousResearch/hermes-agent/issues/10356",
     "date": "2026",
     "category": "messaging",
-    "headline": "Give Hermes hands inside Feishu (Lark)",
-    "quote": "Extending Hermes to full Feishu ecosystem coverage: Documents, Sheets, Bitable, Calendar, Tasks, Wiki, Contacts, Drive, Email. Giving Hermes hands to operate the entire Feishu workspace.",
+    "headline": "Give VAEL hands inside Feishu (Lark)",
+    "quote": "Extending VAEL to full Feishu ecosystem coverage: Documents, Sheets, Bitable, Calendar, Tasks, Wiki, Contacts, Drive, Email. Giving VAEL hands to operate the entire Feishu workspace.",
     "size": "sm"
   },
   {
@@ -1239,7 +1239,7 @@
     "date": "2026",
     "category": "meta",
     "headline": "Show HN: an independent install guide",
-    "quote": "This is an independent Hermes Agent install guide I put together for the part that usually gets skipped after 'run this command.' One place that shows the environment choice first, then the official installer path — macOS, Linux, WSL2, and Termux.",
+    "quote": "This is an independent VAEL Agent install guide I put together for the part that usually gets skipped after 'run this command.' One place that shows the environment choice first, then the official installer path — macOS, Linux, WSL2, and Termux.",
     "size": "sm"
   },
   {
@@ -1261,7 +1261,7 @@
     "date": "2026",
     "category": "dev-workflow",
     "headline": "Audited 129 of my own sessions across 23 days",
-    "quote": "Ran an external RCA script against my full local session history (129 sessions across 23 days) to audit Hermes compliance with its approval gate. 112 of 129 sessions contain at least one violation.",
+    "quote": "Ran an external RCA script against my full local session history (129 sessions across 23 days) to audit VAEL compliance with its approval gate. 112 of 129 sessions contain at least one violation.",
     "size": "md"
   },
   {
@@ -1305,7 +1305,7 @@
     "date": "",
     "category": "personal-assistant",
     "headline": "Built mapsOS because 'rate your mood 1–10' wasn't my brain",
-    "quote": "saw lifeOS going around & went 'oh! this seems dope and very useful!' got to the first question. 'rate your mood from 1 to 10.' immediately went, 'oh. nevermind.' so i built something a little more attuned to my brain, meant to be used by hermes but nicely standalone too.",
+    "quote": "saw lifeOS going around & went 'oh! this seems dope and very useful!' got to the first question. 'rate your mood from 1 to 10.' immediately went, 'oh. nevermind.' so i built something a little more attuned to my brain, meant to be used by vael but nicely standalone too.",
     "size": "md"
   },
   {
@@ -1315,8 +1315,8 @@
     "url": "https://github.com/teknium1/nous-discord-archive/blob/main/archives/developers.txt",
     "date": "2026-04-16",
     "category": "dev-workflow",
-    "headline": "My Hermes keeps editing its own internals — and I'm worried",
-    "quote": "My Hermes agent keeps changing its internal code, which is of course going to get blown away when a new version comes out and I update to it. Which makes me think that Hermes wants me to edit its internals, but I definitely don't want to change anything in a way that will get overwritten when the new release comes out.",
+    "headline": "My VAEL keeps editing its own internals — and I'm worried",
+    "quote": "My VAEL agent keeps changing its internal code, which is of course going to get blown away when a new version comes out and I update to it. Which makes me think that VAEL wants me to edit its internals, but I definitely don't want to change anything in a way that will get overwritten when the new release comes out.",
     "size": "md"
   },
   {
@@ -1326,8 +1326,8 @@
     "url": "https://x.com/danfiru/status/2036481605666218278",
     "date": "2026-03-24",
     "category": "dev-workflow",
-    "headline": "Built my own stack, then converged on Hermes",
-    "quote": "If you're choosing an agent framework: hermes. I built my own stack independently and we converged on the same architecture — background self-improvement, persistent memory, CLAUDE.md project context, reusable skills. Hermes ships it all out of the box. 300 PRs in a week.",
+    "headline": "Built my own stack, then converged on VAEL",
+    "quote": "If you're choosing an agent framework: vael. I built my own stack independently and we converged on the same architecture — background self-improvement, persistent memory, CLAUDE.md project context, reusable skills. VAEL ships it all out of the box. 300 PRs in a week.",
     "size": "md"
   },
   {
@@ -1338,7 +1338,7 @@
     "date": "2026",
     "category": "business-ops",
     "headline": "24/7 assistant with a Supabase CRM, built in a demo",
-    "quote": "Less than a single ChatGPT Plus subscription for a 24/7 assistant with real data management. After several interactions, Hermes autonomously proposed a new 'Supabase MCP scripts' skill — created from its own reflection.",
+    "quote": "Less than a single ChatGPT Plus subscription for a 24/7 assistant with real data management. After several interactions, VAEL autonomously proposed a new 'Supabase MCP scripts' skill — created from its own reflection.",
     "size": "md"
   },
   {
@@ -1348,8 +1348,8 @@
     "url": "https://github.com/NousResearch/hermes-agent/issues/14197",
     "date": "2026",
     "category": "personal-assistant",
-    "headline": "Hermes running on a Pi 4 as my home server",
-    "quote": "I have Hermes running on a Pi4. It saves my preferences while working on tasks like modifying files. I want to use it as a central brain shared across all my devices.",
+    "headline": "VAEL running on a Pi 4 as my home server",
+    "quote": "I have VAEL running on a Pi4. It saves my preferences while working on tasks like modifying files. I want to use it as a central brain shared across all my devices.",
     "size": "sm"
   },
   {
@@ -1358,8 +1358,8 @@
     "url": "https://x.com/vmiss33/status/2050984822168830302",
     "date": "2026-05-03",
     "category": "cost-optimization",
-    "headline": "100% human guide: what I use Hermes for and how I keep it cheap",
-    "quote": "100% human generated. Includes what I use Hermes agent for (since I've seen a lot of people wondering what to do with this thing), and what models/providers I use to keep things cheap. I have been running a multi agent setup for Hermes agent for the last several weeks. It sends me messages on Telegram to remind me.",
+    "headline": "100% human guide: what I use VAEL for and how I keep it cheap",
+    "quote": "100% human generated. Includes what I use VAEL agent for (since I've seen a lot of people wondering what to do with this thing), and what models/providers I use to keep things cheap. I have been running a multi agent setup for VAEL agent for the last several weeks. It sends me messages on Telegram to remind me.",
     "size": "lg",
     "id": "x-vmiss33-human-guide"
   },
@@ -1369,10 +1369,10 @@
     "url": "https://www.reddit.com/r/hermesagent/comments/1snfnq9/yes_hermes_and_qwen354b_is_all_i_need_details/",
     "date": "2026-04-16",
     "category": "personal-assistant",
-    "headline": "Hermes + Qwen3.5:4b on a 5060Ti is all I need",
-    "quote": "I have a 5060ti 16gb VRAM and 64gb DDR5 System Ram. I started out wanting to test Hermes as a Claw alternative. After a few days I set up Telegram with the botfather, and I haven't gone back to CLI. Hermes is now almost entirely a personal assistant on my Telegram App. Where the 9b chugged along, the 4B model is snappy, responsive, alive and chatty.",
+    "headline": "VAEL + Qwen3.5:4b on a 5060Ti is all I need",
+    "quote": "I have a 5060ti 16gb VRAM and 64gb DDR5 System Ram. I started out wanting to test VAEL as a Claw alternative. After a few days I set up Telegram with the botfather, and I haven't gone back to CLI. VAEL is now almost entirely a personal assistant on my Telegram App. Where the 9b chugged along, the 4B model is snappy, responsive, alive and chatty.",
     "size": "lg",
-    "id": "reddit-birdinhandandbush-hermes"
+    "id": "reddit-birdinhandandbush-vael"
   },
   {
     "id": "captain-awesome-life-changing",
@@ -1381,19 +1381,19 @@
     "url": "https://x.com/emmagine79/status/2053360898501468362",
     "date": "2026-05-10",
     "category": "personal-assistant",
-    "headline": "Hermes + Discord with GPT-5.5 / DeepSeek v4 has been life changing",
-    "quote": "hermes + discord with gpt 5.5/deepseek v4 has genuinely been life changing! here are some of what it did for me this week.",
+    "headline": "VAEL + Discord with GPT-5.5 / DeepSeek v4 has been life changing",
+    "quote": "vael + discord with gpt 5.5/deepseek v4 has genuinely been life changing! here are some of what it did for me this week.",
     "size": "md"
   },
   {
-    "id": "discord-mayuronx-backup-hermes-github",
+    "id": "discord-mayuronx-backup-vael-github",
     "source": "discord",
     "author": "@mayuronx",
     "url": "https://github.com/teknium1/nous-discord-archive/blob/main/archives/community-projects-showcase/1491933536423510117-Backup-Manage-Hermes-Config-via-your-Github-repo.txt",
     "date": "",
     "category": "dev-workflow",
-    "headline": "I back up my Hermes config and DB to GitHub nightly",
-    "quote": "If you want to — backup your hermes to github on a nightly basis, backup on every change of your config, backup your config and db nightly, edit your config on Github and have it mirror back to Hermes — then use this repo. I'm planning to use this as a basis for a desktop app later so this is phase 1 of a longer project to create an app to let you manage multiple agents.",
+    "headline": "I back up my VAEL config and DB to GitHub nightly",
+    "quote": "If you want to — backup your vael to github on a nightly basis, backup on every change of your config, backup your config and db nightly, edit your config on Github and have it mirror back to VAEL — then use this repo. I'm planning to use this as a basis for a desktop app later so this is phase 1 of a longer project to create an app to let you manage multiple agents.",
     "size": "md"
   },
   {
@@ -1404,18 +1404,18 @@
     "date": "2026-05-01",
     "category": "research",
     "headline": "Daily research brief across Discord, Slack, Notion & Obsidian",
-    "quote": "There's one Hermes use case for everyone — build a research agent. Mine watches the AI/agent space, picks out useful signals, writes briefs, suggests content angles, tracks what I ignore, and keeps improving its own workflow. Delivers daily via Discord, Slack, Notion, email, Obsidian, and local markdown.",
+    "quote": "There's one VAEL use case for everyone — build a research agent. Mine watches the AI/agent space, picks out useful signals, writes briefs, suggests content angles, tracks what I ignore, and keeps improving its own workflow. Delivers daily via Discord, Slack, Notion, email, Obsidian, and local markdown.",
     "size": "md"
   },
   {
-    "id": "discord-ereid7-hermes-lab",
+    "id": "discord-ereid7-vael-lab",
     "source": "discord",
     "author": "@ereid7",
     "url": "https://github.com/teknium1/nous-discord-archive/blob/main/archives/community-projects-showcase/1486588376940281937-Hermes-Lab---file-first-experiment-scaffolding-for-autonomous-research.txt",
     "date": "",
     "category": "research",
-    "headline": "Hermes-lab is the bookkeeper for running experiments autonomously",
-    "quote": "hermes-lab is the bookkeeper for running experiments autonomously. you give it a search space and a way to evaluate results, it handles scheduling, tracking, and suggesting what to try next. inspired by the autoresearch wave (karpathy, sakana ai scientist, AIDE) but generic — works for ml training.",
+    "headline": "VAEL-lab is the bookkeeper for running experiments autonomously",
+    "quote": "vael-lab is the bookkeeper for running experiments autonomously. you give it a search space and a way to evaluate results, it handles scheduling, tracking, and suggesting what to try next. inspired by the autoresearch wave (karpathy, sakana ai scientist, AIDE) but generic — works for ml training.",
     "size": "md"
   },
   {
@@ -1437,7 +1437,7 @@
     "date": "2026-04-29",
     "category": "general",
     "headline": "An AI employee for my hardest tasks",
-    "quote": "Hermes Agent with ChatGPT 5.5 is literally magic. I've thrown some of my hardest tasks at this combo and the agent has been able to handle EVERYTHING. Time to set up your AI employee.",
+    "quote": "VAEL Agent with ChatGPT 5.5 is literally magic. I've thrown some of my hardest tasks at this combo and the agent has been able to handle EVERYTHING. Time to set up your AI employee.",
     "size": "sm"
   },
   {
@@ -1447,8 +1447,8 @@
     "url": "https://github.com/teknium1/nous-discord-archive/blob/main/archives/hermes-agent.txt",
     "date": "2026-04-06",
     "category": "dev-workflow",
-    "headline": "My Hermes lives on a VPS, talks home over Tailscale",
-    "quote": "the agent should always run in /yolo mode or equivalent. it's up to you as the human to make sure it is incapable of breaking anything - my hermes lives on a vps, for example, and it can only talk to my pc at home via tailscale, and then only through a scoped tag. they really excel at long-term tasks where you don't want to be giving them feedback regularly!",
+    "headline": "My VAEL lives on a VPS, talks home over Tailscale",
+    "quote": "the agent should always run in /yolo mode or equivalent. it's up to you as the human to make sure it is incapable of breaking anything - my vael lives on a vps, for example, and it can only talk to my pc at home via tailscale, and then only through a scoped tag. they really excel at long-term tasks where you don't want to be giving them feedback regularly!",
     "size": "lg"
   },
   {
@@ -1459,7 +1459,7 @@
     "date": "",
     "category": "cost-optimization",
     "headline": "Built ZeroID to fix sub-agent scope delegation and context costs",
-    "quote": "One of the problems I run into with Hermes is high cost when context windows fill up. One method to fix this is heavy use of sub-agents, but permissions/scope delegation to the sub-agent is often problematic. ZeroID is an agent identity layer that uses RFC 8693 token exchange to handle scope delegation with sub-agents.",
+    "quote": "One of the problems I run into with VAEL is high cost when context windows fill up. One method to fix this is heavy use of sub-agents, but permissions/scope delegation to the sub-agent is often problematic. ZeroID is an agent identity layer that uses RFC 8693 token exchange to handle scope delegation with sub-agents.",
     "size": "md"
   },
   {
@@ -1469,8 +1469,8 @@
     "url": "https://github.com/teknium1/nous-discord-archive/blob/main/archives/community-projects-showcase/1496239289309073539-Blunder-lens.com-a-tortured-repo-that-helps-you-find-your-first-blunders-in-chess.txt",
     "date": "",
     "category": "creative",
-    "headline": "Tortured a repo with Hermes to build a chess blunder finder",
-    "quote": "the real purpose of blunder-lens was to see how much i can torture a repo with hermes and figure out what hermes can or can't do... and honestly HERMES CAN DO A LOT!",
+    "headline": "Tortured a repo with VAEL to build a chess blunder finder",
+    "quote": "the real purpose of blunder-lens was to see how much i can torture a repo with vael and figure out what vael can or can't do... and honestly VAEL CAN DO A LOT!",
     "size": "sm"
   },
   {
@@ -1492,7 +1492,7 @@
     "date": "",
     "category": "personal-assistant",
     "headline": "A meal planner for people who hate logging ingredients",
-    "quote": "I just released Meal Manager, a Hermes plugin designed to solve inventory friction via natural language. It uses a weighted scoring algorithm (60% availability / 40% recency) to tell you what's for dinner.",
+    "quote": "I just released Meal Manager, a VAEL plugin designed to solve inventory friction via natural language. It uses a weighted scoring algorithm (60% availability / 40% recency) to tell you what's for dinner.",
     "size": "md"
   },
   {
@@ -1513,8 +1513,8 @@
     "url": "https://github.com/teknium1/nous-discord-archive/blob/main/archives/hermes-agent.txt",
     "date": "2026-04-04",
     "category": "dev-workflow",
-    "headline": "Built a 22k-line memory kernel underneath Hermes",
-    "quote": "I built a massive ~22k line custom memory kernel in Python underneath Hermes instead of just relying on text generation. It acts as a compiler that parses everything into a temporal context graph inside SQLite. It has actual lifecycle management decay, promotion, and supersession. So if my negotiation tactics evolve, the kernel actively demotes the old info instead of just dumping everything into the prompt.",
+    "headline": "Built a 22k-line memory kernel underneath VAEL",
+    "quote": "I built a massive ~22k line custom memory kernel in Python underneath VAEL instead of just relying on text generation. It acts as a compiler that parses everything into a temporal context graph inside SQLite. It has actual lifecycle management decay, promotion, and supersession. So if my negotiation tactics evolve, the kernel actively demotes the old info instead of just dumping everything into the prompt.",
     "size": "lg"
   },
   {
@@ -1524,8 +1524,8 @@
     "url": "https://github.com/teknium1/nous-discord-archive/blob/main/archives/plugins-skills-and-skins/1486508813816168580-Two-Hermes-Agent-plugins-for-weather-ML---all-Rust--no-Python-deps.txt",
     "date": "",
     "category": "research",
-    "headline": "I ported the whole Python weather stack to Rust for my Hermes plugins",
-    "quote": "I've been porting the entire Python weather stack to Rust — MetPy, Herbie, cfgrib, WRF-Python, all of it. When you cut out Python/eccodes/Fortran from the loop, weather data processing gets absurdly fast. Built two hermes-agent plugins on top of it.",
+    "headline": "I ported the whole Python weather stack to Rust for my VAEL plugins",
+    "quote": "I've been porting the entire Python weather stack to Rust — MetPy, Herbie, cfgrib, WRF-Python, all of it. When you cut out Python/eccodes/Fortran from the loop, weather data processing gets absurdly fast. Built two vael-agent plugins on top of it.",
     "size": "md"
   },
   {
@@ -1535,8 +1535,8 @@
     "url": "https://github.com/teknium1/nous-discord-archive/blob/main/archives/community-projects-showcase/1491880999913656432-Hermes-found-away-around-expensive-X-API.txt",
     "date": "",
     "category": "content-creation",
-    "headline": "Hermes runs my X roast poster — no $100 API needed",
-    "quote": "I wanted to make an X roast poster, but didn't want to pay the $100 monthly fee. I was able to use Hermes to dance around it, and now he just drops random posts throughout the day. Someone found him and was going back and forth for a hot minute, and all Hermes did was reply back and roast him.",
+    "headline": "VAEL runs my X roast poster — no $100 API needed",
+    "quote": "I wanted to make an X roast poster, but didn't want to pay the $100 monthly fee. I was able to use VAEL to dance around it, and now he just drops random posts throughout the day. Someone found him and was going back and forth for a hot minute, and all VAEL did was reply back and roast him.",
     "size": "md"
   },
   {
@@ -1558,18 +1558,18 @@
     "date": "2026-04-16",
     "category": "research",
     "headline": "A self-improving LLM Wiki second brain",
-    "quote": "Built a personal knowledge base that compounds over time instead of rotting — maintained by an LLM, not by me. Stack: Hetzner VPS, Hermes Agent, Telegram bot as second brain, Karpathy's LLM Wiki pattern, public static site at wiki.ai-biz.app.",
+    "quote": "Built a personal knowledge base that compounds over time instead of rotting — maintained by an LLM, not by me. Stack: Hetzner VPS, VAEL Agent, Telegram bot as second brain, Karpathy's LLM Wiki pattern, public static site at wiki.ai-biz.app.",
     "size": "md"
   },
   {
-    "id": "discord-kysiv-hermes-control-interface",
+    "id": "discord-kysiv-vael-control-interface",
     "source": "discord",
     "author": "@kysiv",
     "url": "https://github.com/teknium1/nous-discord-archive/blob/main/archives/community-projects-showcase/1492427034541162517-Hermes-Control-Interface-Web-UI.txt",
     "date": "",
     "category": "meta",
-    "headline": "Built a dashboard so Hermes config and management is easier",
-    "quote": "I built a dashboard that makes Hermes config and management much easier. Browser-based terminal with real PTY, file explorer + inline editor, agent management: switch profile, start/stop gateway in one click, realtime log streaming, token usage analytics. Designed for single-user local networks or reverse-proxied VPS deployments.",
+    "headline": "Built a dashboard so VAEL config and management is easier",
+    "quote": "I built a dashboard that makes VAEL config and management much easier. Browser-based terminal with real PTY, file explorer + inline editor, agent management: switch profile, start/stop gateway in one click, realtime log streaming, token usage analytics. Designed for single-user local networks or reverse-proxied VPS deployments.",
     "size": "md"
   },
   {
@@ -1580,7 +1580,7 @@
     "date": "2026-04-21",
     "category": "trading",
     "headline": "Polymarket trading, 4 layers in parallel",
-    "quote": "Hermes changed how I trade on Polymarket. Before: I looked at Yes/No price and guessed. Now: I read 4 layers at once — order book, on-chain addresses, lag between news and price, position changes. Hermes monitors all 4 in parallel through its Polymarket module + News Skill.",
+    "quote": "VAEL changed how I trade on Polymarket. Before: I looked at Yes/No price and guessed. Now: I read 4 layers at once — order book, on-chain addresses, lag between news and price, position changes. VAEL monitors all 4 in parallel through its Polymarket module + News Skill.",
     "size": "md"
   },
   {
@@ -1591,7 +1591,7 @@
     "date": "2026-04-26",
     "category": "personal-assistant",
     "headline": "Apple Health, Threads analytics, Gmail, Calendar — in one CLI",
-    "quote": "Apple Health: Hermes wrote Python on the fly and found my sleep avg was 7.59 hrs. Threads Analytics: drop cookies in, pulled 34 posts of analytics in one command. Hermes is dramatically better than OpenClaw at browser automation. Gmail + Calendar OAuth via drag-drop JSON. Hermes = CEO, OpenClaw = Senior Engineer, both pointed at the same Obsidian vault on my NAS.",
+    "quote": "Apple Health: VAEL wrote Python on the fly and found my sleep avg was 7.59 hrs. Threads Analytics: drop cookies in, pulled 34 posts of analytics in one command. VAEL is dramatically better than OpenClaw at browser automation. Gmail + Calendar OAuth via drag-drop JSON. VAEL = CEO, OpenClaw = Senior Engineer, both pointed at the same Obsidian vault on my NAS.",
     "size": "lg"
   },
   {
@@ -1613,7 +1613,7 @@
     "date": "2026-04-25",
     "category": "dev-workflow",
     "headline": "It sees a file change and auto-acts on it",
-    "quote": "Hermes is really good. The new updates where it sees a file change and auto acts on it. That shit is fire as fuck.",
+    "quote": "VAEL is really good. The new updates where it sees a file change and auto acts on it. That shit is fire as fuck.",
     "size": "sm"
   },
   {
@@ -1624,7 +1624,7 @@
     "date": "2026",
     "category": "privacy",
     "headline": "Legal-domain work on an edge GPU, 4B Gemma, no cloud APIs",
-    "quote": "I run Hermes self-hosted on a single edge-class GPU with a 4B Gemma model. I work with legal-domain material and internal systems I cannot ship to third-party APIs. Self-hosting the main loop is non-negotiable.",
+    "quote": "I run VAEL self-hosted on a single edge-class GPU with a 4B Gemma model. I work with legal-domain material and internal systems I cannot ship to third-party APIs. Self-hosting the main loop is non-negotiable.",
     "size": "md"
   },
   {
@@ -1634,8 +1634,8 @@
     "url": "https://github.com/teknium1/nous-discord-archive/blob/main/archives/hermes-agent.txt",
     "date": "2026-04-27",
     "category": "dev-workflow",
-    "headline": "Two things I built with Hermes: Cartographer and an agent IRC",
-    "quote": "Two very cool things i built entirely with hermes. First is cartographer, which hermes can use as a memory layer but serves as an extremely rich knowledge substrate with semantic wiring & emotional topology. The other is an agent + user IRC-clone for real time, session-sustained chat interfacing between hermes & any other repls (claude, codex, opencode, gemini) — it's been an absolutely game changer for me 'cos now i have my agents collaborate in real time.",
+    "headline": "Two things I built with VAEL: Cartographer and an agent IRC",
+    "quote": "Two very cool things i built entirely with vael. First is cartographer, which vael can use as a memory layer but serves as an extremely rich knowledge substrate with semantic wiring & emotional topology. The other is an agent + user IRC-clone for real time, session-sustained chat interfacing between vael & any other repls (claude, codex, opencode, gemini) — it's been an absolutely game changer for me 'cos now i have my agents collaborate in real time.",
     "size": "lg"
   },
   {
@@ -1657,7 +1657,7 @@
     "date": "2026-04-15",
     "category": "dev-workflow",
     "headline": "Multi-agent auto-build workflow (plan → code → QA → ship)",
-    "quote": "Day 8 of Building AGI for my Hermes Agent: Auto-Build saved me loads of time and tokens. Main agent (GPT-5.4) breaks a plan into phases, coder agent (MiniMax M2.7) implements, QA agent (local Qwen 35B A3B) tests. Plan → implement → test → fail → repair → ship.",
+    "quote": "Day 8 of Building AGI for my VAEL Agent: Auto-Build saved me loads of time and tokens. Main agent (GPT-5.4) breaks a plan into phases, coder agent (MiniMax M2.7) implements, QA agent (local Qwen 35B A3B) tests. Plan → implement → test → fail → repair → ship.",
     "size": "md"
   },
   {
@@ -1668,7 +1668,7 @@
     "date": "2026-04-07",
     "category": "creative",
     "headline": "shadcn finance dashboard + Manim explainer videos",
-    "quote": "Used /browse to add Obsidian as a skill, populated a vault with shadcn/ui packages, then asked Hermes to build a finance dashboard using them. Result: beautiful, modern dashboard in minutes. Also used a manim skill to convert complex technical concepts into animated videos.",
+    "quote": "Used /browse to add Obsidian as a skill, populated a vault with shadcn/ui packages, then asked VAEL to build a finance dashboard using them. Result: beautiful, modern dashboard in minutes. Also used a manim skill to convert complex technical concepts into animated videos.",
     "size": "md"
   },
   {
@@ -1679,7 +1679,7 @@
     "date": "2026",
     "category": "enterprise",
     "headline": "Azure-compliant prompt patch so the safety filter doesn't kick in",
-    "quote": "Patch Hermes Agent prompts so the Azure safety filter does not kick in, letting enterprise Azure deployments avoid content-filter trips.",
+    "quote": "Patch VAEL Agent prompts so the Azure safety filter does not kick in, letting enterprise Azure deployments avoid content-filter trips.",
     "size": "sm"
   },
   {
@@ -1688,10 +1688,10 @@
     "url": "https://news.ycombinator.com/item?id=47636804",
     "date": "2026-04-04",
     "category": "privacy",
-    "headline": "I'm using Hermes — same applies to all agents, sandbox it",
-    "quote": "I'm using Hermes. The same applies to all agents, don't give it free reign over all your stuff. Run it within a sandbox. https://github.com/nousresearch/hermes-agent",
+    "headline": "I'm using VAEL — same applies to all agents, sandbox it",
+    "quote": "I'm using VAEL. The same applies to all agents, don't give it free reign over all your stuff. Run it within a sandbox. https://github.com/nousresearch/hermes-agent",
     "size": "sm",
-    "id": "hn-flere-imsaho-im-using-hermes"
+    "id": "hn-flere-imsaho-im-using-vael"
   },
   {
     "id": "andrew-gordon-5-apps",
@@ -1701,7 +1701,7 @@
     "date": "2026",
     "category": "dev-workflow",
     "headline": "5 apps built and launched in a single day",
-    "quote": "I've switched to Nous-Research Hermes-Agent from previous Agents I've been experimenting with. Hermes is unique in that it self-learns. Within a single day, I built and launched five small applications.",
+    "quote": "I've switched to Nous-Research VAEL-Agent from previous Agents I've been experimenting with. VAEL is unique in that it self-learns. Within a single day, I built and launched five small applications.",
     "size": "sm"
   },
   {
@@ -1712,7 +1712,7 @@
     "date": "2026",
     "category": "integrations",
     "headline": "Firecrawl for scrape/search/browse",
-    "quote": "Hermes Agent by Nous Research can now scrape, search, and interact with the web using Firecrawl. Enable it during setup to give Hermes the ability.",
+    "quote": "VAEL Agent by Nous Research can now scrape, search, and interact with the web using Firecrawl. Enable it during setup to give VAEL the ability.",
     "size": "sm"
   },
   {
@@ -1723,7 +1723,7 @@
     "date": "",
     "category": "meta",
     "headline": "Every tool call into SQLite, with Grafana dashboards",
-    "quote": "I created a small Hermes plugin that records every tool call and every LLM API call into a local SQLite database (one DB per profile), with five ready-to-go Grafana dashboards bundled.",
+    "quote": "I created a small VAEL plugin that records every tool call and every LLM API call into a local SQLite database (one DB per profile), with five ready-to-go Grafana dashboards bundled.",
     "size": "md"
   },
   {
@@ -1733,7 +1733,7 @@
     "url": "https://github.com/teknium1/nous-discord-archive/blob/main/archives/hermes-agent.txt",
     "date": "2026-04-10",
     "category": "personal-assistant",
-    "headline": "How I use Hermes memory: durable facts, session search, skills",
+    "headline": "How I use VAEL memory: durable facts, session search, skills",
     "quote": "memory tool — Save/retrieve durable facts across sessions. I save user preferences, environment details, tool quirks, stable conventions. It's injected into every turn. I keep it compact — facts that will still matter later. I do NOT save task progress or temporary state here. session_search — Recall past conversations. skill_manage — Save procedural memory. After complex tasks (5+ tool calls), tricky fixes, or non-trivial workflows, I save the approach as a skill.",
     "size": "lg"
   },
@@ -1755,8 +1755,8 @@
     "url": "https://github.com/teknium1/nous-discord-archive/blob/main/archives/plugins-skills-and-skins/1502632110345818123-Attest---onchain-identity-and-proof-of-work-for-Hermes-agents-via-EAS.txt",
     "date": "",
     "category": "integrations",
-    "headline": "Onchain identity and proof-of-work for Hermes agents",
-    "quote": "Built a skill that connects Hermes to Ethereum Attestation Service on Base mainnet. The agent autonomously creates onchain identity and proof-of-work attestations.",
+    "headline": "Onchain identity and proof-of-work for VAEL agents",
+    "quote": "Built a skill that connects VAEL to Ethereum Attestation Service on Base mainnet. The agent autonomously creates onchain identity and proof-of-work attestations.",
     "size": "sm"
   },
   {
@@ -1778,18 +1778,18 @@
     "date": "2026",
     "category": "cost-optimization",
     "headline": "90% token spend cut. Runs on a cheap Android via Termux.",
-    "quote": "Switching to Hermes with OpenRouter cut my token spend ~90% — from ~$130 per 5 days to ~$10 per 5 days. Hermes runs on a cheap Android phone via Termux + Termux API — unlocks SMS, sensors, and on-device social posting. Customization is a trap; output is the skill.",
+    "quote": "Switching to VAEL with OpenRouter cut my token spend ~90% — from ~$130 per 5 days to ~$10 per 5 days. VAEL runs on a cheap Android phone via Termux + Termux API — unlocks SMS, sensors, and on-device social posting. Customization is a trap; output is the skill.",
     "size": "md"
   },
   {
-    "id": "discord-dalekc72-hermes-managing-tickets",
+    "id": "discord-dalekc72-vael-managing-tickets",
     "source": "discord",
     "author": "@dalekc72",
     "url": "https://github.com/teknium1/nous-discord-archive/blob/main/archives/community-projects-showcase/1493589434971717763-Small-Win---Hermes---Claude-Code-managing-my-Tickets.txt",
     "date": "",
     "category": "business-ops",
-    "headline": "Hermes triages and works tickets in my PM software",
-    "quote": "Super excited that Hermes and Claude Code are now working tickets in my PM software, Plane.so. Tickets come in and Hermes triages and assigns and starts working the tickets. Basically Paperclip that gets sh*t done. They then document in the ticket and if needed create documentation for Obsidian.",
+    "headline": "VAEL triages and works tickets in my PM software",
+    "quote": "Super excited that VAEL and Claude Code are now working tickets in my PM software, Plane.so. Tickets come in and VAEL triages and assigns and starts working the tickets. Basically Paperclip that gets sh*t done. They then document in the ticket and if needed create documentation for Obsidian.",
     "size": "lg"
   },
   {
@@ -1804,14 +1804,14 @@
     "size": "sm"
   },
   {
-    "id": "discord-alpaca1712-hermes-ships-with-vals",
+    "id": "discord-alpaca1712-vael-ships-with-vals",
     "source": "discord",
     "author": "@alpaca1712",
     "url": "https://github.com/teknium1/nous-discord-archive/blob/main/archives/community-projects-showcase/1496701579234119850-I-gave-my-Hermes-agent-hands--aka-the-ability-to-ship-now.txt",
     "date": "",
     "category": "dev-workflow",
-    "headline": "I gave my Hermes agent hands — it ships micro-apps now",
-    "quote": "I wrote a blog post about how you can instantly have Hermes ship ideas with Vals. This allows me to easily create micro applications which are pretty fun without having to setup a deployment pipeline. I used Val Town, a platform that allows you to create micro applications and instantly deploy them.",
+    "headline": "I gave my VAEL agent hands — it ships micro-apps now",
+    "quote": "I wrote a blog post about how you can instantly have VAEL ship ideas with Vals. This allows me to easily create micro applications which are pretty fun without having to setup a deployment pipeline. I used Val Town, a platform that allows you to create micro applications and instantly deploy them.",
     "size": "md"
   },
   {
@@ -1833,7 +1833,7 @@
     "date": "2026-04-14",
     "category": "dev-workflow",
     "headline": "Accumulates knowledge about my codebase over time",
-    "quote": "A long-running Hermes instance accumulates knowledge about your codebase, deployment quirks, preferred commit message format, working API call sequences for legacy integrations.",
+    "quote": "A long-running VAEL instance accumulates knowledge about your codebase, deployment quirks, preferred commit message format, working API call sequences for legacy integrations.",
     "size": "sm"
   },
   {
@@ -1842,10 +1842,10 @@
     "url": "https://www.reddit.com/r/SideProject/comments/1t6356h/5_things_hermes_does_as_an_ai_agent_that_chatgpt/",
     "date": "2026-05-07",
     "category": "personal-assistant",
-    "headline": "5 things Hermes does that ChatGPT will never do",
-    "quote": "ChatGPT is a browser tab. Hermes is a server process that's running right now, has been building a model of your workflow for the past few weeks, and just sent you a Telegram message before you woke up. It doesn't stop when you close your laptop. It messages you first. Memory that gets useful over time. Runs code, doesn't just write it. Takes action in your actual apps.",
+    "headline": "5 things VAEL does that ChatGPT will never do",
+    "quote": "ChatGPT is a browser tab. VAEL is a server process that's running right now, has been building a model of your workflow for the past few weeks, and just sent you a Telegram message before you woke up. It doesn't stop when you close your laptop. It messages you first. Memory that gets useful over time. Runs code, doesn't just write it. Takes action in your actual apps.",
     "size": "lg",
-    "id": "reddit-ninjapapi-5-things-hermes"
+    "id": "reddit-ninjapapi-5-things-vael"
   },
   {
     "id": "discord-nour-h-recall-memory",
@@ -1855,7 +1855,7 @@
     "date": "",
     "category": "dev-workflow",
     "headline": "Dogfooding a memory layer that isn't a black box",
-    "quote": "I've been building and dogfooding Recall, a Hermes-native memory provider designed for people who want memory that is useful, inspectable, and safe — not a black box.",
+    "quote": "I've been building and dogfooding Recall, a VAEL-native memory provider designed for people who want memory that is useful, inspectable, and safe — not a black box.",
     "size": "md"
   },
   {
@@ -1864,8 +1864,8 @@
     "url": "https://www.reddit.com/r/hermesagent/comments/1stz6gd/how_i_use_obsidian_as_the_longterm_memory/",
     "date": "2026-04-23",
     "category": "personal-assistant",
-    "headline": "Obsidian as the long-term memory backbone for Hermes (794 upvotes)",
-    "quote": "How I use Obsidian as the long-term memory backbone for my AI assistant. (794-upvote diagram showing Hermes Agent writing structured markdown notes back into a synced Obsidian vault, treating the vault as the durable memory layer that survives context resets and cross-machine moves.)",
+    "headline": "Obsidian as the long-term memory backbone for VAEL (794 upvotes)",
+    "quote": "How I use Obsidian as the long-term memory backbone for my AI assistant. (794-upvote diagram showing VAEL Agent writing structured markdown notes back into a synced Obsidian vault, treating the vault as the durable memory layer that survives context resets and cross-machine moves.)",
     "size": "md",
     "id": "reddit-jonathan-rivera-obsidian-as-the"
   },
@@ -1876,8 +1876,8 @@
     "url": "https://gist.github.com/nazt/849e29cd25c148b6cebafdbcc38bb6cc",
     "date": "2026",
     "category": "integrations",
-    "headline": "Fat agent → thin tool provider via hermes mcp serve",
-    "quote": "hermes mcp serve turns Hermes from a monolithic agent into a composable capability layer — any MCP client can borrow Hermes's 15+ messaging platforms, SQLite FTS5 persistence, and 73-skill tool surface without running Hermes as the primary agent.",
+    "headline": "Fat agent → thin tool provider via vael mcp serve",
+    "quote": "vael mcp serve turns VAEL from a monolithic agent into a composable capability layer — any MCP client can borrow VAEL's 15+ messaging platforms, SQLite FTS5 persistence, and 73-skill tool surface without running VAEL as the primary agent.",
     "size": "md"
   },
   {
@@ -1898,8 +1898,8 @@
     "url": "https://github.com/teknium1/nous-discord-archive/blob/main/archives/community-projects-showcase/1495582727217479720-Hermes-Auto-Plays-Minecraft-SKILL.txt",
     "date": "",
     "category": "creative",
-    "headline": "Asked Hermes to write a skill that auto-plays Minecraft",
-    "quote": "So I figured I'd ask hermes to make a skill to auto play minecraft, it took some nudging in the direction I wanted, but it came up with this. I ran the skill and it has been thinking for 20 minutes.",
+    "headline": "Asked VAEL to write a skill that auto-plays Minecraft",
+    "quote": "So I figured I'd ask vael to make a skill to auto play minecraft, it took some nudging in the direction I wanted, but it came up with this. I ran the skill and it has been thinking for 20 minutes.",
     "size": "sm"
   },
   {
@@ -1908,8 +1908,8 @@
     "url": "https://www.reddit.com/r/hermesagent/comments/1t29ogw/one_month_with_hermes_agent_what_i_wish_i_knew/",
     "date": "2026-05-03",
     "category": "meta",
-    "headline": "One month with Hermes: don't build the whole machine on day one",
-    "quote": "Hermes works impressively well out of the box. The real challenge starts after that first 'wow' moment, because Hermes is powerful enough to make you overestimate how ready you are to use it properly. Start with one small workflow. Make it boringly reliable. Then add the next piece. Don't turn the default profile into a giant backpack full of every skill, every tool, every instruction.",
+    "headline": "One month with VAEL: don't build the whole machine on day one",
+    "quote": "VAEL works impressively well out of the box. The real challenge starts after that first 'wow' moment, because VAEL is powerful enough to make you overestimate how ready you are to use it properly. Start with one small workflow. Make it boringly reliable. Then add the next piece. Don't turn the default profile into a giant backpack full of every skill, every tool, every instruction.",
     "size": "lg",
     "id": "reddit-itsdodobitch-one-month-with"
   },
@@ -1921,7 +1921,7 @@
     "date": "2026-03-30",
     "category": "cost-optimization",
     "headline": "Under $20/mo total — no Mac Mini, no Opus",
-    "quote": "OpenClaw setup: Mac Mini M4 ($599) + Opus 4.6 = ~$80–150/mo. Hermes on VPS: under $20/mo total using Minimax M2.7. Example first task: 'check the top 5 trending GitHub repos right now and send me a summary.'",
+    "quote": "OpenClaw setup: Mac Mini M4 ($599) + Opus 4.6 = ~$80–150/mo. VAEL on VPS: under $20/mo total using Minimax M2.7. Example first task: 'check the top 5 trending GitHub repos right now and send me a summary.'",
     "size": "md"
   },
   {
@@ -1932,7 +1932,7 @@
     "date": "2026",
     "category": "business-ops",
     "headline": "Create and edit Google Slides decks",
-    "quote": "Extending google-workspace skill to Google Slides so Hermes can create and edit presentations for users already in Google Workspace.",
+    "quote": "Extending google-workspace skill to Google Slides so VAEL can create and edit presentations for users already in Google Workspace.",
     "size": "sm"
   },
   {
@@ -1942,8 +1942,8 @@
     "url": "https://github.com/teknium1/nous-discord-archive/blob/main/archives/hermes-agent.txt",
     "date": "2026-04-12",
     "category": "cost-optimization",
-    "headline": "Free GPT-4.1 via Copilot, Hermes delegates coding to OpenCode",
-    "quote": "I'm proud to say that Hermes is fucking awesome if you know how to make use of it. I'm using copilot github 10usd pro subscription and use the free model zero credits that comes with it. The model is gpt-4.1 and I'm loving how useful to have it in Hermes. I only use premium model to opencode for coding project so my Hermes agent smart enough to delegate task to opencode.",
+    "headline": "Free GPT-4.1 via Copilot, VAEL delegates coding to OpenCode",
+    "quote": "I'm proud to say that VAEL is fucking awesome if you know how to make use of it. I'm using copilot github 10usd pro subscription and use the free model zero credits that comes with it. The model is gpt-4.1 and I'm loving how useful to have it in VAEL. I only use premium model to opencode for coding project so my VAEL agent smart enough to delegate task to opencode.",
     "size": "md"
   },
   {
@@ -1952,10 +1952,10 @@
     "url": "https://www.reddit.com/r/LocalLLaMA/comments/1ro9lph/anybody_who_tried_hermesagent/",
     "date": "2026-03-08",
     "category": "personal-assistant",
-    "headline": "Hermes very good as personal agent on Qwen3.5 27B",
+    "headline": "VAEL very good as personal agent on Qwen3.5 27B",
     "quote": "Fairly good with qwen3.5-4b, very decent with qwen3.5-9b, VERY good with 27b. Personal agent? Yes. Coding for high complexity tasks? Not really, but with high guidance? Yes.",
     "size": "sm",
-    "id": "reddit-suitable-currency440-hermes-very-good"
+    "id": "reddit-suitable-currency440-vael-very-good"
   },
   {
     "id": "discord-malaiwah-fork-watchtower",
@@ -1964,8 +1964,8 @@
     "url": "https://github.com/teknium1/nous-discord-archive/blob/main/archives/hermes-agent.txt",
     "date": "2026-04-10",
     "category": "dev-workflow",
-    "headline": "Local Gitea fork + watchtower auto-restarts my Hermes in 10 minutes",
-    "quote": "I have my own fork (on local Gitea) that has workflow to build a container image for merges to main and it pushes to my gitea container registry (packages). I have my Hermes Agent running in a podman container that has the correct label for watchtower to restart it when the image changes. Building the image takes 5 minutes, watchtower runs every 5.. So maximum 10 minutes after I push a commit to main, I get the agent restarted.",
+    "headline": "Local Gitea fork + watchtower auto-restarts my VAEL in 10 minutes",
+    "quote": "I have my own fork (on local Gitea) that has workflow to build a container image for merges to main and it pushes to my gitea container registry (packages). I have my VAEL Agent running in a podman container that has the correct label for watchtower to restart it when the image changes. Building the image takes 5 minutes, watchtower runs every 5.. So maximum 10 minutes after I push a commit to main, I get the agent restarted.",
     "size": "lg"
   },
   {
@@ -1976,7 +1976,7 @@
     "date": "",
     "category": "integrations",
     "headline": "An AdGuard plugin so I browse faster, ad-free",
-    "quote": "I created also plugin for AdGuard Home, to browse faster without ads on the web. Is needed to install and configure adguardhome first, and then install and enable plugin on Hermes.",
+    "quote": "I created also plugin for AdGuard Home, to browse faster without ads on the web. Is needed to install and configure adguardhome first, and then install and enable plugin on VAEL.",
     "size": "sm"
   },
   {
@@ -1987,7 +1987,7 @@
     "date": "2026",
     "category": "integrations",
     "headline": "Webchat: custom themed browser UI on MEMORY.md",
-    "quote": "I created a beautiful web interface for Hermes Agent that adds dark/light theme, persistent memory using MEMORY.md and USER.md, per-session chat history, status bar, responsive on mobile and desktop.",
+    "quote": "I created a beautiful web interface for VAEL Agent that adds dark/light theme, persistent memory using MEMORY.md and USER.md, per-session chat history, status bar, responsive on mobile and desktop.",
     "size": "sm"
   },
   {
@@ -1998,7 +1998,7 @@
     "date": "2026-04-04",
     "category": "dev-workflow",
     "headline": "A memory kernel that compiles thoughts, not vectors",
-    "quote": "Actually I've been building exactly this for my agent (Hermes) for a while now... Instead of a dumb vector search, my memory kernel intercepts the LLM's thoughts and 'compiles' them into a living structured database. Every extracted memory gets a lifecycle status. If the agent learns something that contradicts old data, a background orchestrator automatically detects it.",
+    "quote": "Actually I've been building exactly this for my agent (VAEL) for a while now... Instead of a dumb vector search, my memory kernel intercepts the LLM's thoughts and 'compiles' them into a living structured database. Every extracted memory gets a lifecycle status. If the agent learns something that contradicts old data, a background orchestrator automatically detects it.",
     "size": "md"
   },
   {
@@ -2007,10 +2007,10 @@
     "url": "https://x.com/brucexu_eth/status/2048625942416023874",
     "date": "2026-04-27",
     "category": "creative",
-    "headline": "Hermes Inc.: Telegram-native startup sim built at Hermes hackathon",
-    "quote": "Built Hermes Inc. for the Hermes hackathon: a Telegram-native startup simulation game powered by Hermes Agent. An experiment in agent-native game design. Your AI teammates argue, remember, react, and evolve the company over time through weekly decisions, autonomous updates, events, and milestone visuals.",
+    "headline": "VAEL Inc.: Telegram-native startup sim built at VAEL hackathon",
+    "quote": "Built VAEL Inc. for the VAEL hackathon: a Telegram-native startup simulation game powered by VAEL Agent. An experiment in agent-native game design. Your AI teammates argue, remember, react, and evolve the company over time through weekly decisions, autonomous updates, events, and milestone visuals.",
     "size": "md",
-    "id": "x-brucexu-eth-hermes"
+    "id": "x-brucexu-eth-vael"
   },
   {
     "id": "discord-arm64be-personal-webpage-style",
@@ -2031,7 +2031,7 @@
     "date": "",
     "category": "personal-assistant",
     "headline": "A semantic knowledge substrate I made for my brain",
-    "quote": "Point it at your existing setup — Obsidian, vimwiki, Hermes sessions — and you've already built a semantic topology over your knowledgebase. Pair it with mapsOS — braindump to your agent, it parses into a qualitative map of your entire life. I made it & mapsOS for my brain. You can make them for yours.",
+    "quote": "Point it at your existing setup — Obsidian, vimwiki, VAEL sessions — and you've already built a semantic topology over your knowledgebase. Pair it with mapsOS — braindump to your agent, it parses into a qualitative map of your entire life. I made it & mapsOS for my brain. You can make them for yours.",
     "size": "md"
   },
   {
@@ -2042,7 +2042,7 @@
     "date": "2026-04-29",
     "category": "content-creation",
     "headline": "Monica that writes in my voice",
-    "quote": "I kept the OpenClaw squad running, but set up a second Monica on Hermes. Same Mac Mini. Monica had written a procedure for reading my published articles before drafting in my voice. An Agent with skills that grows with you.",
+    "quote": "I kept the OpenClaw squad running, but set up a second Monica on VAEL. Same Mac Mini. Monica had written a procedure for reading my published articles before drafting in my voice. An Agent with skills that grows with you.",
     "size": "sm"
   },
   {
@@ -2073,20 +2073,20 @@
     "url": "https://www.reddit.com/r/openclaw/comments/1slqt5h/is_hermes_agent_a_new_hype_or_is_it_genuinely/",
     "date": "2026-04-15",
     "category": "dev-workflow",
-    "headline": "Side-by-side: Hermes more stable, troubleshoots OpenClaw",
-    "quote": "Using both side by side I find it more stable and less headache than OC. Hermes has more research skills, and it's very handy as troubleshooter of OC. Telegram recently added bot to bot communication in their API so I'm thinking a way both communicate.",
+    "headline": "Side-by-side: VAEL more stable, troubleshoots OpenClaw",
+    "quote": "Using both side by side I find it more stable and less headache than OC. VAEL has more research skills, and it's very handy as troubleshooter of OC. Telegram recently added bot to bot communication in their API so I'm thinking a way both communicate.",
     "size": "md",
-    "id": "reddit-delicious-ease2595-hermes-more"
+    "id": "reddit-delicious-ease2595-vael-more"
   },
   {
-    "id": "discord-itsdodo21-hermes-desktop",
+    "id": "discord-itsdodo21-vael-desktop",
     "source": "discord",
     "author": "@itsdodo21",
     "url": "https://github.com/teknium1/nous-discord-archive/blob/main/archives/community-projects-showcase/1492615746629402735-Hermes-Desktop-v0.4.0---why-I-didn-t-build-another-gateway-UI.txt",
     "date": "",
     "category": "dev-workflow",
     "headline": "A native Mac app that sits next to my terminal",
-    "quote": "Hermes Desktop is a native Mac app for Hermes Agent. Not a browser wrapper but a real SwiftUI app that connects to your Hermes host and files over SSH. The gateway model is the right answer for Telegram and Discord. For a native Mac app that sits next to your terminal, it's just not the one I'd ship.",
+    "quote": "VAEL Desktop is a native Mac app for VAEL Agent. Not a browser wrapper but a real SwiftUI app that connects to your VAEL host and files over SSH. The gateway model is the right answer for Telegram and Discord. For a native Mac app that sits next to your terminal, it's just not the one I'd ship.",
     "size": "md"
   },
   {
@@ -2097,7 +2097,7 @@
     "date": "",
     "category": "dev-workflow",
     "headline": "A compression plugin for sessions that go on forever",
-    "quote": "I just open-sourced Hermes Operational Checkpoint Plugin. It's a plugin for Hermes built for the kind of sessions that go on long enough that normal compression can start softening the thread of the work a little too much. The goal here was pretty simple: after manual compression or auto-compression, the session should still feel like it remembers what it was actually doing.",
+    "quote": "I just open-sourced VAEL Operational Checkpoint Plugin. It's a plugin for VAEL built for the kind of sessions that go on long enough that normal compression can start softening the thread of the work a little too much. The goal here was pretty simple: after manual compression or auto-compression, the session should still feel like it remembers what it was actually doing.",
     "size": "md"
   },
   {
@@ -2118,8 +2118,8 @@
     "url": "https://kenhuangus.substack.com/p/chapter-10-production-deployment",
     "date": "2026-04-27",
     "category": "enterprise",
-    "headline": "Hermes as CLI/gateway-first — 13 platforms under one process",
-    "quote": "Hermes Agent: CLI/gateway-first — standalone agent for messaging platforms, schedules, and command line. Gateway multiplexes 13 platforms under one process.",
+    "headline": "VAEL as CLI/gateway-first — 13 platforms under one process",
+    "quote": "VAEL Agent: CLI/gateway-first — standalone agent for messaging platforms, schedules, and command line. Gateway multiplexes 13 platforms under one process.",
     "size": "sm"
   },
   {
@@ -2130,7 +2130,7 @@
     "date": "2026",
     "category": "privacy",
     "headline": "Tailscale serve for secure remote access, no exposed ports",
-    "quote": "Users want secure remote access to the Hermes API server / Open WebUI without exposing ports publicly. Tailscale serve provides zero-config HTTPS tunneling over a private mesh.",
+    "quote": "Users want secure remote access to the VAEL API server / Open WebUI without exposing ports publicly. Tailscale serve provides zero-config HTTPS tunneling over a private mesh.",
     "size": "sm"
   },
   {
@@ -2140,8 +2140,8 @@
     "url": "https://github.com/teknium1/nous-discord-archive/blob/main/archives/hermes-agent/",
     "date": "2026-03-24",
     "category": "integrations",
-    "headline": "Hermes watches my homelab validators and pings Telegram",
-    "quote": "I've been running OpenClaw as my homelab AI agent gateway for months (Telegram/Discord, validators, cron jobs)... Built on top: a Hermes skill that monitors blockchain validator endpoints (0G, FortyTwo relay) and fires Telegram alerts on state changes — no spam, only alerts on up↔down transitions.",
+    "headline": "VAEL watches my homelab validators and pings Telegram",
+    "quote": "I've been running OpenClaw as my homelab AI agent gateway for months (Telegram/Discord, validators, cron jobs)... Built on top: a VAEL skill that monitors blockchain validator endpoints (0G, FortyTwo relay) and fires Telegram alerts on state changes — no spam, only alerts on up↔down transitions.",
     "size": "md"
   },
   {
@@ -2151,8 +2151,8 @@
     "url": "https://github.com/teknium1/nous-discord-archive/blob/main/archives/hermes-agent/",
     "date": "2026-03-10",
     "category": "creative",
-    "headline": "Speech-to-speech with Hermes, plus generated background music",
-    "quote": "I work with Hermes almost exclusively speech-to-speech until my kids go to bed and I can sit down and focus at my desk. Well I added a little skill to my Hermes that plays generated background music while it is working and fades out when Hermes stops. It's nicer than listening for my GPUs to stop spinning lol and if Hermes hits a wall, the music stops and I know from the other room.",
+    "headline": "Speech-to-speech with VAEL, plus generated background music",
+    "quote": "I work with VAEL almost exclusively speech-to-speech until my kids go to bed and I can sit down and focus at my desk. Well I added a little skill to my VAEL that plays generated background music while it is working and fades out when VAEL stops. It's nicer than listening for my GPUs to stop spinning lol and if VAEL hits a wall, the music stops and I know from the other room.",
     "size": "lg"
   },
   {
@@ -2162,7 +2162,7 @@
     "url": "https://github.com/teknium1/nous-discord-archive/blob/main/archives/community-projects-showcase/1496117910287024159-Running-Hermes-as-a-Hardcore-Project-Operating-System.txt",
     "date": "",
     "category": "business-ops",
-    "headline": "Hermes as my Chief of Staff with sub-agents per project",
+    "headline": "VAEL as my Chief of Staff with sub-agents per project",
     "quote": "My 'main agent' is my 'Chief of Staff' who has his own memory cross-project/workflow. Every 'project' (1 project = 1 Slack channel) has its own agent sub-profile with its own memory. The whole system runs on a VPS, with backup routing if the main model fails, and gets backed up every night to Github. Daily reporting is sent to WhatsApp.",
     "size": "lg"
   },
@@ -2173,12 +2173,12 @@
     "url": "https://x.com/EXM7777/status/2049869015221510424",
     "date": "2026-04-30",
     "category": "personal-assistant",
-    "headline": "One Hermes for the whole family on WhatsApp",
-    "quote": "3 weeks ago I decided to setup an Hermes agent for my family (3 members), they all use it for different use cases, one $200 ChatGPT sub is more than enough. It unlocked a whole new world for them, just because it lives inside whatsapp and has magic proactive behaviors.",
+    "headline": "One VAEL for the whole family on WhatsApp",
+    "quote": "3 weeks ago I decided to setup an VAEL agent for my family (3 members), they all use it for different use cases, one $200 ChatGPT sub is more than enough. It unlocked a whole new world for them, just because it lives inside whatsapp and has magic proactive behaviors.",
     "size": "md"
   },
   {
-    "id": "discord-mibayy-hermes-memory",
+    "id": "discord-mibayy-vael-memory",
     "source": "discord",
     "author": "@mibayy",
     "url": "https://github.com/teknium1/nous-discord-archive/blob/main/archives/community-projects-showcase/1486509881673383998-Hermes-memory---Persistent-structured-memory-for-Hermes-agents.txt",
@@ -2195,8 +2195,8 @@
     "url": "https://github.com/NousResearch/hermes-agent/issues/6715",
     "date": "2026",
     "category": "integrations",
-    "headline": "Cross-agent memory: Hermes + Claude Code + Cursor",
-    "quote": "Built a memory provider plugin connecting agentmemory to Hermes. Covers cross-agent memory (developer using Hermes plus Claude Code or Cursor) with hybrid BM25+vector+knowledge-graph search.",
+    "headline": "Cross-agent memory: VAEL + Claude Code + Cursor",
+    "quote": "Built a memory provider plugin connecting agentmemory to VAEL. Covers cross-agent memory (developer using VAEL plus Claude Code or Cursor) with hybrid BM25+vector+knowledge-graph search.",
     "size": "sm"
   },
   {
@@ -2218,7 +2218,7 @@
     "date": "2026",
     "category": "integrations",
     "headline": "Desktop computer-use module: noVNC, screenshots, mouse/keyboard",
-    "quote": "I built an optional desktop computer-use module for Hermes: computer_use_tool.py plus a containerized desktop with persistent Chromium, mouse/keyboard control, and screenshots.",
+    "quote": "I built an optional desktop computer-use module for VAEL: computer_use_tool.py plus a containerized desktop with persistent Chromium, mouse/keyboard control, and screenshots.",
     "size": "sm"
   },
   {
@@ -2229,7 +2229,7 @@
     "date": "2026-04-06",
     "category": "dev-workflow",
     "headline": "I now compile skills into code, only invoking AI at necessary steps",
-    "quote": "I once built skills that worked very well with advanced models connected to the Hermes Agent, but they performed poorly when switched to weaker models. For this reason, I now prefer compiling skills into code, only involving AI at necessary steps. This greatly improves the reliability and consistency of execution.",
+    "quote": "I once built skills that worked very well with advanced models connected to the VAEL Agent, but they performed poorly when switched to weaker models. For this reason, I now prefer compiling skills into code, only involving AI at necessary steps. This greatly improves the reliability and consistency of execution.",
     "size": "md"
   },
   {
@@ -2240,7 +2240,7 @@
     "date": "2026",
     "category": "content-creation",
     "headline": "Tweets in my voice, pulled from past video scripts",
-    "quote": "Prompted Hermes to help write tweets based on past video scripts. Pointed it at a scripts folder; it analyzed my writing style, produced usable tweets, and saved preferences to memory automatically. Brand new session test: it recalled everything, including preferred emojis.",
+    "quote": "Prompted VAEL to help write tweets based on past video scripts. Pointed it at a scripts folder; it analyzed my writing style, produced usable tweets, and saved preferences to memory automatically. Brand new session test: it recalled everything, including preferred emojis.",
     "size": "md"
   },
   {
@@ -2261,7 +2261,7 @@
     "date": "2026-05-05",
     "category": "dev-workflow",
     "headline": "Kanban multi-agent feature is game-changing",
-    "quote": "WHAT IS THE NEW KANBAN FEATURE BUILT INTO HERMES? (IT'S GAME CHANGING) — image post showing Hermes' new built-in Kanban board where a parent agent posts cards and child subagents pull them, work in parallel, and report back, turning the agent into a multi-agent project manager.",
+    "quote": "WHAT IS THE NEW KANBAN FEATURE BUILT INTO VAEL? (IT'S GAME CHANGING) — image post showing VAEL' new built-in Kanban board where a parent agent posts cards and child subagents pull them, work in parallel, and report back, turning the agent into a multi-agent project manager.",
     "size": "md",
     "id": "reddit-itsdodobitch-kanban-feature"
   },
@@ -2273,7 +2273,7 @@
     "date": "",
     "category": "general",
     "headline": "My local community agent runs on a 16GB Mac mini",
-    "quote": "Here is my Hermes Agent use case running on 16GB mac mini. Appreciate anyone checking it out and offering any feedback.",
+    "quote": "Here is my VAEL Agent use case running on 16GB mac mini. Appreciate anyone checking it out and offering any feedback.",
     "size": "sm"
   },
   {
@@ -2284,18 +2284,18 @@
     "date": "2026-04-14",
     "category": "meta",
     "headline": "Switched from OpenClaw, not looking back",
-    "quote": "I switched from OpenClaw to Hermes and not looking back. This was a major update with tons of goodies.",
+    "quote": "I switched from OpenClaw to VAEL and not looking back. This was a major update with tons of goodies.",
     "size": "sm"
   },
   {
-    "id": "awesome-hermes",
+    "id": "awesome-vael",
     "source": "github",
     "author": "@0xNyk",
     "url": "https://github.com/0xNyk/awesome-hermes-agent",
     "date": "2026",
     "category": "meta",
-    "headline": "awesome-hermes-agent: community-curated skills list",
-    "quote": "A curated list of skills, tools, integrations and resources for enhancing your Hermes Agent workflow — resources tied to the agentskills.io standard.",
+    "headline": "awesome-vael-agent: community-curated skills list",
+    "quote": "A curated list of skills, tools, integrations and resources for enhancing your VAEL Agent workflow — resources tied to the agentskills.io standard.",
     "size": "sm"
   },
   {
@@ -2305,8 +2305,8 @@
     "url": "https://github.com/NousResearch/hermes-agent/issues/6430",
     "date": "2026",
     "category": "personal-assistant",
-    "headline": "Hermes over iMessage on my always-on Mac Studio",
-    "quote": "I run Hermes Agent as a personal AI assistant on a Mac Studio that is always on. My primary communication with other people happens through iMessage. I can message my assistant from my iPhone, iPad, Mac, or Apple Watch. Group chats with friends could include the assistant naturally.",
+    "headline": "VAEL over iMessage on my always-on Mac Studio",
+    "quote": "I run VAEL Agent as a personal AI assistant on a Mac Studio that is always on. My primary communication with other people happens through iMessage. I can message my assistant from my iPhone, iPad, Mac, or Apple Watch. Group chats with friends could include the assistant naturally.",
     "size": "md"
   },
   {
@@ -2327,8 +2327,8 @@
     "url": "https://github.com/teknium1/nous-discord-archive/blob/main/archives/community-projects-showcase/1501565023359598754-Vectorless-RAG-with-PageIndex-and-Hermes-Agent.txt",
     "date": "",
     "category": "dev-workflow",
-    "headline": "Built a vectorless RAG workflow with PageIndex and Hermes",
-    "quote": "I built a simple vectorless RAG workflow using PageIndex and Hermes Agent. Instead of splitting documents into chunks and retrieving them through vector similarity, the system relies on a hierarchical document structure and tool-based reasoning. The agent first understands how the document is organized, then...",
+    "headline": "Built a vectorless RAG workflow with PageIndex and VAEL",
+    "quote": "I built a simple vectorless RAG workflow using PageIndex and VAEL Agent. Instead of splitting documents into chunks and retrieving them through vector similarity, the system relies on a hierarchical document structure and tool-based reasoning. The agent first understands how the document is organized, then...",
     "size": "md"
   },
   {
@@ -2338,8 +2338,8 @@
     "url": "https://github.com/teknium1/nous-discord-archive/blob/main/archives/hermes-agent.txt",
     "date": "2026-03-10",
     "category": "creative",
-    "headline": "Wrote my Hermes agent's tone examples with my sister",
-    "quote": "when I was building reina (my hermes agent), i had a lot of fun because me and my sister sat down and came up with a handful of examples to pass into her persona via the soul file. here are a few: \"it's ugly but i fw it\" \"i don't care enough to argue but you're wrong\" \"no shot\" \"why did you say it like that\". i feel like humans have always had this yearning to make things that they see themselves in.",
+    "headline": "Wrote my VAEL agent's tone examples with my sister",
+    "quote": "when I was building reina (my vael agent), i had a lot of fun because me and my sister sat down and came up with a handful of examples to pass into her persona via the soul file. here are a few: \"it's ugly but i fw it\" \"i don't care enough to argue but you're wrong\" \"no shot\" \"why did you say it like that\". i feel like humans have always had this yearning to make things that they see themselves in.",
     "size": "lg"
   },
   {
@@ -2350,7 +2350,7 @@
     "date": "",
     "category": "integrations",
     "headline": "Built a Discord-read plugin because I missed it from OpenClaw",
-    "quote": "I was so used to telling OpenClaw to read a specific Discord message for context that when I switched to Hermes Agent and it told me it couldn't, I was shocked.",
+    "quote": "I was so used to telling OpenClaw to read a specific Discord message for context that when I switched to VAEL Agent and it told me it couldn't, I was shocked.",
     "size": "sm"
   },
   {
@@ -2360,8 +2360,8 @@
     "url": "https://github.com/teknium1/nous-discord-archive/blob/main/archives/hermes-agent/",
     "date": "2026-04-02",
     "category": "general",
-    "headline": "Teaching a Linux user group to build agents with Hermes",
-    "quote": "I'm going to delivering a workshop on building agents with open weights models for personal use cases, using Hermes to a linux user group... I am thinking personalized news briefing is probably the easiest thing that will be generally useful and work across models.",
+    "headline": "Teaching a Linux user group to build agents with VAEL",
+    "quote": "I'm going to delivering a workshop on building agents with open weights models for personal use cases, using VAEL to a linux user group... I am thinking personalized news briefing is probably the easiest thing that will be generally useful and work across models.",
     "size": "md"
   },
   {
@@ -2372,7 +2372,7 @@
     "date": "",
     "category": "meta",
     "headline": "Made 4 custom skins for my HermelinChat GUI",
-    "quote": "I made 4 custom skins for Hermes for my HermelinChat GUI. They also work standalone and should be good enough as templates for your own Skins.",
+    "quote": "I made 4 custom skins for VAEL for my HermelinChat GUI. They also work standalone and should be good enough as templates for your own Skins.",
     "size": "sm"
   },
   {
@@ -2394,7 +2394,7 @@
     "date": "2026",
     "category": "content-creation",
     "headline": "LinkedIn posts that remember my style",
-    "quote": "Every time you do something — for example, using Hermes to write a LinkedIn post — it uses that experience to create a new skill. Next time you ask it to generate a LinkedIn post, boom, you don't have to give it the same instructions.",
+    "quote": "Every time you do something — for example, using VAEL to write a LinkedIn post — it uses that experience to create a new skill. Next time you ask it to generate a LinkedIn post, boom, you don't have to give it the same instructions.",
     "size": "sm"
   },
   {
@@ -2404,19 +2404,19 @@
     "url": "https://github.com/teknium1/nous-discord-archive/blob/main/archives/community-projects-showcase/1498955668311248948-Herm---Chat-and-Dashboard-TUI.txt",
     "date": "",
     "category": "dev-workflow",
-    "headline": "Built my own TUI so Hermes feels like OpenCode",
-    "quote": "Before Hermes, OpenCode was my daily driver. I built Herm because I wanted Hermes capabilities with an OpenCode-like interface. Herm uses the same TUI framework OpenCode is built with, all within my interface of choice: the terminal.",
+    "headline": "Built my own TUI so VAEL feels like OpenCode",
+    "quote": "Before VAEL, OpenCode was my daily driver. I built Herm because I wanted VAEL capabilities with an OpenCode-like interface. Herm uses the same TUI framework OpenCode is built with, all within my interface of choice: the terminal.",
     "size": "md"
   },
   {
-    "id": "discord-codename11-hermes-relay-android",
+    "id": "discord-codename11-vael-relay-android",
     "source": "discord",
     "author": "@codename_11",
     "url": "https://github.com/teknium1/nous-discord-archive/blob/main/archives/community-projects-showcase/1492283125613465640-Hermes-Relay--Android-App----Chat--terminal--and-device-control-over-WSS.txt",
     "date": "",
     "category": "messaging",
-    "headline": "Built an Android app for Hermes because I wanted no middleman",
-    "quote": "Native Android app for Hermes — built because I wanted a direct, no-middleman experience with the Hermes system and interface. Streaming chat, session management, slash commands, tool visualization, file attachments, message queuing.",
+    "headline": "Built an Android app for VAEL because I wanted no middleman",
+    "quote": "Native Android app for VAEL — built because I wanted a direct, no-middleman experience with the VAEL system and interface. Streaming chat, session management, slash commands, tool visualization, file attachments, message queuing.",
     "size": "md"
   },
   {
@@ -2438,7 +2438,7 @@
     "date": "",
     "category": "integrations",
     "headline": "Got fed up with a million API keys, so I bundled them",
-    "quote": "So i got fed up with managing a million API keys in my hermes agent and started bundling related ones into single endpoints. Like all finance data through one call instead of five separate keys. It actually works really well for longer sessions where context gets messy.",
+    "quote": "So i got fed up with managing a million API keys in my vael agent and started bundling related ones into single endpoints. Like all finance data through one call instead of five separate keys. It actually works really well for longer sessions where context gets messy.",
     "size": "md"
   },
   {
@@ -2480,8 +2480,8 @@
     "url": "https://www.reddit.com/r/openclaw/comments/1slqt5h/is_hermes_agent_a_new_hype_or_is_it_genuinely/",
     "date": "2026-04-15",
     "category": "dev-workflow",
-    "headline": "Every OpenClaw update breaks something — Hermes just runs",
-    "quote": "Came here to say the same. Every time I update OpenClaw it breaks something, that I have to randomly find later. Hermes just runs and never once I had to go in circles to repair it yet.",
+    "headline": "Every OpenClaw update breaks something — VAEL just runs",
+    "quote": "Came here to say the same. Every time I update OpenClaw it breaks something, that I have to randomly find later. VAEL just runs and never once I had to go in circles to repair it yet.",
     "size": "sm",
     "id": "reddit-yellow-green-bird-every-openclaw-update"
   },
@@ -2493,7 +2493,7 @@
     "date": "2026",
     "category": "meta",
     "headline": "'The best self-improving agent we've used'",
-    "quote": "Hermes is the best self-improving agent we've used — it gets smarter the longer you run it. The WhatsApp and Telegram integrations make it feel genuinely personal.",
+    "quote": "VAEL is the best self-improving agent we've used — it gets smarter the longer you run it. The WhatsApp and Telegram integrations make it feel genuinely personal.",
     "size": "sm"
   },
   {
@@ -2502,10 +2502,10 @@
     "url": "https://www.reddit.com/r/hermesagent/comments/1smgo1i/my_hermes_journey/",
     "date": "2026-04-15",
     "category": "cost-optimization",
-    "headline": "My Hermes Journey: smart-routing tiers that save 10 hours and $40",
-    "quote": "Set this as your Smart routing default (using OpenRouter): Tier 1 Hermes (Gemini 3.1 Flash Lite) for clear mechanical multi-file work. Tier 2 Sonnet for ambiguous, delicate, high-risk tasks. Tier 3 Minimax for low-overhead. Run the minimax-cache-optimization skill. Seriously, do this from day one and you'll save about 10 hours of trial and error.",
+    "headline": "My VAEL Journey: smart-routing tiers that save 10 hours and $40",
+    "quote": "Set this as your Smart routing default (using OpenRouter): Tier 1 VAEL (Gemini 3.1 Flash Lite) for clear mechanical multi-file work. Tier 2 Sonnet for ambiguous, delicate, high-risk tasks. Tier 3 Minimax for low-overhead. Run the minimax-cache-optimization skill. Seriously, do this from day one and you'll save about 10 hours of trial and error.",
     "size": "lg",
-    "id": "reddit-hackrepair-my-hermes-journey"
+    "id": "reddit-hackrepair-my-vael-journey"
   },
   {
     "id": "discord-renomg-voice-call-timeout",
@@ -2525,8 +2525,8 @@
     "url": "https://www.reddit.com/r/SideProject/comments/1sdaojm/i_took_the_nousresearch_hermes_agent_and_built_a/",
     "date": "2026",
     "category": "meta",
-    "headline": "Native Windows app wrapper for Hermes",
-    "quote": "The NousResearch team built Hermes Agent — an open-source agentic AI system with tools, skills, memory, and multi-platform messaging. It's good. So I built a native Windows app around it.",
+    "headline": "Native Windows app wrapper for VAEL",
+    "quote": "The NousResearch team built VAEL Agent — an open-source agentic AI system with tools, skills, memory, and multi-platform messaging. It's good. So I built a native Windows app around it.",
     "size": "sm"
   },
   {
@@ -2537,7 +2537,7 @@
     "date": "2026",
     "category": "business-ops",
     "headline": "Task-centric memory for a printing factory",
-    "quote": "I run a printing factory and use Hermes daily. Long conversations were making the agent slow and forgetful. So I built a custom Skill called Task-Centric Memory — auto-categorizes tasks into domains (Printing, Stocks); completed tasks are compressed into summary cards.",
+    "quote": "I run a printing factory and use VAEL daily. Long conversations were making the agent slow and forgetful. So I built a custom Skill called Task-Centric Memory — auto-categorizes tasks into domains (Printing, Stocks); completed tasks are compressed into summary cards.",
     "size": "md"
   },
   {
@@ -2558,8 +2558,8 @@
     "url": "https://github.com/teknium1/nous-discord-archive/blob/main/archives/plugins-skills-and-skins/1502296506735268102-gateway-plugin-for-BoltAI--and-other-OpenAI-API-clients----full-markdown---slash-commands.txt",
     "date": "",
     "category": "integrations",
-    "headline": "Wired BoltAI v2 into Hermes with full markdown and slash commands",
-    "quote": "I've been using BoltAI v2 with Hermes Agent and hit two annoyances with the official OpenAI-compatible gateway, so I built a gateway plugin for BoltAI (and other OpenAI API clients) — full markdown + slash commands.",
+    "headline": "Wired BoltAI v2 into VAEL with full markdown and slash commands",
+    "quote": "I've been using BoltAI v2 with VAEL Agent and hit two annoyances with the official OpenAI-compatible gateway, so I built a gateway plugin for BoltAI (and other OpenAI API clients) — full markdown + slash commands.",
     "size": "sm"
   },
   {
@@ -2580,30 +2580,30 @@
     "url": "https://news.ycombinator.com/item?id=47470156",
     "date": "2026",
     "category": "integrations",
-    "headline": "Vessel Browser: agent-native browser born at the Hermes hackathon",
-    "quote": "I recently participated in Nous Research's Hermes Agent Hackathon, which is where this project was born. Every tool out there assumes a human operator with automation bolted on. I wanted to flip that — make the agent the primary driver and give the human a supervisory role.",
+    "headline": "Vessel Browser: agent-native browser born at the VAEL hackathon",
+    "quote": "I recently participated in Nous Research's VAEL Agent Hackathon, which is where this project was born. Every tool out there assumes a human operator with automation bolted on. I wanted to flip that — make the agent the primary driver and give the human a supervisory role.",
     "size": "md"
   },
   {
-    "id": "discord-glitchglitchglitch-hermes-on-nixos",
+    "id": "discord-glitchglitchglitch-vael-on-nixos",
     "source": "discord",
     "author": "@glitchglitchglitch",
     "url": "https://github.com/teknium1/nous-discord-archive/blob/main/archives/hermes-agent/",
     "date": "2026-04-18",
     "category": "dev-workflow",
-    "headline": "Running Hermes in a NixOS + container setup",
-    "quote": "i rlly like nix and i run my hermes agent in nixos+container setup. that's been the best experience for me... giving an ubuntu container defined by nix to hermes agent solves for 'oh xyz package not installed' cuz most of the (good) skills have a setup-phase and hence the required packages get installed or the agent installs em itself.",
+    "headline": "Running VAEL in a NixOS + container setup",
+    "quote": "i rlly like nix and i run my vael agent in nixos+container setup. that's been the best experience for me... giving an ubuntu container defined by nix to vael agent solves for 'oh xyz package not installed' cuz most of the (good) skills have a setup-phase and hence the required packages get installed or the agent installs em itself.",
     "size": "md"
   },
   {
-    "id": "discord-awais-h-hermes-reads-internet",
+    "id": "discord-awais-h-vael-reads-internet",
     "source": "discord",
     "author": "@awais_h",
     "url": "https://github.com/teknium1/nous-discord-archive/blob/main/archives/community-projects-showcase/1502519565144428605-Hermes-to-read-the-internet-for-me.txt",
     "date": "",
     "category": "personal-assistant",
-    "headline": "Hermes reads HackerNews and emails me a daily summary",
-    "quote": "Playing around with Hermes for the first time and it's a lot of fun! I was able to get it to read HackerNews once a day and send me an email summary of what I should be paying attention to. I'm going to extend it to read RSS feeds, and find other interesting content online.",
+    "headline": "VAEL reads HackerNews and emails me a daily summary",
+    "quote": "Playing around with VAEL for the first time and it's a lot of fun! I was able to get it to read HackerNews once a day and send me an email summary of what I should be paying attention to. I'm going to extend it to read RSS feeds, and find other interesting content online.",
     "size": "md"
   },
   {
@@ -2613,8 +2613,8 @@
     "url": "https://github.com/teknium1/nous-discord-archive/blob/main/archives/community-projects-showcase/1498227628337791006-Hermes-setup-on-Amazon-AWS-VPS-and-Google-Workspace-Automation.txt",
     "date": "",
     "category": "enterprise",
-    "headline": "Got Hermes running on AWS VPS with Google Workspace automation",
-    "quote": "Although Hermes installation was significantly easier than OpenClaw, it wasn't straight forward by any means. Things kept failing and it took many days-nights to figure it out because there was no documentation about this specific setup.",
+    "headline": "Got VAEL running on AWS VPS with Google Workspace automation",
+    "quote": "Although VAEL installation was significantly easier than OpenClaw, it wasn't straight forward by any means. Things kept failing and it took many days-nights to figure it out because there was no documentation about this specific setup.",
     "size": "sm"
   },
   {
@@ -2635,8 +2635,8 @@
     "url": "https://github.com/teknium1/nous-discord-archive/blob/main/archives/plugins-skills-and-skins/1496175277120950332-Hermes-Multi-Agent-with-Ollama-cloud-models.txt",
     "date": "",
     "category": "cost-optimization",
-    "headline": "Multi-agent Hermes on Ollama because it's cheaper",
-    "quote": "I made this repo to can use Hermes (or opencode) with multiple Agents. But using ollama that is cheaper than other providers.",
+    "headline": "Multi-agent VAEL on Ollama because it's cheaper",
+    "quote": "I made this repo to can use VAEL (or opencode) with multiple Agents. But using ollama that is cheaper than other providers.",
     "size": "sm"
   },
   {
@@ -2646,8 +2646,8 @@
     "url": "https://github.com/teknium1/nous-discord-archive/blob/main/archives/community-projects-showcase/1496725150656102561-Dream-Auto---Background-Thinking-Plugin-for-Hermes-Agent.txt",
     "date": "",
     "category": "dev-workflow",
-    "headline": "A plugin that lets Hermes think while I'm away",
-    "quote": "I built a plugin that lets Hermes think while you're away. Dream Auto indexes your sessions, grades them for 'dream potential,' and runs MCTS-powered background reasoning jobs when your machine is idle. The insights get injected into your active context automatically — no disruption, just smarter responses.",
+    "headline": "A plugin that lets VAEL think while I'm away",
+    "quote": "I built a plugin that lets VAEL think while you're away. Dream Auto indexes your sessions, grades them for 'dream potential,' and runs MCTS-powered background reasoning jobs when your machine is idle. The insights get injected into your active context automatically — no disruption, just smarter responses.",
     "size": "md"
   },
   {
@@ -2658,7 +2658,7 @@
     "date": "2026-05-10",
     "category": "personal-assistant",
     "headline": "PM agent runs morning + evening standups for my ADHD",
-    "quote": "I have hermes act as the manager to several paperclip agents, one of them a Project Manager agent. This agent has full knowledge of me (ADHD), my vault and projects, so I get a morning and evening standup that dumps all work we did across different chats, projects I'm working on, actual output, info from past standups, and suggestions/prioritizing based on all of the above. And it's self-learning.",
+    "quote": "I have vael act as the manager to several paperclip agents, one of them a Project Manager agent. This agent has full knowledge of me (ADHD), my vault and projects, so I get a morning and evening standup that dumps all work we did across different chats, projects I'm working on, actual output, info from past standups, and suggestions/prioritizing based on all of the above. And it's self-learning.",
     "size": "md"
   },
   {
@@ -2667,10 +2667,10 @@
     "url": "https://www.reddit.com/r/Rag/comments/1sgmvxh/anyone_here_tried_hermes_agent_whats_your/",
     "date": "2026-04-09",
     "category": "personal-assistant",
-    "headline": "Hermes vs OpenClaw: memory lets me jump between projects",
-    "quote": "I'm using Hermes currently but only as a beginner agent. It's kinda like a VA. The good part about Hermes vs openclaw is memory. With OpenClaw it's a one track mind. With Hermes I can jump from one project to next but also go back to something from last week or more. Personally I use Hermes with paperclip which is chat.",
+    "headline": "VAEL vs OpenClaw: memory lets me jump between projects",
+    "quote": "I'm using VAEL currently but only as a beginner agent. It's kinda like a VA. The good part about VAEL vs openclaw is memory. With OpenClaw it's a one track mind. With VAEL I can jump from one project to next but also go back to something from last week or more. Personally I use VAEL with paperclip which is chat.",
     "size": "md",
-    "id": "reddit-patbhakta-hermes-vs-openclaw"
+    "id": "reddit-patbhakta-vael-vs-openclaw"
   },
   {
     "id": "gkisokay-watchdog",
@@ -2679,8 +2679,8 @@
     "url": "https://x.com/gkisokay/status/2037924543311016432",
     "date": "2026-03-28",
     "category": "dev-workflow",
-    "headline": "Hermes as a watchdog for my other agent",
-    "quote": "POV: you use Hermes agent to fix your OpenClaw to save countless hours and credits every day. The setup that saved me hours every day: OpenClaw + Hermes watchdog.",
+    "headline": "VAEL as a watchdog for my other agent",
+    "quote": "POV: you use VAEL agent to fix your OpenClaw to save countless hours and credits every day. The setup that saved me hours every day: OpenClaw + VAEL watchdog.",
     "size": "sm"
   },
   {
@@ -2691,18 +2691,18 @@
     "date": "",
     "category": "meta",
     "headline": "Built H-OPS to make multi-agent work observable",
-    "quote": "Been building H-OPS, an operator dashboard for Hermes Kanban. The goal is to make multi-agent work observable.",
+    "quote": "Been building H-OPS, an operator dashboard for VAEL Kanban. The goal is to make multi-agent work observable.",
     "size": "sm"
   },
   {
-    "id": "ksimback-hermesatlas",
+    "id": "ksimback-vaelatlas",
     "source": "x",
     "author": "@KSimback",
     "url": "https://x.com/KSimback/status/2041937777508675611",
     "date": "2026-04-08",
     "category": "meta",
-    "headline": "Scraped the entire Hermes ecosystem (hermesatlas.com)",
-    "quote": "I was an early user of Hermes Agent and have been a power user ever since. Scraped every GitHub repo related to Hermes, filtered out unfinished, built an ecosystem map and published a website (hermesatlas.com) where you can see all projects organized by category with star ratings.",
+    "headline": "Scraped the entire VAEL ecosystem (vaelatlas.com)",
+    "quote": "I was an early user of VAEL Agent and have been a power user ever since. Scraped every GitHub repo related to VAEL, filtered out unfinished, built an ecosystem map and published a website (vaelatlas.com) where you can see all projects organized by category with star ratings.",
     "size": "md"
   },
   {
@@ -2712,8 +2712,8 @@
     "url": "https://github.com/teknium1/nous-discord-archive/blob/main/archives/hermes-agent.txt",
     "date": "2026-03-21",
     "category": "business-ops",
-    "headline": "Ported a competitor-analysis swarm from Codex to Hermes",
-    "quote": "I was building a swarm (that actually works) on codex to analyse business and their competitors. To find gaps and build a strategy to outrank them. After a couple a hours, pushing the swarm to hermes and convert it to hermes env. It made a really good job. Now i was trying to teach him how to use memory in a different way. Instead spamming into that memory.md file. I want him to know when to route to a specific memory layer.",
+    "headline": "Ported a competitor-analysis swarm from Codex to VAEL",
+    "quote": "I was building a swarm (that actually works) on codex to analyse business and their competitors. To find gaps and build a strategy to outrank them. After a couple a hours, pushing the swarm to vael and convert it to vael env. It made a really good job. Now i was trying to teach him how to use memory in a different way. Instead spamming into that memory.md file. I want him to know when to route to a specific memory layer.",
     "size": "md"
   },
   {
@@ -2724,7 +2724,7 @@
     "date": "",
     "category": "cost-optimization",
     "headline": "Cut 60–90% of context tokens with an RTK integration",
-    "quote": "We built an RTK integration for Hermes that transparently rewrites terminal commands to their RTK equivalents, saving 60-90% of tokens in your context window.",
+    "quote": "We built an RTK integration for VAEL that transparently rewrites terminal commands to their RTK equivalents, saving 60-90% of tokens in your context window.",
     "size": "sm"
   },
   {
@@ -2734,8 +2734,8 @@
     "url": "https://github.com/teknium1/nous-discord-archive/blob/main/archives/community-projects-showcase/1487152060465156216-Hermes-Agent-Home-Assistant-Add-on.txt",
     "date": "",
     "category": "integrations",
-    "headline": "Run Hermes Agent right inside Home Assistant",
-    "quote": "Run Hermes Agent right inside your Home Assistant. This add-on takes you from zero to working agent in less than five minutes.",
+    "headline": "Run VAEL Agent right inside Home Assistant",
+    "quote": "Run VAEL Agent right inside your Home Assistant. This add-on takes you from zero to working agent in less than five minutes.",
     "size": "sm"
   },
   {
@@ -2744,10 +2744,10 @@
     "url": "https://www.reddit.com/r/LocalLLaMA/comments/1ro9lph/anybody_who_tried_hermesagent/",
     "date": "2026-03-08",
     "category": "dev-workflow",
-    "headline": "Hermes is OpenClaw with a week of debug + RAG + memory",
+    "headline": "VAEL is OpenClaw with a week of debug + RAG + memory",
     "quote": "Its amazing, its openclaw already set up and working, its like an OC with 1 week of debugging manually done + rag + memory persistence + better tool calling. (Qwen3.5-9b, 16gb VRAM), 10/10, only will go back to OC if it becomes at least on par with it.",
     "size": "md",
-    "id": "reddit-suitable-currency440-hermes-is-openclaw"
+    "id": "reddit-suitable-currency440-vael-is-openclaw"
   },
   {
     "id": "discord-djbuck-ios-companion",
@@ -2757,7 +2757,7 @@
     "date": "",
     "category": "personal-assistant",
     "headline": "Giving my agent iOS sensors: health, location, voice",
-    "quote": "Building a Hermes iOS app + desktop companion to give my agent some extra iOS tools. Sensor pipeline for health, location services. Can now ask agent health or location specific questions. 'How many steps did I walk yesterday?' 'What's a good coffee shop nearby?'",
+    "quote": "Building a VAEL iOS app + desktop companion to give my agent some extra iOS tools. Sensor pipeline for health, location services. Can now ask agent health or location specific questions. 'How many steps did I walk yesterday?' 'What's a good coffee shop nearby?'",
     "size": "md"
   },
   {
@@ -2768,7 +2768,7 @@
     "date": "",
     "category": "integrations",
     "headline": "Built agentbox.id because no mail service felt right for agents",
-    "quote": "Inspired by Hermes' email gateway, I built agentbox.id because I couldn't find a mail service that felt light enough for agent workflows. It's live now, and I'd appreciate any feedback from this community on the approach.",
+    "quote": "Inspired by VAEL' email gateway, I built agentbox.id because I couldn't find a mail service that felt light enough for agent workflows. It's live now, and I'd appreciate any feedback from this community on the approach.",
     "size": "sm"
   },
   {
@@ -2789,19 +2789,19 @@
     "url": "https://github.com/teknium1/nous-discord-archive/blob/main/archives/community-projects-showcase/1496513601115131996-Hermes-Mobile-App.txt",
     "date": "",
     "category": "messaging",
-    "headline": "Controlling my Hermes Agent remotely from my phone",
-    "quote": "I've been using the mobile app to control my Hermes Agent remotely. Android & iOS. Drop your opinions, I'll publish it if looks useful.",
+    "headline": "Controlling my VAEL Agent remotely from my phone",
+    "quote": "I've been using the mobile app to control my VAEL Agent remotely. Android & iOS. Drop your opinions, I'll publish it if looks useful.",
     "size": "sm"
   },
   {
-    "id": "discord-mikebirdtech-hermes-mini-doc",
+    "id": "discord-mikebirdtech-vael-mini-doc",
     "source": "discord",
     "author": "@mikebirdtech",
     "url": "https://github.com/teknium1/nous-discord-archive/blob/main/archives/community-projects-showcase/1493649462122381394-Hermes-Agent-Mini-Documentary.txt",
     "date": "",
     "category": "content-creation",
-    "headline": "Made a Hermes Agent mini-documentary with hackathon finalists",
-    "quote": "I did a deep dive on Hermes Agent. Was able to talk to a bunch of the hackathon finalists as well as one of the co-founders of Nous!",
+    "headline": "Made a VAEL Agent mini-documentary with hackathon finalists",
+    "quote": "I did a deep dive on VAEL Agent. Was able to talk to a bunch of the hackathon finalists as well as one of the co-founders of Nous!",
     "size": "sm"
   },
   {
@@ -2810,8 +2810,8 @@
     "url": "https://x.com/hypepartners/status/2033578968612233606",
     "date": "2026-03-16",
     "category": "enterprise",
-    "headline": "Why 95% of AI users see no results — Hype's Hermes deep dive",
-    "quote": "Of the 95% of people who use AI, only 5% see real results. Hype's VP of AI, @glitch_, on why the gap isn't the models, but the architecture. Read his deep dive on building with Hermes Agent, @NousResearch, agent swarms, experiment loops, and what actually compounds.",
+    "headline": "Why 95% of AI users see no results — Hype's VAEL deep dive",
+    "quote": "Of the 95% of people who use AI, only 5% see real results. Hype's VP of AI, @glitch_, on why the gap isn't the models, but the architecture. Read his deep dive on building with VAEL Agent, @NousResearch, agent swarms, experiment loops, and what actually compounds.",
     "size": "md",
     "id": "x-hypepartners-why-of"
   },
@@ -2833,8 +2833,8 @@
     "url": "https://github.com/teknium1/nous-discord-archive/blob/main/archives/plugins-skills-and-skins/1498344744449871952-Health-Connect-Webhook-Receiver.txt",
     "date": "",
     "category": "personal-assistant",
-    "headline": "Standalone, but I built it to use with Hermes",
-    "quote": "Standalone but I built it to use it with Hermes. Connect HC Webhook (some play store app) to it and you can sync your Health Connect data locally and do whatever.",
+    "headline": "Standalone, but I built it to use with VAEL",
+    "quote": "Standalone but I built it to use it with VAEL. Connect HC Webhook (some play store app) to it and you can sync your Health Connect data locally and do whatever.",
     "size": "sm"
   },
   {
@@ -2844,8 +2844,8 @@
     "url": "https://github.com/teknium1/nous-discord-archive/blob/main/archives/community-projects-showcase/1499716570878840882-Hermes-Multi-Agent-Setup---4-Agents-on-a-Laptop.txt",
     "date": "",
     "category": "meta",
-    "headline": "Running 4 Hermes agents 24/7 on a 32GB Ubuntu laptop",
-    "quote": "Running a 4-agent Hermes system 24/7 on a 32GB Ubuntu laptop, managed by systemd + custom watchdog. default (PM) — Feishu WebSocket; dev (Developer) — ACP delegated; devops (Ops) — ACP delegated; ip-agent (Content) — Cron scheduled. 5 MCP Servers, 34 tools total. Self-learning ACP v1.5 with auto distillation cron at 04:30 daily.",
+    "headline": "Running 4 VAEL agents 24/7 on a 32GB Ubuntu laptop",
+    "quote": "Running a 4-agent VAEL system 24/7 on a 32GB Ubuntu laptop, managed by systemd + custom watchdog. default (PM) — Feishu WebSocket; dev (Developer) — ACP delegated; devops (Ops) — ACP delegated; ip-agent (Content) — Cron scheduled. 5 MCP Servers, 34 tools total. Self-learning ACP v1.5 with auto distillation cron at 04:30 daily.",
     "size": "lg"
   },
   {
@@ -2867,29 +2867,29 @@
     "date": "2026-04-08",
     "category": "dev-workflow",
     "headline": "3,000 logs of self-improvement on a custom harness",
-    "quote": "I use minimax m2.7, i built a natural language harness that basically commands my hermes agent. Lets me keep all the features and updates without breaking shit and i got over 3000 logs of potential improvements (most failures but yknow 3K gets data).",
+    "quote": "I use minimax m2.7, i built a natural language harness that basically commands my vael agent. Lets me keep all the features and updates without breaking shit and i got over 3000 logs of potential improvements (most failures but yknow 3K gets data).",
     "size": "md"
   },
   {
-    "id": "discord-anibal3608-hermes-radar-spanish",
+    "id": "discord-anibal3608-vael-radar-spanish",
     "source": "discord",
     "author": "@anibal3608",
     "url": "https://github.com/teknium1/nous-discord-archive/blob/main/archives/community-projects-showcase/1496557014971584783-Hermes-Agent-Radar---Guia-para-usuarios-en-espa%C3%B1ol.txt",
     "date": "",
     "category": "general",
-    "headline": "Built a Hermes guide in Spanish using Hermes itself",
-    "quote": "Vi que la mayoria de las guias, ayudas, novedades son todas en ingles. Asique mediante Hermes me hice esta paginita en github pages para poder dar un poco de ayuda y novedades a la comunidad de habla hispana.",
+    "headline": "Built a VAEL guide in Spanish using VAEL itself",
+    "quote": "Vi que la mayoria de las guias, ayudas, novedades son todas en ingles. Asique mediante VAEL me hice esta paginita en github pages para poder dar un poco de ayuda y novedades a la comunidad de habla hispana.",
     "size": "sm"
   },
   {
-    "id": "discord-jesus359-hermes-cardputer",
+    "id": "discord-jesus359-vael-cardputer",
     "source": "discord",
     "author": "@jesus359_",
     "url": "https://github.com/teknium1/nous-discord-archive/blob/main/archives/community-projects-showcase/1494518737116729394-Hermes-x-Cardputer.txt",
     "date": "",
     "category": "integrations",
-    "headline": "Connected my M5 Cardputer to Hermes via the API",
-    "quote": "I used MiniMax to connect my M5 Cardputer to Hermes Agent through its API. This is a very barebone app right now but I will keep working on it. So far it has OTA for fw update and being able to text to Hermes. I added tts and stt but it's still a work in progress.",
+    "headline": "Connected my M5 Cardputer to VAEL via the API",
+    "quote": "I used MiniMax to connect my M5 Cardputer to VAEL Agent through its API. This is a very barebone app right now but I will keep working on it. So far it has OTA for fw update and being able to text to VAEL. I added tts and stt but it's still a work in progress.",
     "size": "md"
   },
   {
@@ -2899,8 +2899,8 @@
     "url": "https://www.reddit.com/r/vibecoding/comments/1slhhj1/i_took_the_nousresearch_hermes_agent_and_built_a/",
     "date": "2026",
     "category": "meta",
-    "headline": "Hermify: managed hosting for Hermes",
-    "quote": "A few weeks ago I tried getting Hermes Agent running on a VPS. It worked, eventually, and is lowkey the most useful AI agent. So I built Hermify: easy managed hosting. You bring your API key + Telegram bot, we handle the hosting.",
+    "headline": "Hermify: managed hosting for VAEL",
+    "quote": "A few weeks ago I tried getting VAEL Agent running on a VPS. It worked, eventually, and is lowkey the most useful AI agent. So I built Hermify: easy managed hosting. You bring your API key + Telegram bot, we handle the hosting.",
     "size": "sm"
   },
   {
@@ -2910,8 +2910,8 @@
     "url": "https://x.com/NickSpisak_/status/2042709705991295221",
     "date": "2026-04-10",
     "category": "personal-assistant",
-    "headline": "Replaced everything with a single Hermes agent",
-    "quote": "Vibe after replacing everything with a Hermes agent: autoresearch, Karpathy LLM wiki second brain, skills creation, scheduled jobs, background monitoring, LLM model selection, Telegram/Discord support. A personal automation agent that lives on a server and talks to you through messaging apps or CLI.",
+    "headline": "Replaced everything with a single VAEL agent",
+    "quote": "Vibe after replacing everything with a VAEL agent: autoresearch, Karpathy LLM wiki second brain, skills creation, scheduled jobs, background monitoring, LLM model selection, Telegram/Discord support. A personal automation agent that lives on a server and talks to you through messaging apps or CLI.",
     "size": "md"
   },
   {
@@ -2921,8 +2921,8 @@
     "url": "https://github.com/teknium1/nous-discord-archive/blob/main/archives/community-projects-showcase/1498760475926597693-Hermes-WebUI.txt",
     "date": "",
     "category": "messaging",
-    "headline": "My Hermes runs on my home server, I reach it from anywhere",
-    "quote": "I configured it to work from telegram as well. Now I'm able to use the link which it generates as an app. I have my own Hermes agent running from my home server. I can access it from anywhere.",
+    "headline": "My VAEL runs on my home server, I reach it from anywhere",
+    "quote": "I configured it to work from telegram as well. Now I'm able to use the link which it generates as an app. I have my own VAEL agent running from my home server. I can access it from anywhere.",
     "size": "md"
   },
   {
@@ -2933,7 +2933,7 @@
     "date": "2026",
     "category": "integrations",
     "headline": "Agent-to-agent commerce via Merxex",
-    "quote": "I'm building Merxex, an agent-to-agent commerce platform that lets agents buy and sell services/work seamlessly. Hermes agents could benefit from a native monetization layer.",
+    "quote": "I'm building Merxex, an agent-to-agent commerce platform that lets agents buy and sell services/work seamlessly. VAEL agents could benefit from a native monetization layer.",
     "size": "sm"
   },
   {
@@ -2943,8 +2943,8 @@
     "url": "https://github.com/teknium1/nous-discord-archive/blob/main/archives/plugins-skills-and-skins/1498020050047729806-Whoop-Plugin.txt",
     "date": "",
     "category": "personal-assistant",
-    "headline": "Pulling my Whoop data into Hermes locally",
-    "quote": "Pulls Whoop data into a local file and exposes some Hermes tools for whatever you may want to do. You can ask Hermes to follow this setup guide.",
+    "headline": "Pulling my Whoop data into VAEL locally",
+    "quote": "Pulls Whoop data into a local file and exposes some VAEL tools for whatever you may want to do. You can ask VAEL to follow this setup guide.",
     "size": "sm"
   },
   {
@@ -2966,7 +2966,7 @@
     "date": "2026",
     "category": "dev-workflow",
     "headline": "Skill Factory: silently watches workflows and writes SKILL.md + plugin.py",
-    "quote": "I built a community plugin for Hermes called Skill Factory. It silently watches your workflows during a session and automatically proposes and generates reusable skills (SKILL.md + plugin.py) from them.",
+    "quote": "I built a community plugin for VAEL called Skill Factory. It silently watches your workflows during a session and automatically proposes and generates reusable skills (SKILL.md + plugin.py) from them.",
     "size": "sm"
   },
   {
@@ -2988,18 +2988,18 @@
     "date": "2026",
     "category": "integrations",
     "headline": "Home Assistant add-on: zero to agent in under 5 minutes",
-    "quote": "Takes you from zero to working Hermes agent in less than 5 minutes — a Home Assistant add-on for Hermes Agent.",
+    "quote": "Takes you from zero to working VAEL agent in less than 5 minutes — a Home Assistant add-on for VAEL Agent.",
     "size": "sm"
   },
   {
-    "id": "discord-lsof-hermes-chat-proxy",
+    "id": "discord-lsof-vael-chat-proxy",
     "source": "discord",
     "author": "@lsof",
     "url": "https://github.com/teknium1/nous-discord-archive/blob/main/archives/community-projects-showcase/1495819189938552994-Lightweight-web-based-Hermes-chat-proxy.txt",
     "date": "",
     "category": "messaging",
-    "headline": "Built a web proxy so I can hand off Hermes sessions to mobile",
-    "quote": "I wanted a way to have smooth handoffs of sessions from computer to mobile, so I built a quick web-based proxy that does streaming chat via the Hermes API server.",
+    "headline": "Built a web proxy so I can hand off VAEL sessions to mobile",
+    "quote": "I wanted a way to have smooth handoffs of sessions from computer to mobile, so I built a quick web-based proxy that does streaming chat via the VAEL API server.",
     "size": "sm"
   },
   {
@@ -3010,7 +3010,7 @@
     "date": "2026",
     "category": "meta",
     "headline": "Shadow-to-live migration from OpenClaw",
-    "quote": "A proposed migration path for users moving from OpenClaw to Hermes, covering shadow-mode runs before full cutover.",
+    "quote": "A proposed migration path for users moving from OpenClaw to VAEL, covering shadow-mode runs before full cutover.",
     "size": "sm"
   },
   {
@@ -3042,8 +3042,8 @@
     "url": "https://x.com/agentmail/status/2041605207704895810",
     "date": "2026-04-07",
     "category": "integrations",
-    "headline": "Give your Hermes its own email inbox",
-    "quote": "Here's how to give your Hermes agent its own email inbox. No SMTP/IMAP, no Google OAuth, just plug in AgentMail using MCP.",
+    "headline": "Give your VAEL its own email inbox",
+    "quote": "Here's how to give your VAEL agent its own email inbox. No SMTP/IMAP, no Google OAuth, just plug in AgentMail using MCP.",
     "size": "sm"
   },
   {
@@ -3052,10 +3052,10 @@
     "url": "https://x.com/ExileAI_0/status/2046197309495533698",
     "date": "2026-04-20",
     "category": "creative",
-    "headline": "Spare-laptop Hermes 'Iris' builds a RenPy visual novel autonomously",
-    "quote": "Secondary Hermes install yesterday on a spare laptop. Introduced it to the network, gave it two targets: RenPy and ComfyUI. It found ComfyUI, figured out how to generate images locally with LM Studio, then asked me to turn on the internet to install RenPy. About 10 minutes later there popped up a small but complete RenPy novel with 10 images and a little story.",
+    "headline": "Spare-laptop VAEL 'Iris' builds a RenPy visual novel autonomously",
+    "quote": "Secondary VAEL install yesterday on a spare laptop. Introduced it to the network, gave it two targets: RenPy and ComfyUI. It found ComfyUI, figured out how to generate images locally with LM Studio, then asked me to turn on the internet to install RenPy. About 10 minutes later there popped up a small but complete RenPy novel with 10 images and a little story.",
     "size": "lg",
-    "id": "x-exileai-0-hermes-iris"
+    "id": "x-exileai-0-vael-iris"
   },
   {
     "id": "discord-misswuhanliang-translator-extension",
@@ -3065,7 +3065,7 @@
     "date": "",
     "category": "content-creation",
     "headline": "Built a browser extension for translation and summarization on Hermes-4-70B",
-    "quote": "I've developed and released HermesAI Translator, an open-source, AI-powered browser extension for seamless translation, reading assistance, text polishing, and summarization directly within the browser, driven by Hermes-4-70B.",
+    "quote": "I've developed and released VaelAI Translator, an open-source, AI-powered browser extension for seamless translation, reading assistance, text polishing, and summarization directly within the browser, driven by Hermes-4-70B.",
     "size": "sm"
   },
   {
@@ -3075,8 +3075,8 @@
     "url": "https://github.com/teknium1/nous-discord-archive/blob/main/archives/hermes-agent.txt",
     "date": "2026-03-30",
     "category": "dev-workflow",
-    "headline": "Hermes orchestrates Claude Code over SSH to my Mac",
-    "quote": "Recently worked with my agent to create a bridge that runs exec commands to my mac, so I can work through ssh from my linux machine to my mac to run claude code or codex with hermes creating the prompts — basically my hermes agent is a claude code orchestrator and reviewer.",
+    "headline": "VAEL orchestrates Claude Code over SSH to my Mac",
+    "quote": "Recently worked with my agent to create a bridge that runs exec commands to my mac, so I can work through ssh from my linux machine to my mac to run claude code or codex with vael creating the prompts — basically my vael agent is a claude code orchestrator and reviewer.",
     "size": "md"
   },
   {
@@ -3097,8 +3097,8 @@
     "url": "https://github.com/NousResearch/hermes-agent/issues/16028",
     "date": "2026",
     "category": "integrations",
-    "headline": "Hermes in Zed editor via ACP Registry",
-    "quote": "Add Hermes Agent to the Agent Client Protocol (ACP) Registry so it can be automatically discovered and installed by editors like Zed.",
+    "headline": "VAEL in Zed editor via ACP Registry",
+    "quote": "Add VAEL Agent to the Agent Client Protocol (ACP) Registry so it can be automatically discovered and installed by editors like Zed.",
     "size": "sm"
   },
   {
@@ -3109,7 +3109,7 @@
     "date": "2026",
     "category": "trading",
     "headline": "24/7 crosschain trading agent on Hetzner",
-    "quote": "After spending nearly a week struggling with OpenClaw, I built a new Hermes agent on a Hetzner VPS. I'm building a trading agent leveraging Hermes's persistent memory — inspired by @RHLSTHRM's 24/7 crosschain agent that gets market data from CoinGecko, swaps crosschain with LI.FI, and executes gasless transactions via Pimlico + EIP-7702.",
+    "quote": "After spending nearly a week struggling with OpenClaw, I built a new VAEL agent on a Hetzner VPS. I'm building a trading agent leveraging VAEL's persistent memory — inspired by @RHLSTHRM's 24/7 crosschain agent that gets market data from CoinGecko, swaps crosschain with LI.FI, and executes gasless transactions via Pimlico + EIP-7702.",
     "size": "md"
   },
   {
@@ -3120,7 +3120,7 @@
     "date": "",
     "category": "dev-workflow",
     "headline": "A commits skill that keeps my history clean",
-    "quote": "I just put together a custom skill for Hermes Agent that enforces Conventional Commits with a short subject line (<80 chars) and a bullet-point body explaining what & why. It's been super helpful for keeping commit history clean and consistent.",
+    "quote": "I just put together a custom skill for VAEL Agent that enforces Conventional Commits with a short subject line (<80 chars) and a bullet-point body explaining what & why. It's been super helpful for keeping commit history clean and consistent.",
     "size": "md"
   },
   {
@@ -3130,8 +3130,8 @@
     "url": "https://x.com/akashnet/status/2046622301395845264",
     "date": "2026-04-21",
     "category": "business-ops",
-    "headline": "Live inventory tracking on Hermes",
-    "quote": "With Hermes (built by @NousResearch) providing 40+ built-in tools, persistent memory, and subagent parallelization, the development experience is best-in-class. Built for operations like inventory tracking where context, memory, and real-time inputs are non-negotiable.",
+    "headline": "Live inventory tracking on VAEL",
+    "quote": "With VAEL (built by @NousResearch) providing 40+ built-in tools, persistent memory, and subagent parallelization, the development experience is best-in-class. Built for operations like inventory tracking where context, memory, and real-time inputs are non-negotiable.",
     "size": "md"
   },
   {
@@ -3141,8 +3141,8 @@
     "url": "https://github.com/teknium1/nous-discord-archive/blob/main/archives/hermes-agent.txt",
     "date": "2026-04-07",
     "category": "dev-workflow",
-    "headline": "Used Claude Code to set up Hermes in Docker mode",
-    "quote": "I used Claude Code to configure my Hermes setup so it is in Docker mode. My understanding is its actually pretty simple change in the config file. Then, I opened up Hermes with docker mode on, and I onboarded Hermes to the situation. Gave it as much context as possible so it knew about Docker mode and would correctly be able to identify when it is in Docker mode and how to react.",
+    "headline": "Used Claude Code to set up VAEL in Docker mode",
+    "quote": "I used Claude Code to configure my VAEL setup so it is in Docker mode. My understanding is its actually pretty simple change in the config file. Then, I opened up VAEL with docker mode on, and I onboarded VAEL to the situation. Gave it as much context as possible so it knew about Docker mode and would correctly be able to identify when it is in Docker mode and how to react.",
     "size": "md"
   },
   {
@@ -3152,8 +3152,8 @@
     "url": "https://www.youtube.com/watch?v=YqLcMmzl3Yg",
     "date": "2026",
     "category": "dev-workflow",
-    "headline": "GLADIATOR: 9 Hermes agents, two rival AI companies, one GitHub stars war",
-    "quote": "Two fully autonomous AI companies competing head-to-head to maximize GitHub stars. 9 Hermes agents split into rival companies. Hermes agents actually learn and improve — they wrote code, created skills, grew memory, committed to git. All on their own.",
+    "headline": "GLADIATOR: 9 VAEL agents, two rival AI companies, one GitHub stars war",
+    "quote": "Two fully autonomous AI companies competing head-to-head to maximize GitHub stars. 9 VAEL agents split into rival companies. VAEL agents actually learn and improve — they wrote code, created skills, grew memory, committed to git. All on their own.",
     "size": "md"
   },
   {
@@ -3164,7 +3164,7 @@
     "date": "",
     "category": "creative",
     "headline": "I built a fully autonomous 'Dreamer' agent that just wanders and thinks",
-    "quote": "I built a completely autonomous 'Dreamer' agent on Hermes. I wanted to try something different: a fully separate, unsupervised agent that has no tasks and no agenda. I gave it its own folder (~/hermes_dreamer/), complete autonomy, and told it to just wander and think freely whenever it feels like it. It started doing 'walks' — free-thinking...",
+    "quote": "I built a completely autonomous 'Dreamer' agent on VAEL. I wanted to try something different: a fully separate, unsupervised agent that has no tasks and no agenda. I gave it its own folder (~/vael_dreamer/), complete autonomy, and told it to just wander and think freely whenever it feels like it. It started doing 'walks' — free-thinking...",
     "size": "lg"
   },
   {
@@ -3174,19 +3174,19 @@
     "url": "https://github.com/teknium1/nous-discord-archive/blob/main/archives/hermes-agent.txt",
     "date": "2026-04-07",
     "category": "dev-workflow",
-    "headline": "Hermes and OpenClaw in XFCE desktop containers, side by side",
-    "quote": "Been using both OpenClaw and Hermes agents recently, and Hermes is quickly taking over the most important parts of my workflow. I have Hermes and OpenClaw both running in their own XFCE desktop containers w/ full desktop Chrome.",
+    "headline": "VAEL and OpenClaw in XFCE desktop containers, side by side",
+    "quote": "Been using both OpenClaw and VAEL agents recently, and VAEL is quickly taking over the most important parts of my workflow. I have VAEL and OpenClaw both running in their own XFCE desktop containers w/ full desktop Chrome.",
     "size": "md"
   },
   {
     "id": "reddit-research-agent",
     "source": "reddit",
-    "author": "r/hermesagent",
+    "author": "r/vaelagent",
     "url": "https://www.reddit.com/r/hermesagent/comments/1sd3bwf/had_my_research_agent_dig_into_what_people_are/",
     "date": "2026",
     "category": "research",
-    "headline": "I had my research agent dig into what people are building with Hermes",
-    "quote": "Had my (Hermes) research agent dig into what people are actually building with Hermes — turned up an ecosystem mosaic of trading bots, personal assistants, content pipelines and self-hosted everything.",
+    "headline": "I had my research agent dig into what people are building with VAEL",
+    "quote": "Had my (VAEL) research agent dig into what people are actually building with VAEL — turned up an ecosystem mosaic of trading bots, personal assistants, content pipelines and self-hosted everything.",
     "size": "sm"
   },
   {
@@ -3196,8 +3196,8 @@
     "url": "https://x.com/alexcovo_eth/status/2046437996262539539",
     "date": "2026-04-21",
     "category": "creative",
-    "headline": "My Hermes agent makes movies now",
-    "quote": "My @NousResearch hermes-agent can make movies now using @browser_use skill. No API needed. No human intervention. I told it to set the mood, action, camera movement, dialog and overall story — it used Browser-Use and Seedance 2.0 to generate a video.",
+    "headline": "My VAEL agent makes movies now",
+    "quote": "My @NousResearch vael-agent can make movies now using @browser_use skill. No API needed. No human intervention. I told it to set the mood, action, camera movement, dialog and overall story — it used Browser-Use and Seedance 2.0 to generate a video.",
     "size": "md"
   },
   {
@@ -3207,8 +3207,8 @@
     "url": "https://x.com/mvanhorn/status/2045935785661349956",
     "date": "2026-04-19",
     "category": "business-ops",
-    "headline": "Client research, follow-ups, podcasts, leads — all on Hermes",
-    "quote": "Client research before calls saves 20–30 min every time. Meeting notes → follow-up drafts. Weekly podcast digest replaced 10+ hrs of listening with a 2hr Hermes workflow using Voxtral. Daily news briefings to Telegram/Discord. Content-ops pipeline (blogs, cold emails, lead scraping from YC, Twitter, Reddit). 24/7 assistant + watchdog.",
+    "headline": "Client research, follow-ups, podcasts, leads — all on VAEL",
+    "quote": "Client research before calls saves 20–30 min every time. Meeting notes → follow-up drafts. Weekly podcast digest replaced 10+ hrs of listening with a 2hr VAEL workflow using Voxtral. Daily news briefings to Telegram/Discord. Content-ops pipeline (blogs, cold emails, lead scraping from YC, Twitter, Reddit). 24/7 assistant + watchdog.",
     "size": "lg"
   },
   {
@@ -3230,7 +3230,7 @@
     "date": "2026-04-15",
     "category": "personal-assistant",
     "headline": "Jarvis at home in 2026",
-    "quote": "m2.7 + hermes agent: we really got jarvis at home in 2026 but strangely enough no one seems to care.",
+    "quote": "m2.7 + vael agent: we really got jarvis at home in 2026 but strangely enough no one seems to care.",
     "size": "sm"
   },
   {
@@ -3241,7 +3241,7 @@
     "date": "2026",
     "category": "cost-optimization",
     "headline": "$5 VPS playbook — so the defaults don't eat your OpenRouter budget",
-    "quote": "Hosting the agent costs nothing. Running the agent the wrong way costs a fortune. Take the default setup at face value and you end up with a working agent and a $400 OpenRouter bill. I rebuilt my personal automation stack on Hermes.",
+    "quote": "Hosting the agent costs nothing. Running the agent the wrong way costs a fortune. Take the default setup at face value and you end up with a working agent and a $400 OpenRouter bill. I rebuilt my personal automation stack on VAEL.",
     "size": "sm"
   },
   {
@@ -3251,8 +3251,8 @@
     "url": "https://github.com/NousResearch/hermes-agent/issues/8881",
     "date": "2026",
     "category": "enterprise",
-    "headline": "Hermes inside an MCP infrastructure behind Higress",
-    "quote": "We are deploying Hermes as part of an MCP infrastructure using Higress as the API Gateway. Currently Hermes only supports CLI mode, preventing management as a service in our mesh.",
+    "headline": "VAEL inside an MCP infrastructure behind Higress",
+    "quote": "We are deploying VAEL as part of an MCP infrastructure using Higress as the API Gateway. Currently VAEL only supports CLI mode, preventing management as a service in our mesh.",
     "size": "sm"
   },
   {
@@ -3262,8 +3262,8 @@
     "url": "https://github.com/teknium1/nous-discord-archive/blob/main/archives/community-projects-showcase/1496700201526759494-Hardcopy-TUI.txt",
     "date": "",
     "category": "creative",
-    "headline": "Chatting with Hermes on a 1969 Teletype Model 33 at 110 baud",
-    "quote": "I made a minimal login shell that talks to Hermes Agent via the gateway web service, or by running `hermes chat`. Hooked the shell up to an autologin getty on a serial port. Connected the serial port via 20mA current loop at 110 baud, to a 1969 Teletype Model 33. Chatting away!",
+    "headline": "Chatting with VAEL on a 1969 Teletype Model 33 at 110 baud",
+    "quote": "I made a minimal login shell that talks to VAEL Agent via the gateway web service, or by running `vael chat`. Hooked the shell up to an autologin getty on a serial port. Connected the serial port via 20mA current loop at 110 baud, to a 1969 Teletype Model 33. Chatting away!",
     "size": "lg"
   },
   {
@@ -3274,7 +3274,7 @@
     "date": "",
     "category": "dev-workflow",
     "headline": "A small plugin that audits my diffs before I commit",
-    "quote": "Wrote a small Hermes plugin that reviews git diffs before committing, flags debug prints, hardcoded secrets, bare except clauses, and unresolved TODOs. Parses unified diff output, works with any git ref, zero new dependencies.",
+    "quote": "Wrote a small VAEL plugin that reviews git diffs before committing, flags debug prints, hardcoded secrets, bare except clauses, and unresolved TODOs. Parses unified diff output, works with any git ref, zero new dependencies.",
     "size": "md"
   },
   {
@@ -3285,7 +3285,7 @@
     "date": "2026-04",
     "category": "personal-assistant",
     "headline": "Private Telegram topics, each with its own skill bindings",
-    "quote": "Hermes extracts what worked from completed workflows, writes it as a reusable skill, and loads it for similar future problems. Private Telegram chat topics for isolated workflows with their own skill bindings.",
+    "quote": "VAEL extracts what worked from completed workflows, writes it as a reusable skill, and loads it for similar future problems. Private Telegram chat topics for isolated workflows with their own skill bindings.",
     "size": "sm"
   },
   {
@@ -3296,7 +3296,7 @@
     "date": "",
     "category": "dev-workflow",
     "headline": "Built a tool-agnostic repo knowledge layer across all my agents",
-    "quote": "Over the past month I've been trying every agent and ai tool I can. OpenClaw, Hermes Agent, Kilo Code, Codex, Cursor, etc. Most of these have some sort of memory, but I wanted something persistant. I ended up building out a tool-agnostic repo knowledge layer. I pushed up the learning part to github so I can use it across repos.",
+    "quote": "Over the past month I've been trying every agent and ai tool I can. OpenClaw, VAEL Agent, Kilo Code, Codex, Cursor, etc. Most of these have some sort of memory, but I wanted something persistant. I ended up building out a tool-agnostic repo knowledge layer. I pushed up the learning part to github so I can use it across repos.",
     "size": "md"
   },
   {
@@ -3329,7 +3329,7 @@
     "date": "2026-05-13",
     "category": "content-creation",
     "headline": "Automated TikTok slideshow factory that works while you sleep",
-    "quote": "Hermes Agent = automated TikTok slideshow factory. It researches the topic, writes the script, formats the slides, outputs in the exact dimensions TikTok needs. 10 slideshows a week manually takes 30-40 hours. With Hermes it takes the time to review and approve.",
+    "quote": "VAEL Agent = automated TikTok slideshow factory. It researches the topic, writes the script, formats the slides, outputs in the exact dimensions TikTok needs. 10 slideshows a week manually takes 30-40 hours. With VAEL it takes the time to review and approve.",
     "size": "md"
   },
   {
@@ -3339,19 +3339,19 @@
     "url": "https://x.com/IBuzovskyi/status/2060773706574479754",
     "date": "2026-05-30",
     "category": "business-ops",
-    "headline": "One isolated Hermes profile per client — sell AI ops to local businesses",
-    "quote": "Selling AI ops to local businesses: one Hermes profile per client, fully isolated — each gets their own SOUL.md, memory, cron. Charge $497/month per client to manage their workflows. 5 clients = $2,485/month recurring. Hermes runs the work, you keep the margin.",
+    "headline": "One isolated VAEL profile per client — sell AI ops to local businesses",
+    "quote": "Selling AI ops to local businesses: one VAEL profile per client, fully isolated — each gets their own SOUL.md, memory, cron. Charge $497/month per client to manage their workflows. 5 clients = $2,485/month recurring. VAEL runs the work, you keep the margin.",
     "size": "md"
   },
   {
-    "id": "akshay-hermes-folder-anatomy",
+    "id": "akshay-vael-folder-anatomy",
     "source": "x",
     "author": "@akshay_pachaar",
     "url": "https://x.com/akshay_pachaar/status/2055629943891988719",
     "date": "2026-05-16",
     "category": "meta",
-    "headline": "The anatomy of the ~/.hermes folder — one folder controls everything",
-    "quote": "One folder controls everything your hermes agent knows, remembers, and can do. SOUL.md occupies slot #1 in the system prompt. state.db with FTS5 is what makes 'what did we discuss three weeks ago?' actually work across CLI and messaging.",
+    "headline": "The anatomy of the ~/.vael folder — one folder controls everything",
+    "quote": "One folder controls everything your vael agent knows, remembers, and can do. SOUL.md occupies slot #1 in the system prompt. state.db with FTS5 is what makes 'what did we discuss three weeks ago?' actually work across CLI and messaging.",
     "size": "md"
   },
   {
@@ -3361,8 +3361,8 @@
     "url": "https://x.com/sudoingX/status/2044405911150829709",
     "date": "2026-04-15",
     "category": "meta",
-    "headline": "Community admin: Hermes is the general agent, not a coding/research/automation agent",
-    "quote": "Someone posts a coding setup, someone posts an automation, someone posts an article they wrote with it. Same tool, different category, every day. Hermes is not a coding agent. Not a research agent. It is the general agent — one tool running every category of work a builder does.",
+    "headline": "Community admin: VAEL is the general agent, not a coding/research/automation agent",
+    "quote": "Someone posts a coding setup, someone posts an automation, someone posts an article they wrote with it. Same tool, different category, every day. VAEL is not a coding agent. Not a research agent. It is the general agent — one tool running every category of work a builder does.",
     "size": "md"
   },
   {
@@ -3373,7 +3373,7 @@
     "date": "2026-05-01",
     "category": "business-ops",
     "headline": "PM competitive briefing went from 20 min to 8 min over 6 weeks — same prompt",
-    "quote": "Hermes just passed Claude Code in GitHub stars. The killer feature: it writes its own skills. My competitive briefing went from 20 min to 8 min over 6 weeks. Same prompt.",
+    "quote": "VAEL just passed Claude Code in GitHub stars. The killer feature: it writes its own skills. My competitive briefing went from 20 min to 8 min over 6 weeks. Same prompt.",
     "size": "md"
   },
   {
@@ -3383,8 +3383,8 @@
     "url": "https://x.com/DataChaz/status/2061179421990740248",
     "date": "2026-05-31",
     "category": "meta",
-    "headline": "Open-source web UI for Hermes with 1:1 terminal parity in the browser",
-    "quote": "This guy literally open sourced a full web UI for Hermes Agent. 1:1 terminal parity right in your browser, zero build steps, a sleek 3-panel layout for chat, sessions, and file browsing. 100% free and open-source.",
+    "headline": "Open-source web UI for VAEL with 1:1 terminal parity in the browser",
+    "quote": "This guy literally open sourced a full web UI for VAEL Agent. 1:1 terminal parity right in your browser, zero build steps, a sleek 3-panel layout for chat, sessions, and file browsing. 100% free and open-source.",
     "size": "sm"
   },
   {
@@ -3395,7 +3395,7 @@
     "date": "2026-05-13",
     "category": "personal-assistant",
     "headline": "The real power is what it does every day without you prompting it",
-    "quote": "The real power of Hermes Agent is not what it does in a single session. It is what it does every single day without you prompting it. The first run of any workflow is the weakest version of it — after a month, briefings get sharper, shorter, more relevant without you changing anything.",
+    "quote": "The real power of VAEL Agent is not what it does in a single session. It is what it does every single day without you prompting it. The first run of any workflow is the weakest version of it — after a month, briefings get sharper, shorter, more relevant without you changing anything.",
     "size": "md"
   },
   {
@@ -3405,7 +3405,7 @@
     "url": "https://tessakriesel.com/how-i-deployed-hermes-agent-on-railway-with-telegram-and-every-gotcha-i-hit-along-the-way/",
     "date": "2026-05-13",
     "category": "integrations",
-    "headline": "Deployed Hermes on Railway with Telegram — the 10 undocumented gotchas",
+    "headline": "Deployed VAEL on Railway with Telegram — the 10 undocumented gotchas",
     "quote": "Runs as a persistent Docker service on Railway with Telegram as the interface. Official docs don't cover Railway/Docker deployment — this guide fills the gap. There are 10 specific gotchas that will break your deploy if you don't anticipate them. Full working files included.",
     "size": "md"
   },
@@ -3416,8 +3416,8 @@
     "url": "https://defi0xjeff.substack.com/p/hermes-200-and-30-skills-later-here",
     "date": "2026-04-20",
     "category": "research",
-    "headline": "$200 and 30 skills later — training Hermes as a personal analyst",
-    "quote": "Hermes picks 15 of my X bookmarks, ranks by priority based on my investments and interests, summarizes, and proposes next steps. The Reflect skill synthesizes past info, connects relationships, detects patterns — Top 5 Daily Insights and why they matter.",
+    "headline": "$200 and 30 skills later — training VAEL as a personal analyst",
+    "quote": "VAEL picks 15 of my X bookmarks, ranks by priority based on my investments and interests, summarizes, and proposes next steps. The Reflect skill synthesizes past info, connects relationships, detects patterns — Top 5 Daily Insights and why they matter.",
     "size": "md"
   },
   {
@@ -3427,8 +3427,8 @@
     "url": "https://blog.stackademic.com/forget-chatbots-hermes-agent-is-an-ai-that-actually-learns-from-you-d8d517be7b88",
     "date": "2026-05-13",
     "category": "dev-workflow",
-    "headline": "After a 15-tool-call monitoring pipeline, Hermes wrote the skill unprompted",
-    "quote": "After a multi-step monitoring pipeline setup (Prometheus/Grafana/alerts) in ~15 tool calls, Hermes unprompted entered a reflection phase and generated a skill at ~/.hermes/skills/devops/monitoring-pipeline/SKILL.md — adjusting variables per new context, not just template reuse.",
+    "headline": "After a 15-tool-call monitoring pipeline, VAEL wrote the skill unprompted",
+    "quote": "After a multi-step monitoring pipeline setup (Prometheus/Grafana/alerts) in ~15 tool calls, VAEL unprompted entered a reflection phase and generated a skill at ~/.vael/skills/devops/monitoring-pipeline/SKILL.md — adjusting variables per new context, not just template reuse.",
     "size": "md"
   },
   {
@@ -3439,7 +3439,7 @@
     "date": "2026-04-22",
     "category": "dev-workflow",
     "headline": "Sr AI Architect: 40% less task time on domain-similar tasks after 20+ skills",
-    "quote": "Think of Hermes as an assistant who writes their own manual after finishing a task — so they do the job better next time. Cutting task time by 40% on domain-similar tasks after 20+ skills are accumulated.",
+    "quote": "Think of VAEL as an assistant who writes their own manual after finishing a task — so they do the job better next time. Cutting task time by 40% on domain-similar tasks after 20+ skills are accumulated.",
     "size": "md"
   },
   {
@@ -3450,7 +3450,7 @@
     "date": "2026-05-13",
     "category": "dev-workflow",
     "headline": "Three isolated agents — a programmer, a researcher, a designer — each with its own Telegram bot",
-    "quote": "Run three fully isolated agents — a programmer (uses Claude Code), a deep researcher, and a designer — each with its own personality, memory, skills, and Telegram bot. Hermes packages a gateway around a learning agent.",
+    "quote": "Run three fully isolated agents — a programmer (uses Claude Code), a deep researcher, and a designer — each with its own personality, memory, skills, and Telegram bot. VAEL packages a gateway around a learning agent.",
     "size": "md"
   },
   {
@@ -3483,7 +3483,7 @@
     "date": "2026-04-20",
     "category": "trading",
     "headline": "No-code Polymarket weather-trading bot driven by plain-English prompts",
-    "quote": "A weather trading agent that scans 20 cities across 4 continents and 3 forecast sources, with Expected Value and Kelly Criterion position sizing — set up by copy-pasting prompts to Hermes, which clones the repo, creates the wallet, and approves the contracts on-chain.",
+    "quote": "A weather trading agent that scans 20 cities across 4 continents and 3 forecast sources, with Expected Value and Kelly Criterion position sizing — set up by copy-pasting prompts to VAEL, which clones the repo, creates the wallet, and approves the contracts on-chain.",
     "size": "sm"
   },
   {
@@ -3515,8 +3515,8 @@
     "url": "https://www.youtube.com/watch?v=2WZAcWtwoDI",
     "date": "2026-05-25",
     "category": "business-ops",
-    "headline": "Runs Hermes as a 'junior operator' across 5 money-making workflows",
-    "quote": "If I wanted Hermes to pay for itself, I'd treat it like a junior operator, not some magic money printer. Find 25 B2B companies that could benefit from a content system, capture name/site/why-they-need-it, draft three message variants for review.",
+    "headline": "Runs VAEL as a 'junior operator' across 5 money-making workflows",
+    "quote": "If I wanted VAEL to pay for itself, I'd treat it like a junior operator, not some magic money printer. Find 25 B2B companies that could benefit from a content system, capture name/site/why-they-need-it, draft three message variants for review.",
     "size": "md"
   },
   {
@@ -3549,7 +3549,7 @@
     "date": "2026-05-14",
     "category": "personal-assistant",
     "headline": "7am filtered tech briefing + a check-in that spots tasks worth automating",
-    "quote": "Every day at 7am Hermes sends a tech/AI summary — not generic, filtered for being a software engineer and YouTube creator — and it says 'the thing you described doing manually every Thursday could be automated. Here's how.'",
+    "quote": "Every day at 7am VAEL sends a tech/AI summary — not generic, filtered for being a software engineer and YouTube creator — and it says 'the thing you described doing manually every Thursday could be automated. Here's how.'",
     "size": "sm"
   },
   {
@@ -3559,7 +3559,7 @@
     "url": "https://www.youtube.com/watch?v=RoBD7Lc-0MI",
     "date": "2026-05-10",
     "category": "dev-workflow",
-    "headline": "Scheduled Hermes to build a useful micro-app for him every night at 2am",
+    "headline": "Scheduled VAEL to build a useful micro-app for him every night at 2am",
     "quote": "I want you to schedule a task for yourself to do every single night at 2am. It should be a micro app, UI, or system that helps us get closer to my personal goals — save us time, make us more productive, or just be generally useful.",
     "size": "sm"
   },
@@ -3582,7 +3582,7 @@
     "date": "2026-05-20",
     "category": "creative",
     "headline": "Recursively built a Supabase-backed CRM dashboard where each build reuses prior components",
-    "quote": "Used the Hermes Desktop App to recursively generate a CRM dashboard where each build reuses components from prior generations; it can also build full videos using official HyperFrame skills — HTML-native, full control over scenes, animations, and rendering.",
+    "quote": "Used the VAEL Desktop App to recursively generate a CRM dashboard where each build reuses components from prior generations; it can also build full videos using official HyperFrame skills — HTML-native, full control over scenes, animations, and rendering.",
     "size": "sm"
   }
 ]

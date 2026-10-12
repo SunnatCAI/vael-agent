@@ -5,7 +5,7 @@ import { useCallback } from 'react'
 import { useModelControls } from '@/app/session/hooks/use-model-controls'
 import type { ModelSelection } from '@/app/shell/model-menu-panel'
 import { ModelPickerDialog } from '@/components/model-picker'
-import type { HermesGateway } from '@/hermes'
+import type { VaelGateway } from '@/vael'
 import { resolveModelPickerOwner } from '@/lib/model-picker-owner'
 import { useStoreSelector } from '@/lib/use-session-slice'
 import { completeFlow } from '@/store/desktop-metrics'
@@ -22,7 +22,7 @@ import { requestForSessionProfile } from '@/store/session-request-router'
 import { $focusedRuntimeId, $focusedSessionState, $focusedStoredSessionId, $sessionTiles } from '@/store/session-states'
 
 interface ModelPickerOverlayProps {
-  gateway?: HermesGateway
+  gateway?: VaelGateway
   onSelect: (selection: ModelSelection) => void
   ownerConnectionId?: string
   profile: string

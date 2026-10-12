@@ -4,7 +4,7 @@ Behavioral contracts for the /docs/plugins catalog extractor:
 
 1. Reads ``plugin-catalog/*.yaml`` entries (skipping ``removed.yaml``) and
    emits ``plugins.json`` rows carrying name/repo/sha/tier/capabilities plus
-   a synthesized ``hermes plugins install <name>`` command.
+   a synthesized ``vael plugins install <name>`` command.
 2. Entries missing any of name/repo/sha are skipped (logged, not fatal).
 3. A missing ``plugin-catalog/`` directory degrades gracefully: empty
    catalog list, zero counts in the meta sidecar, exit 0 — the docs build
@@ -35,7 +35,7 @@ def mod():
 
 
 def _write_entry(catalog_dir: Path, name: str, **overrides) -> Path:
-    import hermes_yaml as yaml
+    import vael_yaml as yaml
 
     entry = {
         "name": name,
@@ -85,13 +85,13 @@ def test_valid_entry_is_extracted_with_install_command(mod, tmp_path):
     assert e["shaShort"] == "38fe0fb"
     assert e["tier"] == "official"
     assert e["maintainer"] == "Example"
-    assert e["requiresHermes"] == ">=0.19"
+    assert e["requiresVael"] == ">=0.19"
     assert e["platforms"] == ["linux"]
     assert e["docsUrl"] == "https://example.com/docs"
     assert e["capabilities"]["providesTools"] == ["do_thing"]
     assert e["capabilities"]["providesHooks"] == ["on_start"]
     assert e["capabilities"]["requiresEnv"] == ["EXAMPLE_TOKEN"]
-    assert e["installCommand"] == "hermes plugins install example-plugin"
+    assert e["installCommand"] == "vael plugins install example-plugin"
 
 
 def test_entries_missing_required_fields_are_skipped(mod, tmp_path, capsys):
@@ -206,7 +206,7 @@ def test_main_writes_catalog_and_meta(mod, tmp_path):
     assert meta["removedCount"] == 1
     assert meta["generatedAt"]
     # The live-refresh document consumed by installed clients: loader-schema entries + the kill list.
-    from hermes_cli.plugin_catalog import entry_from_mapping
+    from vael_cli.plugin_catalog import entry_from_mapping
     live = json.loads((out_dir / "plugin-catalog.json").read_text(encoding="utf-8"))
     assert [entry_from_mapping(raw, "live").name for raw in live["entries"]] == ["alpha", "beta", "gamma"]
     assert live["removed"] == [{"name": "gone"}]

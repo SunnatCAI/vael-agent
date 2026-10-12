@@ -1,4 +1,4 @@
-import { type ProfileScope, profileScopeKey } from '@/hermes'
+import { type ProfileScope, profileScopeKey } from '@/vael'
 import { queryClient } from '@/lib/query-client'
 
 export type ConnectorRead = 'accounts' | 'catalog' | 'list' | 'policy' | 'tools'

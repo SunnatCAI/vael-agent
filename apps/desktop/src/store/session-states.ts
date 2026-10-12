@@ -16,7 +16,7 @@
  * itself here as the delegate so tile UI stays dependency-light.
  */
 
-import { backendScopeKey, type GatewayEvent, LOCAL_CONNECTION_ID, registryBackendScopeKey } from '@hermes/shared'
+import { backendScopeKey, type GatewayEvent, LOCAL_CONNECTION_ID, registryBackendScopeKey } from '@vael/shared'
 import { atom, computed } from 'nanostores'
 
 import { setSessionOwnerResolver } from '@/api/client'
@@ -38,7 +38,7 @@ import type { ErrorSurface } from '@/lib/error-surface'
 import { tileFocusStampOnFocusChange } from '@/lib/session-timer-since'
 import { stableArray } from '@/lib/stable-array'
 import { readJson, writeJson } from '@/lib/storage'
-import type { SessionInfo } from '@/types/hermes'
+import type { SessionInfo } from '@/types/vael'
 
 import { dropStatusDrawersForProfile, migrateStatusDrawersForProfile } from './composer-status-drawer'
 import { registryConnectionKind } from './connection-registry-state'
@@ -561,7 +561,7 @@ function settleEndedLiveTurn(runtimeId: string) {
 // Raised only after the backend confirmed the turn is over and no reply reached
 // this window, so Retry cannot run the prompt twice.
 const NO_REPLY_SURFACE: ErrorSurface = { code: 'no_reply', layer: 'runtime', retryable: true }
-const NO_REPLY_ERROR = 'Hermes ended this turn without a reply.'
+const NO_REPLY_ERROR = 'VAEL ended this turn without a reply.'
 
 function turnHasReply(messages: ChatMessage[]): boolean {
   for (let index = messages.length - 1; index >= 0; index -= 1) {
@@ -1309,8 +1309,8 @@ export interface SessionTileWorkspaceScope {
 // Tiles are persisted per connection and profile: same-named profiles on two
 // backends own different sessions. Switching either scope swaps the visible
 // set, with runtime bindings dropped so tiles re-resume on their own gateway.
-const TILES_KEY = 'hermes.desktop.sessionTiles.v2'
-const LEGACY_TILES_KEY = 'hermes.desktop.sessionTiles.v1'
+const TILES_KEY = 'vael.desktop.sessionTiles.v2'
+const LEGACY_TILES_KEY = 'vael.desktop.sessionTiles.v1'
 const TILE_PANE_PREFIX = 'session-tile:'
 const BOTS_TILE_BUCKET = '__bots_workspace__'
 
@@ -2042,7 +2042,7 @@ export function storedSessionIdForRuntimeId(sessionId: string): null | string {
   return sessionId === $activeSessionId.get() && selected ? selected : null
 }
 
-const BOT_CHAT_SCOPE_KEY = 'hermes.desktop.botChatSessions.v1'
+const BOT_CHAT_SCOPE_KEY = 'vael.desktop.botChatSessions.v1'
 
 /** Stored ids last opened as a bot's chat. A tile carries `workspaceMode`, but
  *  a bot chat normally lands in MAIN — `in-place` mints no tile when there is
@@ -2622,7 +2622,7 @@ export function frontMainIfSelected(storedSessionId: string): boolean {
  *  resurrects closed chats on every bot switch.
  *
  *  `isStaleTile`: the caller's reconciliation probe against backend truth
- *  (hermes-agent#90102). The tile bucket is a Local Storage cache, and a
+ *  (vael-agent#90102). The tile bucket is a Local Storage cache, and a
  *  persisted bot tile can outlive the session it names — a superseded
  *  "Bot Chat" from the retired pointer design, a re-minted canonical row, a
  *  finished session that stopped being the bot's chat. Fronting such a tile
@@ -2834,8 +2834,8 @@ export function discardSessionTile(storedSessionId: string) {
  * backend target profile when a source-scoped route is given).
  *
  * A leftover tile RESURRECTS the deleted profile on the next launch: Bot tab
- * restore re-dials the profile's backend, whose ensure_hermes_home() re-creates
- * the profile directory the delete just removed (hermes-agent#94235). Same
+ * restore re-dials the profile's backend, whose ensure_vael_home() re-creates
+ * the profile directory the delete just removed (vael-agent#94235). Same
  * discard (no ⌘⇧T) semantics as discardSessionTile — undoing the delete of the
  * owning profile would resolve to a 404 again.
  */
@@ -3190,9 +3190,9 @@ $selectedStoredSessionId.listen(selected => {
   revealTreePane('workspace')
 })
 
-// Dev hook for automation (mirrors __HERMES_LAYOUT_TREE__).
+// Dev hook for automation (mirrors __VAEL_LAYOUT_TREE__).
 if ((import.meta.env.DEV || import.meta.env.VITE_PERF_PROBE === '1') && typeof window !== 'undefined') {
-  ;(window as unknown as Record<string, unknown>).__HERMES_SESSION_TILES__ = {
+  ;(window as unknown as Record<string, unknown>).__VAEL_SESSION_TILES__ = {
     close: closeSessionTile,
     drop: dropSessionState,
     open: openSessionTile,

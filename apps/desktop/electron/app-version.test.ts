@@ -49,7 +49,7 @@ describe('artifact version identity', (): void => {
         buildId: 'b'.repeat(32),
         channel: 'new-name',
         sequence: 7,
-        repository: 'example/hermes-agent',
+        repository: 'example/vael-agent',
         commit: 'a'.repeat(40),
         sourceVersion: '1.2.3',
         version: '0.0.7',

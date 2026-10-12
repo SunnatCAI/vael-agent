@@ -127,7 +127,7 @@ export function BootFailureOverlay() {
       return
     }
 
-    void window.hermesDesktop
+    void window.vaelDesktop
       ?.getRecentLogs()
       .then(res => setLogs(res.lines ?? []))
       .catch(() => undefined)
@@ -143,7 +143,7 @@ export function BootFailureOverlay() {
 
     let cancelled = false
 
-    void window.hermesDesktop
+    void window.vaelDesktop
       ?.getBootstrapState()
       .then(snapshot => {
         if (!cancelled && snapshot) {
@@ -173,7 +173,7 @@ export function BootFailureOverlay() {
     let cancelled = false
 
     void (async () => {
-      const desktop = window.hermesDesktop
+      const desktop = window.vaelDesktop
 
       if (!desktop?.getConnectionConfig) {
         return
@@ -226,7 +226,7 @@ export function BootFailureOverlay() {
 
   const retry = async () => {
     setBusy('retry')
-    await window.hermesDesktop?.resetBootstrap().catch(() => undefined)
+    await window.vaelDesktop?.resetBootstrap().catch(() => undefined)
     window.location.reload()
   }
 
@@ -234,11 +234,11 @@ export function BootFailureOverlay() {
     setBusy('repair')
 
     try {
-      if (!window.hermesDesktop?.repairBootstrap) {
+      if (!window.vaelDesktop?.repairBootstrap) {
         throw new Error(t.boot.errors.ipcBridgeUnavailable)
       }
 
-      const result = await window.hermesDesktop.repairBootstrap()
+      const result = await window.vaelDesktop.repairBootstrap()
 
       // Main refuses repair on a bundled install (its stamp is authoritative;
       // our snapshot may be stale) — say what to do instead of the raw code.
@@ -261,12 +261,12 @@ export function BootFailureOverlay() {
   const switchToLocalGateway = async () => {
     setBusy('local')
     // Soft apply: tears down the primary and re-dials in place (shell stays).
-    await window.hermesDesktop?.applyConnectionConfig({ mode: 'local' }).catch(() => undefined)
+    await window.vaelDesktop?.applyConnectionConfig({ mode: 'local' }).catch(() => undefined)
     setBusy(null)
   }
 
   // Clear this gateway's stale auth first, then re-establish it through the
-  // connection's owning login flow. Hermes Cloud must reuse its portal session
+  // connection's owning login flow. VAEL Cloud must reuse its portal session
   // and per-agent cascade; generic remote gateways use native/embedded OAuth.
   // Reload after success so boot mints a fresh ticket against the new session.
   // The cloud ladder is shared with Settings (reestablishCloudAgentSession) so
@@ -279,7 +279,7 @@ export function BootFailureOverlay() {
     setBusy('signin')
 
     try {
-      const desktop = window.hermesDesktop
+      const desktop = window.vaelDesktop
 
       let connected: boolean
       // Only the oauth arm reports a reason (DesktopOauthLoginResult.error);
@@ -334,7 +334,7 @@ export function BootFailureOverlay() {
     }
   }
 
-  const openLogs = () => void window.hermesDesktop?.revealLogs().catch(() => undefined)
+  const openLogs = () => void window.vaelDesktop?.revealLogs().catch(() => undefined)
 
   const dismiss = () => setDismissedError(boot.error)
 

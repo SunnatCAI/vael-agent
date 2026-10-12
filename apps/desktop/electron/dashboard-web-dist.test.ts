@@ -13,7 +13,7 @@ function touchIndex(dir) {
 }
 
 function withTempRoot(fn) {
-  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'hermes-dashboard-web-dist-'))
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'vael-dashboard-web-dist-'))
 
   try {
     return fn(root)
@@ -22,12 +22,12 @@ function withTempRoot(fn) {
   }
 }
 
-test('desktop-spawned dashboard resolves hermes_cli/web_dist, not Desktop renderer dist', () => {
+test('desktop-spawned dashboard resolves vael_cli/web_dist, not Desktop renderer dist', () => {
   withTempRoot(root => {
-    const activeHermesRoot = path.join(root, 'hermes-agent')
+    const activeVaelRoot = path.join(root, 'vael-agent')
 
     const desktopDist = path.join(
-      activeHermesRoot,
+      activeVaelRoot,
       'apps',
       'desktop',
       'release',
@@ -37,13 +37,13 @@ test('desktop-spawned dashboard resolves hermes_cli/web_dist, not Desktop render
       'dist'
     )
 
-    const dashboardDist = path.join(activeHermesRoot, 'hermes_cli', 'web_dist')
+    const dashboardDist = path.join(activeVaelRoot, 'vael_cli', 'web_dist')
     touchIndex(desktopDist)
     touchIndex(dashboardDist)
     assert.equal(
       resolveDashboardWebDist({
-        activeHermesRoot,
-        appRoot: path.join(activeHermesRoot, 'apps', 'desktop'),
+        activeVaelRoot,
+        appRoot: path.join(activeVaelRoot, 'apps', 'desktop'),
         env: {}
       }),
       dashboardDist
@@ -57,8 +57,8 @@ test('explicit dashboard dist override wins when it exists', () => {
     touchIndex(override)
     assert.equal(
       resolveDashboardWebDist({
-        activeHermesRoot: path.join(root, 'hermes-agent'),
-        env: { HERMES_DESKTOP_DASHBOARD_WEB_DIST: override }
+        activeVaelRoot: path.join(root, 'vael-agent'),
+        env: { VAEL_DESKTOP_DASHBOARD_WEB_DIST: override }
       }),
       override
     )
@@ -67,25 +67,25 @@ test('explicit dashboard dist override wins when it exists', () => {
 
 test('missing dashboard bundle falls back to canonical path for a clear child error', () => {
   withTempRoot(root => {
-    const activeHermesRoot = path.join(root, 'hermes-agent')
+    const activeVaelRoot = path.join(root, 'vael-agent')
     assert.equal(
-      resolveDashboardWebDist({ activeHermesRoot, env: {} }),
-      path.join(activeHermesRoot, 'hermes_cli', 'web_dist')
+      resolveDashboardWebDist({ activeVaelRoot, env: {} }),
+      path.join(activeVaelRoot, 'vael_cli', 'web_dist')
     )
   })
 })
 
-test('appRoot candidate is used when it has a dashboard bundle and activeHermesRoot does not', () => {
+test('appRoot candidate is used when it has a dashboard bundle and activeVaelRoot does not', () => {
   withTempRoot(root => {
-    const activeHermesRoot = path.join(root, 'active-install')
+    const activeVaelRoot = path.join(root, 'active-install')
     const sourceRoot = path.join(root, 'source-checkout')
     const appRoot = path.join(sourceRoot, 'apps', 'desktop')
-    const appRootDashboard = path.resolve(appRoot, '..', '..', 'hermes_cli', 'web_dist')
-    fs.mkdirSync(activeHermesRoot, { recursive: true })
+    const appRootDashboard = path.resolve(appRoot, '..', '..', 'vael_cli', 'web_dist')
+    fs.mkdirSync(activeVaelRoot, { recursive: true })
     touchIndex(appRootDashboard)
     assert.equal(
       resolveDashboardWebDist({
-        activeHermesRoot,
+        activeVaelRoot,
         appRoot,
         env: {}
       }),

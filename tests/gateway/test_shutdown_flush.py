@@ -160,9 +160,9 @@ def test_recover_closes_owned_db_when_unexpected_exception_escapes(
             raise KeyboardInterrupt
 
     db = InterruptingDB()
-    monkeypatch.setattr("hermes_state_registry.acquire", lambda: db)
+    monkeypatch.setattr("vael_state_registry.acquire", lambda: db)
     monkeypatch.setattr(
-        "hermes_state_registry.release_or_close", lambda _: setattr(db, "released", True)
+        "vael_state_registry.release_or_close", lambda _: setattr(db, "released", True)
     )
 
     with pytest.raises(KeyboardInterrupt):
@@ -222,18 +222,18 @@ def test_recover_skips_failing_payload_and_continues(tmp_path, monkeypatch):
 
 
 
-def test_get_flush_dir_uses_get_hermes_home(tmp_path, monkeypatch):
-    """Flush dir must use get_hermes_home(), not hardcoded Path.home()."""
+def test_get_flush_dir_uses_get_vael_home(tmp_path, monkeypatch):
+    """Flush dir must use get_vael_home(), not hardcoded Path.home()."""
     import gateway.shutdown_flush as mod
 
     captured = {}
 
-    def fake_get_hermes_home():
+    def fake_get_vael_home():
         captured["called"] = True
         return tmp_path
 
     monkeypatch.setattr(
-        "hermes_constants.get_hermes_home", fake_get_hermes_home
+        "vael_constants.get_vael_home", fake_get_vael_home
     )
     result = mod._get_flush_dir()
     assert captured.get("called") is True

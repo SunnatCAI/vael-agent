@@ -1,5 +1,5 @@
-import type { GatewayEvent } from '@hermes/shared'
-import type { HermesSkin } from '@hermes/shared/skin'
+import type { GatewayEvent } from '@vael/shared'
+import type { VaelSkin } from '@vael/shared/skin'
 
 import { invalidateContextBreakdown } from '@/app/shell/hooks/use-context-breakdown'
 import { clearClarifyRequest } from '@/store/clarify'
@@ -40,7 +40,7 @@ export function handleLifecycleEvent(ctx: GatewayEventContext): boolean {
   }
 
   if (event.type === 'setup.ready') {
-    // The boot bootstrap (hermes_cli/free_tier_bootstrap.py) resolved the
+    // The boot bootstrap (vael_cli/free_tier_bootstrap.py) resolved the
     // free-tier identity and the inference route, and broadcast once. The
     // payload is only a hint — the status snapshot re-reads `setup.status` /
     // `setup.runtime_check` / `free_tier.status` through its own scoped
@@ -54,10 +54,10 @@ export function handleLifecycleEvent(ctx: GatewayEventContext): boolean {
   }
 
   if (event.type === 'skin.changed') {
-    // A runtime skin switch (Hermes activating an authored skin, or `/skin`
+    // A runtime skin switch (VAEL activating an authored skin, or `/skin`
     // on another surface). Only the active source+profile's change repaints.
     if (fromActiveSource()) {
-      ingestBackendSkin(payload as HermesSkin | undefined, { apply: true })
+      ingestBackendSkin(payload as VaelSkin | undefined, { apply: true })
     }
 
     return true

@@ -1,13 +1,13 @@
 interface ProductIdentity {
-  /** True when this artifact is Hermes Light (remote-only client). */
+  /** True when this artifact is VAEL Light (remote-only client). */
   light: boolean
   /** True for a Store-submission build (Windows Store packaging identity). */
   store: boolean
-  /** Display name. e.g. "Hermes Light" */
+  /** Display name. e.g. "VAEL Light" */
   displayName: string
   /** OS-level app identity. e.g. "com.nousresearch.hermes-light" */
   appId: string
-  /** app name in pascal case. e.g. "HermesLight" */
+  /** app name in pascal case. e.g. "VaelLight" */
   appNamePascal: string
   /** Artifact prefix stays compatible with release archive consumers. */
   artifactNamePascal: string

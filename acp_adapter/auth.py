@@ -1,22 +1,22 @@
-"""ACP auth helpers — detect and advertise Hermes authentication methods."""
+"""ACP auth helpers — detect and advertise VAEL authentication methods."""
 
 from __future__ import annotations
 
 from typing import Any, Optional
 
 
-TERMINAL_SETUP_AUTH_METHOD_ID = "hermes-setup"
+TERMINAL_SETUP_AUTH_METHOD_ID = "vael-setup"
 
 
 def detect_provider() -> Optional[str]:
-    """Resolve the active Hermes runtime provider, or None if unavailable.
+    """Resolve the active VAEL runtime provider, or None if unavailable.
 
     A callable ``api_key`` (Azure Foundry Entra ID bearer-token provider, see
     :mod:`agent.azure_identity_adapter`) counts as a valid credential; otherwise
     Entra-configured Foundry deployments would default to ``"openrouter"`` and
     the ACP auth handshake would reject the legitimate provider."""
     try:
-        from hermes_cli.runtime_provider import resolve_runtime_provider
+        from vael_cli.runtime_provider import resolve_runtime_provider
         runtime = resolve_runtime_provider()
         api_key, provider = runtime.get("api_key"), runtime.get("provider")
         if isinstance(provider, str) and provider.strip() and (
@@ -28,10 +28,10 @@ def detect_provider() -> Optional[str]:
 
 
 def build_auth_methods() -> list[Any]:
-    """Return registry-compatible ACP auth methods for Hermes.
+    """Return registry-compatible ACP auth methods for VAEL.
 
     The ACP registry requires at least one usable auth method in the initial
-    handshake. A fresh Zed install may have no Hermes credentials yet, so the
+    handshake. A fresh Zed install may have no VAEL credentials yet, so the
     terminal setup method is always advertised; when credentials resolve, the
     provider is also advertised as the default agent-managed runtime method."""
     from acp.schema import AuthMethodAgent, TerminalAuthMethod
@@ -41,11 +41,11 @@ def build_auth_methods() -> list[Any]:
     if provider:
         methods.append(AuthMethodAgent(
             id=provider, name=f"{provider} runtime credentials",
-            description=f"Authenticate Hermes using the currently configured {provider} runtime credentials.",
+            description=f"Authenticate VAEL using the currently configured {provider} runtime credentials.",
         ))
     methods.append(TerminalAuthMethod(
-        id=TERMINAL_SETUP_AUTH_METHOD_ID, name="Configure Hermes provider", type="terminal", args=["--setup"],
-        description=("Open Hermes' interactive model/provider setup in a terminal. "
-                     "Use this when Hermes has not been configured on this machine yet."),
+        id=TERMINAL_SETUP_AUTH_METHOD_ID, name="Configure VAEL provider", type="terminal", args=["--setup"],
+        description=("Open VAEL' interactive model/provider setup in a terminal. "
+                     "Use this when VAEL has not been configured on this machine yet."),
     ))
     return methods

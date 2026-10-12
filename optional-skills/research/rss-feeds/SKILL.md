@@ -2,11 +2,11 @@
 name: rss-feeds
 description: "Read RSS, Atom, JSON feeds; discover feeds behind a page."
 version: 1.0.0
-author: Teknium (teknium1), Hermes Agent
+author: Teknium (teknium1), VAEL Agent
 license: MIT
 platforms: [linux, macos, windows]
 metadata:
-  hermes:
+  vael:
     tags: [RSS, Atom, Feeds, Monitoring, Research, Blogs, Releases]
     related_skills: [reddit-reading, competitor-news-monitor, grounded-citations, youtube-content, blogwatcher]
 ---

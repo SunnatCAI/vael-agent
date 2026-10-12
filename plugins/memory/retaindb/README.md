@@ -5,18 +5,18 @@ Cloud memory API with hybrid search (Vector + BM25 + Reranking) and 7 memory typ
 ## Requirements
 
 - RetainDB account ($20/month) from [retaindb.com](https://www.retaindb.com)
-- `requests` is part of Hermes's core dependencies; no separate SDK install is needed. For damaged dependencies, use `hermes pm repair` and restart Hermes.
+- `requests` is part of VAEL's core dependencies; no separate SDK install is needed. For damaged dependencies, use `vael pm repair` and restart VAEL.
 
 ## Setup
 
 ```bash
-hermes memory setup    # select "retaindb"
+vael memory setup    # select "retaindb"
 ```
 
 Or manually:
 ```bash
-hermes config set memory.provider retaindb
-echo "RETAINDB_API_KEY=your-key" >> ~/.hermes/.env
+vael config set memory.provider retaindb
+echo "RETAINDB_API_KEY=your-key" >> ~/.vael/.env
 ```
 
 ## Config

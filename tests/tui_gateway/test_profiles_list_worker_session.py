@@ -23,13 +23,13 @@ import tui_gateway.server as srv
 
 @pytest.fixture
 def home(tmp_path, monkeypatch):
-    h = tmp_path / ".hermes"
+    h = tmp_path / ".vael"
     h.mkdir(parents=True)
-    monkeypatch.setenv("HERMES_HOME", str(h))
+    monkeypatch.setenv("VAEL_HOME", str(h))
     return h
 
 def _db(profile_dir):
-    from hermes_state import SessionDB
+    from vael_state import SessionDB
 
     return SessionDB(db_path=profile_dir / "state.db")
 

@@ -25,7 +25,7 @@ Sources of truth — two axes, composed per target:
   squircle on Apple's 824x824 (r=185.4) grid — centered in 1024 with 100px
   margins — so the icon matches the size of Apple-template neighbors.
 
-Desktop build identity comes from HERMES_PAYLOAD_TAG / HERMES_BUILD_COMMIT:
+Desktop build identity comes from VAEL_PAYLOAD_TAG / VAEL_BUILD_COMMIT:
 Canary uses yellow/dark-yellow backgrounds. Commit builds use red/dark-red
 and a seven-character SHA badge. The girl and tile geometry do not change.
 Only apps/desktop outputs use this identity. Website, bootstrap, dashboard,
@@ -45,7 +45,7 @@ Containers: Pillow for multi-size .ico and .icns.
 
 Dependencies:
     Pillow and resvg-py are core runtime dependencies; run this file with a
-    Hermes runtime interpreter (scripts/generate-icons.mjs uses HERMES_PYTHON).
+    VAEL runtime interpreter (scripts/generate-icons.mjs uses VAEL_PYTHON).
 
 Outputs (30 files):
   assets/icon-master.svg                              generated light master
@@ -98,11 +98,11 @@ try:
     import resvg_py
 except ImportError:
     sys.exit(
-        "resvg-py is missing: run the generator with a Hermes runtime interpreter\n"
-        "  (HERMES_PYTHON=<hermes venv python> node scripts/generate-icons.mjs)"
+        "resvg-py is missing: run the generator with a VAEL runtime interpreter\n"
+        "  (VAEL_PYTHON=<vael venv python> node scripts/generate-icons.mjs)"
     )
 
-# Copy of hermes_cli.update_channel._CANARY_TAG_RE: builders run this renderer
+# Copy of vael_cli.update_channel._CANARY_TAG_RE: builders run this renderer
 # on the runtime dependencies without the application package installed
 # (Docker, bundles). tests/scripts/test_icon_flavors.py pins it to the canonical one.
 _CANARY_TAG_RE = re.compile(
@@ -508,13 +508,13 @@ def target_bytes(art: IconArt, kind: str, arg: object) -> bytes:
 def build_art(source: Path) -> tuple[IconArt, IconArt]:
     """Only desktop outputs carry build identity. Shared branding stays stable."""
     art = IconArt(source)
-    tag = os.environ.get("HERMES_PAYLOAD_TAG", "")
-    commit = os.environ.get("HERMES_BUILD_COMMIT", "")
+    tag = os.environ.get("VAEL_PAYLOAD_TAG", "")
+    commit = os.environ.get("VAEL_BUILD_COMMIT", "")
     if commit:
         if tag:
-            raise ValueError("Commit builds cannot also select HERMES_PAYLOAD_TAG")
+            raise ValueError("Commit builds cannot also select VAEL_PAYLOAD_TAG")
         if not re.fullmatch(r"[a-f0-9]{40}", commit):
-            raise ValueError("HERMES_BUILD_COMMIT requires an exact full 40-character SHA")
+            raise ValueError("VAEL_BUILD_COMMIT requires an exact full 40-character SHA")
         return art, IconArt(source, colors=("#e34850", "#4a1117"), commit=commit)
     if _CANARY_TAG_RE.match(tag.strip()):
         return art, IconArt(source, colors=("#f5cc32", "#443808"))

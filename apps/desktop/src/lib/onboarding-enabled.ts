@@ -1,3 +1,3 @@
 export function isOnboardingEnabled(): boolean {
-  return window.hermesDesktop?.guestOnboardingEnabled === true
+  return window.vaelDesktop?.guestOnboardingEnabled === true
 }

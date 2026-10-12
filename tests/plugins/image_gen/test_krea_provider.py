@@ -165,7 +165,7 @@ class TestGenerate:
         assert post_url.endswith("/generate/image/krea/krea-2/large")
 
     def test_aspect_ratio_mapping(self):
-        """Hermes 'square' must map to Krea '1:1' in the wire payload."""
+        """VAEL 'square' must map to Krea '1:1' in the wire payload."""
         from plugins.image_gen.krea import KreaImageGenProvider
 
         submit = _submit_response()
@@ -310,7 +310,7 @@ class TestGenerate:
         cap, and a path the credential-read guard denies (before its existence is probed)."""
         from plugins.image_gen import krea
 
-        monkeypatch.setenv("HERMES_HOME", str(tmp_path))
+        monkeypatch.setenv("VAEL_HOME", str(tmp_path))
         monkeypatch.setattr(krea, "_MAX_LOCAL_REFERENCE_BYTES", 10)
         for name in ("a.png", "b.png"):
             (tmp_path / name).write_bytes(b"\x89PNG\r\n")

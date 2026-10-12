@@ -176,7 +176,7 @@ def build_gateway_health_snapshot(
     base = {
         "service.instance.id": _safe_instance_id(install_id),
         "service.version": _safe_metric_value(version, limit=64),
-        "hermes.supervision_mode": mode if mode in _SUPERVISION_MODES else "unknown",
+        "vael.supervision_mode": mode if mode in _SUPERVISION_MODES else "unknown",
     }
 
     def metric(name: str, value: int | float, **extra: str) -> GatewayMetric:
@@ -187,12 +187,12 @@ def build_gateway_health_snapshot(
         return GatewayMetric(name=name, value=value, attributes=attrs)
 
     metrics: list[GatewayMetric] = [
-        metric("hermes.gateway.up", int(bool(gateway_running))),
-        metric("hermes.gateway.active_agents", active_agents),
-        metric("hermes.gateway.busy", int(bool(busy))),
-        metric("hermes.gateway.drainable", int(bool(drainable))),
-        metric("hermes.gateway.restart_requested", int(bool(runtime.get("restart_requested")))),
-        metric("hermes.gateway.state", 1, **{"hermes.gateway.state": gateway_state}),
+        metric("vael.gateway.up", int(bool(gateway_running))),
+        metric("vael.gateway.active_agents", active_agents),
+        metric("vael.gateway.busy", int(bool(busy))),
+        metric("vael.gateway.drainable", int(bool(drainable))),
+        metric("vael.gateway.restart_requested", int(bool(runtime.get("restart_requested")))),
+        metric("vael.gateway.state", 1, **{"vael.gateway.state": gateway_state}),
     ]
     fatal_count = 0
     events: list[GatewayHealthEvent | GatewayDiagnosticEvent] = []
@@ -203,9 +203,9 @@ def build_gateway_health_snapshot(
         error_code = classify_gateway_error(pdata.get("error_code") or pdata.get("error_message"))
         is_degraded = state in _FATAL_PLATFORM_STATES
         fatal_count += is_degraded
-        pattrs = {"hermes.platform": str(platform), "hermes.platform.state": state}
-        metrics.append(metric("hermes.platform.up", int(state in _RUNNING_PLATFORM_STATES), **pattrs))
-        metrics.append(metric("hermes.platform.degraded", int(is_degraded), **pattrs, **{"hermes.error_code": error_code}))
+        pattrs = {"vael.platform": str(platform), "vael.platform.state": state}
+        metrics.append(metric("vael.platform.up", int(state in _RUNNING_PLATFORM_STATES), **pattrs))
+        metrics.append(metric("vael.platform.degraded", int(is_degraded), **pattrs, **{"vael.error_code": error_code}))
         if is_degraded:
             events.append(GatewayDiagnosticEvent(
                 name="platform.fatal", subsystem=f"platform.{platform}", platform=str(platform),
@@ -222,7 +222,7 @@ def build_gateway_health_snapshot(
 
 def _safe_profile() -> str:
     try:
-        from hermes_cli.profiles import get_active_profile_name
+        from vael_cli.profiles import get_active_profile_name
         return str(get_active_profile_name() or "default")
     except Exception:
         return "default"
@@ -230,7 +230,7 @@ def _safe_profile() -> str:
 
 def _safe_version() -> str:
     try:
-        from hermes_cli.version_info import get_version_info
+        from vael_cli.version_info import get_version_info
         return get_version_info().base_version
     except Exception:
         return "unknown"

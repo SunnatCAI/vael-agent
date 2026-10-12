@@ -9,7 +9,7 @@ let
     ];
   };
 in
-runCommand "hermes-icons" { nativeBuildInputs = [ venv ]; } ''
+runCommand "vael-icons" { nativeBuildInputs = [ venv ]; } ''
   python ${src}/scripts/generate_icons.py --source ${src} --out $out
   python ${src}/scripts/generate_icons.py --source ${src} --out $out --check
 ''

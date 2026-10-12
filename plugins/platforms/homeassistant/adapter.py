@@ -80,7 +80,7 @@ def _connect_error_detail(exc: BaseException) -> str:
             and getattr(os_error, "errno", None) == errno.EHOSTUNREACH):
         return (
             f"{text} — macOS Local Network Privacy is blocking this launchd gateway from the LAN. "
-            "Run `hermes gateway install` to regenerate the launchd job, then `hermes gateway restart`. "
+            "Run `vael gateway install` to regenerate the launchd job, then `vael gateway restart`. "
             "https://github.com/NousResearch/hermes-agent/issues/71206"
         )
     return text
@@ -327,7 +327,7 @@ class HomeAssistantAdapter(BasePlatformAdapter):
 # #3823) Added when the Email adapter moved from gateway/platforms/email.py into this bundled plugin.
 # register() exposes the platform via the registry, replacing the Platform.EMAIL elif in gateway/run.py, the
 # _PLATFORM_CONNECTED_CHECKERS entry in gateway/config.py, the _PLATFORMS["email"] static dict in
-# hermes_cli/gateway.py, and the _send_email dispatch in tools/send_message_tool.py. EMAIL_*
+# vael_cli/gateway.py, and the _send_email dispatch in tools/send_message_tool.py. EMAIL_*
 # env→PlatformConfig seeding stays in core.
 # ──────────────────────────────────────────────────────────────────────────
 async def _standalone_send(
@@ -365,7 +365,7 @@ _is_connected = _env_is_connected("HASS_TOKEN")
 
 
 def register(ctx) -> None:
-    """Plugin entry point — called by the Hermes plugin system."""
+    """Plugin entry point — called by the VAEL plugin system."""
     ctx.register_platform(
         name="homeassistant", label="Home Assistant", adapter_factory=HomeAssistantAdapter,
         check_fn=check_ha_requirements, validate_config=validate_ha_config, is_connected=_is_connected,

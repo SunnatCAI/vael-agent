@@ -1,10 +1,10 @@
 /**
- * The curated Hermes plugin catalog as the Desktop sees it.
+ * The curated VAEL plugin catalog as the Desktop sees it.
  *
  * The Capabilities → Plugins tab embeds the docs-site catalog page
  * (`CATALOG_PICKER_URL`) as a one-click picker; that page renders
  * `PLUGIN_CATALOG_URL` (`/docs/api/plugins.json`, generated from the repo's
- * `plugin-catalog/` directory at site build). A `hermes://plugin/install?catalog=<name>`
+ * `plugin-catalog/` directory at site build). A `vael://plugin/install?catalog=<name>`
  * deep link resolves against the SAME document so a link and an in-app pick
  * always agree on the repo, subdir and reviewed pin for a name.
  *

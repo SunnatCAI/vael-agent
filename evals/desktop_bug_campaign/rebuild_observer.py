@@ -9,11 +9,11 @@ import os
 from pathlib import Path
 
 from tui_gateway import server
-import hermes_state_registry as registry
+import vael_state_registry as registry
 
 
 original_target = server._config_model_target
-marker = Path(os.environ["HERMES_HOME"]) / "fail-rebuild"
+marker = Path(os.environ["VAEL_HOME"]) / "fail-rebuild"
 
 
 def config_target():
@@ -40,5 +40,5 @@ def ownership(rid, params):
 server._methods["probe.ownership"] = ownership
 
 if __name__ == "__main__":
-    from hermes_cli.main import main
+    from vael_cli.main import main
     main()

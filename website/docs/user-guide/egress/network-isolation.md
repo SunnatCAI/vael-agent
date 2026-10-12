@@ -5,7 +5,7 @@ description: "Segment Docker networks so the agent sandbox can only reach allowl
 
 # Network Egress Isolation for Docker Deployments
 
-When running Hermes inside Docker, the default `network_mode: host` gives the
+When running VAEL inside Docker, the default `network_mode: host` gives the
 agent process unrestricted outbound network access. This guide shows how to
 segment traffic so the agent core can only reach the services it needs, while
 blocking arbitrary outbound connections.
@@ -16,7 +16,7 @@ commands.
 
 ## Threat Model
 
-The Hermes [SECURITY.md](https://github.com/NousResearch/hermes-agent/blob/main/SECURITY.md) §2 defines the trust model. The
+The VAEL [SECURITY.md](https://github.com/NousResearch/hermes-agent/blob/main/SECURITY.md) §2 defines the trust model. The
 terminal backend is the primary execution boundary. However, when running with
 `network_mode: host`, any command the agent executes can reach any endpoint on
 the network, including external ones.
@@ -32,12 +32,12 @@ explicitly allowlisted set.
 │  Docker Network: internal (no internet)     │
 │                                             │
 │   ┌──────────────┐   ┌──────────────────┐   │
-│   │ hermes-agent │   │ hermes-dashboard │   │
+│   │ vael-agent │   │ vael-dashboard │   │
 │   └──────┬───────┘   └────────┬─────────┘   │
 │          │                    │              │
 │          ▼                    │              │
 │   ┌──────────────┐            │              │
-│   │ hermes-gtw   │◄───────────┘              │
+│   │ vael-gtw   │◄───────────┘              │
 │   └──────┬───────┘                           │
 │          │                                   │
 └──────────┼───────────────────────────────────┘
@@ -74,7 +74,7 @@ Override the default `docker-compose.yml` with a
 # Network egress isolation for production deployments.
 #
 # Usage:
-#   HERMES_UID=$(id -u) HERMES_GID=$(id -g) docker compose up -d
+#   VAEL_UID=$(id -u) VAEL_GID=$(id -g) docker compose up -d
 #
 # This overrides network_mode: host with isolated Docker networks.
 
@@ -124,7 +124,7 @@ services:
     environment:
       - HTTP_PROXY=http://egress-proxy:3128
       - HTTPS_PROXY=http://egress-proxy:3128
-      - NO_PROXY=hermes,hermes-dashboard,localhost
+      - NO_PROXY=vael,vael-dashboard,localhost
 
   dashboard:
     network_mode: ""
@@ -195,7 +195,7 @@ docker compose exec gateway \
 
 ## Related
 
-- [SECURITY.md](https://github.com/NousResearch/hermes-agent/blob/main/SECURITY.md) — Hermes trust model and vulnerability reporting
-- [Docker](../docker.md) — running Hermes in a container
+- [SECURITY.md](https://github.com/NousResearch/hermes-agent/blob/main/SECURITY.md) — VAEL trust model and vulnerability reporting
+- [Docker](../docker.md) — running VAEL in a container
 - [Egress proxy](iron-proxy.md) — credential-injection firewall for the sandbox
 - [docker-compose.yml](https://github.com/NousResearch/hermes-agent/blob/main/docker-compose.yml) — default compose configuration

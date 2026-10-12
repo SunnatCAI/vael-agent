@@ -16,7 +16,7 @@ afterEach((): void => {
 const baseVersion: DesktopVersionInfo = {
   appVersion: '0.19.0',
   electronVersion: '37.0.0',
-  hermesRoot: '/tmp/hermes',
+  vaelRoot: '/tmp/vael',
   nodeVersion: '22.0.0',
   platform: 'linux'
 }
@@ -34,15 +34,15 @@ describe('VersionDetails', () => {
     { version: { source: 'nix', distribution: 'nix' }, visible: ['Build Origin', 'Nix', 'Distribution'] },
     { version: { source: 'ci', distribution: 'docker' }, visible: ['CI', 'Distribution', 'Docker'] },
     {
-      version: { distribution: 'desktop-app', hermesRuntime: { type: 'embedded' } },
+      version: { distribution: 'desktop-app', vaelRuntime: { type: 'embedded' } },
       visible: ['Runtime', 'Embedded runtime']
     },
     {
-      version: { hermesRuntime: { type: 'external', source: { type: 'git', root: '/home/u/.hermes/hermes-agent' } } },
-      visible: ['Runtime', 'git (/home/u/.hermes/hermes-agent)'],
+      version: { vaelRuntime: { type: 'external', source: { type: 'git', root: '/home/u/.vael/vael-agent' } } },
+      visible: ['Runtime', 'git (/home/u/.vael/vael-agent)'],
       absent: ['External (uses the machine runtime)']
     },
-    { version: { hermesRuntime: { type: 'external' } }, visible: ['Runtime', 'External (uses the machine runtime)'] },
+    { version: { vaelRuntime: { type: 'external' } }, visible: ['Runtime', 'External (uses the machine runtime)'] },
     {
       version: { distribution: 'desktop-app', updateMechanism: 'microsoft-store' },
       visible: ['Distribution', 'Microsoft Store'],
@@ -65,7 +65,7 @@ describe('VersionDetails', () => {
       visible: ['Desktop app (installer)'],
       absent: ['Desktop app (MSIX)', 'Microsoft Store']
     },
-    // `hermes desktop` packs the same bootstrap payload from a source checkout;
+    // `vael desktop` packs the same bootstrap payload from a source checkout;
     // a locally built stamp names the source install, never the installer.
     {
       version: {
@@ -75,12 +75,12 @@ describe('VersionDetails', () => {
         source: 'local',
         installedByScript: true
       },
-      visible: ['Source (install script) + hermes desktop'],
+      visible: ['Source (install script) + vael desktop'],
       absent: ['Desktop app (installer)']
     },
     {
       version: { distribution: 'desktop-app', updateMechanism: 'self', payload: 'bootstrap', source: 'local' },
-      visible: ['Source + hermes desktop'],
+      visible: ['Source + vael desktop'],
       absent: ['Desktop app (installer)']
     },
     // install.sh / install.ps1 checkout (receipt present) vs a manual git
@@ -111,11 +111,11 @@ describe('VersionDetails', () => {
   })
 
   it('opens the commit URL via the system-browser bridge without opening a preview tab', async () => {
-    const openExternal: Mock<Window['hermesDesktop']['openExternal']> = vi
-      .fn<Window['hermesDesktop']['openExternal']>()
+    const openExternal: Mock<Window['vaelDesktop']['openExternal']> = vi
+      .fn<Window['vaelDesktop']['openExternal']>()
       .mockResolvedValue(undefined)
 
-    vi.stubGlobal('hermesDesktop', { openExternal } satisfies Pick<Window['hermesDesktop'], 'openExternal'>)
+    vi.stubGlobal('vaelDesktop', { openExternal } satisfies Pick<Window['vaelDesktop'], 'openExternal'>)
 
     render(
       <I18nProvider configClient={null} initialLocale="en">

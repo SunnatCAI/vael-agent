@@ -18,20 +18,20 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
 @pytest.fixture
 def cron_env(tmp_path, monkeypatch):
-    """Isolated cron environment with temp HERMES_HOME."""
-    hermes_home = tmp_path / ".hermes"
-    hermes_home.mkdir()
-    (hermes_home / "cron").mkdir()
-    (hermes_home / "cron" / "output").mkdir()
-    monkeypatch.setenv("HERMES_HOME", str(hermes_home))
+    """Isolated cron environment with temp VAEL_HOME."""
+    vael_home = tmp_path / ".vael"
+    vael_home.mkdir()
+    (vael_home / "cron").mkdir()
+    (vael_home / "cron" / "output").mkdir()
+    monkeypatch.setenv("VAEL_HOME", str(vael_home))
 
     import cron.jobs as jobs_mod
-    monkeypatch.setattr(jobs_mod, "HERMES_DIR", hermes_home)
-    monkeypatch.setattr(jobs_mod, "CRON_DIR", hermes_home / "cron")
-    monkeypatch.setattr(jobs_mod, "JOBS_FILE", hermes_home / "cron" / "jobs.json")
-    monkeypatch.setattr(jobs_mod, "OUTPUT_DIR", hermes_home / "cron" / "output")
+    monkeypatch.setattr(jobs_mod, "VAEL_DIR", vael_home)
+    monkeypatch.setattr(jobs_mod, "CRON_DIR", vael_home / "cron")
+    monkeypatch.setattr(jobs_mod, "JOBS_FILE", vael_home / "cron" / "jobs.json")
+    monkeypatch.setattr(jobs_mod, "OUTPUT_DIR", vael_home / "cron" / "output")
 
-    return hermes_home
+    return vael_home
 
 
 def _write_archive(cron_env, job_id: str, filename: str, body: str) -> None:
@@ -52,7 +52,7 @@ def _run_stub_job(monkeypatch, job, answer):
             return {"final_response": answer, "completed": True, "failed": False}
 
     monkeypatch.setattr(run_agent, "AIAgent", Agent)
-    monkeypatch.setattr("hermes_cli.runtime_provider.resolve_runtime_provider",
+    monkeypatch.setattr("vael_cli.runtime_provider.resolve_runtime_provider",
                         lambda **kwargs: {"provider": "openai", "api_key": "fixture"})
     return cron.scheduler.run_job(job)
 

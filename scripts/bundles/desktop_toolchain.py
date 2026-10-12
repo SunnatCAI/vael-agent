@@ -1,4 +1,4 @@
-"""Child-scoped desktop build tools, independent of the invoking Hermes install.
+"""Child-scoped desktop build tools, independent of the invoking VAEL install.
 
 This module is stdlib-only until preparation runs inside the isolated child.
 """
@@ -16,10 +16,10 @@ import uuid
 
 
 _INSTALL_ENV = {
-    "HERMES_INSTALL_ROOT", "HERMES_PAYLOAD_ROOT", "HERMES_PAYLOAD_TAG", "HERMES_BUILD_COMMIT",
-    "HERMES_SITE", "HERMES_PYTHON", "HERMES_NODE", "HERMES_PROFILE", "HERMES_REAL_HOME",
-    "HERMES_DATA_DIR_SUFFIX", "HERMES_BUNDLED_SKILLS", "HERMES_OPTIONAL_SKILLS",
-    "HERMES_BUNDLED_PLUGINS", "HERMES_BUNDLED_LOCALES", "HERMES_OPTIONAL_MCPS",
+    "VAEL_INSTALL_ROOT", "VAEL_PAYLOAD_ROOT", "VAEL_PAYLOAD_TAG", "VAEL_BUILD_COMMIT",
+    "VAEL_SITE", "VAEL_PYTHON", "VAEL_NODE", "VAEL_PROFILE", "VAEL_REAL_HOME",
+    "VAEL_DATA_DIR_SUFFIX", "VAEL_BUNDLED_SKILLS", "VAEL_OPTIONAL_SKILLS",
+    "VAEL_BUNDLED_PLUGINS", "VAEL_BUNDLED_LOCALES", "VAEL_OPTIONAL_MCPS",
     "PYTHONPATH", "PYTHONHOME", "PYTHONUSERBASE", "VIRTUAL_ENV", "CONDA_PREFIX",
 }
 
@@ -28,8 +28,8 @@ def bootstrap_environment(source: Path, work: Path, cache: Path,
                           env: Mapping[str, str]) -> dict[str, str]:
     """Return launch state; never import PM, mutate the process, or write files."""
     source, work, cache = source.resolve(), work.resolve(), cache.resolve()
-    owned = {"HOME", "USERPROFILE", "LOCALAPPDATA", "APPDATA", "HERMES_HOME", "HERMES_RUNTIME_DIR",
-             "HERMES_PYTHON_SRC_ROOT", "XDG_CONFIG_HOME", "XDG_CACHE_HOME", "XDG_DATA_HOME", "XDG_STATE_HOME",
+    owned = {"HOME", "USERPROFILE", "LOCALAPPDATA", "APPDATA", "VAEL_HOME", "VAEL_RUNTIME_DIR",
+             "VAEL_PYTHON_SRC_ROOT", "XDG_CONFIG_HOME", "XDG_CACHE_HOME", "XDG_DATA_HOME", "XDG_STATE_HOME",
              "UV_CACHE_DIR", "NPM_CONFIG_CACHE", "NPM_EXECPATH", "NPM_NODE_EXECPATH",
              "NPM_CONFIG_USERCONFIG", "NPM_CONFIG_GLOBALCONFIG", "NPM_CONFIG_PREFIX",
              "PYTHONUTF8", "PYTHONDONTWRITEBYTECODE", "CARGO_HOME", "RUSTUP_HOME"}
@@ -37,7 +37,7 @@ def bootstrap_environment(source: Path, work: Path, cache: Path,
     canonical = {key.upper(): value for key, value in env.items()}
     # Rustup must still find the runner's installed toolchain after HOME moves.
     home_key = "USERPROFILE" if os.name == "nt" else "HOME"
-    original_home = Path(canonical.get("HERMES_REAL_HOME") or canonical.get(home_key) or Path.home())
+    original_home = Path(canonical.get("VAEL_REAL_HOME") or canonical.get(home_key) or Path.home())
     for key, directory in (("CARGO_HOME", ".cargo"), ("RUSTUP_HOME", ".rustup")):
         result[key] = canonical.get(key) or str(original_home / directory)
     home = work / "home"
@@ -45,9 +45,9 @@ def bootstrap_environment(source: Path, work: Path, cache: Path,
         "HOME": str(home), "USERPROFILE": str(home),
         "LOCALAPPDATA": str(home / "AppData/Local"),
         "APPDATA": str(home / "AppData/Roaming"),
-        "HERMES_HOME": str(work / "hermes-home"),
-        "HERMES_RUNTIME_DIR": str(cache / "tools"),
-        "HERMES_PYTHON_SRC_ROOT": str(source),
+        "VAEL_HOME": str(work / "vael-home"),
+        "VAEL_RUNTIME_DIR": str(cache / "tools"),
+        "VAEL_PYTHON_SRC_ROOT": str(source),
         "XDG_CONFIG_HOME": str(home / "config"), "XDG_CACHE_HOME": str(home / "cache"),
         "XDG_DATA_HOME": str(home / "data"), "XDG_STATE_HOME": str(home / "state"),
         "UV_CACHE_DIR": str(cache / "python/runtime"),
@@ -116,7 +116,7 @@ def prepare_tools(source: Path, work: Path, cache: Path,
             raise FileNotFoundError(f"PM did not prepare a native {name} executable")
         binaries[name] = installed.binary
     prepared = pm.env_for("python", "npm", base_env=prepared)
-    prepared.update({"HERMES_PYTHON": str(binaries["python"]), "HERMES_NODE": str(binaries["node"]),
+    prepared.update({"VAEL_PYTHON": str(binaries["python"]), "VAEL_NODE": str(binaries["node"]),
                      "UV_CACHE_DIR": str(native_cache_path(cache, prepared))})
     return binaries["python"], binaries["node"], prepared
 

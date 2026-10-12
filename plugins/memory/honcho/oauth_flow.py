@@ -1,7 +1,7 @@
 """Browser sign-in flow for the Honcho memory provider — no CLI step.
 
 ``begin_authorization`` / ``complete_authorization`` are the transport-agnostic
-core (the code can arrive via the loopback listener here or a ``hermes://``
+core (the code can arrive via the loopback listener here or a ``vael://``
 handler). Endpoints are env-overridable because ``/authorize`` (dashboard) and
 ``/oauth/token`` (API) live on different origins.
 """
@@ -27,7 +27,7 @@ from plugins.memory.honcho.client import HonchoClientConfig, resolve_active_host
 
 logger = logging.getLogger(__name__)
 
-# Loopback redirect registered for the Hermes OAuth client. IP-literal so the browser can't resolve the
+# Loopback redirect registered for the VAEL OAuth client. IP-literal so the browser can't resolve the
 # advertised host to ::1 and miss the IPv4 bind.
 LOOPBACK_HOST = "127.0.0.1"
 LOOPBACK_PORT = 8765
@@ -151,7 +151,7 @@ _CALLBACK_PAGE = (
     "display:flex;align-items:center;justify-content:center;height:100vh;margin:0'><div>{body}</div>"
 )
 _CALLBACK_HTML = _CALLBACK_PAGE.format(
-    title="Honcho connected", body="Connected to Honcho. You can close this tab and return to Hermes."
+    title="Honcho connected", body="Connected to Honcho. You can close this tab and return to VAEL."
 ).encode()
 _CALLBACK_ERROR_HTML = _CALLBACK_PAGE.format(  # ``{error}`` is filled per request
     title="Honcho sign-in failed", body="Sign-in was not completed ({error}). You can close this tab and re-run setup."
@@ -372,9 +372,9 @@ _flows_by_target: dict[tuple[str, str], tuple[FlowStatus, threading.Thread | Non
 
 def _flow_target() -> tuple[str, str] | None:
     """(config_path, host) of the active profile override, or None when unscoped."""
-    from hermes_constants import get_hermes_home_override
+    from vael_constants import get_vael_home_override
 
-    if get_hermes_home_override() is None:
+    if get_vael_home_override() is None:
         return None
     return str(resolve_config_path()), resolve_active_host()
 
@@ -406,13 +406,13 @@ def _set_status(status: FlowStatus, state: str, detail: str = "") -> None:
         status.state, status.detail = state, detail
 
 def start_loopback_flow_background(
-    *, config_path: Path | None = None, host: str | None = None, source: str = "hermes-desktop",
+    *, config_path: Path | None = None, host: str | None = None, source: str = "vael-desktop",
     timeout: float = 300.0,
 ) -> dict[str, str]:
     """Launch the loopback flow in a daemon thread; returns the initial status.
     Idempotent while pending, so a double-click can't open two tabs / bind :8765 twice."""
     global _flow_thread
-    # Resolve under the caller's profile scope NOW — a context-local HERMES_HOME override can't reach the worker.
+    # Resolve under the caller's profile scope NOW — a context-local VAEL_HOME override can't reach the worker.
     target = _flow_target()
     config_path = config_path or (Path(target[0]) if target else resolve_config_path())
     host = host or (target[1] if target else resolve_active_host())

@@ -14,7 +14,7 @@ vLLM: high-throughput LLM serving, OpenAI API, quantization.
 
 | | |
 |---|---|
-| Source | Optional — install with `hermes skills install official/mlops/serving-llms-vllm` |
+| Source | Optional — install with `vael skills install official/mlops/serving-llms-vllm` |
 | Path | `optional-skills/mlops/inference/serving-llms-vllm` |
 | Version | `1.0.1` |
 | Author | Orchestra Research |
@@ -26,7 +26,7 @@ vLLM: high-throughput LLM serving, OpenAI API, quantization.
 ## Reference: full SKILL.md
 
 :::info
-The following is the complete skill definition that Hermes loads when this skill is triggered. This is what the agent sees as instructions when the skill is active.
+The following is the complete skill definition that VAEL loads when this skill is triggered. This is what the agent sees as instructions when the skill is active.
 :::
 
 # vLLM - High-Performance LLM Serving

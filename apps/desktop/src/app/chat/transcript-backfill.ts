@@ -15,7 +15,7 @@
  * drift on the next page.
  */
 
-import { getOlderSessionMessages, getSessionMessages, type ProfileScope } from '@/hermes'
+import { getOlderSessionMessages, getSessionMessages, type ProfileScope } from '@/vael'
 import { type ChatMessage, chatMessageText, toChatMessages } from '@/lib/chat-messages'
 import {
   recordTranscriptBackfillPage,
@@ -23,7 +23,7 @@ import {
   type TranscriptProfileScope,
   transcriptTailState
 } from '@/store/transcript-tail'
-import type { SessionMessage, SessionMessagesResponse } from '@/types/hermes'
+import type { SessionMessage, SessionMessagesResponse } from '@/types/vael'
 
 /**
  * Compaction projection can stamp the session's opening USER row

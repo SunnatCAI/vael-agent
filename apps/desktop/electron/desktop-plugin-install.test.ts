@@ -58,7 +58,7 @@ describe('desktopPluginFolderName', () => {
 
 describe('resolveSubdirWithin', () => {
   it('rejects path traversal', () => {
-    const root = mkdtemp('hermes-plugin-root-')
+    const root = mkdtemp('vael-plugin-root-')
 
     expect(() => resolveSubdirWithin(root, '../escape')).toThrow(/escapes/)
   })
@@ -66,7 +66,7 @@ describe('resolveSubdirWithin', () => {
 
 describe('findDesktopEntry', () => {
   it('finds root plugin.js', () => {
-    const root = mkdtemp('hermes-plugin-detect-')
+    const root = mkdtemp('vael-plugin-detect-')
     fs.mkdirSync(path.join(root, 'desktop'), { recursive: true })
     fs.writeFileSync(path.join(root, 'plugin.js'), 'export default {}')
 
@@ -74,7 +74,7 @@ describe('findDesktopEntry', () => {
   })
 
   it('finds desktop/plugin.js', () => {
-    const root = mkdtemp('hermes-plugin-detect-')
+    const root = mkdtemp('vael-plugin-detect-')
     fs.mkdirSync(path.join(root, 'desktop'), { recursive: true })
     fs.writeFileSync(path.join(root, 'desktop', 'plugin.js'), 'export default {}')
 
@@ -95,7 +95,7 @@ describe('detectPluginComponents', () => {
   })
 
   it('detects agent-only layout', async () => {
-    const root = mkdtemp('hermes-plugin-agent-')
+    const root = mkdtemp('vael-plugin-agent-')
     roots.push(root)
     fs.writeFileSync(path.join(root, 'plugin.yaml'), 'name: hello-agent\n')
     fs.writeFileSync(path.join(root, '__init__.py'), 'def register(ctx): pass\n')
@@ -108,7 +108,7 @@ describe('detectPluginComponents', () => {
   })
 
   it('detects dual layout', async () => {
-    const root = mkdtemp('hermes-plugin-dual-')
+    const root = mkdtemp('vael-plugin-dual-')
     roots.push(root)
     fs.mkdirSync(path.join(root, 'desktop'), { recursive: true })
     fs.writeFileSync(path.join(root, 'plugin.yaml'), 'name: dual\n')
@@ -134,10 +134,10 @@ describe('probePluginRepo', () => {
   })
 
   it('probes a monorepo subdirectory through the sparse partial clone', async () => {
-    const repo = mkdtemp('hermes-plugin-monorepo-')
+    const repo = mkdtemp('vael-plugin-monorepo-')
     roots.push(repo)
     const git = (...args: string[]) => execFileSync('git', args, { cwd: repo, stdio: 'pipe' })
-    const plugin = path.join(repo, 'integrations', 'hermes')
+    const plugin = path.join(repo, 'integrations', 'vael')
     fs.mkdirSync(plugin, { recursive: true })
     fs.writeFileSync(path.join(plugin, 'plugin.yaml'), 'name: nested-agent\n')
     fs.writeFileSync(path.join(plugin, '__init__.py'), 'def register(ctx): pass\n')
@@ -147,7 +147,7 @@ describe('probePluginRepo', () => {
     git('add', '.')
     git('-c', 'user.email=fixture@example.com', '-c', 'user.name=Fixture', 'commit', '-qm', 'init')
 
-    const result = await probePluginRepo('git', `${pathToFileURL(repo).href}#integrations/hermes`)
+    const result = await probePluginRepo('git', `${pathToFileURL(repo).href}#integrations/vael`)
 
     expect(result).toMatchObject({ ok: true, agent: true, agentName: 'nested-agent' })
   })
@@ -165,7 +165,7 @@ describe('installDesktopPluginFromGit', () => {
   /** A git repo whose root is one plugin: `desktop/plugin.js` plus, when
    *  `agentName` is given, the agent half that makes it a unified package. */
   function pluginRepo(agentName: null | string): string {
-    const repo = mkdtemp('hermes-plugin-install-')
+    const repo = mkdtemp('vael-plugin-install-')
     roots.push(repo)
     const git = (...args: string[]) => execFileSync('git', args, { cwd: repo, stdio: 'pipe' })
 
@@ -190,7 +190,7 @@ describe('installDesktopPluginFromGit', () => {
     // up as a second, default-enabled standalone row, and reconcile refuses to
     // re-copy the folder ever again.
     const repo = pluginRepo('hermes-talk')
-    const appRoot = mkdtemp('hermes-plugin-root-')
+    const appRoot = mkdtemp('vael-plugin-root-')
     roots.push(appRoot)
 
     const result = await installDesktopPluginFromGit('git', pathToFileURL(repo).href, appRoot)
@@ -206,7 +206,7 @@ describe('installDesktopPluginFromGit', () => {
     // plugins/<name>/desktop locally. The marker used to name the temp clone,
     // which this function deletes, so the next reconcile ghost-pruned the half.
     const repo = pluginRepo('hermes-talk')
-    const home = mkdtemp('hermes-plugin-home-')
+    const home = mkdtemp('vael-plugin-home-')
     roots.push(home)
     const appRoot = path.join(home, 'desktop-plugins')
 
@@ -226,7 +226,7 @@ describe('installDesktopPluginFromGit', () => {
 
   it('lets a local agent package replace the git-installed half on reconcile', async () => {
     const repo = pluginRepo('hermes-talk')
-    const home = mkdtemp('hermes-plugin-home-')
+    const home = mkdtemp('vael-plugin-home-')
     roots.push(home)
     const appRoot = path.join(home, 'desktop-plugins')
 
@@ -245,7 +245,7 @@ describe('installDesktopPluginFromGit', () => {
 
   it('leaves a desktop-only repo unmarked so it stays a standalone plugin', async () => {
     const repo = pluginRepo(null)
-    const appRoot = mkdtemp('hermes-plugin-root-')
+    const appRoot = mkdtemp('vael-plugin-root-')
     roots.push(appRoot)
 
     const result = await installDesktopPluginFromGit('git', pathToFileURL(repo).href, appRoot)

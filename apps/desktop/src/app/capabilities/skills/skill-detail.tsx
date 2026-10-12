@@ -3,9 +3,9 @@ import { useMemo } from 'react'
 
 import { PageLoader } from '@/components/page-loader'
 import { Button } from '@/components/ui/button'
-import { getSkillContent, type ProfileScope, profileScopeKey } from '@/hermes'
+import { getSkillContent, type ProfileScope, profileScopeKey } from '@/vael'
 import { useI18n } from '@/i18n'
-import type { SkillInfo } from '@/types/hermes'
+import type { SkillInfo } from '@/types/vael'
 
 import { parseFrontmatter } from './frontmatter'
 import { isEditableProvenance } from './skill-provenance'

@@ -4,19 +4,19 @@ import { storedBoolean } from '@/lib/storage'
 
 import { $keepAwake, setKeepAwake } from './keep-awake'
 
-const KEY = 'hermes.desktop.keepAwake.v1'
-const desktopWindow = window as unknown as { hermesDesktop?: Window['hermesDesktop'] }
-const initialHermesDesktop = desktopWindow.hermesDesktop
+const KEY = 'vael.desktop.keepAwake.v1'
+const desktopWindow = window as unknown as { vaelDesktop?: Window['vaelDesktop'] }
+const initialVaelDesktop = desktopWindow.vaelDesktop
 const setKeepAwakeBridge = vi.fn()
 
 beforeEach(() => {
-  desktopWindow.hermesDesktop = { setKeepAwake: setKeepAwakeBridge } as unknown as Window['hermesDesktop']
+  desktopWindow.vaelDesktop = { setKeepAwake: setKeepAwakeBridge } as unknown as Window['vaelDesktop']
   setKeepAwake(false)
   setKeepAwakeBridge.mockClear()
 })
 
 afterEach(() => {
-  desktopWindow.hermesDesktop = initialHermesDesktop
+  desktopWindow.vaelDesktop = initialVaelDesktop
 })
 
 describe('keep-awake store', () => {

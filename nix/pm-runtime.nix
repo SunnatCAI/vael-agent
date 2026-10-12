@@ -15,7 +15,7 @@ let
       (workspace.mkPyprojectOverlay { sourcePreference = "wheel"; })
     ]
   );
-  environment = pythonSet.mkVirtualEnv "hermes-pm-runtime" workspace.deps.default;
+  environment = pythonSet.mkVirtualEnv "vael-pm-runtime" workspace.deps.default;
 in
 # Nix owns this environment; no runtime download or uv resolution is needed.
 environment.overrideAttrs (old: {

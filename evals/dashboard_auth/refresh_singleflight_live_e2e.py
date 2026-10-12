@@ -16,16 +16,16 @@ from concurrent.futures import ThreadPoolExecutor
 
 ROOT = sys.argv[1]
 sys.path.insert(0, ROOT)
-os.environ["HERMES_HOME"] = tempfile.mkdtemp(prefix="hermes-e2e-55712-")
-for m in [k for k in sys.modules if k.startswith(("hermes", "tools", "plugins"))]:
+os.environ["VAEL_HOME"] = tempfile.mkdtemp(prefix="vael-e2e-55712-")
+for m in [k for k in sys.modules if k.startswith(("vael", "tools", "plugins"))]:
     del sys.modules[m]
 
 import uvicorn  # noqa: E402
 
-from hermes_cli import web_server  # noqa: E402
-from hermes_cli.dashboard_auth import register_provider  # noqa: E402
-from hermes_cli.dashboard_auth.base import RefreshExpiredError, Session  # noqa: E402
-from tests.hermes_cli.conftest_dashboard_auth import StubAuthProvider  # noqa: E402
+from vael_cli import web_server  # noqa: E402
+from vael_cli.dashboard_auth import register_provider  # noqa: E402
+from vael_cli.dashboard_auth.base import RefreshExpiredError, Session  # noqa: E402
+from tests.vael_cli.conftest_dashboard_auth import StubAuthProvider  # noqa: E402
 
 
 class SlowRotatingIdP(StubAuthProvider):
@@ -93,7 +93,7 @@ results["native_burst"] = {"codes": codes, "provider_calls": idp.calls}
 
 # (2) cookie gate path: 4 concurrent gated requests with an expired AT + one stale RT
 idp.calls = 0
-ck = "hermes_session_at=expired-at; hermes_session_rt=cookie-stale; hermes_session_provider=stub"
+ck = "vael_session_at=expired-at; vael_session_rt=cookie-stale; vael_session_provider=stub"
 with ThreadPoolExecutor(4) as pool:
     codes = sorted(pool.map(lambda _: http("/api/auth/me", headers={"cookie": ck}), range(4)))
 results["cookie_burst"] = {"codes": codes, "provider_calls": idp.calls}

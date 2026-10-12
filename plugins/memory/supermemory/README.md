@@ -4,21 +4,21 @@ Semantic long-term memory with profile recall, semantic search, explicit memory 
 
 ## Requirements
 
-- The `supermemory` SDK, prepared through PM by `hermes memory setup` when you select Supermemory. Restart Hermes after preparation; do not install into its selected environment with pip.
+- The `supermemory` SDK, prepared through PM by `vael memory setup` when you select Supermemory. Restart VAEL after preparation; do not install into its selected environment with pip.
 - Hosted: API key from [app.supermemory.ai/integrations?connect=hermes](http://app.supermemory.ai/integrations?connect=hermes)
 - Self-hosted: a running [Supermemory local](https://supermemory.ai/docs/self-hosting/overview) server and the API key it prints on first boot
 
 ## Setup
 
 ```bash
-hermes memory setup    # select "supermemory"
+vael memory setup    # select "supermemory"
 ```
 
 Or manually:
 
 ```bash
-hermes config set memory.provider supermemory
-echo 'SUPERMEMORY_API_KEY=***' >> ~/.hermes/.env
+vael config set memory.provider supermemory
+echo 'SUPERMEMORY_API_KEY=***' >> ~/.vael/.env
 ```
 
 For a fully self-hosted setup, start Supermemory local and note the API key it
@@ -28,8 +28,8 @@ prints on first boot:
 npx supermemory local
 ```
 
-Before running `hermes memory setup`, add the local endpoint to
-`$HERMES_HOME/supermemory.json`:
+Before running `vael memory setup`, add the local endpoint to
+`$VAEL_HOME/supermemory.json`:
 
 ```json
 {
@@ -37,17 +37,17 @@ Before running `hermes memory setup`, add the local endpoint to
 }
 ```
 
-Then run `hermes memory setup` and enter the local server's API key. Configuring
+Then run `vael memory setup` and enter the local server's API key. Configuring
 the endpoint first ensures the setup connection probe also stays local.
 
 ## Config
 
-Config file: `$HERMES_HOME/supermemory.json`
+Config file: `$VAEL_HOME/supermemory.json`
 
 | Key | Default | Description |
 |-----|---------|-------------|
 | `base_url` | `https://api.supermemory.ai` | API endpoint for hosted or self-hosted Supermemory. Takes priority over `SUPERMEMORY_BASE_URL`. |
-| `container_tag` | `hermes` | Container tag used for search and writes. Supports `{identity}` template for profile-scoped tags (e.g. `hermes-{identity}` → `hermes-coder`). |
+| `container_tag` | `vael` | Container tag used for search and writes. Supports `{identity}` template for profile-scoped tags (e.g. `vael-{identity}` → `vael-coder`). |
 | `auto_recall` | `true` | Inject relevant memory context before turns |
 | `auto_capture` | `true` | Store cleaned user-assistant turns after each response |
 | `max_recall_results` | `10` | Max recalled items to format into context |
@@ -66,7 +66,7 @@ Config file: `$HERMES_HOME/supermemory.json`
 | `SUPERMEMORY_CONTAINER_TAG` | Override container tag (takes priority over config file) |
 
 Base URL precedence is `supermemory.json` → `SUPERMEMORY_BASE_URL` →
-`https://api.supermemory.ai`. Hermes resolves it once and uses the same endpoint
+`https://api.supermemory.ai`. VAEL resolves it once and uses the same endpoint
 for SDK operations and setup/status probes.
 
 ## Tools
@@ -82,15 +82,15 @@ Kebab-case names are registered for the agent; snake_case aliases remain support
 
 ## Source attribution
 
-All Supermemory API calls send `x-sm-source: hermes`, and document writes stamp
-`metadata.sm_source: hermes`. This is a **functional routing key, not telemetry**:
-it groups Hermes-written memories into a dedicated "Hermes" Space in the
+All Supermemory API calls send `x-sm-source: vael`, and document writes stamp
+`metadata.sm_source: vael`. This is a **functional routing key, not telemetry**:
+it groups VAEL-written memories into a dedicated "VAEL" Space in the
 Supermemory app, so you can filter, browse, and bulk-manage them per source agent
 (alongside Codex, Claude Code, etc.) from the Supermemory UI.
 
 ## Behavior
 
-When enabled, Hermes can:
+When enabled, VAEL can:
 
 - prefetch relevant memory context before each turn
 - write each completed user/assistant turn to **one document per session per 4-hour window** (`customId` = `<session>_<date>_b<0-5>`, so the API appends deltas), matching the capture shape of the other Supermemory agent integrations
@@ -101,15 +101,15 @@ When enabled, Hermes can:
 
 ## Profile-Scoped Containers
 
-Use `{identity}` in the `container_tag` to scope memories per Hermes profile:
+Use `{identity}` in the `container_tag` to scope memories per VAEL profile:
 
 ```json
 {
-  "container_tag": "hermes-{identity}"
+  "container_tag": "vael-{identity}"
 }
 ```
 
-For a profile named `coder`, this resolves to `hermes-coder`. The default profile resolves to `hermes-default`. Without `{identity}`, all profiles share the same container.
+For a profile named `coder`, this resolves to `vael-coder`. The default profile resolves to `vael-default`. Without `{identity}`, all profiles share the same container.
 
 ## Multi-Container Mode
 
@@ -117,7 +117,7 @@ For advanced setups (e.g. OpenClaw-style multi-workspace), you can enable custom
 
 ```json
 {
-  "container_tag": "hermes",
+  "container_tag": "vael",
   "enable_custom_container_tags": true,
   "custom_containers": ["project-alpha", "project-beta", "shared-knowledge"],
   "custom_container_instructions": "Use project-alpha for coding tasks, project-beta for research, and shared-knowledge for team-wide facts."

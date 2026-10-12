@@ -1,12 +1,12 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import {
-  getHermesConfigRecord,
+  getVaelConfigRecord,
   peekConfigReadOrigin,
-  saveHermesConfig,
+  saveVaelConfig,
   setApiRequestConnection,
   setApiRequestProfile
-} from '@/hermes'
+} from '@/vael'
 
 describe('config read/write route binding', () => {
   let api: ReturnType<typeof vi.fn>
@@ -15,7 +15,7 @@ describe('config read/write route binding', () => {
     api = vi.fn(async (request: { method?: string }) =>
       request.method === 'PUT' ? { ok: true } : { model: 'from-read' }
     )
-    Object.defineProperty(window, 'hermesDesktop', {
+    Object.defineProperty(window, 'vaelDesktop', {
       configurable: true,
       value: { api }
     })
@@ -27,14 +27,14 @@ describe('config read/write route binding', () => {
     setApiRequestConnection(null)
     setApiRequestProfile(null)
     vi.restoreAllMocks()
-    Reflect.deleteProperty(window, 'hermesDesktop')
+    Reflect.deleteProperty(window, 'vaelDesktop')
   })
 
   it('config record read from A cannot be written to B after primary changes', async () => {
     setApiRequestConnection('connection-a')
     setApiRequestProfile('default')
 
-    const record = await getHermesConfigRecord()
+    const record = await getVaelConfigRecord()
 
     expect(peekConfigReadOrigin(record)).toEqual({ connectionId: 'connection-a', profile: 'default' })
     expect(api).toHaveBeenCalledWith(
@@ -42,7 +42,7 @@ describe('config read/write route binding', () => {
     )
 
     setApiRequestConnection('connection-b')
-    await saveHermesConfig(record)
+    await saveVaelConfig(record)
 
     const puts = api.mock.calls.filter(call => call[0].method === 'PUT')
 

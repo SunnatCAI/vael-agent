@@ -1,12 +1,12 @@
 ---
 sidebar_position: 2
 title: "Installation"
-description: "Install Hermes Agent with desktop bundles, source installers, Docker, Nix, or the Termux APT package"
+description: "Install VAEL Agent with desktop bundles, source installers, Docker, Nix, or the Termux APT package"
 ---
 
 # Installation
 
-Get Hermes Agent up and running in under two minutes!
+Get VAEL Agent up and running in under two minutes!
 
 :::tip Platform Support
 For the full platform support matrix (which OSes, distribution methods, and
@@ -17,28 +17,28 @@ platform-gated features are supported), see **[Platform Support](./platform-supp
 ### Desktop packages on macOS or Windows
 
 Download the package for your platform from the
-[Hermes website](https://hermes-agent.nousresearch.com/).
+[VAEL website](https://hermes-agent.nousresearch.com/).
 
 - **Windows:** open the `.appinstaller` download with Windows App Installer.
   It installs the signed MSIX bundle and records its update source.
   Microsoft Store packages have separate Store ownership.
-- **macOS:** open the DMG, then copy `Hermes.app` to Applications. The ZIP
+- **macOS:** open the DMG, then copy `VAEL.app` to Applications. The ZIP
   artifact carries the signed app used by the automatic updater.
 
 Bundled packages contain the agent, Python, supported dependencies, and prebuilt
 interfaces. First launch does not build that base runtime. Provider access and
 optional integrations can still require network access.
 
-A `Hermes-Setup` bootstrap installer is different: it downloads a source
+A `VAEL-Setup` bootstrap installer is different: it downloads a source
 installation and builds the desktop app. Light is a remote-only build variant,
-not a bundled local runtime. See [Hermes Desktop](../user-guide/desktop.md).
+not a bundled local runtime. See [VAEL Desktop](../user-guide/desktop.md).
 
 :::note
 The macOS installer is **Apple Silicon only**. macOS on x86 (Intel) processors is [not a supported platform](./platform-support.md#unsupported).
 :::
 
-### Without Hermes Desktop:
-For a command-line only install without Hermes Desktop, run:
+### Without VAEL Desktop:
+For a command-line only install without VAEL Desktop, run:
 
 #### Linux / macOS / WSL2
 ```bash
@@ -52,15 +52,15 @@ Run in powershell:
 iex (irm https://hermes-agent.nousresearch.com/install.ps1) 
 ```
 
-If you want to install & run Hermes Desktop after a command-line only install, simply run
+If you want to install & run VAEL Desktop after a command-line only install, simply run
 ```bash
-hermes desktop
+vael desktop
 ```
 
 ### Android / Termux
 
 Use the [Termux APT package](./termux.md) on aarch64 Android devices.
-Configure its signed repository before running `pkg install hermes-agent`.
+Configure its signed repository before running `pkg install vael-agent`.
 The desktop/server scripts are not the Termux installation path.
 
 ### What the source installer does
@@ -78,9 +78,9 @@ Other optional tools use their feature-specific installation paths.
 
 To leave the browser tools out, pass `--skip-browser` on POSIX or `-SkipBrowser`
 on Windows; for the computer-use driver, `--skip-computer-use` /
-`-SkipComputerUse`. Hermes remembers these choices: later installs and
-`hermes update` do not add them back. Run `hermes pm install agent-browser` or
-`hermes pm install cua-driver` to install them and undo the choice.
+`-SkipComputerUse`. VAEL remembers these choices: later installs and
+`vael update` do not add them back. Run `vael pm install agent-browser` or
+`vael pm install cua-driver` to install them and undo the choice.
 
 The scripts create a launcher and prepare the data directory. Interactive runs
 also invoke setup and gateway configuration. `--non-interactive` on POSIX, or
@@ -88,23 +88,23 @@ also invoke setup and gateway configuration. `--non-interactive` on POSIX, or
 `--include-desktop` / `-IncludeDesktop` stage builds the desktop from source.
 
 On a terminal the scripts show one status line per step and write the output
-of git, uv and the builds to `logs/install.log` under the Hermes data
+of git, uv and the builds to `logs/install.log` under the VAEL data
 directory; a failed step prints its last lines and the log path. CI (`CI` or
 `GITHUB_ACTIONS` set), redirected output, `--verbose` / `-Verbose` or
-`HERMES_INSTALL_VERBOSE=1` stream everything instead.
+`VAEL_INSTALL_VERBOSE=1` stream everything instead.
 
 #### Install layout
 
 | Method | Code | CLI entry point | Default user data |
 |---|---|---|---|
-| POSIX source script | `~/.hermes/hermes-agent/` | `~/.local/bin/hermes` wrapper | `~/.hermes/` |
-| Windows source script | `%LOCALAPPDATA%\hermes\hermes-agent\` | `%LOCALAPPDATA%\hermes\bin\` | `%LOCALAPPDATA%\hermes\` |
-| Desktop bundle | Inside the installed app package | Packaged launchers; Windows execution aliases | Platform default Hermes data directory |
-| Docker | `/opt/hermes/` | Image entrypoint and `hermes` shim | Mounted `/opt/data/` |
-| Termux APT | `$PREFIX/lib/hermes-agent/` | Symlinks in `$PREFIX/bin/` | `~/.hermes/` |
+| POSIX source script | `~/.vael/vael-agent/` | `~/.local/bin/vael` wrapper | `~/.vael/` |
+| Windows source script | `%LOCALAPPDATA%\vael\vael-agent\` | `%LOCALAPPDATA%\vael\bin\` | `%LOCALAPPDATA%\vael\` |
+| Desktop bundle | Inside the installed app package | Packaged launchers; Windows execution aliases | Platform default VAEL data directory |
+| Docker | `/opt/vael/` | Image entrypoint and `vael` shim | Mounted `/opt/data/` |
+| Termux APT | `$PREFIX/lib/vael-agent/` | Symlinks in `$PREFIX/bin/` | `~/.vael/` |
 
-`HERMES_HOME` selects user data. The POSIX script's `--dir` selects its source
-checkout independently. Windows provides `-HermesHome` and `-InstallDir`.
+`VAEL_HOME` selects user data. The POSIX script's `--dir` selects its source
+checkout independently. Windows provides `-VaelHome` and `-InstallDir`.
 Running the POSIX script as root does not select an automatic FHS layout:
 it uses root's home unless you provide an explicit source path.
 
@@ -118,32 +118,32 @@ Reload your shell and start chatting:
 
 ```bash
 source ~/.bashrc   # or: source ~/.zshrc
-hermes             # Start chatting!
+vael             # Start chatting!
 ```
 
 To reconfigure individual settings later, use the dedicated commands:
 
 ```bash
-hermes model          # Choose your LLM provider and model
-hermes tools          # Configure which tools are enabled
-hermes gateway setup  # Set up messaging platforms
-hermes config set     # Set individual config values
-hermes config get     # Inspect individual config values
-hermes setup          # Or run the full setup wizard to configure everything at once
+vael model          # Choose your LLM provider and model
+vael tools          # Configure which tools are enabled
+vael gateway setup  # Set up messaging platforms
+vael config set     # Set individual config values
+vael config get     # Inspect individual config values
+vael setup          # Or run the full setup wizard to configure everything at once
 ```
 
 :::tip Fastest path: Nous Portal
 One subscription covers 300+ models plus the [Tool Gateway](../user-guide/features/tool-gateway.md) (web search, image generation, TTS, cloud browser). Skip the per-tool key juggling:
 
 ```bash
-hermes setup --portal
+vael setup --portal
 ```
 
 That logs you in, sets Nous as your provider, and turns on the Tool Gateway in one command.
 :::
 
-:::tip Already running Hermes on another machine?
-You don't need to rebuild your setup from scratch. Restore a full backup with `hermes import` (see [Exporting Hermes to another machine](../reference/faq.md#exporting-hermes-to-another-machine)), or bring over a single agent with `hermes profile import` (see [Moving a single profile to another machine](../reference/faq.md#moving-a-single-profile-to-another-machine)). Note that a profile export excludes credentials by design, so an export alone is not a full backup — [`hermes backup` vs `hermes profile export`](../reference/faq.md#hermes-backup-vs-hermes-profile-export) explains which to use.
+:::tip Already running VAEL on another machine?
+You don't need to rebuild your setup from scratch. Restore a full backup with `vael import` (see [Exporting VAEL to another machine](../reference/faq.md#exporting-vael-to-another-machine)), or bring over a single agent with `vael profile import` (see [Moving a single profile to another machine](../reference/faq.md#moving-a-single-profile-to-another-machine)). Note that a profile export excludes credentials by design, so an export alone is not a full backup — [`vael backup` vs `vael profile export`](../reference/faq.md#vael-backup-vs-vael-profile-export) explains which to use.
 :::
 
 ---
@@ -200,8 +200,8 @@ configuration, and launcher must belong to that user.
    export PATH="$HOME/.local/bin:$PATH"
    ```
 
-4. Run `hermes doctor` from that account. Use the installed wrapper, not a
-   hardcoded `venv/bin/hermes` path.
+4. Run `vael doctor` from that account. Use the installed wrapper, not a
+   hardcoded `venv/bin/vael` path.
 5. For a Linux user service that must survive logout, enable lingering as an administrator:
 
    ```bash
@@ -220,29 +220,29 @@ the administrator supplies system libraries. See
 
 | Problem | Solution |
 |---------|----------|
-| `hermes: command not found` | Reload your shell (`source ~/.bashrc`) or check PATH |
-| `API key not set` | Run `hermes model` to configure your provider, or `hermes config set OPENROUTER_API_KEY your_key` |
-| Missing config after update | Run `hermes config check` then `hermes config migrate` |
+| `vael: command not found` | Reload your shell (`source ~/.bashrc`) or check PATH |
+| `API key not set` | Run `vael model` to configure your provider, or `vael config set OPENROUTER_API_KEY your_key` |
+| Missing config after update | Run `vael config check` then `vael config migrate` |
 
-For more diagnostics, run `hermes doctor` — it will tell you exactly what's missing and how to fix it.
+For more diagnostics, run `vael doctor` — it will tell you exactly what's missing and how to fix it.
 
 ### Symlinked home directories and external storage
 
-Hermes supports a symlinked `HERMES_HOME` and symlinked home subdirectories,
+VAEL supports a symlinked `VAEL_HOME` and symlinked home subdirectories,
 including `hooks`, `skills`, `sessions`, and `logs`. During home initialization,
 existing directory links are preserved, and permissions on linked directories
 (and descendants such as `logs/curator`) are left to their owner.
 
 If a link target is missing, inaccessible, or not a directory, initialization
-stops with a storage error naming the path and link target. Hermes does **not**
+stops with a storage error naming the path and link target. VAEL does **not**
 replace the link or create its missing target: doing so could write data onto
 the local disk while an external or NAS volume is unmounted. Check the reported
 link, restore the mount or correct its target, and verify access permissions
 before retrying. For a deliberately new dotfiles target, create it yourself only
 after confirming the intended storage is available.
 
-`hermes doctor` reports these failures as storage problems, not invalid YAML.
-Keep your existing `config.yaml`; running `hermes setup` is not the repair for an
+`vael doctor` reports these failures as storage problems, not invalid YAML.
+Keep your existing `config.yaml`; running `vael setup` is not the repair for an
 unavailable directory. This is a directory-availability check, not a mount monitor:
 an existing directory cannot establish that the intended volume is mounted.
 
@@ -251,5 +251,5 @@ an existing directory cannot establish that the intended volume is mounted.
 The update owner depends on the running installation, not only its data home.
 Source checkouts use the managed Git update path. Desktop bundles, Docker,
 Nix, and Termux packages retain their package owner's update mechanism.
-`hermes doctor` reports installation provenance. See
+`vael doctor` reports installation provenance. See
 [Updating & Uninstalling](./updating.md) before changing package-owned files.

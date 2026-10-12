@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
-from hermes_cli.observability import relay_shared_metrics
-from hermes_cli.observability import shared_metrics_contract as contract
+from vael_cli.observability import relay_shared_metrics
+from vael_cli.observability import shared_metrics_contract as contract
 import tui_gateway.server as server
 
 

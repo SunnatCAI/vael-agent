@@ -29,7 +29,7 @@ export function FirstRunRemoteSetup({ onBack }: FirstRunRemoteSetupProps): React
     setError(null)
 
     try {
-      await window.hermesDesktop.applyConnectionConfig(setup.payload)
+      await window.vaelDesktop.applyConnectionConfig(setup.payload)
       onBack()
     } catch (err) {
       setError(err instanceof Error ? err.message : String(err || t.settings.gateway.applyFailed))

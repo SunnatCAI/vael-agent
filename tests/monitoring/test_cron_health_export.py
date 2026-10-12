@@ -80,17 +80,17 @@ def test_registered_observable_metric_names_cover_snapshot_metrics(monkeypatch):
             self.attributes = {}
 
     gateway_snapshot = type("S", (), {"metrics": [
-        _M("hermes.gateway.up"), _M("hermes.gateway.active_agents"),
-        _M("hermes.gateway.busy"), _M("hermes.gateway.drainable"),
-        _M("hermes.gateway.restart_requested"),
-        _M("hermes.platform.up"), _M("hermes.platform.degraded"),
+        _M("vael.gateway.up"), _M("vael.gateway.active_agents"),
+        _M("vael.gateway.busy"), _M("vael.gateway.drainable"),
+        _M("vael.gateway.restart_requested"),
+        _M("vael.platform.up"), _M("vael.platform.degraded"),
     ]})()
     cron_snapshot = type("S", (), {"metrics": [
-        _M("hermes.cron.scheduler.heartbeat_age_seconds"),
-        _M("hermes.cron.scheduler.last_success_age_seconds"),
-        _M("hermes.cron.scheduler.catch_up_occurrences"),
-        _M("hermes.cron.jobs.enabled"), _M("hermes.cron.jobs.running"),
-        _M("hermes.cron.jobs.overdue"),
+        _M("vael.cron.scheduler.heartbeat_age_seconds"),
+        _M("vael.cron.scheduler.last_success_age_seconds"),
+        _M("vael.cron.scheduler.catch_up_occurrences"),
+        _M("vael.cron.jobs.enabled"), _M("vael.cron.jobs.running"),
+        _M("vael.cron.jobs.overdue"),
     ]})()
     monkeypatch.setattr(gateway_health_export, "_read_gateway_snapshot", lambda config: gateway_snapshot)
     monkeypatch.setattr(gateway_health_export, "_read_cron_snapshot", lambda: cron_snapshot)

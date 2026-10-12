@@ -465,7 +465,7 @@ class SessionSaveResult(Result):
 
 
 method("session.save", params=SessionSaveParams, result=SessionSaveResult,
-       doc="Export the transcript to ~/.hermes/sessions/saved (classic /save).")
+       doc="Export the transcript to ~/.vael/sessions/saved (classic /save).")
 
 
 class SessionStatusParams(SessionParams):

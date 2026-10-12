@@ -8,7 +8,7 @@ import threading
 from pathlib import Path
 from typing import Any, Dict, Optional
 
-from hermes_constants import display_hermes_home
+from vael_constants import display_vael_home
 from agent.prompt_cache_boundary import register_stable_prefix
 from agent.skill_preprocessing import load_skills_config as _load_skills_config, preprocess_skill_content
 
@@ -28,7 +28,7 @@ _skill_commands_by_key: Dict[tuple, Dict[str, Dict[str, Any]]] = {}
 _publish_lock = threading.Lock()
 # ``\w`` keeps Unicode letters (CJK, Cyrillic) so a ``name: 小说拆条`` skill registers ``/小说拆条``
 # instead of slugging to "" and being dropped (#12351); Telegram's ``[a-z0-9_]`` menu limit is
-# applied by hermes_cli/commands_platforms.py, not here.
+# applied by vael_cli/commands_platforms.py, not here.
 _SKILL_INVALID_CHARS = re.compile(r"[^\w-]")
 _SKILL_MULTI_HYPHEN = re.compile(r"-{2,}")
 
@@ -188,24 +188,24 @@ def _resolve_skill_commands_platform() -> Optional[str]:
     """
     try:
         from gateway.session_context import get_session_env
-        resolved_platform = os.getenv("HERMES_PLATFORM") or get_session_env("HERMES_SESSION_PLATFORM")
+        resolved_platform = os.getenv("VAEL_PLATFORM") or get_session_env("VAEL_SESSION_PLATFORM")
     except Exception:
-        resolved_platform = os.getenv("HERMES_PLATFORM")
+        resolved_platform = os.getenv("VAEL_PLATFORM")
     return resolved_platform or None
 
 
 def _resolve_skill_commands_home() -> str:
-    """Effective Hermes home the scan is scoped to (profiles carry their own
+    """Effective VAEL home the scan is scoped to (profiles carry their own
     ``skills.external_dirs``, so a profile switch must invalidate the cache).
 
     A gateway session can switch between profiles that each carry their own ``skills.external_dirs`` (via
-    ``set_hermes_home_override``), but the module-level scan only tracked
+    ``set_vael_home_override``), but the module-level scan only tracked
     ``_resolve_skill_commands_platform()``. Switching profiles without a platform change left the previous
     profile's skill list cached, so ``get_skill_commands()`` reported a cache miss for skills that only
     exist under the new profile (#88023).
     """
-    from hermes_constants import get_hermes_home
-    return str(get_hermes_home())
+    from vael_constants import get_vael_home
+    return str(get_vael_home())
 
 
 def _resolve_skill_commands_project() -> Optional[str]:
@@ -246,7 +246,7 @@ def _load_skill_payload(skill_identifier: str, task_id: str | None = None) -> tu
 
 
 def _inject_skill_config(loaded_skill: dict[str, Any], parts: list[str]) -> None:
-    """Append a ``[Skill config: ...]`` block with resolved ``metadata.hermes.config``
+    """Append a ``[Skill config: ...]`` block with resolved ``metadata.vael.config``
     values so the agent needn't read config.yaml. Any failure leaves the message without it."""
     try:
         from agent.skill_utils import extract_skill_config_vars, parse_frontmatter, resolve_skill_config_values
@@ -256,7 +256,7 @@ def _inject_skill_config(loaded_skill: dict[str, Any], parts: list[str]) -> None
         if not resolved:
             return
         parts.append("")
-        parts.append(f"[Skill config (from {display_hermes_home()}/config.yaml):")
+        parts.append(f"[Skill config (from {display_vael_home()}/config.yaml):")
         parts.extend(f"  {key} = {str(value) if value else '(not set)'}" for key, value in resolved.items())
         parts.append("]")
     except Exception:
@@ -401,7 +401,7 @@ def skill_command_collision_note(name: str) -> Optional[str]:
     built-in handlers), and the ``/skills`` listing plus the command palette render the note so
     the skipped skill is explained where the user looks, not only in the log.
     """
-    from hermes_cli.commands import resolve_command
+    from vael_cli.commands import resolve_command
     cmd_name = slugify_skill_name(name)
     if not cmd_name or resolve_command(cmd_name) is None:
         return None
@@ -431,7 +431,7 @@ def _scan_skill_md(skill_md: Path, disabled: set, seen_names: set, commands: Dic
     # A collision with a core command (name or alias) skips auto-registration; the skill stays
     # loadable via /skill <name>. The same predicate feeds the /skills + palette notes.
     if skill_command_collision_note(name) is not None:
-        logger.warning("Skill %r generates slash command '/%s' which collides with a core Hermes command; "
+        logger.warning("Skill %r generates slash command '/%s' which collides with a core VAEL command; "
                        "skipping auto-registration. Use '/skill %s' instead.", name, cmd_name, name)
         return
     # Dedup on the slug too: "git_helper" and "git-helper" normalize the same.
@@ -668,7 +668,7 @@ def build_preloaded_skills_prompt(
 ) -> tuple[str, list[str], list[str]]:
     """Load skills for session-wide CLI/TUI preloading; returns (prompt_text,
     loaded_skill_names, missing_identifiers). Disabled skills count as missing:
-    this path bypasses the scan-time filter, and ``hermes -s <skill>`` must not
+    this path bypasses the scan-time filter, and ``vael -s <skill>`` must not
     force-load an operator-disabled skill. *excluded_loaded_names* are canonical
     names the session already carries (skills.auto_load): they resolve as loaded
     but are not rendered again.
@@ -694,7 +694,7 @@ def resolve_auto_load_skills(user_config: dict | None = None) -> list[str]:
     empty when unset, malformed, or the config is unreadable."""
     if user_config is None:
         try:
-            from hermes_cli.config import load_config_readonly
+            from vael_cli.config import load_config_readonly
             user_config = load_config_readonly()
         except Exception:
             return []
@@ -715,10 +715,10 @@ def build_auto_load_prompt(
 
     *home_override* makes home resolution EXPLICIT (same seam as ``build_skills_system_prompt``): the config,
     the disabled list and the ``<home>/skills`` lookup all resolve under that home, so a gateway build thread
-    that lost the HERMES_HOME ContextVar cannot pin the launch profile's skills into another profile's prompt.
+    that lost the VAEL_HOME ContextVar cannot pin the launch profile's skills into another profile's prompt.
     """
-    from hermes_constants import reset_hermes_home_override, set_hermes_home_override
-    home_token = set_hermes_home_override(str(home_override)) if home_override is not None else None
+    from vael_constants import reset_vael_home_override, set_vael_home_override
+    home_token = set_vael_home_override(str(home_override)) if home_override is not None else None
     try:
         auto_skills = resolve_auto_load_skills(user_config)
         if not auto_skills:
@@ -734,4 +734,4 @@ def build_auto_load_prompt(
         return "\n\n".join(prompt_parts), loaded_names, missing
     finally:
         if home_token is not None:
-            reset_hermes_home_override(home_token)
+            reset_vael_home_override(home_token)

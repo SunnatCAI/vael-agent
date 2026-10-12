@@ -40,7 +40,7 @@ test('identity uses the production bundled variant and exact input tokens, not i
     expect(() => bundleIdentity(bad)).toThrow('commit')
   }
   expect(() => bundleIdentity(commit, 'v1.2.3 ')).toThrow('tag')
-  const hostileEnvironment = { ...process.env, HERMES_DESKTOP_VARIANT: 'store', HERMES_BUILD_COMMIT: 'b'.repeat(40), HERMES_PAYLOAD_TAG: 'v9.9.9', _HERMES_CHANNEL_REQUEST_JSON: '{"invalid":"inherited"}' }
+  const hostileEnvironment = { ...process.env, VAEL_DESKTOP_VARIANT: 'store', VAEL_BUILD_COMMIT: 'b'.repeat(40), VAEL_PAYLOAD_TAG: 'v9.9.9', _VAEL_CHANNEL_REQUEST_JSON: '{"invalid":"inherited"}' }
   const cli = path.resolve(import.meta.dirname, '../tests/install/e2e-assets/bundle-smoke-metadata.mjs')
   expect(JSON.parse(execFileSync(process.execPath, [cli, 'identity', '--commit', commit], { env: hostileEnvironment, encoding: 'utf8' }))).toEqual(tagless)
 })
@@ -66,11 +66,11 @@ test('channel smoke binds the complete admitted request, not a commit-build iden
     expect(JSON.parse(identity.stdout)).toMatchObject({ appId: request.identity.appId,
       msixIdentity: request.identity.msixAppIdWithOrg, applicationId: request.identity.appNamePascal,
       windowsVersion: request.windowsVersion })
-    const env = { ...process.env, HERMES_DESKTOP_VARIANT: 'bundled', HERMES_BUILD_COMMIT: '',
-      HERMES_PAYLOAD_TAG: '', HERMES_PAYLOAD_VERSION: '', _HERMES_CHANNEL_REQUEST_JSON: JSON.stringify(request) }
+    const env = { ...process.env, VAEL_DESKTOP_VARIANT: 'bundled', VAEL_BUILD_COMMIT: '',
+      VAEL_PAYLOAD_TAG: '', VAEL_PAYLOAD_VERSION: '', _VAEL_CHANNEL_REQUEST_JSON: JSON.stringify(request) }
     for (const platform of ['darwin', 'win32']) {
       const stamp = buildStampPayload({ commit, dirty: false }, env, platform,
-        { runtime: { commands: { hermes: 'bin/hermes' } } })
+        { runtime: { commands: { vael: 'bin/vael' } } })
       fs.writeFileSync(stampPath, JSON.stringify(stamp))
       const result = run('stamp', ['--platform', platform, '--stamp', stampPath])
       expect(result.status, result.stderr).toBe(0)
@@ -94,7 +94,7 @@ test('channel smoke binds the complete admitted request, not a commit-build iden
         }
         expect(stampAssertions(stamp, { commit, tag: null, channelRequest: request })).toEqual([])
         expect(stampAssertions(stamp, { commit, tag: null }).join(';')).toContain('channelBuild')
-        expect(stampAssertions({ ...stamp, channelBuild: { ...request, bundleEnv: { HERMES_MODEL: 'other' } } },
+        expect(stampAssertions({ ...stamp, channelBuild: { ...request, bundleEnv: { VAEL_MODEL: 'other' } } },
           { commit, tag: null, channelRequest: request }).join(';')).toContain('channelBuild')
       }
     }

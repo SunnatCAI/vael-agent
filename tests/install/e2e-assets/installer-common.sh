@@ -12,7 +12,7 @@ arm_source_redirect() {
   # this function the shim shadows `git` and reports the official origin for
   # `remote get-url origin` (so fork detection sees it); any check that must see
   # the file:// redirect instead has to bypass the shim via this path.
-  export HERMES_E2E_REAL_GIT="$real_git"
+  export VAEL_E2E_REAL_GIT="$real_git"
   # A global file survives install.sh replacing GIT_CONFIG_COUNT/KEY_n/VALUE_n.
   printf '' > "$cfg"
   for url in "$actual" "$https" "$ssh"; do
@@ -60,10 +60,10 @@ resolve_update_ref() {
   fi
   blob="$(printf 'synthetic next commit for the HEAD -> NEXT install E2E leg\n' \
     | git -C "$repo" hash-object -w --stdin)" || return
-  tree="$( { git -C "$repo" ls-tree -z "$parent"; printf '100644 blob %s\t.hermes-e2e-next\0' "$blob"; } \
+  tree="$( { git -C "$repo" ls-tree -z "$parent"; printf '100644 blob %s\t.vael-e2e-next\0' "$blob"; } \
     | git -C "$repo" mktree -z)" || return
-  GIT_AUTHOR_NAME='Hermes E2E' GIT_AUTHOR_EMAIL='e2e@hermes.invalid' \
-    GIT_COMMITTER_NAME='Hermes E2E' GIT_COMMITTER_EMAIL='e2e@hermes.invalid' \
+  GIT_AUTHOR_NAME='VAEL E2E' GIT_AUTHOR_EMAIL='e2e@vael.invalid' \
+    GIT_COMMITTER_NAME='VAEL E2E' GIT_COMMITTER_EMAIL='e2e@vael.invalid' \
     git -C "$repo" commit-tree "$tree" -p "$parent" -m 'e2e: synthetic next commit'
 }
 

@@ -80,7 +80,7 @@ async function stageRelaunchWaiter(options: RelaunchWaiterOptions): Promise<Wait
   let stageDir: string
 
   try {
-    stageDir = await fs.promises.mkdtemp(path.join(os.tmpdir(), 'hermes-relaunch-'))
+    stageDir = await fs.promises.mkdtemp(path.join(os.tmpdir(), 'vael-relaunch-'))
   } catch {
     return undefined
   }

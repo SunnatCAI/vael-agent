@@ -35,7 +35,7 @@ def test_missing_sdk_error_reports_why_the_lazy_install_did_not_land(monkeypatch
     from agent import anthropic_adapter
     from pm.package import InstallError
 
-    restart = InstallError("venv", "anthropic installed; restart Hermes to activate the new dependency environment")
+    restart = InstallError("venv", "anthropic installed; restart VAEL to activate the new dependency environment")
 
     def ensure_import(extra):
         raise restart
@@ -83,9 +83,9 @@ class TestBuildAnthropicClient:
             kwargs = mock_sdk.Anthropic.call_args[1]
             headers = kwargs["default_headers"]
             assert headers["HTTP-Referer"] == "https://hermes-agent.nousresearch.com"
-            assert headers["X-Title"] == "Hermes Agent"
-            from hermes_cli.version_info import get_version_info
-            assert headers["User-Agent"] == f"HermesAgent/{get_version_info().base_version}"
+            assert headers["X-Title"] == "VAEL Agent"
+            from vael_cli.version_info import get_version_info
+            assert headers["User-Agent"] == f"VaelAgent/{get_version_info().base_version}"
             # Auth branch is unchanged: x-api-key via api_key, betas kept.
             assert kwargs["api_key"] == "sk-opencode-secret"
             assert "anthropic-beta" in headers
@@ -144,7 +144,7 @@ class TestBuildAnthropicClient:
 
     def test_disables_sdk_retries_for_api_key(self):
         """#26293: the SDK's default max_retries=2 ignores Retry-After and
-        double-retries inside hermes's outer loop. We delegate retry entirely
+        double-retries inside vael's outer loop. We delegate retry entirely
         to the outer loop, so the client must be built with max_retries=0."""
         with patch("agent.anthropic_adapter._anthropic_sdk") as mock_sdk:
             build_anthropic_client("sk-ant-api03-something")
@@ -280,7 +280,7 @@ class TestResolveAnthropicToken:
         monkeypatch.setattr("agent.anthropic_credentials.Path.home", lambda: tmp_path)
         # Isolate source #5 (credential_pool): ensure source #4 (Claude Code
         # creds, incl. the macOS keychain read which Path.home does not cover)
-        # returns nothing, mirroring a Hermes-PKCE-only setup.
+        # returns nothing, mirroring a VAEL-PKCE-only setup.
         monkeypatch.setattr("agent.anthropic_credentials.read_claude_code_credentials", lambda: None)
 
         pool_entry = PooledCredential.from_dict("anthropic", {
@@ -1808,11 +1808,11 @@ def test_oauth_system_prompt_sanitizer_preserves_docs_url():
             {
                 "role": "system",
                 "content": (
-                    "Hermes Agent by Nous Research uses hermes-agent skills. "
+                    "VAEL Agent by Nous Research uses vael-agent skills. "
                     "Docs: https://hermes-agent.nousresearch.com/docs ; "
-                    "interpreter ~/.hermes/hermes-agent/venv/bin/python ; "
-                    "source github.com/NousResearch/hermes-agent ; mail hermes-agent@example.com ; "
-                    "skill_view(name='hermes-agent') ; hermes-agent's docs ; built by hermes-agent."
+                    "interpreter ~/.vael/vael-agent/venv/bin/python ; "
+                    "source github.com/NousResearch/hermes-agent ; mail vael-agent@example.com ; "
+                    "skill_view(name='vael-agent') ; vael-agent's docs ; built by vael-agent."
                 ),
             },
             {"role": "user", "content": "Hi"},
@@ -1827,11 +1827,11 @@ def test_oauth_system_prompt_sanitizer_preserves_docs_url():
     assert "Claude Code by Anthropic uses claude-code skills." in system_text
     assert "https://hermes-agent.nousresearch.com/docs" in system_text
     # Paths and repo slugs are addresses too: a subagent told to run
-    # ``~/.hermes/claude-code/venv/bin/python`` fails on a file that does not exist.
-    assert "~/.hermes/hermes-agent/venv/bin/python" in system_text
+    # ``~/.vael/claude-code/venv/bin/python`` fails on a file that does not exist.
+    assert "~/.vael/vael-agent/venv/bin/python" in system_text
     assert "github.com/NousResearch/hermes-agent" in system_text
-    assert "hermes-agent@example.com" in system_text
-    assert "skill_view(name='hermes-agent')" in system_text  # a quoted slug is an identifier
+    assert "vael-agent@example.com" in system_text
+    assert "skill_view(name='vael-agent')" in system_text  # a quoted slug is an identifier
     assert "built by claude-code." in system_text  # a sentence-final dot is prose
     assert "claude-code's docs" in system_text  # so is a possessive
     assert kwargs["system"][-1]["text"].count("claude-code") == 3  # the caller's block, not the CC prefix

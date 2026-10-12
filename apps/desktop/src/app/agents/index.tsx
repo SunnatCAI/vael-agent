@@ -1,4 +1,4 @@
-import { compactNumber } from '@hermes/shared'
+import { compactNumber } from '@vael/shared'
 import { useStore } from '@nanostores/react'
 import { Fragment, type ReactNode, useEffect, useMemo, useState } from 'react'
 

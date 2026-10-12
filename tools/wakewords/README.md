@@ -11,7 +11,7 @@ required to say "hey hermes".
 - **Provenance:** trained with the openWakeWord training pipeline (synthetic
   TTS-generated speech), which produces the `.tflite` artifact. Redistribution
   is permitted under the openWakeWord license.
-- **Label:** the model registers as `hey_hermes` (the label comes from the
+- **Label:** the model registers as `hey_vael` (the label comes from the
   weights; only the file was renamed to `hey_vael.tflite`).
 - **Runtime:** the `pyopen-wakeword` wheel includes the shared
   melspectrogram and embedding models. Starting this engine requires no
@@ -19,6 +19,6 @@ required to say "hey hermes".
   scores across inference engines or platforms.
 
 To use a different phrase, point `wake_word.openwakeword.model` at an
-absolute path to a compatible `.tflite` model. Hermes does not download
+absolute path to a compatible `.tflite` model. VAEL does not download
 models by name, and this engine does not load `.onnx` files. See the
 wake-word docs for the training guide and platform limits.

@@ -12,7 +12,7 @@ import type {
   ConnectionTargetKind,
   ConnectionTargetState,
   ConnectionUpdatePayload
-} from '@hermes/shared'
+} from '@vael/shared'
 import { atom, computed } from 'nanostores'
 
 import { resolveSessionOwner } from '@/app/session/hooks/use-session-actions/utils'

@@ -1,4 +1,4 @@
-"""Integration coverage for Hermes' pinned Mem0 OSS boundary."""
+"""Integration coverage for VAEL' pinned Mem0 OSS boundary."""
 
 import copy
 import os

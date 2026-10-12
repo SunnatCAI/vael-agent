@@ -2,7 +2,7 @@
 
 A memory provider configured via ``memory.provider`` but reporting
 ``is_available() == False`` (e.g. missing credentials, or a systemd/gateway
-service that didn't inherit ``~/.hermes/.env``) used to be dropped silently.
+service that didn't inherit ``~/.vael/.env``) used to be dropped silently.
 ``agent_init`` now emits a one-time, deduped warning instead.
 """
 

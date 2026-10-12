@@ -291,10 +291,10 @@ and only then advances the R2 head.
 ## Canary and one-off desktop identities
 
 `release.py --canary` builds the separate canary application. Its package
-identity and CLI command (`hermes-canary`) differ from stable; the existing
+identity and CLI command (`vael-canary`) differ from stable; the existing
 canary feed updates that application only. One-off builds use
 `release.py --build-commit REV --remote REMOTE` (add `--publish` to dispatch).
-Their application identity and CLI command (`hermes-<7-character-sha>`) include
+Their application identity and CLI command (`vael-<7-character-sha>`) include
 the pinned commit. Two different commit builds do not replace each other.
 
 Branding is selected from those build inputs, not from runtime settings:
@@ -304,7 +304,7 @@ the short SHA. All desktop icon formats derive from the same artwork.
 One-off stamps use `source: commit-build`. No app update feed or App Installer
 subscription is published for them, and both the GUI and bundled CLI refuse
 update requests. They direct the recipient to ask the developer for a new
-build. Source checkout channels are separate: `hermes update --set-channel`
+build. Source checkout channels are separate: `vael update --set-channel`
 remains available there and selects the published release's source commit.
 
 `--build-commit` prints its deterministic downloads-page URL before dispatch,
@@ -352,14 +352,14 @@ python scripts/release.py --channel pm-preview --build-commit my-branch --remote
 python scripts/release.py --channels --remote origin
 ```
 
-By default a preview channel installs as its own side-by-side app (`Hermes
+By default a preview channel installs as its own side-by-side app (`VAEL
 NAME`, its own package ID). To test an exact commit as the regular app instead,
 create the channel with `--branding stable`: it copies the published stable
 channel's name, icon and package ID, so the build installs over the official
 app, shares its desktop settings, and later updates follow the channel. Branding is fixed when the channel is
 created; repeat the flag on every dispatch of that channel and use a new channel
 name to change it. `--branding` needs `--channel`, since a plain one-off commit
-build always carries its `Hermes Agent <sha>` identity.
+build always carries its `VAEL Agent <sha>` identity.
 
 ```sh
 python scripts/release.py --channel my-commit --branding stable --build-commit SHA --remote origin --publish

@@ -3,13 +3,13 @@
 
 from typing import Any
 
-from hermes_cli.version_info import get_version_info
+from vael_cli.version_info import get_version_info
 from providers import register_provider
 from providers.base import ProviderProfile
 
 
 class FireworksProfile(ProviderProfile):
-    """Map Hermes reasoning controls onto Fireworks' OpenAI-compatible wire."""
+    """Map VAEL reasoning controls onto Fireworks' OpenAI-compatible wire."""
 
     def build_api_kwargs_extras(
         self, *, reasoning_config: dict | None = None, **context: Any
@@ -31,12 +31,12 @@ fireworks = FireworksProfile(
     description="Fireworks AI — OpenAI-compatible direct model API",
     signup_url="https://app.fireworks.ai/settings/users/api-keys", env_vars=("FIREWORKS_API_KEY",),
     base_url="https://api.fireworks.ai/inference/v1", auth_type="api_key",
-    # Attribution headers (canonical Hermes set); via default_headers so they
+    # Attribution headers (canonical VAEL set); via default_headers so they
     # survive switch_model and credential rotation.
     default_headers={
         "HTTP-Referer": "https://hermes-agent.nousresearch.com",
-        "X-Title": "Hermes Agent",
-        "User-Agent": f"HermesAgent/{get_version_info().base_version}",
+        "X-Title": "VAEL Agent",
+        "User-Agent": f"VaelAgent/{get_version_info().base_version}",
     },
     default_aux_model="accounts/fireworks/models/glm-5p2",
     # Picker safety net when the live catalog fetch fails.

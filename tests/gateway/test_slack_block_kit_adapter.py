@@ -32,7 +32,7 @@ RICH_MD = "# Title\n\n- a\n  - nested\n\n---\n\nbody text"
 RICH_TABLE_MD = (
     "| Item | Status | Note |\n"
     "|---|---:|---|\n"
-    "| Hermes | ok | table |"
+    "| VAEL | ok | table |"
 )
 
 
@@ -75,7 +75,7 @@ class TestSendMessageBlocks:
         await adapter.send("C1", content)
 
         kwargs = client.chat_postMessage.await_args.kwargs
-        assert kwargs["text"] == "<https://example.com/hermes|Hermes>"
+        assert kwargs["text"] == "<https://example.com/vael|VAEL>"
         assert kwargs["unfurl_links"] is False
         assert kwargs["unfurl_media"] is False
 
@@ -100,7 +100,7 @@ class TestSendMessageBlocks:
         feedback = blocks[-1]
         assert feedback["type"] == "context_actions"
         assert feedback["elements"][0]["type"] == "feedback_buttons"
-        assert feedback["elements"][0]["action_id"] == "hermes_feedback"
+        assert feedback["elements"][0]["action_id"] == "vael_feedback"
 
 
 class TestEditMessageBlocks:

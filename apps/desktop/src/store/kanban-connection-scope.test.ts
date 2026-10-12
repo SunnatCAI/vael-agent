@@ -1,23 +1,23 @@
 import { QueryObserver } from '@tanstack/react-query'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import type { HermesConnection } from '@/global'
+import type { VaelConnection } from '@/global'
 
 // A connection switch must leave every profile-scoped query refetched against
 // the NEW gateway — see the $activeConnectionId.listen comment in
 // store/connections.ts for why the switch's own wipe is not enough.
 //
 // Real store chain (store/gateway + store/profile + store/connections), only
-// the HermesGateway socket class stubbed — same harness as
+// the VaelGateway socket class stubbed — same harness as
 // plugin-socket-scope.test.ts.
 
-vi.mock('@/hermes', async importOriginal => {
+vi.mock('@/vael', async importOriginal => {
   const actual = await importOriginal<Record<string, unknown>>()
 
   return {
     ...actual,
     // Stub only the socket class so gateway activations don't dial real WS.
-    HermesGateway: class {
+    VaelGateway: class {
       connectionState = 'closed'
       connect = async (_wsUrl: string): Promise<void> => {
         this.connectionState = 'open'
@@ -39,7 +39,7 @@ const { $activeGatewayProfile } = await import('@/store/profile')
 const { selectConnection, setConnectionsRegistry, _resetConnectionsForTests } = await import('@/store/connections')
 const { setConnection } = await import('@/store/session')
 
-const conn = (over: Partial<HermesConnection> = {}): HermesConnection =>
+const conn = (over: Partial<VaelConnection> = {}): VaelConnection =>
   ({
     authMode: 'oauth',
     baseUrl: 'https://pool.invalid',
@@ -47,7 +47,7 @@ const conn = (over: Partial<HermesConnection> = {}): HermesConnection =>
     token: 'fake-test-token',
     wsUrl: 'wss://pool.invalid/api/ws?token=fake-test-token',
     ...over
-  }) as HermesConnection
+  }) as VaelConnection
 
 const registry = {
   connections: [
@@ -65,7 +65,7 @@ describe('connection-switch query invalidation', () => {
 
   beforeEach(() => {
     vi.stubGlobal('window', {
-      hermesDesktop: {
+      vaelDesktop: {
         api: vi.fn(async () => ({})),
         connections: {
           list: vi.fn(async () => registry),
@@ -109,7 +109,7 @@ describe('connection-switch query invalidation', () => {
 
   it('refetches connection-scoped queries against the NEW gateway after a switch', async () => {
     // One active profile-scoped query whose connection tag is read at queryFn
-    // time, which is what pluginRest → hermesApi does.
+    // time, which is what pluginRest → vaelApi does.
     observer = new QueryObserver(queryClient, {
       queryKey: ['kanban', 'boards'],
       queryFn: async () => {

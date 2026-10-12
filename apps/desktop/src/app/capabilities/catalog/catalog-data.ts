@@ -1,4 +1,4 @@
-import { skillCatalogInstallIdentifier } from '@hermes/shared'
+import { skillCatalogInstallIdentifier } from '@vael/shared'
 import { queryOptions, useQuery } from '@tanstack/react-query'
 
 import { queryClient } from '@/lib/query-client'
@@ -20,7 +20,7 @@ export interface CatalogEntry {
   sha: string
   subdir: string
   version: string
-  requiresHermes: string
+  requiresVael: string
   tags: string[]
   platforms: string[]
   requirements: string[]
@@ -126,7 +126,7 @@ export function parseCatalog(kind: CatalogKind, data: unknown): CatalogEntry[] {
       sha: text(row.sha),
       subdir: text(row.subdir),
       version: text(row.version),
-      requiresHermes: text(row.requiresHermes),
+      requiresVael: text(row.requiresVael),
       tags,
       tools,
       hooks,

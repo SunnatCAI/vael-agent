@@ -1,4 +1,4 @@
-import { compactNumber, groupCatalogPlugins, PLUGIN_CATEGORIES } from '@hermes/shared'
+import { compactNumber, groupCatalogPlugins, PLUGIN_CATEGORIES } from '@vael/shared'
 import { useStore } from '@nanostores/react'
 import { memo, type ReactNode, useDeferredValue, useEffect, useRef, useState } from 'react'
 

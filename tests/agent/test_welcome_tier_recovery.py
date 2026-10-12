@@ -15,7 +15,7 @@ import pytest
 from agent.agent_runtime_helpers import extract_api_error_context
 from agent.error_classifier import FailoverReason, classify_api_error
 from agent.turn_retry_state import TurnRetryState
-from tests.hermes_cli.anon_portal import make_jwt
+from tests.vael_cli.anon_portal import make_jwt
 
 WELCOME = "https://welcome-api.nousresearch.com/v1"
 PAID = "https://inference-api.nousresearch.com/v1"
@@ -123,7 +123,7 @@ class TestOneShotRecoveries:
         calls = []
         agent = _agent(api_key=make_jwt(account_tier="free", client_id="hermes-cli"),
                        _try_refresh_nous_client_credentials=lambda **kw: calls.append(kw) or True)
-        body = {"status": 400, "message": "This endpoint serves anonymous Hermes Agent accounts only. Use https://inference-api.nousresearch.com with your API key or signed-in account."}
+        body = {"status": 400, "message": "This endpoint serves anonymous VAEL Agent accounts only. Use https://inference-api.nousresearch.com with your API key or signed-in account."}
         classified = classify_api_error(_gateway_error(400, body), provider="nous", base_url=WELCOME, api_key=agent.api_key)
         assert classified.error_context["welcome_route"] == "named_on_welcome_host"
         retry = TurnRetryState()
@@ -182,7 +182,7 @@ class TestOutageCopy:
                                         FailoverReason.server_error])
     def test_a_spent_transport_failure_on_the_welcome_host_reads_as_one_sentence(self, reason):
         from agent.turn_recovery import _welcome_outage_copy
-        from hermes_cli.anon_auth import FREE_TIER_OUTAGE_COPY
+        from vael_cli.anon_auth import FREE_TIER_OUTAGE_COPY
         assert _welcome_outage_copy(WELCOME, SimpleNamespace(reason=reason), anonymous=True) == FREE_TIER_OUTAGE_COPY
 
     def test_other_routes_and_other_reasons_keep_the_technical_summary(self):

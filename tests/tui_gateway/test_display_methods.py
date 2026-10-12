@@ -8,11 +8,11 @@ import threading
 
 import pytest
 
-from hermes_cli.dashboard_auth import ws_tickets
+from vael_cli.dashboard_auth import ws_tickets
 
 
 def test_install_worker_keeps_the_requested_profile_scope(tmp_path, monkeypatch):
-    from hermes_constants import get_hermes_home
+    from vael_constants import get_vael_home
     from tools.bot_desktop import install, runtime
     import tui_gateway.server as server
 
@@ -25,7 +25,7 @@ def test_install_worker_keeps_the_requested_profile_scope(tmp_path, monkeypatch)
     done = threading.Event()
 
     def fake_install(*, ask_password, on_line, timeout_seconds=900.0, claimed=False):
-        seen["home"] = str(get_hermes_home())
+        seen["home"] = str(get_vael_home())
         done.set()
         return 0
 
@@ -247,16 +247,16 @@ def test_switch_sandbox_image_decides_only_a_pending_switch(monkeypatch, tmp_pat
     otherwise the decision is made through the same module the CLI offer uses and the fresh
     status rides back."""
     import tui_gateway.server as server
-    from hermes_cli import sandbox_image_switch as sw
+    from vael_cli import sandbox_image_switch as sw
     from tools.bot_desktop import runtime
 
-    monkeypatch.setenv("HERMES_HOME", str(tmp_path))
+    monkeypatch.setenv("VAEL_HOME", str(tmp_path))
     monkeypatch.setattr(sw, "pending", lambda: None)
     resp = _call(server, "display.switchSandboxImage", {"approve": True})
     assert "error" in resp and "pending" in resp["error"]["message"]
 
     decided = []
-    switch = sw.PendingSwitch("old/base:1", "nousresearch/hermes-sandbox:desktop", ["hermes-a"])
+    switch = sw.PendingSwitch("old/base:1", "nousresearch/hermes-sandbox:desktop", ["vael-a"])
     monkeypatch.setattr(sw, "pending", lambda: switch)
     monkeypatch.setattr(sw, "decide", lambda s, approve: decided.append((s, approve)) or s.target_image)
     monkeypatch.setattr(runtime, "status", lambda profile=None: runtime.DesktopStatus(

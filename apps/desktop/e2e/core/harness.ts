@@ -28,24 +28,24 @@ export interface CoreSandbox {
   /** Prepended to PATH: external-platform fakes (see createCoreSandbox). */
   bin: string
   home: string
-  hermesHome: string
+  vaelHome: string
   userDataDir: string
   cleanup: () => void
 }
 
 /**
- * HOME is faked too, not just HERMES_HOME: profile roots are anchored to
- * `Path.home()/.hermes`, so a sandbox HERMES_HOME under the real ~/.hermes
+ * HOME is faked too, not just VAEL_HOME: profile roots are anchored to
+ * `Path.home()/.vael`, so a sandbox VAEL_HOME under the real ~/.vael
  * would read and write the real install's profiles/.
  */
 export function createCoreSandbox(label: string): CoreSandbox {
-  const parent = process.env.HERMES_E2E_CORE_ROOT || os.tmpdir()
+  const parent = process.env.VAEL_E2E_CORE_ROOT || os.tmpdir()
   fs.mkdirSync(parent, { recursive: true })
   const root = fs.mkdtempSync(path.join(parent, `core-${label}-`))
   const home = path.join(root, 'home')
-  const hermesHome = path.join(home, '.hermes')
+  const vaelHome = path.join(home, '.vael')
   const userDataDir = path.join(root, 'user-data')
-  fs.mkdirSync(hermesHome, { recursive: true })
+  fs.mkdirSync(vaelHome, { recursive: true })
   fs.mkdirSync(userDataDir, { recursive: true })
   fs.writeFileSync(
     path.join(userDataDir, 'window-state.json'),
@@ -56,7 +56,7 @@ export function createCoreSandbox(label: string): CoreSandbox {
   // token` for GitHub credentials; with a sandbox HOME a real gh can block on
   // the desktop keyring for ~60 s, and a probe in flight at quit outlives the
   // backend (reported as a finding) — which would make the orphan census
-  // depend on the runner's keyring rather than on Hermes.
+  // depend on the runner's keyring rather than on VAEL.
   const bin = path.join(root, 'bin')
   fs.mkdirSync(bin, { recursive: true })
   fs.writeFileSync(path.join(bin, 'gh'), '#!/bin/sh\necho "no oauth token found for github.com" >&2\nexit 1\n', {
@@ -67,10 +67,10 @@ export function createCoreSandbox(label: string): CoreSandbox {
     root,
     bin,
     home,
-    hermesHome,
+    vaelHome,
     userDataDir,
     cleanup: () => {
-      if (!process.env.HERMES_E2E_CORE_KEEP) {
+      if (!process.env.VAEL_E2E_CORE_KEEP) {
         fs.rmSync(root, { recursive: true, force: true })
       }
     }
@@ -82,7 +82,7 @@ export function createCoreSandbox(label: string): CoreSandbox {
  * off: with none on PATH the backend downloads it from GitHub on the first
  * terminal command (network in a required lane), and with one on PATH it
  * fetched a 12 MB threat DB that was still being written after quit. The
- * approval prompts under test come from Hermes's own detector.
+ * approval prompts under test come from VAEL's own detector.
  */
 export function providerConfigYaml(providerUrl: string, extra = '', approvals: 'manual' | 'off' = 'off'): string {
   return `model:
@@ -121,15 +121,15 @@ export function writeProviderHome(
 const CREDENTIAL_RE = /(_API_KEY|_TOKEN|_SECRET|_PASSWORD|_CREDENTIALS|_ACCESS_KEY|_PRIVATE_KEY|_BASE_URL)$/
 
 /**
- * The runner's own env minus credentials and every HERMES_* knob: an agent
- * shell exports HERMES_YOLO_MODE / _HERMES_GATEWAY, which the spawned backend
+ * The runner's own env minus credentials and every VAEL_* knob: an agent
+ * shell exports VAEL_YOLO_MODE / _VAEL_GATEWAY, which the spawned backend
  * would inherit (auto-approving every command, changing the run under test).
  */
 export function coreAppEnv(sandbox: CoreSandbox, extra: Record<string, string> = {}): Record<string, string> {
   const env: Record<string, string> = {}
 
   for (const [key, value] of Object.entries(process.env)) {
-    if (!value || CREDENTIAL_RE.test(key) || /^_?HERMES_/.test(key) || key === 'VIRTUAL_ENV') {
+    if (!value || CREDENTIAL_RE.test(key) || /^_?VAEL_/.test(key) || key === 'VIRTUAL_ENV') {
       continue
     }
 
@@ -140,16 +140,16 @@ export function coreAppEnv(sandbox: CoreSandbox, extra: Record<string, string> =
     ...env,
     PATH: `${sandbox.bin}${path.delimiter}${env.PATH ?? ''}`,
     HOME: sandbox.home,
-    HERMES_HOME: sandbox.hermesHome,
-    HERMES_DESKTOP_USER_DATA_DIR: sandbox.userDataDir,
-    HERMES_DESKTOP_IGNORE_EXISTING: '1',
-    HERMES_DESKTOP_HERMES_ROOT: REPO_ROOT,
+    VAEL_HOME: sandbox.vaelHome,
+    VAEL_DESKTOP_USER_DATA_DIR: sandbox.userDataDir,
+    VAEL_DESKTOP_IGNORE_EXISTING: '1',
+    VAEL_DESKTOP_VAEL_ROOT: REPO_ROOT,
     // setup-pm exports an install-scoped interpreter, not a checkout .venv.
-    // The Desktop override must be explicit because the sandbox strips HERMES_*.
-    ...(process.env.HERMES_E2E_PYTHON ? { HERMES_DESKTOP_PYTHON: process.env.HERMES_E2E_PYTHON } : {}),
-    HERMES_DESKTOP_APP_NAME: `HermesCoreE2E-${path.basename(sandbox.root)}`,
-    HERMES_DESKTOP_SKIP_QUIT_CONFIRM: '1',
-    HERMES_DESKTOP_CDP_PORT: 'off',
+    // The Desktop override must be explicit because the sandbox strips VAEL_*.
+    ...(process.env.VAEL_E2E_PYTHON ? { VAEL_DESKTOP_PYTHON: process.env.VAEL_E2E_PYTHON } : {}),
+    VAEL_DESKTOP_APP_NAME: `VaelCoreE2E-${path.basename(sandbox.root)}`,
+    VAEL_DESKTOP_SKIP_QUIT_CONFIRM: '1',
+    VAEL_DESKTOP_CDP_PORT: 'off',
     // A partial-clone (blob:none) dev checkout turns some backend git read into
     // a lazy `git fetch origin` over the network, which outlived quit by >60 s
     // (reported as a finding). CI checkouts are not partial; keep dev runs
@@ -218,9 +218,9 @@ function readProc(pid: number): null | { environ: string; cmdline: string; ppid:
   }
 }
 
-/** Every live process whose environment carries this sandbox's HERMES_HOME (orphans included). */
+/** Every live process whose environment carries this sandbox's VAEL_HOME (orphans included). */
 export function sandboxProcesses(sandbox: CoreSandbox): ProcInfo[] {
-  const needle = `HERMES_HOME=${sandbox.hermesHome}\0`
+  const needle = `VAEL_HOME=${sandbox.vaelHome}\0`
   const out: ProcInfo[] = []
 
   for (const entry of fs.readdirSync('/proc')) {
@@ -248,7 +248,7 @@ export function sandboxProcesses(sandbox: CoreSandbox): ProcInfo[] {
 }
 
 /**
- * The `hermes serve` backend(s) spawned for this sandbox.
+ * The `vael serve` backend(s) spawned for this sandbox.
  *
  * A child of the backend still shows the backend's argv and environ between
  * fork and exec, and the backend forks ~40 probes per boot (git, ps,
@@ -420,7 +420,7 @@ export async function routePrimaryWebSocket(app: ElectronApplication, backendPor
         return value
       }
 
-      for (const channel of ['hermes:connection', 'hermes:gateway:ws-url']) {
+      for (const channel of ['vael:connection', 'vael:gateway:ws-url']) {
         const original = handlers.get(channel)
 
         if (!original) {
@@ -449,14 +449,14 @@ export async function routePrimaryWebSocket(app: ElectronApplication, backendPor
 export async function splitProfileRoute(app: ElectronApplication, profile: string): Promise<void> {
   await app.evaluate(({ ipcMain }, profile) => {
     const handlers = (ipcMain as any)._invokeHandlers as Map<string, (...args: any[]) => Promise<any>>
-    const original = handlers.get('hermes:connection:for')
+    const original = handlers.get('vael:connection:for')
 
     if (!original) {
-      throw new Error('no ipc handler hermes:connection:for')
+      throw new Error('no ipc handler vael:connection:for')
     }
 
-    ipcMain.removeHandler('hermes:connection:for')
-    ipcMain.handle('hermes:connection:for', async (event: unknown, payload: any) => {
+    ipcMain.removeHandler('vael:connection:for')
+    ipcMain.handle('vael:connection:for', async (event: unknown, payload: any) => {
       const result = await original(event, payload)
 
       if (payload?.profile === profile && result && typeof result === 'object') {
@@ -601,8 +601,8 @@ export interface PersistedMessage {
 export function storedSessionForMarker(sandbox: CoreSandbox, profile: string, marker: string): null | string {
   const dbPath =
     profile === 'default'
-      ? path.join(sandbox.hermesHome, 'state.db')
-      : path.join(sandbox.hermesHome, 'profiles', profile, 'state.db')
+      ? path.join(sandbox.vaelHome, 'state.db')
+      : path.join(sandbox.vaelHome, 'profiles', profile, 'state.db')
 
   if (!fs.existsSync(dbPath)) {
     return null
@@ -634,7 +634,7 @@ export async function persistedTranscript(
 
   const result = await page.evaluate(
     async ({ sessionId, query }) =>
-      (window as any).hermesDesktop.api({ path: `/api/sessions/${sessionId}/messages?order=oldest&limit=500${query}` }),
+      (window as any).vaelDesktop.api({ path: `/api/sessions/${sessionId}/messages?order=oldest&limit=500${query}` }),
     { sessionId, query }
   )
 

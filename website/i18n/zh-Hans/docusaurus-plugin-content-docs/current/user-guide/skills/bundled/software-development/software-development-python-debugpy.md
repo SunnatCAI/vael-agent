@@ -17,7 +17,7 @@ description: "调试 Python：pdb REPL + debugpy 远程（DAP）"
 | 来源 | 内置（默认安装） |
 | 路径 | `skills/software-development/python-debugpy` |
 | 版本 | `1.0.0` |
-| 作者 | Hermes Agent |
+| 作者 | VAEL Agent |
 | 许可证 | MIT |
 | 平台 | linux, macos |
 | 标签 | `debugging`, `python`, `pdb`, `debugpy`, `breakpoints`, `dap`, `post-mortem` |
@@ -26,7 +26,7 @@ description: "调试 Python：pdb REPL + debugpy 远程（DAP）"
 ## 参考：完整 SKILL.md
 
 :::info
-以下是 Hermes 在触发此 skill 时加载的完整 skill 定义。这是 agent 在 skill 激活时所看到的指令内容。
+以下是 VAEL 在触发此 skill 时加载的完整 skill 定义。这是 agent 在 skill 激活时所看到的指令内容。
 :::
 
 # Python 调试器（pdb + debugpy）
@@ -47,7 +47,7 @@ description: "调试 Python：pdb REPL + debugpy 远程（DAP）"
 
 - 测试失败，但 traceback 无法说明某个值为何出错
 - 需要逐步执行某个函数并观察集合的变化
-- 长期运行的进程（hermes gateway、tui_gateway）出现异常且无法重启
+- 长期运行的进程（vael gateway、tui_gateway）出现异常且无法重启
 - 事后分析（post-mortem）：异常在类生产代码中触发，需要检查崩溃现场的局部变量
 - 子进程 / 子进程（Python `_SlashWorker`、PTY bridge worker）才是实际的 bug 所在
 
@@ -156,7 +156,7 @@ sys.excepthook = excepthook
 
 ## 方案 5：使用 debugpy 进行远程调试（附加到运行中的进程）
 
-适用于长期运行的进程：Hermes gateway、tui_gateway、daemon，或已出现异常且无法干净重启的进程。
+适用于长期运行的进程：VAEL gateway、tui_gateway、daemon，或已出现异常且无法干净重启的进程。
 
 ### 安装
 
@@ -173,7 +173,7 @@ python -m pm.build_env --source . --out .venv --group dev --group test
 ```
 
 输出目录必须不存在。重建前停止其进程，并明确删除仅用于调试的可丢弃环境。
-调试目标使用相同的独立 `HERMES_HOME`。`.venv/bin/python` 就是刚构建的独立环境，
+调试目标使用相同的独立 `VAEL_HOME`。`.venv/bin/python` 就是刚构建的独立环境，
 不是猜测的应用 venv，下面的模式都通过它运行。不要向正在运行的生产环境安装
 debugpy；请在准备好的调试目标复现，或安排在开发环境重启。
 
@@ -219,7 +219,7 @@ echo 0 | sudo tee /proc/sys/kernel/yama/ptrace_scope
 
 ### 从终端连接客户端
 
-最简便的终端侧 DAP 客户端是 VS Code CLI 或一个小脚本。在 Hermes 内部有两个实用选项：
+最简便的终端侧 DAP 客户端是 VS Code CLI 或一个小脚本。在 VAEL 内部有两个实用选项：
 
 **选项 1：`debugpy` 自带 CLI REPL** — 并非官方功能，而是一个小型 DAP 客户端脚本：
 
@@ -264,13 +264,13 @@ send({"type": "request", "command": "configurationDone"})
 
 ```json
 {
-  "name": "Attach to Hermes",
+  "name": "Attach to VAEL",
   "type": "debugpy",
   "request": "attach",
   "connect": { "host": "127.0.0.1", "port": 5678 },
   "justMyCode": false,
   "pathMappings": [
-    { "localRoot": "${workspaceFolder}", "remoteRoot": "<hermes-agent-repo>" }
+    { "localRoot": "${workspaceFolder}", "remoteRoot": "<vael-agent-repo>" }
   ]
 }
 ```
@@ -278,7 +278,7 @@ send({"type": "request", "command": "configurationDone"})
 **选项 3：放弃 DAP，使用 `remote-pdb`** — 通常这才是终端 agent 真正需要的：
 
 独立 Python 项目可以在其开发依赖中声明 `remote-pdb`，再用该项目的包管理器
-准备调试环境。这不是 Hermes SDK 安装方法。Hermes 优先使用已声明的 debugpy；
+准备调试环境。这不是 VAEL SDK 安装方法。VAEL 优先使用已声明的 debugpy；
 下面的 remote-pdb 示例需要另行声明并全新构建的调试环境，绝不能向选中的应用环境
 原地 pip 安装。
 
@@ -296,16 +296,16 @@ nc 127.0.0.1 4444
 
 当 `debugpy` 的 DAP 协议过于繁重时，`remote-pdb` 是最适合 agent 的选择。仅在确实需要 IDE 集成时才使用 `debugpy`。
 
-## 调试 Hermes 特定进程
+## 调试 VAEL 特定进程
 
 ### 测试
 参见方案 3。wrapper 会捕获子进程输出，交互式 pdb 请直接运行 pytest。
 
 ### `run_agent.py` / CLI — 一次性运行
-在准备好的调试检出中，在可疑行附近添加 `breakpoint()`，然后运行 `python hermes`。
+在准备好的调试检出中，在可疑行附近添加 `breakpoint()`，然后运行 `python vael`。
 控制权将在暂停点返回到你的终端。
 
-### `tui_gateway` 子进程（由 `hermes --tui` 启动）
+### `tui_gateway` 子进程（由 `vael --tui` 启动）
 gateway 作为 Node TUI 的子进程运行。可选方案：
 
 **A. 修改 gateway 源码：**
@@ -315,7 +315,7 @@ import debugpy
 debugpy.listen(("127.0.0.1", 5678))
 debugpy.wait_for_client()
 ```
-从准备好的调试检出启动 `python hermes --tui`。TUI 将显示为冻结状态（其后端正在等待）。
+从准备好的调试检出启动 `python vael --tui`。TUI 将显示为冻结状态（其后端正在等待）。
 附加客户端后，执行在你 `continue` 时恢复。先检查子进程的解释器和导入路径，
 不要假定它继承了调试环境。
 
@@ -353,7 +353,7 @@ set_trace(host="127.0.0.1", port=4444)   # 在你想捕获的 RPC 处理器中
 
 8. **`scripts/run_tests.sh` 会剥离凭据并设置 `HOME=<tmpdir>`。** 如果你的 bug 依赖用户配置或真实 API 密钥，在 wrapper 下将无法复现。先用原始 `pytest` 复现，再在 wrapper 下确认。
 
-9. **fork / 多进程。** pdb 不会跟随 fork。每个子进程需要自己的 `breakpoint()` 或 `set_trace()`。对于 Hermes 子 agent，每次只调试一个进程。
+9. **fork / 多进程。** pdb 不会跟随 fork。每个子进程需要自己的 `breakpoint()` 或 `set_trace()`。对于 VAEL 子 agent，每次只调试一个进程。
 
 ## 验证清单
 

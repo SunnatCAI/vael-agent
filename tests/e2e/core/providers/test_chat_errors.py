@@ -1,7 +1,7 @@
-"""Chat-completions provider faults through REAL ``hermes -z`` processes.
+"""Chat-completions provider faults through REAL ``vael -z`` processes.
 
 The vendor boundary is ``FakeChatVariantServer`` (a plain ``provider: custom``
-chat-completions endpoint); everything between the CLI and that socket is real Hermes.
+chat-completions endpoint); everything between the CLI and that socket is real VAEL.
 
 Proven here:
 

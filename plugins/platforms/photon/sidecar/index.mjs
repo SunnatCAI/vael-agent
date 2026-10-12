@@ -1,20 +1,20 @@
-// Hermes Agent — Photon Spectrum sidecar
+// VAEL Agent — Photon Spectrum sidecar
 //
 // Spawned by `plugins/platforms/photon/adapter.py` to bridge BOTH directions
 // of messaging to Photon's Spectrum platform via the `spectrum-ts` SDK (the
 // SDK is TypeScript-only, so a Node sidecar is unavoidable — there is no
 // Python SDK and no public HTTP message API).
 //
-// Inbound  (gRPC -> Hermes): the SDK's `app.messages` async iterator is a
+// Inbound  (gRPC -> VAEL): the SDK's `app.messages` async iterator is a
 //   long-lived gRPC stream. We serialize each `[space, message]` to a
 //   normalized JSON event and stream it to the Python adapter over a
 //   loopback `GET /inbound` (NDJSON). We pause pulling from the stream while
 //   no consumer is attached so a backlog isn't pulled-and-lost before the
 //   gateway connects.
-// Outbound (Hermes -> gRPC): `/send` drives `space.send(...)`; `/typing`
+// Outbound (VAEL -> gRPC): `/send` drives `space.send(...)`; `/typing`
 //   sends the documented `typing("start" | "stop")` content builder.
 //
-// Protocol (all requests require `X-Hermes-Sidecar-Token: ${TOKEN}`):
+// Protocol (all requests require `X-VAEL-Sidecar-Token: ${TOKEN}`):
 //   - GET  /inbound    -> 200 NDJSON stream; one JSON event per line, blank
 //                         lines are heartbeats. One consumer at a time.
 //   - POST /healthz     -> {"ok": true}
@@ -60,7 +60,7 @@
 //                          adapter, which holds our stdin pipe — parent-death
 //                          detection so a dead gateway can't orphan us)
 //   PHOTON_TELEMETRY       enable Spectrum SDK telemetry ("true"/"1"/"on"/"yes";
-//                          default off — toggle with `hermes photon telemetry`)
+//                          default off — toggle with `vael photon telemetry`)
 
 import http from "node:http";
 import crypto from "node:crypto";
@@ -195,7 +195,7 @@ function scheduleStreamRestart() {
     }
     console.error(
       `photon-sidecar: upstream stream degraded for ${degradedForMs}ms; ` +
-        "exiting so Hermes can restart the Photon adapter"
+        "exiting so VAEL can restart the Photon adapter"
     );
     process.exit(75);
   }, STREAM_DEGRADED_RESTART_MS + 1000);
@@ -279,7 +279,7 @@ if (!projectId || !projectSecret || !sharedToken) {
 }
 
 // Lazy-load spectrum-ts so a missing install fails with a clear message
-// instead of a cryptic module-resolution error during import. Apply Hermes'
+// instead of a cryptic module-resolution error during import. Apply VAEL'
 // pinned-sdk compatibility patch first so existing installs self-heal at
 // runtime, not only during npm postinstall.
 try {
@@ -652,7 +652,7 @@ function inboundStreamErrorMessage(e) {
   let out = "photon-sidecar: inbound stream errored — restarting: " + msg;
 
   // The Spectrum SDK surfaces Photon cloud CatchUpEvents failures as an
-  // iMessage internal error. Local Hermes allowlists cannot cause or fix this:
+  // iMessage internal error. Local VAEL allowlists cannot cause or fix this:
   // inbound messages stop before they reach the gateway. Add an explicit hint
   // so operators know to retry/restart or escalate to Photon support instead
   // of chasing PHOTON_ALLOWED_USERS / pairing configuration.
@@ -666,7 +666,7 @@ function inboundStreamErrorMessage(e) {
   ) {
     out +=
       " | Photon Spectrum CatchUpEvents returned an internal server error; " +
-      "this is upstream of Hermes, so inbound iMessages may not be delivered " +
+      "this is upstream of VAEL, so inbound iMessages may not be delivered " +
       "until Photon recovers or the stream is re-established.";
   }
   return out;
@@ -1004,7 +1004,7 @@ function isHttpUrl(value) {
 }
 
 const server = http.createServer(async (req, res) => {
-  if (!tokenOk(req.headers["x-hermes-sidecar-token"])) {
+  if (!tokenOk(req.headers["x-vael-sidecar-token"])) {
     return unauthorized(res);
   }
   // Long-lived inbound NDJSON stream.
@@ -1088,7 +1088,7 @@ const server = http.createServer(async (req, res) => {
       const space = await resolveSpace(spaceId);
 
       // spectrum-ts infers name + MIME from the file extension; pass
-      // overrides only when Hermes supplied them so a known-good
+      // overrides only when VAEL supplied them so a known-good
       // inference isn't clobbered with an empty string.
       const opts = {};
       if (name) opts.name = name;

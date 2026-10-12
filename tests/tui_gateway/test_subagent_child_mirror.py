@@ -22,12 +22,12 @@ def server():
     with patch.dict(
         "sys.modules",
         {
-            "hermes_constants": MagicMock(
-                get_hermes_home=MagicMock(return_value="/tmp/hermes_test_child_mirror")
+            "vael_constants": MagicMock(
+                get_vael_home=MagicMock(return_value="/tmp/vael_test_child_mirror")
             ),
-            "hermes_cli.env_loader": MagicMock(),
-            "hermes_cli.banner": MagicMock(),
-            "hermes_state": MagicMock(),
+            "vael_cli.env_loader": MagicMock(),
+            "vael_cli.banner": MagicMock(),
+            "vael_state": MagicMock(),
         },
     ):
         import importlib

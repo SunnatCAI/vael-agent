@@ -17,11 +17,11 @@
  * app session; a known "no" drops them.
  *
  * Every value is a code-defined id from the closed sets below (mirrored by
- * hermes_cli/observability/shared_metrics_contract.py, which collapses any
+ * vael_cli/observability/shared_metrics_contract.py, which collapses any
  * stranger to `other`). Never a session id, path, message, bot name or setting
  * value.
  *
- * Local state (localStorage `hermes.desktop.metrics.v1:<hash of connection|profile>`,
+ * Local state (localStorage `vael.desktop.metrics.v1:<hash of connection|profile>`,
  * written only while on): the UTC day, areas already reported today, per-day
  * caps, today's aggregated action counts and per-mode activity, finished days
  * awaiting the backend's ack, and the onboarding latch (steps sent / still open).
@@ -320,7 +320,7 @@ export type DesktopMode = 'bots' | 'sessions'
 
 // ── limits ────────────────────────────────────────────────────────────────────
 
-const STATE_KEY = 'hermes.desktop.metrics.v1'
+const STATE_KEY = 'vael.desktop.metrics.v1'
 /** Friction per (kind, detail) per day; slow frames per bucket per day. */
 const FRICTION_DAILY_CAP = 20
 const SLOW_FRAME_DAILY_CAP = 5
@@ -583,7 +583,7 @@ export function completeFlow(flow: DesktopFlowId): void {
 
 /** The primary gateway socket dropped after a healthy boot. Classified a few
  *  seconds later: a backend process exit around it makes it `backend_exit`, a
- *  gateway switch starting in the window (Restart Hermes recycles the backend
+ *  gateway switch starting in the window (Restart VAEL recycles the backend
  *  before the switch flag rises) cancels it. */
 export function noteBackendDrop(reason: 'timeout' | null, now = Date.now()): void {
   if (pendingDrop || $desktopMetricsGate.get() !== 'on') {
@@ -744,7 +744,7 @@ export function noteMessageSent(mode: DesktopMode = $workspaceMode.get()): void 
   }
 }
 
-/** Configured bots (Bot Mode roster = Hermes profiles) — a count, never names. */
+/** Configured bots (Bot Mode roster = VAEL profiles) — a count, never names. */
 export function setDesktopBotCount(count: number): void {
   botCount = Math.max(0, Math.floor(finite(count)))
   withState(current => {
@@ -869,7 +869,7 @@ async function flushPendingDays(): Promise<void> {
 
 /** Renderer crashes main persisted while this renderer (or its predecessor) was gone. */
 async function drainRendererCrashes(): Promise<void> {
-  const bridge = window.hermesDesktop?.desktopMetrics
+  const bridge = window.vaelDesktop?.desktopMetrics
 
   try {
     const pending = await bridge?.takeRendererCrashes?.()
@@ -916,7 +916,7 @@ export function flushDesktopMetrics(): void {
 /** Main records this window's renderer crashes only while its profile is on; off drops that profile's. */
 function tellMain(on: boolean): void {
   try {
-    Promise.resolve(window.hermesDesktop?.desktopMetrics?.setEnabled?.(on, scope)).catch(() => undefined)
+    Promise.resolve(window.vaelDesktop?.desktopMetrics?.setEnabled?.(on, scope)).catch(() => undefined)
   } catch {
     // An older shell without the bridge.
   }

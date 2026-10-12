@@ -34,7 +34,7 @@ def _kimi_kwargs(model, reasoning_config):
 
 
 class TestKimiEffortVocabulary:
-    def test_k3_maps_full_hermes_ladder(self):
+    def test_k3_maps_full_vael_ladder(self):
         expected = {
             "minimal": "low",
             "low": "low",
@@ -44,11 +44,11 @@ class TestKimiEffortVocabulary:
             "max": "max",
             "ultra": "max",
         }
-        for hermes_level, wire_level in expected.items():
+        for vael_level, wire_level in expected.items():
             kw = _kimi_kwargs(
-                "kimi-k3", {"enabled": True, "effort": hermes_level}
+                "kimi-k3", {"enabled": True, "effort": vael_level}
             )
-            assert kw["reasoning_effort"] == wire_level, hermes_level
+            assert kw["reasoning_effort"] == wire_level, vael_level
 
     def test_k3_default_is_high(self):
         kw = _kimi_kwargs("kimi-k3", None)

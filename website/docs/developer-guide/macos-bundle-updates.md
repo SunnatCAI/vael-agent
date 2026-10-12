@@ -53,7 +53,7 @@ An unreadable feed prevents pruning.
 ## Client lifecycle
 
 Checks never download automatically. Apply rechecks the release, downloads it,
-and waits for Squirrel.Mac to accept the signed app. Only then does Hermes stop
+and waits for Squirrel.Mac to accept the signed app. Only then does VAEL stop
 its app-owned backends and request installation/relaunch. Unrelated quits do
 not trigger installation. Downloads and native-verification failures leave
 backends running. Concurrent checks cannot replace an apply operation's target.

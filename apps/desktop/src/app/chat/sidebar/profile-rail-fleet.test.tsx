@@ -48,9 +48,9 @@ vi.mock('@/i18n', () => ({
           gatewayUnreachable: (gateway: string) => `${gateway} · unreachable`,
           installDeviceConfirm: 'Install locally',
           installDeviceDesc:
-            'This will install Hermes locally, then open a fresh session on this computer. Nothing is installed until you confirm.',
+            'This will install VAEL locally, then open a fresh session on this computer. Nothing is installed until you confirm.',
           installDeviceTitle: 'Switch to This device?',
-          localDevice: 'This device (local backend — installs Hermes if missing, otherwise opens a fresh session)',
+          localDevice: 'This device (local backend — installs VAEL if missing, otherwise opens a fresh session)',
           onGateway: (name: string, gateway: string) => `${name} · ${gateway}`,
           switchDeviceConfirm: 'Switch',
           switchDeviceDesc:
@@ -126,10 +126,10 @@ vi.mock('./use-profile-rail-refresh-on-active', () => ({
 }))
 
 vi.mock('@/components/remote-setup/first-run', () => ({
-  FirstRunRemoteSetup: () => 'Connect to existing Hermes'
+  FirstRunRemoteSetup: () => 'Connect to existing VAEL'
 }))
 
-vi.mock('@/hermes', () => ({
+vi.mock('@/vael', () => ({
   getProfileSoul: vi.fn().mockResolvedValue({ content: '' }),
   updateProfileSoul: vi.fn()
 }))
@@ -171,7 +171,7 @@ const roster: DesktopAgentRoster = {
       connectionKind: 'remote',
       connectionLabel: 'Gateway A',
       profile: 'default',
-      handle: 'hermes-gateway-a'
+      handle: 'vael-gateway-a'
     },
     {
       connectionId: 'gateway-a',
@@ -185,7 +185,7 @@ const roster: DesktopAgentRoster = {
       connectionKind: 'local',
       connectionLabel: 'This device',
       profile: 'default',
-      handle: 'hermes'
+      handle: 'vael'
     },
     {
       connectionId: 'local',
@@ -231,7 +231,7 @@ beforeEach(() => {
   probeLocalBackend.mockResolvedValue({ bootstrapNeeded: false })
   selectConnection.mockResolvedValue(undefined)
   openWindow.mockResolvedValue({ ok: true })
-  ;(window as { hermesDesktop?: unknown }).hermesDesktop = { getAgentRoster, openWindow, probeLocalBackend }
+  ;(window as { vaelDesktop?: unknown }).vaelDesktop = { getAgentRoster, openWindow, probeLocalBackend }
 })
 
 afterEach(() => {
@@ -245,7 +245,7 @@ afterEach(() => {
   activeConnectionId.set(null)
   profileScope.set('default')
   profiles.set([{ is_default: true, name: 'default' }])
-  delete (window as { hermesDesktop?: unknown }).hermesDesktop
+  delete (window as { vaelDesktop?: unknown }).vaelDesktop
 })
 
 describe('ProfileRail overflow', () => {
@@ -461,7 +461,7 @@ describe('ProfileRail fleet mode', () => {
     const local = screen.getByRole('group', { name: 'Profiles on This device' })
 
     const localDevice = within(local).getByRole('button', {
-      name: 'This device (local backend — installs Hermes if missing, otherwise opens a fresh session)'
+      name: 'This device (local backend — installs VAEL if missing, otherwise opens a fresh session)'
     })
 
     expect(within(local).getByRole('button', { name: 'builder · This device' })).toBeTruthy()
@@ -534,7 +534,7 @@ describe('ProfileRail fleet mode', () => {
 
     fireEvent.click(
       screen.getByRole('button', {
-        name: 'This device (local backend — installs Hermes if missing, otherwise opens a fresh session)'
+        name: 'This device (local backend — installs VAEL if missing, otherwise opens a fresh session)'
       })
     )
 
@@ -562,21 +562,21 @@ describe('ProfileRail fleet mode', () => {
 
     fireEvent.click(
       screen.getByRole('button', {
-        name: 'This device (local backend — installs Hermes if missing, otherwise opens a fresh session)'
+        name: 'This device (local backend — installs VAEL if missing, otherwise opens a fresh session)'
       })
     )
 
     expect(selectConnection).not.toHaveBeenCalled()
     expect(
       await screen.findByText(
-        'This will install Hermes locally, then open a fresh session on this computer. Nothing is installed until you confirm.'
+        'This will install VAEL locally, then open a fresh session on this computer. Nothing is installed until you confirm.'
       )
     ).toBeTruthy()
 
     fireEvent.click(screen.getByRole('button', { name: 'Connect to existing instead' }))
 
     expect(selectConnection).not.toHaveBeenCalled()
-    expect(await screen.findByText('Connect to existing Hermes')).toBeTruthy()
+    expect(await screen.findByText('Connect to existing VAEL')).toBeTruthy()
   })
 
   it('does not switch when the fresh-session cue is cancelled', async () => {
@@ -585,7 +585,7 @@ describe('ProfileRail fleet mode', () => {
 
     fireEvent.click(
       screen.getByRole('button', {
-        name: 'This device (local backend — installs Hermes if missing, otherwise opens a fresh session)'
+        name: 'This device (local backend — installs VAEL if missing, otherwise opens a fresh session)'
       })
     )
     fireEvent.click(await screen.findByRole('button', { name: 'Cancel' }))
@@ -654,7 +654,7 @@ describe('ProfileRail fleet mode', () => {
     fireEvent.pointerDown(screen.getByRole('button', { name: 'Profiles' }), { button: 0, ctrlKey: false })
 
     const localDevice = await screen.findByRole('menuitem', {
-      name: 'This device (local backend — installs Hermes if missing, otherwise opens a fresh session)'
+      name: 'This device (local backend — installs VAEL if missing, otherwise opens a fresh session)'
     })
 
     expect(localDevice.querySelector('.codicon-device-desktop')).toBeTruthy()

@@ -14,7 +14,7 @@ Draw code changes as animated architecture/data-flow SVGs.
 
 | | |
 |---|---|
-| Source | Optional — install with `hermes skills install official/software-development/pr-lens` |
+| Source | Optional — install with `vael skills install official/software-development/pr-lens` |
 | Path | `optional-skills/software-development/pr-lens` |
 | Version | `1.0.0` |
 | Author | Coldtea AI (adapted by Nous Research) |
@@ -25,7 +25,7 @@ Draw code changes as animated architecture/data-flow SVGs.
 ## Reference: full SKILL.md
 
 :::info
-The following is the complete skill definition that Hermes loads when this skill is triggered. This is what the agent sees as instructions when the skill is active.
+The following is the complete skill definition that VAEL loads when this skill is triggered. This is what the agent sees as instructions when the skill is active.
 :::
 
 # PR Lens Skill
@@ -146,7 +146,7 @@ Validator failure codes:
 Smoke test (live-verified 2026-09-12 with `@coldtea/pr-lens-cli` via npx, node on Linux):
 
 ```bash
-cp references/example.graph.json ~/.hermes/cache/scratch/prlens-smoke/ && cd ~/.hermes/cache/scratch/prlens-smoke
+cp references/example.graph.json ~/.vael/cache/scratch/prlens-smoke/ && cd ~/.vael/cache/scratch/prlens-smoke
 npx -y @coldtea/pr-lens-cli@latest validate example.graph.json
 # ✓ example.graph.json — graph document · 3 lanes, 10 nodes, 13 edges, 1 flow · 6 walkthrough steps
 npx -y @coldtea/pr-lens-cli@latest render example.graph.json --theme light

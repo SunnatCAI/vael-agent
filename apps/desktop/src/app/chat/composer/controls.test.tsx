@@ -197,7 +197,7 @@ describe('wake-word ear visibility', () => {
 
   it('stays reachable (never hides) even when unavailable and not enabled', async () => {
     applyWakeStatus({ available: false, enabled: false, listening: false, phrase: 'hey hermes' })
-    applyWakeStartResult({ hint: 'run `hermes tools` (Voice section)', reason: 'unavailable', started: false })
+    applyWakeStartResult({ hint: 'run `vael tools` (Voice section)', reason: 'unavailable', started: false })
     renderControls()
 
     // The ear ALWAYS shows so the user can click to enable; a refused start

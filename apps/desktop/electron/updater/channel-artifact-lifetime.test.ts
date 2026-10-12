@@ -20,7 +20,7 @@ afterEach(async (): Promise<void> => {
 })
 
 test('ordinary Windows preparation owns temporary bytes while a resumable download retains its durable file', async (): Promise<void> => {
-  const directory: string = await mkdtemp(path.join(os.tmpdir(), 'hermes-artifact-lifetime-'))
+  const directory: string = await mkdtemp(path.join(os.tmpdir(), 'vael-artifact-lifetime-'))
   directories.push(directory)
   const bytes: Buffer = Buffer.from('digest-bound download')
 

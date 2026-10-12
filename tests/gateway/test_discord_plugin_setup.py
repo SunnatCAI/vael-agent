@@ -1,13 +1,13 @@
 """Tests for the Discord plugin's interactive_setup wizard home-channel flow.
 
 The interactive_setup wizard lazy-imports its CLI helpers from
-``hermes_cli.config`` (get_env_value / save_env_value / remove_env_value) and
-``hermes_cli.cli_output`` (prompt / prompt_yes_no / print_*); we patch those
+``vael_cli.config`` (get_env_value / save_env_value / remove_env_value) and
+``vael_cli.cli_output`` (prompt / prompt_yes_no / print_*); we patch those
 source modules. Covers the home-channel clear-on-blank behavior added in
 PR #58421 and extended in the follow-up.
 """
-import hermes_cli.config as config_mod
-import hermes_cli.cli_output as cli_output_mod
+import vael_cli.config as config_mod
+import vael_cli.cli_output as cli_output_mod
 from plugins.platforms.discord.adapter import interactive_setup
 
 
@@ -43,7 +43,7 @@ class TestDiscordHomeChannelClear:
     """Blank home-channel answer must clear DISCORD_HOME_CHANNEL (#12423)."""
 
     def test_blank_removes_existing_home_channel(self, monkeypatch, tmp_path):
-        monkeypatch.setenv("HERMES_HOME", str(tmp_path))
+        monkeypatch.setenv("VAEL_HOME", str(tmp_path))
         saved, removed = {}, []
         _patch_setup_io(
             monkeypatch,
@@ -66,7 +66,7 @@ class TestDiscordTokenShapeGuard:
     (port of openclaw/openclaw#140531)."""
 
     def test_numeric_app_id_reprompts_then_accepts_real_token(self, monkeypatch, tmp_path):
-        monkeypatch.setenv("HERMES_HOME", str(tmp_path))
+        monkeypatch.setenv("VAEL_HOME", str(tmp_path))
         saved, removed, errors = {}, [], []
         real_token = "«redacted»." + "part2.part3"
         _patch_setup_io(
@@ -82,7 +82,7 @@ class TestDiscordTokenShapeGuard:
         assert any("application ID" in e for e in errors)
 
     def test_non_numeric_token_saves_without_error(self, monkeypatch, tmp_path):
-        monkeypatch.setenv("HERMES_HOME", str(tmp_path))
+        monkeypatch.setenv("VAEL_HOME", str(tmp_path))
         saved, removed, errors = {}, [], []
         _patch_setup_io(monkeypatch, _PROMPTS_BLANK, saved, removed, existing={})
         monkeypatch.setattr(cli_output_mod, "print_error", lambda *a, **_kw: errors.append(" ".join(map(str, a))))

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import type { McpTestResult } from '@/hermes'
+import type { McpTestResult } from '@/vael'
 
 import { classifyProbe, freshProbe, PROBE_TTL_MS, probeCache, probeKey } from './mcp-probe-cache'
 

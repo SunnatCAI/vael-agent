@@ -15,7 +15,7 @@ import { readSourceUpdate, type SourceUpdate } from './checkout-source'
 
 const execute: typeof execFile.__promisify__ = promisify(execFile)
 const repository: string = path.resolve(import.meta.dirname, '../../../..')
-const python: string = process.env.HERMES_PYTHON || 'python3'
+const python: string = process.env.VAEL_PYTHON || 'python3'
 
 function buildId(channel: 'stable' | 'canary'): string {
   return (channel === 'stable' ? 'a' : 'b').repeat(32)
@@ -104,7 +104,7 @@ function canonicalJson(value: FixtureManifest): string {
   return JSON.stringify(value)
 }
 
-/** R2 channel record per hermes_cli.release_channels.validate_record. */
+/** R2 channel record per vael_cli.release_channels.validate_record. */
 function channelRecord(channel: 'stable' | 'canary', sequence: number): FixtureRecord {
   return {
     schema: 1,
@@ -116,13 +116,13 @@ function channelRecord(channel: 'stable' | 'canary', sequence: number): FixtureR
     nextSequence: sequence + 1,
     identity: {
       token: 'b'.repeat(16),
-      displayName: channel === 'stable' ? 'Hermes Stable' : 'Hermes Canary',
-      appNamePascal: 'Hermes',
-      artifactNamePascal: 'Hermes',
-      appId: 'chat.nous.hermes',
+      displayName: channel === 'stable' ? 'VAEL Stable' : 'VAEL Canary',
+      appNamePascal: 'VAEL',
+      artifactNamePascal: 'VAEL',
+      appId: 'chat.nous.vael',
       msixAppIdWithOrg: 'NousResearch.Hermes',
-      cliName: 'hermes',
-      windowsExecutableName: 'hermes'
+      cliName: 'vael',
+      windowsExecutableName: 'vael'
     },
     head: {
       buildId: 'a'.repeat(32),
@@ -133,7 +133,7 @@ function channelRecord(channel: 'stable' | 'canary', sequence: number): FixtureR
   }
 }
 
-/** Build manifest per hermes_cli.release_channels.validate_manifest. */
+/** Build manifest per vael_cli.release_channels.validate_manifest. */
 function buildManifest(
   channel: 'stable' | 'canary',
   sha: string,
@@ -142,13 +142,13 @@ function buildManifest(
 ): FixtureManifest {
   const identity: FixtureIdentity = {
     token: 'b'.repeat(16),
-    displayName: channel === 'stable' ? 'Hermes Stable' : 'Hermes Canary',
-    appNamePascal: 'Hermes',
-    artifactNamePascal: 'Hermes',
-    appId: 'chat.nous.hermes',
+    displayName: channel === 'stable' ? 'VAEL Stable' : 'VAEL Canary',
+    appNamePascal: 'VAEL',
+    artifactNamePascal: 'VAEL',
+    appId: 'chat.nous.vael',
     msixAppIdWithOrg: 'NousResearch.Hermes',
-    cliName: 'hermes',
-    windowsExecutableName: 'hermes'
+    cliName: 'vael',
+    windowsExecutableName: 'vael'
   }
 
   const sequence: number = channel === 'stable' ? 1 : 2
@@ -175,7 +175,7 @@ function buildManifest(
         platform: 'darwin',
         arch: 'arm64',
         variant: 'bundled',
-        identity: 'chat.nous.hermes',
+        identity: 'chat.nous.vael',
         version: tag.replace(/^v/, ''),
         teamId: 'TESTTEAM12',
         artifact: {
@@ -292,12 +292,12 @@ it('carries each install channel from Python publication checks into the source 
     })
     const address: AddressInfo = server.address() as AddressInfo
     // Redirect only network transport. Selection, config, tag validation and Git are real.
-    fs.cpSync(path.join(repository, 'hermes_cli'), path.join(root, 'hermes_cli'), { recursive: true })
+    fs.cpSync(path.join(repository, 'vael_cli'), path.join(root, 'vael_cli'), { recursive: true })
     fs.writeFileSync(
       path.join(root, 'transport.py'),
       `import sys, os
 sys.path.append(${JSON.stringify(repository)})
-assert not os.environ.get('HERMES_RUNTIME_DIR')
+assert not os.environ.get('VAEL_RUNTIME_DIR')
 import urllib.request
 from urllib.parse import urlsplit
 original_build = urllib.request.build_opener
@@ -321,19 +321,19 @@ def local_build(*args, **kwargs):
 urllib.request.build_opener = local_build
 `
     )
-    vi.stubEnv('HERMES_MANAGED', '')
-    vi.stubEnv('HERMES_RUNTIME_DIR', path.join(temporary, 'wrong-runtime'))
+    vi.stubEnv('VAEL_MANAGED', '')
+    vi.stubEnv('VAEL_RUNTIME_DIR', path.join(temporary, 'wrong-runtime'))
     vi.stubEnv('PYTHONPATH', path.join(temporary, 'wrong-checkout'))
     vi.stubEnv('PYTHONHOME', path.join(temporary, 'wrong-python'))
-    vi.stubEnv('HERMES_INSTALL_ROOT', origin)
+    vi.stubEnv('VAEL_INSTALL_ROOT', origin)
 
     const environment: NodeJS.ProcessEnv = {
       ...process.env,
-      HERMES_HOME: home,
-      HERMES_INSTALL_ROOT: root,
+      VAEL_HOME: home,
+      VAEL_INSTALL_ROOT: root,
       PYTHONPATH: repository,
       PYTHONHOME: '',
-      HERMES_RUNTIME_DIR: ''
+      VAEL_RUNTIME_DIR: ''
     }
 
     async function setChannel(channel: 'stable' | 'canary' | 'main', install: string = root): Promise<void> {
@@ -341,7 +341,7 @@ urllib.request.build_opener = local_build
         python,
         [
           '-c',
-          'import sys; from pathlib import Path; from hermes_cli.update_channel import set_install_channel; set_install_channel(sys.argv[1], Path(sys.argv[2]))',
+          'import sys; from pathlib import Path; from vael_cli.update_channel import set_install_channel; set_install_channel(sys.argv[1], Path(sys.argv[2]))',
           channel,
           install
         ],
@@ -349,7 +349,7 @@ urllib.request.build_opener = local_build
       )
     }
 
-    const checkerPath: string = path.join(root, 'hermes_cli', 'source_check.py')
+    const checkerPath: string = path.join(root, 'vael_cli', 'source_check.py')
     fs.writeFileSync(
       checkerPath,
       fs
@@ -361,7 +361,7 @@ urllib.request.build_opener = local_build
     )
 
     const deps: CheckoutStrategyDeps = {
-      hermesHome: home,
+      vaelHome: home,
       isWindows: process.platform === 'win32',
       isMac: process.platform === 'darwin',
       defaultUpdateBranch: 'main',
@@ -372,7 +372,7 @@ urllib.request.build_opener = local_build
           python,
           git: 'git',
           updateRoot: install,
-          hermesHome: home,
+          vaelHome: home,
           force: opts.force
         }),
       resolveUpdaterBinary: (): null => null,
@@ -380,7 +380,7 @@ urllib.request.build_opener = local_build
 
       emitUpdateProgress: vi.fn(),
       rememberLog: vi.fn(),
-      startHermes: async (): Promise<void> => {},
+      startVael: async (): Promise<void> => {},
 
       stopBackendsForUpdate: vi.fn(async (): Promise<void> => {}),
       repairMacUpdaterHelper: (): void => {},
@@ -404,8 +404,8 @@ urllib.request.build_opener = local_build
     const script: string = path.join(scriptDirectory, process.platform === 'win32' ? 'windows.ps1' : 'posix.sh')
     fs.mkdirSync(scriptDirectory, { recursive: true })
     fs.writeFileSync(path.join(scriptDirectory, 'runtime.ps1'), '')
-    fs.mkdirSync(path.join(root, '.hermes', 'bin'), { recursive: true })
-    fs.writeFileSync(path.join(root, '.hermes', 'bin', 'hermes.exe'), '')
+    fs.mkdirSync(path.join(root, '.vael', 'bin'), { recursive: true })
+    fs.writeFileSync(path.join(root, '.vael', 'bin', 'vael.exe'), '')
 
     for (const channel of ['stable', 'canary'] as const) {
       await setChannel(channel)
@@ -418,9 +418,9 @@ urllib.request.build_opener = local_build
         updateAvailable: true
       })
       fs.rmSync(scriptDirectory, { recursive: true, force: true })
-      expect(await strategy.apply()).toMatchObject({ manual: true, command: `hermes update --channel ${channel}` })
+      expect(await strategy.apply()).toMatchObject({ manual: true, command: `vael update --channel ${channel}` })
       deps.resolveUpdaterBinary = (): string => path.join(temporary, 'frozen-updater')
-      expect(await strategy.apply()).toMatchObject({ manual: true, command: `hermes update --channel ${channel}` })
+      expect(await strategy.apply()).toMatchObject({ manual: true, command: `vael update --channel ${channel}` })
       expect(spawned).toHaveLength(0)
       fs.mkdirSync(scriptDirectory, { recursive: true })
       fs.writeFileSync(script, '')
@@ -432,11 +432,11 @@ urllib.request.build_opener = local_build
       expect(handoff?.args).not.toContain('--branch')
       expect(handoff?.args).not.toContain('-Branch')
       expect(handoff?.command).not.toBe(deps.resolveUpdaterBinary())
-      expect(handoff?.options.env?.HERMES_HOME).toBe(home)
-      expect(handoff?.options.env?.HERMES_INSTALL_ROOT).toBe(root)
+      expect(handoff?.options.env?.VAEL_HOME).toBe(home)
+      expect(handoff?.options.env?.VAEL_INSTALL_ROOT).toBe(root)
       expect(handoff?.options.env?.PYTHONPATH).toBe('')
       expect(handoff?.options.env?.PYTHONHOME).toBe('')
-      expect(handoff?.options.env?.HERMES_RUNTIME_DIR).toBeUndefined()
+      expect(handoff?.options.env?.VAEL_RUNTIME_DIR).toBeUndefined()
       deps.resolveUpdaterBinary = (): null => null
       expect(git(['rev-parse', 'HEAD'], root)).toBe(commits[3])
       git(['checkout', '--detach', sha], root)
@@ -452,7 +452,7 @@ urllib.request.build_opener = local_build
     expect(deps.stopBackendsForUpdate).not.toHaveBeenCalled()
     expect(spawned).toHaveLength(0)
     await setChannel('main')
-    expect(await readSourceUpdate({ python, git: 'git', updateRoot: root, hermesHome: home })).toMatchObject({
+    expect(await readSourceUpdate({ python, git: 'git', updateRoot: root, vaelHome: home })).toMatchObject({
       supported: true,
       branch: 'feature/gui',
       targetSha: commits[3],
@@ -469,7 +469,7 @@ urllib.request.build_opener = local_build
       expect.arrayContaining([process.platform === 'win32' ? '-Branch' : '--branch', 'feature/gui'])
     )
     fs.rmSync(scriptDirectory, { recursive: true, force: true })
-    expect(await strategy.apply()).toMatchObject({ manual: true, command: 'hermes update --branch feature/gui' })
+    expect(await strategy.apply()).toMatchObject({ manual: true, command: 'vael update --branch feature/gui' })
     // apply() forces a fresh check; under the R2 protocol that re-resolution
     // touches exactly the channel record — no GitHub or artifact chatter.
     expect(requests.slice(count)).toEqual(['/releases/channels/main.json', '/releases/channels/main.json'])

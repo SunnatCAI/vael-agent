@@ -1,12 +1,12 @@
 import { requestGatewayForAgent } from '@/store/gateway'
 import type { AgentProfileRoute } from '@/store/profile'
-import type { SessionCreateResponse } from '@/types/hermes'
+import type { SessionCreateResponse } from '@/types/vael'
 
 type RequestGateway = <T>(method: string, params?: Record<string, unknown>) => Promise<T>
 
 /** A backend predating #122899 (contract without `cwd_explicit`) rejects the
  *  whole create at admission (`tui_gateway/contracts/registry.py::validate_params`,
- *  code 4000, handler never runs) — e.g. a Hermes Cloud backend behind a
+ *  code 4000, handler never runs) — e.g. a VAEL Cloud backend behind a
  *  Desktop that updates from main (#128971). Those backends always honoured the
  *  client `cwd`, so resending without the flag reproduces their behaviour.
  *  Matched on the stable prefix, not `isOutOfSyncRpcParams`: v0.21.3 already

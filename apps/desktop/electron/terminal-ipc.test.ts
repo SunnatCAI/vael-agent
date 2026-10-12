@@ -6,7 +6,7 @@ import { resolveTerminalConnection, resolveTerminalConnectionForSender } from '.
 
 const ssh = {
   host: 'registry-box.test',
-  user: 'hermes'
+  user: 'vael'
 }
 
 test('terminal start preserves the selected SSH target and scope', async () => {

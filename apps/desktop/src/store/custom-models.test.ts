@@ -1,4 +1,4 @@
-import type { ModelOptionProvider } from '@hermes/shared'
+import type { ModelOptionProvider } from '@vael/shared'
 import { beforeEach, describe, expect, it } from 'vitest'
 
 import {
@@ -83,7 +83,7 @@ describe('resetModelVisibilityKeepingCustoms', () => {
     const visible = effectiveVisibleKeys($visibleModels.get(), catalog)
 
     expect($customModels.get()).toEqual([{ model: 'acme/model-x', provider: 'openrouter' }])
-    expect(window.localStorage.getItem('hermes.desktop.custom-models')).toContain('acme/model-x')
+    expect(window.localStorage.getItem('vael.desktop.custom-models')).toContain('acme/model-x')
     expect(visible.has(modelVisibilityKey('openrouter', 'acme/model-x'))).toBe(true)
 
     for (const key of defaultVisibleKeys(catalog)) {
