@@ -100,7 +100,7 @@ def test_chat_offer_asks_an_undecided_profile_once(monkeypatch):
     from vael_cli.observability import shared_metrics_consent as consent
 
     asked = []
-    monkeypatch.setattr("vael_cli.curses_ui.curses_radiolist", lambda *a, **k: asked.append(a) or 1)
+    monkeypatch.setattr("vael_cli.curses_ui.curses_radiolist", lambda *a, **k: asked.append(a) or 0)  # "Collect locally only"
     monkeypatch.setattr("sys.stdin.isatty", lambda: True)
     monkeypatch.setattr("sys.stdout.isatty", lambda: True)
     monkeypatch.delenv("VAEL_DESKTOP", raising=False)
