@@ -85,10 +85,10 @@ def test_release_claims_the_first_attempt_creates_a_draft_and_dispatches(source)
     def execute(command):
         calls.append(command)
         if command[:3] == ["gh", "run", "list"]:
-            return json.dumps([{"databaseId": 7, "url": "https://github.com/example/hermes-agent/actions/runs/7",
+            return json.dumps([{"databaseId": 7, "url": "https://github.com/example/vael-agent/actions/runs/7",
                                 "headBranch": "rc.1-v0.21.5", "status": "queued"}])
         if command[:3] == ["gh", "release", "create"]:
-            return "https://github.com/example/hermes-agent/releases/tag/untagged-0123abcd\n"
+            return "https://github.com/example/vael-agent/releases/tag/untagged-0123abcd\n"
         return ""
 
     result = _release(source, commit, execute=execute, autopublish=True, skip_bundles=True)
@@ -97,8 +97,8 @@ def test_release_claims_the_first_attempt_creates_a_draft_and_dispatches(source)
     assert result["tag"] == "rc.1-v0.21.5"
     assert result["commit"] == commit
     # A draft lives at the page gh reports, never at releases/tag/<claim>.
-    assert result["url"] == "https://github.com/example/hermes-agent/releases/tag/untagged-0123abcd"
-    assert result["final_url"] == "https://github.com/example/hermes-agent/releases/tag/v0.21.5"
+    assert result["url"] == "https://github.com/example/vael-agent/releases/tag/untagged-0123abcd"
+    assert result["final_url"] == "https://github.com/example/vael-agent/releases/tag/v0.21.5"
     assert git(source, "rev-parse", "rc.1-v0.21.5^{commit}") == commit
     claim = tag_record(git(source, "tag", "-l", "rc.1-v0.21.5", "--format=%(contents)"))
     assert isinstance(claim.pop("claimEpoch"), int)
@@ -124,7 +124,7 @@ def test_release_claims_the_first_attempt_creates_a_draft_and_dispatches(source)
         ["gh", "run", "list", "--repo", "example/vael-agent", "--workflow", "stable-release.yml",
          "--branch", "rc.1-v0.21.5", "--json", "databaseId,url,headBranch,status"],
     ]
-    assert result["run_url"] == "https://github.com/example/hermes-agent/actions/runs/7"
+    assert result["run_url"] == "https://github.com/example/vael-agent/actions/runs/7"
     # The claim push names the claim ref and nothing else.
     pushed = git(source, "ls-remote", "origin", "refs/tags/*")
     assert pushed.splitlines() == [
@@ -138,8 +138,8 @@ def test_release_output_names_the_ci_run_and_the_publish_step():
 
     result = {"version": "0.21.5", "tag": "rc.1-v0.21.5", "autopublish": False,
               "skip_bundles": False, "skip_tests": False, "repository": "example/vael-agent",
-              "run_url": "https://github.com/example/hermes-agent/actions/runs/7",
-              "url": "https://github.com/example/hermes-agent/releases/tag/untagged-0123abcd"}
+              "run_url": "https://github.com/example/vael-agent/actions/runs/7",
+              "url": "https://github.com/example/vael-agent/releases/tag/untagged-0123abcd"}
     text = next_steps(result)
     assert "Attempting release rc.1-v0.21.5 for v0.21.5." in text
     assert "Release CI: " + result["run_url"] in text
@@ -165,17 +165,17 @@ def test_an_unlisted_run_points_at_the_workflow_page():
     text = next_steps({"version": "0.21.5", "tag": "rc.1-v0.21.5", "autopublish": False,
                        "skip_bundles": False, "skip_tests": False,
                        "repository": "example/vael-agent", "run_url": "",
-                       "url": "https://github.com/example/hermes-agent/releases/tag/untagged-0123abcd"})
+                       "url": "https://github.com/example/vael-agent/releases/tag/untagged-0123abcd"})
     assert "the run is not listed yet" in text
-    assert "https://github.com/example/hermes-agent/actions/workflows/stable-release.yml" in text
+    assert "https://github.com/example/vael-agent/actions/workflows/stable-release.yml" in text
 
 
 @pytest.mark.parametrize(("lists_on", "wait", "run_url", "naps"), [
-    (3, 30, "https://github.com/example/hermes-agent/actions/runs/7", 2),
+    (3, 30, "https://github.com/example/vael-agent/actions/runs/7", 2),
     (None, 4, "", 2),
 ])
 def test_release_looks_for_the_dispatched_run_only_within_its_wait(source, lists_on, wait, run_url, naps):
-    listed = json.dumps([{"databaseId": 7, "url": "https://github.com/example/hermes-agent/actions/runs/7",
+    listed = json.dumps([{"databaseId": 7, "url": "https://github.com/example/vael-agent/actions/runs/7",
                           "headBranch": "rc.1-v0.21.5", "status": "queued"}])
     lists, slept = [], []
 
@@ -274,16 +274,16 @@ def test_refusal_names_the_run_and_both_ways_out(source, capsys):
                            "stable-release.yml", "--branch", "rc.1-v0.21.5",
                            "--json", "databaseId,url,headBranch,headSha,status"]
         return json.dumps([
-            {"databaseId": 98, "url": "https://github.com/example/hermes-agent/actions/runs/98",
+            {"databaseId": 98, "url": "https://github.com/example/vael-agent/actions/runs/98",
              "headBranch": "rc.1-v0.21.5", "headSha": "0" * 40, "status": "completed"},
-            {"databaseId": 99, "url": "https://github.com/example/hermes-agent/actions/runs/99",
+            {"databaseId": 99, "url": "https://github.com/example/vael-agent/actions/runs/99",
              "headBranch": "rc.1-v0.21.5", "headSha": blocked, "status": "completed"},
         ])
 
     with pytest.raises(ReleaseRefused):
         _release(source, _advance(source, "later"), bump="minor", execute=execute)
     text = capsys.readouterr().err
-    assert "https://github.com/example/hermes-agent/actions/runs/99" in text
+    assert "https://github.com/example/vael-agent/actions/runs/99" in text
     assert "runs/98" not in text
     # The abandon command names the outstanding attempt's version, not the derived 0.22.0.
     assert "python scripts/release.py abandon --version 0.21.5 --remote origin" in text
@@ -348,7 +348,7 @@ def test_release_draft_lists_the_commits_since_the_stable_base(source, published
             with open(notes_path, encoding="utf-8") as file:
                 seen["body"] = file.read()
         if command[:3] == ["gh", "run", "list"]:
-            return json.dumps([{"databaseId": 7, "url": "https://github.com/example/hermes-agent/actions/runs/7",
+            return json.dumps([{"databaseId": 7, "url": "https://github.com/example/vael-agent/actions/runs/7",
                                 "headBranch": "rc.1-v0.21.5", "status": "queued"}])
         return ""
 
@@ -360,7 +360,7 @@ def test_release_draft_lists_the_commits_since_the_stable_base(source, published
     # The notes are this repository's commits from the stable base to the cut
     # commit, not GitHub's merged-PR list, which a fork leaves empty.
     assert "New in this release" in body
-    assert "https://github.com/example/hermes-agent/pull/123" in body
+    assert "https://github.com/example/vael-agent/pull/123" in body
     assert "hipped in the published release" not in body
     assert "compare/v0.21.4...rc.1-v0.21.5" in body
     # The stable workflow renders the download tables into this marker.
@@ -446,9 +446,9 @@ def test_publish_and_abandon_output_name_the_result():
     from scripts.releases.entrypoint import abandon_steps, publish_steps
 
     published = publish_steps({"version": "0.21.5", "repository": "example/vael-agent",
-                               "run_url": "https://github.com/example/hermes-agent/actions/runs/9"})
+                               "run_url": "https://github.com/example/vael-agent/actions/runs/9"})
     assert "Requested publication of v0.21.5." in published
-    assert "Workflow: https://github.com/example/hermes-agent/actions/runs/9" in published
+    assert "Workflow: https://github.com/example/vael-agent/actions/runs/9" in published
     assert "moves the stable channel" in published
 
     abandoned = abandon_steps({"version": "0.21.5", "tag": "rc.1-v0.21.5",

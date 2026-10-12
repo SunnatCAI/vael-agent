@@ -49,6 +49,9 @@ LOCAL_HOST = re.compile(
     re.I,
 )
 
+# Placeholder GitHub owners used by tests; their URLs must agree with the renamed "owner/repo" literals.
+PLACEHOLDER_REPO = re.compile(r"github\.com[/:](example|fixture|fork|owner|org|acme|user|your-org|your-user)/", re.I)
+
 # Spans matched here keep their text. Each entry is an external contract.
 PROTECT = [
     # upstream hosts, repos, images
@@ -70,6 +73,7 @@ PROTECT = [
     # values derived from an upstream URL that stays untouched
     re.compile(r"\"NousResearch\" / \"hermes-agent\.git\""),
     re.compile(r"repositoryInfo\.project, 'hermes-agent'|repo: 'hermes-agent', provider: 'github'"),
+    re.compile(r"== 'fork/hermes-agent'"),
     # third-party packages
     re.compile(r"hermes-(parser|estree|eslint)"),
     # KEEP-list identifiers referenced from code and docs
@@ -87,6 +91,11 @@ MD_LINK = re.compile(r"\[[^\]\n]*hermes[^\]\n]*\]\(https?://([^/\s)]+)[^)\s]*her
 FILE_PROTECT = {
     "optional-skills/security/godmode/scripts/auto_jailbreak.py": [
         re.compile(r"# Nous/Hermes models|^    \"hermes\": \{$|^        return \"hermes\"$", re.M),
+    ],
+    # independent SigV4 vectors: the signatures were precomputed for exactly these inputs
+    "tests/scripts/test_release_r2.py": [
+        re.compile(r"^    \('(PUT|GET|DELETE)', '/hermes-releases.*$", re.M),
+        re.compile(r"prefix=HermesBundled-0\.28\.0-'"),
     ],
 }
 
@@ -124,7 +133,9 @@ def protected_spans(text: str, patterns: list[re.Pattern[str]]) -> list[tuple[in
     spans = [
         m.span()
         for m in URL.finditer(text)
-        if "hermes" in m.group(0).lower() and not LOCAL_HOST.match(m.group(1).split(":")[0])
+        if "hermes" in m.group(0).lower()
+        and not LOCAL_HOST.match(m.group(1).split(":")[0])
+        and not PLACEHOLDER_REPO.search(m.group(0))
     ]
     spans.extend(
         m.span()

@@ -130,12 +130,12 @@ def test_disposable_scope_streams_lists_and_never_touches_production(r2_server, 
 @pytest.mark.parametrize('method,path,query,payload,scope,signature', [
     ('GET', '/', {}, EMPTY_SHA, 'us-east-1/service',
      '33399fd3d4a9d6104710c7c04005f7c959f8b1f8bf41b823587ed36b079e453f'),
-    ('PUT', '/vael-releases/VaelBundled-0.28.0-win-x64.msix', {},
+    ('PUT', '/hermes-releases/HermesBundled-0.28.0-win-x64.msix', {},
      '44ce7dd67c959e0d3524ffac1771dfbba87d2b6b4b4e99e42034a8b803f8b072', 'auto/s3',
      '05ba50acfb54042fac330848af50877e5fb477c4f2063c2f77f9cc80855eb1e9'),
-    ('GET', '/vael-releases', {'list-type': '2', 'prefix': 'VaelBundled-0.28.0-', 'max-keys': '1000'},
+    ('GET', '/hermes-releases', {'list-type': '2', 'prefix': 'HermesBundled-0.28.0-', 'max-keys': '1000'},
      EMPTY_SHA, 'auto/s3', '3ec423c452a318664c85fbcc25667ad07201aedce688e3bb6b345b4baaa39d90'),
-    ('DELETE', '/vael-releases/VaelBundled-0.28.0+canary.20260818T000000Z-win-arm64.msix', {},
+    ('DELETE', '/hermes-releases/HermesBundled-0.28.0+canary.20260818T000000Z-win-arm64.msix', {},
      EMPTY_SHA, 'auto/s3', '40dba7bf7356837cf496d950605dfc2c62d82ca2b30aa45c8c0dc8dab7bc1bd1'),
 ])
 def test_independent_sigv4_vectors(method, path, query, payload, scope, signature):
@@ -147,7 +147,7 @@ def test_independent_sigv4_vectors(method, path, query, payload, scope, signatur
         signed = 'host;x-amz-content-sha256;x-amz-date'
     encoded = canonical_query(query)
     if query:
-        assert encoded == 'list-type=2&max-keys=1000&prefix=VaelBundled-0.28.0-'
+        assert encoded == 'list-type=2&max-keys=1000&prefix=HermesBundled-0.28.0-'
     region, service = scope.split('/')
     assert _auth(method=method, host=host, path=path, query=encoded, headers=headers,
                  payload_hash=payload, region=region, service=service) == (

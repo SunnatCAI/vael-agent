@@ -174,7 +174,7 @@ def test_source_check_honors_transient_channel_without_rewriting_record(releases
 
 
 def test_fork_origin_uses_its_own_published_release_not_the_official_pointer(releases):
-    url = "https://github.com/Fixture/hermes-agent.git"
+    url = "https://github.com/Fixture/vael-agent.git"
     git(releases.root, "config", "remote.origin.url", url)
     git(releases.root, "config", f"url.{releases.origin}.insteadOf", url)
     tag = releases.tags["stable"]
@@ -202,7 +202,7 @@ def test_zip_fallback_keeps_selected_repository_and_commit(releases, monkeypatch
         update_cmd_zip._update_via_zip(
             SimpleNamespace(branch=None), target_sha=releases.commits[2],
             target_repository="Fixture/vael-agent", completion_request={})
-    assert seen == [f"https://github.com/Fixture/hermes-agent/archive/{releases.commits[2]}.zip"]
+    assert seen == [f"https://github.com/Fixture/vael-agent/archive/{releases.commits[2]}.zip"]
 
 
 @pytest.mark.parametrize("git_cmd", [["git"], None], ids=["git", "no-git"])
