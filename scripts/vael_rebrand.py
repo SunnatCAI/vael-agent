@@ -71,7 +71,7 @@ PROTECT = [
     re.compile(r"hermes-agent\.nousresearch\.\.\."),
     re.compile(r"\bhermes-agent#\d+"),  # upstream issue / PR numbers
     # markers minted before the rename and still replayed by migrated sessions
-    re.compile(r"HERMES-CONTEXT-COMPRESSION"),
+    re.compile(r"HERMES-CONTEXT-COMPRESSION|\bfrom a Hermes home\b"),
     # Nous model family names
     re.compile(r"(?<![A-Za-z0-9_])(nous[-_/ ])?hermes(-[2-5](?![0-9])|[2-5](?=[:.-]))[\w.:-]*", re.I),
     re.compile(r"(?<![A-Za-z0-9_])Hermes [2-5](?![0-9])[\w.:-]*"),
@@ -93,6 +93,7 @@ PROTECT = [
     # KEEP-list identifiers referenced from code and docs
     re.compile(r"openclaw[_-]to[_-]hermes", re.I),
     re.compile(r"hermes-achievements|hermes_achievements", re.I),
+    re.compile(r"hermes-jackal-verified"),  # a catalog entry's repository, named in CI comments
     re.compile(r"requires_hermes"),
     # OAuth client IDs registered with third-party servers (Nous Portal, Honcho)
     re.compile(r"client[_-]?id[^\n]{0,80}?[\"'`=]hermes-(cli-vps|cli|agent)\b", re.I),
@@ -154,7 +155,9 @@ def protected_spans(text: str, patterns: list[re.Pattern[str]]) -> list[tuple[in
     spans.extend(
         m.span()
         for m in MD_LINK.finditer(text)
-        if "nousresearch" not in m.group(0).lower() and not LOCAL_HOST.match(m.group(1).split(":")[0])
+        if "nousresearch" not in m.group(0).lower()
+        and not LOCAL_HOST.match(m.group(1).split(":")[0])
+        and not PLACEHOLDER_REPO.search(m.group(0))
     )
     for pattern in patterns:
         spans.extend(m.span() for m in pattern.finditer(text) if "hermes" in m.group(0).lower())

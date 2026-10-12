@@ -122,7 +122,7 @@ body:
     id: vael-version
     attributes:
       label: VAEL Version
-      description: Output of `vael version`
+      description: Output of `vael --version`
       placeholder: "2.1.0"
 
   - type: textarea

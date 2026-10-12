@@ -18,7 +18,9 @@ Hermes Agent → VAEL Agent rename. Status: the mechanical rename (the former
 
 ## What still says `hermes`, on purpose
 
-- `LICENSE` and upstream attribution (MIT requires it).
+- Upstream attribution: `LICENSE` is untouched (it carries Nous Research's
+  copyright notice, which MIT requires keeping; it does not itself say
+  "Hermes"), and credits that name the upstream project keep its name.
 - `contributors/emails/*`, `plugins/hermes-achievements/**` (vendored
   third-party), `plugin-catalog/*.yaml` (IDs are install keys) and every
   reference to a catalog plugin name, `openclaw_to_hermes.py`.
@@ -64,6 +66,8 @@ so any hash derived from it needs recomputing) and the Docker images.
 ## Historical mapping artifacts
 
 [`docs/ir2-mapping/`](docs/ir2-mapping/summary.md) holds the pre-rename
-inventory (`rename-map.tsv`, `import-map.tsv`, …) and is kept verbatim, as is
-`docs/verification-log.md`. `scripts/ir2-rollback.sh` reverses the file moves
-only; reverting the commit is the real rollback.
+inventory (`rename-map.tsv`, `import-map.tsv`, …) and is kept verbatim.
+`docs/verification-log.md` is the running log of the earlier phases (its last
+entry is the wake-word rename) and is not rewritten by the rename tool.
+`scripts/ir2-rollback.sh` reverses the file moves only; reverting the commit
+is the real rollback.

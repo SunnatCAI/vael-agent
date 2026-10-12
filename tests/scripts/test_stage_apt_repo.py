@@ -58,9 +58,9 @@ def test_pool_subdir_is_in_the_path_and_the_index(tmp_path):
     make_deb(pool / "vael-agent_0.21.5_aarch64.deb", "vael-agent", "0.21.5-1")
     out = tmp_path / "repo"
     assert _stage(pool, out, "vael-stable", pool_subdir="rc.2-v0.21.5") == 3
-    deb = out / "pool" / "rc.2-v0.21.5" / "h" / "vael-agent_0.21.5_aarch64.deb"
+    deb = out / "pool" / "rc.2-v0.21.5" / "v" / "vael-agent_0.21.5_aarch64.deb"
     assert deb.is_file()
-    assert _pool_keys(out, "vael-stable") == {"pool/rc.2-v0.21.5/h/vael-agent_0.21.5_aarch64.deb"}
+    assert _pool_keys(out, "vael-stable") == {"pool/rc.2-v0.21.5/v/vael-agent_0.21.5_aarch64.deb"}
 
 
 def test_no_pool_subdir_keeps_the_plain_layout(tmp_path):
@@ -69,8 +69,8 @@ def test_no_pool_subdir_keeps_the_plain_layout(tmp_path):
     make_deb(pool / "vael-agent_1.2.3_aarch64.deb", "vael-agent", "1.2.3-1")
     out = tmp_path / "repo"
     assert _stage(pool, out, "vael-canary") == 3
-    assert (out / "pool" / "h" / "vael-agent_1.2.3_aarch64.deb").is_file()
-    assert _pool_keys(out, "vael-canary") == {"pool/h/vael-agent_1.2.3_aarch64.deb"}
+    assert (out / "pool" / "v" / "vael-agent_1.2.3_aarch64.deb").is_file()
+    assert _pool_keys(out, "vael-canary") == {"pool/v/vael-agent_1.2.3_aarch64.deb"}
 
 
 def test_two_attempts_of_one_version_use_different_pool_keys(tmp_path):

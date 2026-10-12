@@ -71,7 +71,11 @@ SKIP_DIRS = {
 # Pruned only directly under the repo root.
 ROOT_SKIP_DIRS = {".github"}
 # Pruned as repo-relative paths.
-SKIP_REL_DIRS = {Path("website/i18n"), Path("website/build"), Path("website/node_modules")}
+SKIP_REL_DIRS = {
+    Path("website/i18n"), Path("website/build"), Path("website/node_modules"),
+    # Pre-rename inventories that quote source and test lines verbatim; nothing there is run or read by the model.
+    Path("docs/ir2-mapping"),
+}
 
 SKIP_FILE_NAMES = {"package-lock.json", "yarn.lock", "pnpm-lock.yaml", "uv.lock", "poetry.lock"}
 SKIP_FILE_PATTERNS = (
