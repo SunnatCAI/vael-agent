@@ -34,44 +34,39 @@ def _render(width: int = 100, **kwargs) -> str:
     return console.export_text()
 
 
-@pytest.mark.parametrize("width", [80, 100, 160])
-def test_every_row_hangs_off_one_margin_and_stays_on_the_page(width):
-    """Rows share the margin and the label column, and stop at the page width even on a wide
-    terminal — a row that drifts or runs on is the layout breaking. A value too long for its row
-    continues on the next one, whole."""
+@pytest.mark.parametrize("width", [60, 80, 100, 160])
+def test_the_page_fits_its_width_and_loses_nothing(width):
+    """No row runs past the page (capped on a wide terminal), the rows under the head share the
+    margin, and a path too long for one row continues on the next, whole."""
     skills = {"research": [f"s{i}" for i in range(15)], "software-development": ["a", "b"]}
     cwd = "/srv/" + "/".join(f"level-{i:02d}" for i in range(14))
     text = _render(width, skills_by_category=skills, session_id="20261012_222734_8dd6f4", cwd=cwd)
     rows = [line for line in text.splitlines() if line.strip()]
-    assert rows
     for row in rows:
         assert cell_len(row.rstrip()) <= min(width, MAX_WIDTH), row
-        assert row[GUTTER:GUTTER + 2] == "  ", row
-    where = text.split("where", 1)[1].split("session", 1)[0]
-    assert "".join(where.split()) == cwd
+    body = rows[next(i for i, row in enumerate(rows) if "TOOLS" in row):]
+    assert all(row[GUTTER:GUTTER + 2] == "  " for row in body)
+    assert cwd in "".join(text.split())
 
 
-def test_skill_groups_carry_their_counts_and_nothing_is_elided():
-    """A group is shown whole or not at all: its name and its count, never a cut list."""
-    skills = {"research": [f"skill-{i:02d}" for i in range(15)], "security": ["auth", "vault"]}
-    text = _render(80, skills_by_category=skills)
-    assert re.search(r"\b15\s+research\b", text)
-    assert re.search(r"\b2\s+security\b", text)
-    assert "17 in 2 groups" in text
-    assert "more" not in text and "..." not in text
+def test_the_wordmark_gives_way_to_the_name_on_a_narrow_terminal():
+    """The mark and wordmark need room; without it the name still leads the page."""
+    wide, narrow = _render(100), _render(60)
+    assert "███████╗" in wide
+    assert "█" not in narrow and narrow.lstrip().startswith("VAEL")
 
 
-def test_group_counts_add_up_to_the_tool_total_and_name_what_did_not_load():
-    """The headline count and the per-group counts describe the same loaded tools; a toolset that
-    could not load is named and flagged, and adds to neither."""
+def test_counts_are_whole_numbers_of_what_loaded_and_nothing_is_elided():
+    """The page states totals rather than cut lists; a toolset that did not load is named and
+    adds nothing to the tool count."""
     toolset_of = {"read_file": "file", "terminal": "terminal", "web_search": "web"}.get
     availability = {
         "unavailable_toolsets": [{"name": "homeassistant", "tools": ["ha_call", "ha_list"]}],
         "lazy_tools": [], "disabled_tools": ["ha_call", "ha_list"]}
+    skills = {"research": [f"skill-{i:02d}" for i in range(15)], "security": ["auth", "vault"]}
     text = _render(tools=[_tool(n) for n in ("read_file", "terminal", "web_search")],
-                   toolset_of=toolset_of, availability=availability)
-    headline = int(re.search(r"TOOLS\s+(\d+) in", text).group(1))
-    section = text.split("TOOLS", 1)[1].split("SKILLS", 1)[0].splitlines()[1:]
-    counts = [int(m.group(1)) for line in section if (m := re.search(r"\s(\d+)\s*$", line))]
-    assert headline == sum(counts) == 3
-    assert "homeassistant*" in text and "not loaded" in text
+                   toolset_of=toolset_of, availability=availability, skills_by_category=skills)
+    assert re.search(r"TOOLS\s+3 in 2 groups", text)
+    assert re.search(r"SKILLS\s+17 in 2 groups", text)
+    assert "not loaded: homeassistant" in text
+    assert "more" not in text and "..." not in text

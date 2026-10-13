@@ -134,7 +134,11 @@ class Journal:
         label_cells = max(LABEL, head.cell_len + 1) if label else LABEL
         room = self.width - GUTTER - 2 - label_cells - 1
         first_room = room - (tail.cell_len + 2 if tail.cell_len else 0)
-        if body.cell_len <= first_room or first_room < 12:
+        # A hint too wide to share the first row with the value gets a row of its own under it.
+        own_row = bool(tail.cell_len) and body.cell_len > first_room and first_room < 12
+        if own_row:
+            pieces = [*self._continue(body, room, room), tail]
+        elif body.cell_len <= first_room:
             pieces = [body]
         else:
             pieces = self._continue(body, first_room, room)
@@ -146,7 +150,7 @@ class Journal:
             line.append_text(head if i == 0 else Text(""))
             line.append(" " * (label_cells - (head.cell_len if i == 0 else 0)))
             line.append_text(piece)
-            if i == 0 and tail.cell_len:
+            if i == 0 and tail.cell_len and not own_row:
                 line.append(" " * max(2, self.width - 1 - line.cell_len - tail.cell_len))
                 line.append_text(tail)
             out.append(line)

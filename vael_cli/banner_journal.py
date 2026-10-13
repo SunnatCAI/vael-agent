@@ -1,6 +1,6 @@
-"""The welcome page in journal form: what blocks the reader first, then where they are, what the
-agent can use, and what it is linked to. ``banner.build_welcome_banner`` gathers the facts; this
-module only lays them out, so it never touches the tool registry or the network."""
+"""The welcome page: the mark and wordmark, what the session will answer with, then one row each
+for tools, skills and links on the journal's margin. ``banner.build_welcome_banner`` gathers the
+facts; this module only lays them out, so it never touches the tool registry or the network."""
 from __future__ import annotations
 
 from dataclasses import dataclass, field
@@ -12,7 +12,7 @@ if TYPE_CHECKING:
     from rich.console import Console
     from rich.text import Text
 
-# Toolsets by what they are for, in reading order. One not named here gets the "other" row.
+# Toolsets by what they are for, in reading order. One not named here counts under "other".
 _TOOL_GROUPS = (
     ("workspace", ("file", "terminal", "code_execution", "debugging", "project")),
     ("web", ("web", "search", "browser", "browser-use", "x_search")),
@@ -23,9 +23,31 @@ _TOOL_GROUPS = (
 )
 _GROUP_OF = {toolset: group for group, members in _TOOL_GROUPS for toolset in members}
 _OTHER = "other"
-
-# Terminal backends that keep commands off this machine's own shell.
 _LOCAL_BACKEND = "local"
+
+# The brand mark, traced from the logo into braille (19 x 8 cells), and the wordmark beside it.
+_MARK = (
+    "⠀⠀⠀⠀⠀⠀⢀⣴⡿⠛⢷⣤⡀⠀⠀⠀⠀⠀⠀",
+    "⠀⠀⠀⠀⠀⢠⣾⣿⠁⠀⠈⣿⣷⡀⠀⠀⠀⠀⠀",
+    "⠀⠀⠀⠀⢀⣿⣿⡇⠤⣿⠤⢸⣿⣷⡀⠀⠀⠀⠀",
+    "⠀⠀⠀⢀⣾⣿⣿⡇⠀⠉⠀⢸⣿⣿⣷⡀⠀⠀⠀",
+    "⠀⠀⢠⣾⣿⣿⣿⣿⣄⠀⣠⣿⣿⣿⣿⣷⡀⠀⠀",
+    "⢀⣴⣿⣿⣿⣿⣿⢿⣫⣾⣿⣿⣿⣿⣿⣿⣿⣦⡀",
+    "⠻⣿⢿⣛⣻⣿⣾⣿⣿⣿⣿⣿⣿⣿⣟⣛⡿⣿⣷",
+    "⠻⣿⣿⣿⡿⠿⠛⠋⠁⠀⠈⠙⠛⠿⢿⣿⣿⣷⠛",
+)
+_WORDMARK = (
+    "",
+    "██╗   ██╗ █████╗ ███████╗██╗     ",
+    "██║   ██║██╔══██╗██╔════╝██║     ",
+    "██║   ██║███████║█████╗  ██║     ",
+    "╚██╗ ██╔╝██╔══██║██╔══╝  ██║     ",
+    " ╚████╔╝ ██║  ██║███████╗███████╗",
+    "  ╚═══╝  ╚═╝  ╚═╝╚══════╝╚══════╝",
+    "",
+)
+_WORDMARK_NAME = "VAEL"
+_WORDMARK_MIN_WIDTH = 64
 
 
 @dataclass
@@ -71,31 +93,67 @@ def _split_name(agent_name: str) -> tuple:
     return (first, rest) if 0 < len(first) <= 6 else ("", agent_name.strip())
 
 
-def _state_rows(j: Journal, w: Welcome) -> List["Text"]:
+def _model_text(j: Journal, w: Welcome) -> "Text":
     from rich.text import Text
     pal = j.pal
+    value = Text()
+    if w.model.kind == "moa":
+        value.append("MoA ", style=pal.dim)
+    value.append(w.model.name, style=pal.accent)
+    for part in (f"agg {w.model.aggregator}" if w.model.aggregator else "", w.model.context):
+        if part:
+            value.append(f" · {part}", style=pal.dim)
+    return value
+
+
+def _head(j: Journal, w: Welcome) -> List["Text"]:
+    """The mark and wordmark with the version, model and place under them; on a narrow terminal,
+    or for an agent name the wordmark does not spell, the name on the margin's field instead."""
+    from rich.text import Text
+    pal = j.pal
+    mark, rest = _split_name(w.agent_name)
+    version = j.dim(w.version)
+    if w.release_url:
+        version.stylize(f"link {w.release_url}")
+    ready = w.model.kind != "none"
+    if mark != _WORDMARK_NAME or j.width < _WORDMARK_MIN_WIDTH or j.ascii:
+        lines = j.rows(rest, version, mark=mark, label_style=f"bold {pal.strong}")
+        if ready:
+            lines += j.rows("model", _model_text(j, w))
+        return lines + j.rows("where", w.cwd)
+    lines = []
+    for art, word in zip(_MARK, _WORDMARK):
+        line = Text.assemble(("  ", ""), (art, pal.accent), ("   ", ""), (word, f"bold {pal.accent}"))
+        line.rstrip()
+        lines.append(line)
+    lines.append(Text())
+    about = Text.assemble(("  ", ""), (rest, f"bold {pal.strong}"), ("  ", ""))
+    about.append_text(version)
+    if ready:
+        about.append("  ·  ", style=pal.dim)
+        about.append_text(_model_text(j, w))
+    lines.append(about)
+    room = j.width - 3
+    for piece in j._continue(j.dim(w.cwd), room, room):  # a long path continues, it is never cut
+        lines.append(Text.assemble(("  ", ""), piece))
+    return lines
+
+
+def _state_rows(j: Journal, w: Welcome) -> List["Text"]:
+    rows: List["Text"] = []
     if w.model.kind == "none":
-        rows = j.rows("NOT READY", "No model is configured, so VAEL cannot answer yet.",
-                      state="blocked", stamp=True)
+        rows += j.rows("NOT READY", "No model is configured, so VAEL cannot answer yet.",
+                       state="blocked", stamp=True)
         rows += j.rows("next", j.cmd("/model", "choose a provider and model"), j.cmd("vael setup", "guided start"))
-    else:
-        value = Text()
-        if w.model.kind == "moa":
-            value.append("MoA ", style=pal.dim)
-        value.append(w.model.name, style=f"bold {pal.strong}")
-        for part in (f"agg {w.model.aggregator}" if w.model.aggregator else "", w.model.context):
-            if part:
-                value.append(f" · {part}", style=pal.dim)
-        rows = j.rows("READY", value, state="done", stamp=True, label_style=f"bold {pal.accent}")
     if w.yolo:
         rows += j.rows("YOLO", "Every approval prompt is bypassed in this session.", state="notice")
     return rows
 
 
-def _place_rows(j: Journal, w: Welcome) -> List["Text"]:
-    rows = j.rows("where", w.cwd)
+def _detail_rows(j: Journal, w: Welcome) -> List["Text"]:
+    rows: List["Text"] = []
     if w.session_id:
-        rows += j.rows("session", w.session_id)
+        rows += j.rows("session", j.dim(w.session_id))
     if w.profile:
         rows += j.rows("profile", w.profile)
     if w.build:
@@ -104,36 +162,20 @@ def _place_rows(j: Journal, w: Welcome) -> List["Text"]:
 
 
 def _tool_rows(j: Journal, w: Welcome) -> List["Text"]:
-    from rich.text import Text
     pal = j.pal
-    grouped: Dict[str, List[str]] = {}
-    for toolset in sorted(set(w.toolsets) | w.not_loaded):
-        grouped.setdefault(_GROUP_OF.get(toolset, _OTHER), []).append(toolset)
-    order = [g for g, _ in _TOOL_GROUPS if g in grouped] + ([_OTHER] if _OTHER in grouped else [])
+    groups = {_GROUP_OF.get(toolset, _OTHER) for toolset in w.toolsets}
     summary = j.strong(str(w.tool_count))
-    summary.append(f" in {len(order)} {_plural(len(order), 'group')}", style=pal.dim)
+    summary.append(f" in {len(groups)} {_plural(len(groups), 'group')}", style=pal.dim)
     rows = j.section("Tools", summary, j.cmd("/tools"))
-    for group in order:
-        value = Text()
-        for toolset in grouped[group]:
-            # Tools that belong to no toolset have no shorter name than their own.
-            loose = toolset == _OTHER and toolset in w.toolsets
-            flagged = toolset not in w.toolsets
-            for name in (sorted(w.toolsets[toolset]) if loose else [toolset]):
-                if value.plain:
-                    value.append(" · ", style=pal.dim)
-                value.append(f"{name}*" if flagged else name, style=pal.warn if flagged else pal.text)
-        count = sum(len(w.toolsets.get(t, ())) for t in grouped[group])
-        rows += j.rows(group, value, j.dim(str(count)) if count else None)
-    if w.not_loaded - set(w.toolsets):
-        rows += j.rows("", j.dim("* not loaded in this session"), j.cmd("vael tools"))
+    missing = sorted(w.not_loaded - set(w.toolsets))
+    if missing:
+        rows += j.rows("", j.text(f"not loaded: {', '.join(missing)}", pal.warn), j.cmd("vael tools"))
     if w.codex_runtime:
         rows += j.rows("runtime", "codex app-server — terminal, file operations and MCP run inside codex")
     return rows
 
 
 def _skill_rows(j: Journal, w: Welcome) -> List["Text"]:
-    from rich.text import Text
     pal = j.pal
     if not w.skills_enabled:
         return j.section("Skills", j.dim("the skills toolset is disabled"), j.cmd("/tools"))
@@ -142,17 +184,10 @@ def _skill_rows(j: Journal, w: Welcome) -> List["Text"]:
     total = sum(len(names) for names in w.skills.values())
     summary = j.strong(str(total))
     summary.append(f" in {len(w.skills)} {_plural(len(w.skills), 'group')}", style=pal.dim)
-    width = len(str(max(len(names) for names in w.skills.values())))
-    cells = []
-    for category in sorted(w.skills, key=lambda c: (-len(w.skills[c]), c)):
-        cell = j.text(f"{len(w.skills[category]):>{width}}", pal.accent)
-        cell.append(f"  {category}", style=pal.text)
-        cells.append(cell)
-    return j.section("Skills", summary, j.cmd("/skills")) + j.columns(cells)
+    return j.section("Skills", summary, j.cmd("/skills"))
 
 
 def _mcp_row(j: Journal, srv: dict) -> List["Text"]:
-    from rich.text import Text
     pal = j.pal
     name, transport = srv["name"], srv["transport"]
     tools = f"{srv.get('tools', 0)} {_plural(int(srv.get('tools') or 0), 'tool')}"
@@ -177,15 +212,14 @@ def _mcp_row(j: Journal, srv: dict) -> List["Text"]:
 def _link_rows(j: Journal, w: Welcome) -> List["Text"]:
     from rich.text import Text
     pal = j.pal
-    rows = j.section("Links")
     sandbox = Text()
     if w.terminal_backend == _LOCAL_BACKEND:
-        sandbox.append("none", style=pal.text)
+        sandbox.append("sandbox none", style=pal.text)
         sandbox.append(" · commands run on this machine", style=pal.dim)
     else:
-        sandbox.append(w.terminal_backend, style=pal.text)
+        sandbox.append(f"sandbox {w.terminal_backend}", style=pal.text)
         sandbox.append(" · commands run inside it", style=pal.dim)
-    rows += j.rows("sandbox", sandbox, j.cmd("vael setup terminal"))
+    rows = j.section("Links", sandbox, j.cmd("vael setup terminal"))
     for srv in w.mcp:
         rows += _mcp_row(j, srv)
     return rows
@@ -193,24 +227,16 @@ def _link_rows(j: Journal, w: Welcome) -> List["Text"]:
 
 def render(console: "Console", w: Welcome) -> None:
     """Print the welcome page."""
-    from rich.text import Text
     j = Journal(console)
-    pal = j.pal
-    mark, rest = _split_name(w.agent_name)
-    version = j.dim(w.version)
-    if w.release_url:
-        version.stylize(f"link {w.release_url}")
-    lines = j.rows(rest, version, mark=mark, label_style=f"bold {pal.strong}")
+    lines = _head(j, w)
     lines.append(j.blank())
-    lines += _state_rows(j, w)
-    lines.append(j.blank())
-    lines += _place_rows(j, w)
-    lines.append(j.blank())
-    lines += _tool_rows(j, w)
-    lines.append(j.blank())
-    lines += _skill_rows(j, w)
-    lines.append(j.blank())
-    lines += _link_rows(j, w)
+    state = _state_rows(j, w)
+    if state:
+        lines += [*state, j.blank()]
+    lines += _tool_rows(j, w) + _skill_rows(j, w) + _link_rows(j, w)
+    detail = _detail_rows(j, w)
+    if detail:
+        lines += [j.blank(), *detail]
     if w.update_text:
         lines.append(j.blank())
         lines += j.rows("update", w.update_text, j.cmd(w.update_command) if w.update_command else None,

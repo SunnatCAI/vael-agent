@@ -26,6 +26,7 @@ from prompt_toolkit.layout import (
     ConditionalContainer,
     FormattedTextControl,
     Layout,
+    VSplit,
     Window,
     WindowAlign)
 from prompt_toolkit.layout.dimension import Dimension
@@ -188,6 +189,25 @@ class CLITuiMixin:
         if position == "top":
             return 1
         return 0 if self._use_minimal_tui_chrome(width=width) else 1
+
+    # Columns the input frame takes from the text: a margin cell, the edge and a pad, on each side.
+    _INPUT_FRAME_COLUMNS = 6
+
+    def _tui_input_framed(self) -> bool:
+        """True when the input area is drawn inside a rounded frame: the journal layout, on a
+        terminal roomy enough to keep both rules (the minimal chrome drops the bottom one)."""
+        from vael_cli.banner import uses_journal_layout
+        if self._tui_input_rule_height("bottom") == 0 or self._tui_input_rule_height("top") == 0:
+            return False
+        return uses_journal_layout()
+
+    def _tui_input_rule_fragments(self, position: str):
+        """One input rule: a plain line, or the frame's top / bottom edge with rounded corners."""
+        width = self._get_tui_terminal_width()
+        if not self._tui_input_framed():
+            return [("class:input-rule", "─" * width)]
+        left, right = ("╭", "╮") if position == "top" else ("╰", "╯")
+        return [("class:input-rule", f" {left}{'─' * max(0, width - 4)}{right} ")]
 
     def _get_slash_confirm_display_fragments(self):
         """Render the /new-/clear-style confirmation panel."""
@@ -2186,11 +2206,17 @@ class CLITuiMixin:
             self._get_command_palette_display_fragments, "_command_palette_state")
         # Rules above/below the input; narrow terminals hide the bottom one to recover a row.
         input_rule_top = Window(
-            char='─', height=lambda: cli_ref._tui_input_rule_height("top"), style='class:input-rule',
-        )
+            content=FormattedTextControl(lambda: cli_ref._tui_input_rule_fragments("top")),
+            height=lambda: cli_ref._tui_input_rule_height("top"))
         input_rule_bot = Window(
-            char='─', height=lambda: cli_ref._tui_input_rule_height("bottom"), style='class:input-rule',
-        )
+            content=FormattedTextControl(lambda: cli_ref._tui_input_rule_fragments("bottom")),
+            height=lambda: cli_ref._tui_input_rule_height("bottom"))
+        # The frame's sides: present only while the frame is, so a plain-rule layout keeps every column.
+        framed = Condition(lambda: cli_ref._tui_input_framed())
+
+        def _side(text: str):
+            return ConditionalContainer(Window(char=text, width=1, style='class:input-rule'), filter=framed)
+        input_frame = VSplit([_side(' '), _side('│'), _side(' '), input_area, _side(' '), _side('│'), _side(' ')])
         image_bar = Window(
             content=FormattedTextControl(self._tui_image_bar_fragments),
             height=Condition(lambda: bool(cli_ref._attached_images)))
@@ -2229,7 +2255,7 @@ class CLITuiMixin:
             status_bar=status_bar,
             input_rule_top=input_rule_top,
             image_bar=image_bar,
-            input_area=input_area,
+            input_area=input_frame,
             input_rule_bot=input_rule_bot,
             voice_status_bar=voice_status_bar,
             completions_menu=CompletionsMenu(max_height=12, scroll_offset=1))))
@@ -2280,6 +2306,8 @@ class CLITuiMixin:
                     terminal_columns = get_app().output.get_size().columns
                 except Exception:
                     terminal_columns = shutil.get_terminal_size((80, 24)).columns
+                if self._tui_input_framed():
+                    terminal_columns -= self._INPUT_FRAME_COLUMNS
                 return _estimate_tui_input_height(doc.lines, self._get_tui_prompt_text(), terminal_columns)
             except Exception:
                 return 1

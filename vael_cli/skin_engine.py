@@ -86,7 +86,6 @@ _BUILTIN_SKINS: Dict[str, Dict[str, Any]] = {
         "light_colors": {
             "banner_border": "#9CC7B8", "banner_title": "#0B1210", "banner_accent": "#0A6B4F",
             "banner_dim": "#5F6D67", "banner_text": "#1B2420", "ui_accent": "#0A6B4F",
-            "ui_primary": "#0A6B4F",
             "ui_label": "#0A6B4F", "ui_ok": "#0A6B4F", "ui_error": "#B3261E", "ui_warn": "#8A5A06",
             "prompt": "#0A6B4F", "input_rule": "#9CC7B8", "response_border": "#0A6B4F",
             "session_label": "#0A6B4F", "session_border": "#8A9690",

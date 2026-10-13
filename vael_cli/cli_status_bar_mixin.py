@@ -1180,9 +1180,29 @@ class CLIStatusBarMixin:
             if total_width > width:
                 plain_text = "".join(text for _, text in frags)
                 return [(_SB, self._trim_status_bar_text(plain_text, width))]
-            return frags
+            return self._with_key_hints(frags, total_width, width, bool(session_title))
         except Exception:
             return [(_SB, f" {self._build_status_bar_text()} ")]
+
+    # Keys worth knowing at the prompt, shown at the bar's right edge when there is room.
+    _KEY_HINTS = (("/", "commands"), ("Ctrl+P", "palette"), ("/help", ""))
+
+    def _with_key_hints(self, frags: list, used: int, width: int, has_title: bool) -> list:
+        """``frags`` with the key hints right-aligned after them — journal layout only, and only
+        when nothing else claims the right edge and the whole row still fits."""
+        from vael_cli.banner import uses_journal_layout
+        if has_title or not uses_journal_layout():
+            return frags
+        hints: list = []
+        for key, what in self._KEY_HINTS:
+            if hints:
+                hints.append((_DIM, "  "))
+            hints.append((_STRONG, key))
+            if what:
+                hints.append((_DIM, f" {what}"))
+        hints.append((_SB, " "))
+        room = width - used - sum(len(text) for _, text in hints)
+        return frags if room < 3 else [*frags, (_SB, " " * room), *hints]
 
     # ── prompt stash panel ────────────────────────────────────────────────────
 
