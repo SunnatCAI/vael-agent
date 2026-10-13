@@ -88,8 +88,9 @@ default is now the braille spinner), `cli.session.*` / `cli.commands.*` strings 
 ## Provenance
 
 - **Braille mark** (`vael_cli/banner_journal.py::_MARK`, `ui-tui/src/banner.ts::MARK_ART`): traced from the
-  VAEL logo into braille, 19 × 8 cells. The trace was made in an earlier session and its source file is
-  not recorded in the repository; the TUI copy is generated from the Python one.
+  owner's brand logo (`brand-logo.png`, kept in the CyberAI repo at `src/assets/brand-logo.png`: a green
+  triangle with a four-point star) into braille, 19 × 8 cells: green pixels become dots, the image is cropped
+  to the shape and each cell is lit at 45% coverage. The TUI copy is generated from the Python one.
 - **Wordmark**: standard box-drawing block letters, no external source.
 - No raster image ships in the console.
 
