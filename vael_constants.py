@@ -20,7 +20,7 @@ _VAEL_HOME_OVERRIDE: ContextVar[str | object] = ContextVar("_VAEL_HOME_OVERRIDE"
 # TUI busy-indicator styles (CLI /indicator, TUI gateway config, /help registry).
 # Keep in sync with INDICATOR_STYLES / DEFAULT_INDICATOR_STYLE in ui-tui/src/app/interfaces.ts.
 INDICATOR_STYLES: tuple[str, ...] = ("ascii", "emoji", "kaomoji", "unicode")
-DEFAULT_INDICATOR_STYLE: str = "kaomoji"
+DEFAULT_INDICATOR_STYLE: str = "unicode"
 
 
 def set_vael_home_override(path: str | Path | None) -> Token:

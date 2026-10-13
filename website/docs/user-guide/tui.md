@@ -179,11 +179,11 @@ export VAEL_TUI_THEME=light
 
 ## Busy indicator styles
 
-The status-bar busy indicator is pluggable — the default rotates VAEL's kawaii face palette every 2.5 seconds during agent work. Pick a different style via config or the `/indicator` slash command:
+The status-bar busy indicator is pluggable — the default is a quiet braille spinner. `kaomoji` (rotating faces) and `emoji` are there if you want them. Pick a different style via config or the `/indicator` slash command:
 
 ```yaml
 display:
-  tui_status_indicator: kaomoji   # kaomoji | emoji | unicode | ascii
+  tui_status_indicator: unicode   # unicode (default) | kaomoji | emoji | ascii
 ```
 
 Or in-session: `/indicator emoji` (etc.). Styles ship with matched glyph widths so the rest of the status bar doesn't jitter on rotation.
