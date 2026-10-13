@@ -30,7 +30,7 @@ STARTER = {
 
 def _load(path: str) -> dict:
     try:
-        return json.loads(Path(path).read_text(encoding="utf-8"))
+        return json.loads(Path(path).read_text(encoding="utf-8-sig"))
     except OSError as err:
         raise SystemExit(f"Cannot read {path}: {err.strerror or err}") from None
     except ValueError as err:
