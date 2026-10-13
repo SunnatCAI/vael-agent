@@ -28,6 +28,11 @@ STARTER = {
 }
 
 
+def _plain(text: object) -> str:
+    """Printable form of text that came from a file: control characters (ANSI/OSC escapes) are dropped."""
+    return "".join(ch for ch in str(text) if ch.isprintable())[:200]
+
+
 def _load(path: str) -> dict:
     try:
         return json.loads(Path(path).read_text(encoding="utf-8-sig"))
@@ -62,10 +67,10 @@ def _cmd_validate(args) -> int:
     except fe.FlowError as err:
         print(f"Not runnable: {args.file}")
         for issue in err.issues or [str(err)]:
-            print(f"  - {issue}")
+            print(f"  - {_plain(issue)}")
         return 1
     local_only = sorted({n["type"] for n in doc["nodes"] if n["type"] in ("telegram", "pc")})
-    print(f"OK: {doc['name']} ({len(doc['nodes'])} nodes, {len(doc['edges'])} edges)")
+    print(f"OK: {_plain(doc['name'])} ({len(doc['nodes'])} nodes, {len(doc['edges'])} edges)")
     if local_only:
         print(f"Note: {', '.join(local_only)} nodes only run inside CyberAI, not with `vael flow run`.")
     return 0
@@ -87,7 +92,7 @@ def _cmd_run(args) -> int:
     except fe.FlowError as err:
         print(f"Not runnable: {err}", file=sys.stderr)
         for issue in err.issues[1:]:
-            print(f"  - {issue}", file=sys.stderr)
+            print(f"  - {_plain(issue)}", file=sys.stderr)
         return 1
     if args.json:
         print(json.dumps(result.as_dict(), ensure_ascii=False, indent=2))

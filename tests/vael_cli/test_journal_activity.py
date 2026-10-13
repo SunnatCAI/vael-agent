@@ -1,6 +1,7 @@
 """The journal's activity rows and overlay panels: the same facts as the framed layout, on the margin."""
 
 import json
+import os
 import re
 
 import pytest
@@ -50,9 +51,12 @@ def test_a_failed_call_says_so_in_words_beside_its_duration():
     assert re.search(r"exit 2\s+11\.8s$", row.rstrip())
 
 
-def test_an_overlay_panel_follows_the_layout_of_the_active_skin():
+def test_an_overlay_panel_follows_the_layout_of_the_active_skin(monkeypatch):
     """Under the journal a question hangs off the margin with no frame, its first row stamped and
     marked as waiting on the reader; a skin that ships art keeps the framed panel."""
+    # The panel falls back to the framed form on a narrow terminal; pin the width so the test does not
+    # depend on the window it runs in.
+    monkeypatch.setattr("shutil.get_terminal_size", lambda *a, **k: os.terminal_size((120, 30)))
     def text_of(panel) -> str:
         panel.row("class:approval-title", "⚠️  Dangerous Command")
         panel.blank()

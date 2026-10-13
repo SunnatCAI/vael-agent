@@ -87,6 +87,11 @@ class StreamDeliveryMixin:
             if held:
                 self._deliver_to_stream_callbacks(held)
                 self._record_streamed_assistant_text(held)
+        reasoning_flag_scrubber = getattr(self, "_stream_reasoning_flag_scrubber", None)
+        if reasoning_flag_scrubber is not None:
+            held = reasoning_flag_scrubber.flush()
+            if held:
+                self._call_quietly(self.reasoning_callback, held)
         self._current_streamed_assistant_text = ""
 
     @property
@@ -353,6 +358,11 @@ class StreamDeliveryMixin:
         provider reasoning delta and stops inline forwarding for the rest of this model response."""
         if not inline:
             self._native_reasoning_streamed = True
+        reasoning_flag_scrubber = getattr(self, "_stream_reasoning_flag_scrubber", None)
+        if reasoning_flag_scrubber is not None and isinstance(text, str):
+            text = reasoning_flag_scrubber.feed(text)
+            if not text:
+                return
         if self._stream_writer_superseded():
             # Single-writer guard (#65991): fence out a superseded stream's reasoning deltas the same way as
             # content deltas.

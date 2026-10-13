@@ -61,7 +61,8 @@ Document: `{"schemaVersion": 1, "name": "...", "nodes": [...], "edges": [...]}`.
 | `delay` | `durationMs` (max 30000) | `out` |
 | `http` | `url`, `method`, `headers` (JSON text), `body` | `out` |
 
-References: `{{input.key}}`, `{{steps.<nodeId>.output.<path>}}`, `{{loop.item}}`, `{{loop.index0}}`.
+References: `{{input.key}}`, `{{steps.<nodeId>.output.<path>}}`, `{{loop.item}}`, `{{loop.index}}`
+(position from 0) and `{{loop.index0}}` (position from 1; the names are CyberAI's, kept so flows port).
 A path that does not exist is an error.
 `telegram` and `pc` nodes only run inside CyberAI.
 

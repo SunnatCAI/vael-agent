@@ -634,6 +634,7 @@ _STREAM_STATE: Dict[str, Any] = {
     "_stream_context_scrubber": StreamingContextScrubber,
     "_stream_think_scrubber": StreamingThinkScrubber,
     "_stream_flag_scrubber": StreamingFlagScrubber,  # CyberAI flags split across deltas
+    "_stream_reasoning_flag_scrubber": StreamingFlagScrubber,  # same, for the reasoning stream
     "_current_streamed_assistant_text": "",  # so a later completed interim isn't re-sent
     "_delivered_interim_texts": set,  # interims this user turn (spans Codex continuations)
     # Single-writer guard for the delta sink: each attempt claims a monotonic writer token and

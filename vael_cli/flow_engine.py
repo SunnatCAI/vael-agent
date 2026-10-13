@@ -377,6 +377,10 @@ class FlowError(Exception):
         self.issues = issues or []
 
 
+# Ports an edge may leave a node by; every other node has the single ``out`` port.
+_SOURCE_PORTS = {"condition": ("true", "false"), "loop": ("loop", "exit")}
+
+
 def port_of(edge: dict) -> str:
     return edge.get("sourceHandle") or "out"
 
@@ -445,6 +449,7 @@ def validate_document(doc: Any, known_kinds: Sequence[str]) -> str:
     if len(nodes) > MAX_NODES or len(edges) > MAX_EDGES:
         issues.append(f"Too large (max {MAX_NODES} nodes, {MAX_EDGES} edges).")
     ids: Set[str] = set()
+    types_by_id: Dict[str, str] = {}
     for node in nodes:
         if not isinstance(node, dict) or not _NODE_ID_RE.match(str(node.get("id", ""))):
             issues.append(f"Bad node id: {node.get('id') if isinstance(node, dict) else node!r}.")
@@ -452,6 +457,7 @@ def validate_document(doc: Any, known_kinds: Sequence[str]) -> str:
         if node["id"] in ids:
             issues.append(f"Duplicate node id: {node['id']}.")
         ids.add(node["id"])
+        types_by_id[node["id"]] = str(node.get("type"))
         if node.get("type") not in known_kinds:
             issues.append(f"Unknown node type {node.get('type')!r} ({node['id']}).")
     starts = [n for n in nodes if isinstance(n, dict) and n.get("type") == "start"]
@@ -466,6 +472,11 @@ def validate_document(doc: Any, known_kinds: Sequence[str]) -> str:
         elif edge["source"] == edge["target"]:
             issues.append(f"Node connects to itself: {edge['source']}.")
         else:
+            allowed = _SOURCE_PORTS.get(types_by_id[edge["source"]], ("out",))
+            if port_of(edge) not in allowed:
+                issues.append(
+                    f"Edge {edge.get('id', '?')} leaves {edge['source']} ({types_by_id[edge['source']]}) "
+                    f"by port {port_of(edge)!r}; this node has {', '.join(allowed)}.")
             good_edges.append(edge)
     if starts and not issues:
         reached = {starts[0]["id"]}

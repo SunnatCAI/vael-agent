@@ -62,6 +62,23 @@ def test_a_very_long_open_brace_does_not_hold_the_stream_forever():
     assert "aaaa" not in out
 
 
+def test_a_body_that_outgrows_the_hold_cap_stays_redacted_until_it_closes():
+    out = stream(["CYBERAI{" + "a" * 900, "bbbb", "secret} and then normal text"])
+    assert "secret" not in out and "bbbb" not in out and "aaaa" not in out
+    assert out.endswith(" and then normal text") and out.count(WITHHELD) == 1
+
+
+def test_a_run_of_spaces_after_the_prefix_is_not_a_flag_and_is_not_held():
+    # Whitespace between the prefix and the brace is bounded, so this is ordinary text.
+    out = stream(["CYBERAI" + " " * 700, "{secret}"])
+    assert out.startswith("CYBERAI")
+
+
+def test_letters_separated_by_spaces_are_held_and_redacted():
+    out = stream(["x C Y B", " E R A I", " {sec", "ret}"])
+    assert "sec" not in out and "ret" not in out and WITHHELD in out
+
+
 class _Harness(StreamDeliveryMixin):
     """The delta path of AIAgent, with just the attributes it touches."""
 
@@ -83,6 +100,20 @@ class _Harness(StreamDeliveryMixin):
 
     def _enqueue_stream_hook(self, event, **fields):
         pass
+
+
+def test_the_reasoning_stream_is_scrubbed_too():
+    agent = _Harness()
+    reasoning = []
+    agent.reasoning_callback = reasoning.append
+    agent._stream_reasoning_flag_scrubber = StreamingFlagScrubber()
+    agent._native_reasoning_streamed = False
+    agent._stream_reasoning_hooks_enabled = False
+    for piece in ["thinking CYBER", "AI{hidden", "} done"]:
+        agent._fire_reasoning_delta(piece)
+    agent._reset_stream_delivery_tracking()
+    shown = "".join(reasoning)
+    assert "hidden" not in shown and WITHHELD in shown and shown.endswith(" done")
 
 
 def test_the_real_delta_path_scrubs_a_split_flag_and_the_end_of_stream_flush():

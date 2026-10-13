@@ -35,8 +35,9 @@ class FakeAgent:
         self.reply = reply
         self.calls = []
 
-    def __call__(self, prompt, model, provider, toolsets):
-        self.calls.append({"prompt": prompt, "model": model, "provider": provider, "toolsets": toolsets})
+    def __call__(self, prompt, model, provider, toolsets, timeout_s=None):
+        self.calls.append({"prompt": prompt, "model": model, "provider": provider, "toolsets": toolsets,
+                           "timeout_s": timeout_s})
         return self.reply
 
 
@@ -207,6 +208,64 @@ def test_a_disabled_node_is_skipped():
     off["disabled"] = True
     result = run(doc([node("s", "start"), off], [edge("s", "v")]), agent)
     assert result.ok and agent.calls == []
+
+
+def test_an_edge_must_leave_a_node_by_a_port_it_has():
+    bad = doc([node("s", "start"), node("a", "action")], [edge("s", "a", "unexpected")])
+    with pytest.raises(fe.FlowError) as err:
+        fe.validate_document(bad, fr.KNOWN_KINDS)
+    assert "port" in " ".join(err.value.issues)
+    cond = doc([node("s", "start"), node("c", "condition", expression="true"), node("a", "action")],
+               [edge("s", "c"), edge("c", "a")])
+    with pytest.raises(fe.FlowError):
+        fe.validate_document(cond, fr.KNOWN_KINDS)
+
+
+def test_a_condition_inside_a_loop_body_runs_only_the_branch_it_chose():
+    agent = FakeAgent("ok")
+    document = doc(
+        [node("s", "start"), node("l", "loop", items='["keep","skip","keep"]'),
+         node("c", "condition", expression="{{loop.item}} == 'keep'"),
+         node("yes", "vael", prompt="kept {{loop.item}}"), node("no", "vael", prompt="dropped {{loop.item}}")],
+        [edge("s", "l"), edge("l", "c", "loop"), edge("c", "yes", "true"), edge("c", "no", "false")])
+    result = run(document, agent)
+    assert result.ok, result.error
+    assert [c["prompt"] for c in agent.calls] == ["kept keep", "dropped skip", "kept keep"]
+
+
+def test_http_headers_given_as_an_object_are_checked_like_text_headers():
+    base = dict(url="https://example.com/x", method="GET")
+    forbidden = doc([node("s", "start"), node("h", "http", headers={"Cookie": "a=b"}, **base)], [edge("s", "h")])
+    assert "not allowed" in run(forbidden, fetch=lambda *a: (200, b"{}")).error
+    seen = []
+
+    def fetch(url, method, headers, data):
+        seen.append(headers)
+        return 200, b"{}"
+
+    allowed = doc([node("s", "start"), node("h", "http", headers={"X-Trace": "1"}, **base)], [edge("s", "h")])
+    assert run(allowed, fetch=fetch).ok and seen == [{"X-Trace": "1"}]
+
+
+def test_a_redirect_is_not_followed():
+    document = doc([node("s", "start"), node("h", "http", url="https://example.com/x", method="GET")],
+                   [edge("s", "h")])
+    result = run(document, fetch=lambda *a: (302, b""))
+    assert not result.ok and "redirect" in result.error
+
+
+def test_the_agent_call_is_bounded_by_what_is_left_of_the_run():
+    agent = FakeAgent()
+    document = doc([node("s", "start"), node("a", "agent", task="go")], [edge("s", "a")])
+    run(document, agent, timeout_s=30)
+    assert 1 <= agent.calls[0]["timeout_s"] <= 30
+
+
+def test_a_name_with_terminal_escapes_is_printed_plainly(tmp_path, capsys):
+    target = tmp_path / "f.json"
+    target.write_text(json.dumps(doc([node("s", "start")], [], name="evil]0;pwned")), encoding="utf-8")
+    assert flow_cli.flow_command(args(flow_command="validate", file=str(target))) == 0
+    assert "" not in capsys.readouterr().out
 
 
 # --- the command -------------------------------------------------------------------------------------

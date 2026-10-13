@@ -32,7 +32,7 @@ The agent works on the user's own computer with the user's own model keys, and c
 
 - Interface languages: English by default, Uzbek to be added.
 - Approvals have four outcomes: always, this session, once, deny. A session grant ends with the session and is not restored on resume.
-- Inside a sandbox the agent is not asked; outside it, dangerous actions are approved over Telegram.
+- Inside a sandbox the agent is not asked; outside it, dangerous actions are approved on the surface in use (the CLI prompt, or a messaging chat such as Telegram).
 - Computer use has full access in a sandbox desktop; on the real screen it needs a grant each session.
 - Open: what an "always" grant attaches to. Recommended and accepted in principle: a specific tool and command pattern, never a whole tool class.
 - The desktop app is out of scope for the terminal redesign. Other skins (ares, mono, slate) stay.

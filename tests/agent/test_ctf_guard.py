@@ -35,10 +35,19 @@ def test_describing_the_format_is_not_a_flag(text):
     assert withhold_flags(text) == text
 
 
-def test_non_strings_pass_through_untouched():
-    payload = {"k": "CYBERAI{x}"}
-    assert withhold_flags(payload) is payload
+def test_nested_text_is_scrubbed_and_non_text_passes_through():
+    # A multimodal tool result keeps its text in nested parts; image data must survive untouched.
+    result = {"text_summary": "flag CYBERAI{x}", "parts": [{"type": "text", "text": "CYBERAI{y}"},
+                                                        {"type": "image", "data": "AAAA{BBBB"}], "n": 3}
+    out = withhold_flags(result)
+    assert "CYBERAI{x}" not in str(out) and "CYBERAI{y}" not in str(out)
+    assert out["parts"][1]["data"] == "AAAA{BBBB" and out["n"] == 3
     assert withhold_flags(None) is None
+
+
+@pytest.mark.parametrize("text", ["C Y B E R A I {secret}", "c y b e r a i{secret}", "CYBERAI\n{secret}"])
+def test_spaces_between_the_letters_do_not_hide_a_flag(text):
+    assert "secret" not in withhold_flags(text)
 
 
 def test_the_guard_is_idempotent():
@@ -50,6 +59,12 @@ class _Agent:
     session_id = "s"
     model = "m"
     platform = "cli"
+
+
+def test_a_plugin_hook_cannot_put_a_flag_back(monkeypatch):
+    monkeypatch.setattr("agent.turn_finalizer._invoke_hook_safely", lambda *a, **k: ["rewritten CYBERAI{from_hook}"])
+    reply, transformed, _ = apply_llm_output_transform(_Agent(), "plain", turn_id="t9")
+    assert transformed and "from_hook" not in reply
 
 
 def test_the_final_reply_is_scrubbed_before_it_is_stored_or_shown():

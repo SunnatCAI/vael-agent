@@ -40,7 +40,7 @@ _FORBIDDEN_HEADERS = frozenset(
 KNOWN_KINDS = (
     "start", "action", "transform", "delay", "condition", "loop", "vael", "agent", "http", "telegram", "pc")
 
-AgentRunner = Callable[[str, str, str, str], str]  # prompt, model, provider, toolsets -> reply
+AgentRunner = Callable[..., str]  # (prompt, model, provider, toolsets, timeout_s=...) -> reply
 
 
 class StepFailure(Exception):
@@ -91,7 +91,7 @@ class RunResult:
                 "steps": [s.as_dict() for s in self.steps]}
 
 
-def default_agent_runner(prompt: str, model: str, provider: str, toolsets: str) -> str:
+def default_agent_runner(prompt: str, model: str, provider: str, toolsets: str, timeout_s: float = 600.0) -> str:
     """Run one headless turn of the local VAEL Agent; the prompt goes in on stdin, never on the command line."""
     args = [sys.executable, "-X", "utf8", "-c", "from vael_cli.main import main; main()",
             "chat", "--query-file", "-", "--oneshot", "--quiet", "--source", "tool", "-t", toolsets]
@@ -101,11 +101,11 @@ def default_agent_runner(prompt: str, model: str, provider: str, toolsets: str) 
         args += ["--provider", provider]
     try:
         done = subprocess.run(
-            args, input=prompt, capture_output=True, text=True, encoding="utf-8", timeout=600,
+            args, input=prompt, capture_output=True, text=True, encoding="utf-8", timeout=timeout_s,
             env={**os.environ, "PYTHONUTF8": "1"},
         )
     except subprocess.TimeoutExpired:
-        raise StepFailure("timeout", "The VAEL Agent did not finish within 10 minutes.") from None
+        raise StepFailure("timeout", f"The VAEL Agent did not finish within {int(timeout_s)} seconds.") from None
     reply = (done.stdout or "").strip()
     if done.returncode != 0 or not reply:
         tail = (done.stderr or "").strip()[-400:]
@@ -172,13 +172,23 @@ class Runner:
             order = fe.topological_order([self.nodes[i] for i in body], self.edges)
         except fe.FlowError:
             order = body
+        in_body = set(body)
+        first = [t for t in fe.outgoing(self.edges, loop_node["id"], "loop") if t in in_body]
         try:
             for index, item in enumerate(items):
                 self.scope.loop = {"index": index, "index0": index + 1, "item": item, "length": len(items)}
                 self.scope.env["LOOP_INDEX"] = str(index + 1)
                 self.scope.env["LOOP_ITEM"] = fe._stringify(item)[:2000]
+                # A node runs only if something before it routed to it: a condition inside the body
+                # activates just the branch it chose, not both.
+                active = set(first)
                 for node_id in order:
-                    self._run_node(node_id, loop_index=index + 1)
+                    if node_id not in active:
+                        continue
+                    outcome = self._run_node(node_id, loop_index=index + 1)
+                    kind = self.nodes[node_id]["type"]
+                    port = ("true" if outcome["result"] else "false") if kind == "condition" else "out"
+                    active.update(t for t in fe.outgoing(self.edges, node_id, port) if t in in_body)
         finally:
             self.scope.loop = None
             self.scope.env.pop("LOOP_INDEX", None)
@@ -248,6 +258,10 @@ class Runner:
         return config
 
     # -- executors ----------------------------------------------------------------------------------
+
+    def _remaining_budget(self) -> float:
+        """What is left of the run's time limit, so one agent call cannot outlive the run."""
+        return max(1.0, min(600.0, self.deadline - time.monotonic()))
 
     def _do_start(self, config: dict) -> Any:
         keys = [k for k in str(config.get("inputKeys", "")).replace(",", " ").split() if k]
@@ -322,14 +336,16 @@ class Runner:
         prompt = str(config.get("prompt", ""))
         if not prompt.strip():
             raise StepFailure("config_invalid", "vael: prompt is empty.")
-        text = self.agent_runner(prompt, str(config.get("model", "")), str(config.get("provider", "")), self.toolsets)
+        text = self.agent_runner(
+            prompt, str(config.get("model", "")), str(config.get("provider", "")), self.toolsets,
+            timeout_s=self._remaining_budget())
         return {"text": text[:MAX_OUTPUT_CHARS], "chars": len(text)}
 
     def _do_agent(self, config: dict) -> Any:
         task = str(config.get("task", ""))
         if not task.strip():
             raise StepFailure("config_invalid", "agent: task is empty.")
-        text = self.agent_runner(task, "", "", self.toolsets)
+        text = self.agent_runner(task, "", "", self.toolsets, timeout_s=self._remaining_budget())
         return {"output": text[:MAX_OUTPUT_CHARS]}
 
     def _do_http(self, config: dict) -> Any:
@@ -343,11 +359,17 @@ class Runner:
         method = str(config.get("method", "POST")).upper()
         headers: Dict[str, str] = {}
         raw_headers = config.get("headers")
+        parsed: Any = None
         if isinstance(raw_headers, str) and raw_headers.strip():
             try:
                 parsed = json.loads(raw_headers)
             except ValueError:
                 raise StepFailure("config_invalid", "http: headers must be a JSON object.") from None
+        elif isinstance(raw_headers, dict):
+            parsed = raw_headers
+        elif raw_headers not in (None, "") and not (isinstance(raw_headers, str) and not raw_headers.strip()):
+            raise StepFailure("config_invalid", "http: headers must be a JSON object.")
+        if parsed is not None:
             if not isinstance(parsed, dict):
                 raise StepFailure("config_invalid", "http: headers must be a JSON object.")
             for key, value in parsed.items():
@@ -358,6 +380,8 @@ class Runner:
         data = None if method in ("GET", "DELETE") or not body else str(body).encode("utf-8")
         status, payload = self.fetch(url, method, headers, data)
         text = payload[:HTTP_MAX_BYTES].decode("utf-8", "replace")
+        if 300 <= status < 400:
+            raise StepFailure("blocked", f"http: {url} answered a redirect ({status}); redirects are not followed.")
         if status >= 400:
             raise StepFailure("upstream_error", f"http: {method} {url} answered {status}.")
         try:
@@ -382,10 +406,20 @@ def _clip(value: Any) -> Any:
     return {"truncated": True, "size": len(text), "preview": text[:2000]}
 
 
+class _NoRedirect(urllib.request.HTTPRedirectHandler):
+    """A redirect could send a vetted public URL to localhost or a metadata address, so none is followed."""
+
+    def redirect_request(self, *args: Any, **kwargs: Any) -> None:
+        return None
+
+
+_OPENER = urllib.request.build_opener(_NoRedirect)
+
+
 def _fetch(url: str, method: str, headers: Dict[str, str], data: Optional[bytes]) -> tuple:
     request = urllib.request.Request(url, data=data, method=method, headers=headers)
     try:
-        with urllib.request.urlopen(request, timeout=HTTP_TIMEOUT_S) as response:  # noqa: S310 - guarded by is_safe_url
+        with _OPENER.open(request, timeout=HTTP_TIMEOUT_S) as response:  # noqa: S310 - guarded by is_safe_url
             return response.status, response.read(HTTP_MAX_BYTES + 1)
     except urllib.error.HTTPError as err:
         return err.code, err.read(HTTP_MAX_BYTES + 1)

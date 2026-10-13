@@ -562,6 +562,8 @@ def _guidance_parts(agent: Any) -> List[str]:
             ) if getattr(agent, flag, True)
         ]
     parts.append(_tool_guidance_block(agent))  # None/empty entries are dropped by _join_tier
+    # Every agent, with or without tools, is told to mentor rather than solve CyberAI challenges.
+    parts.append(CYBERAI_MENTOR_GUIDANCE)
     if not agent.valid_tool_names:
         return parts
     # Steering only lands inside tool results, so only reachable with tools.
@@ -581,7 +583,6 @@ def _guidance_parts(agent: Any) -> List[str]:
     # blocks so their "keep working" rule cannot turn the required yield into no-op/polling activity.
     if "delegate_task" in agent.valid_tool_names:
         parts.append(ASYNC_HANDOFF_GUIDANCE)
-    parts.append(CYBERAI_MENTOR_GUIDANCE)
     return parts
 
 

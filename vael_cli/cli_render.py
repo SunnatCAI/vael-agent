@@ -931,14 +931,17 @@ def _build_compact_banner() -> str:
         from vael_cli import __release_date__ as _release_date
         from vael_cli.version_info import get_version_info
 
-        version_line = t("cli.render.banner_version", version=get_version_info().derived_version, date=_release_date)
+        plain_version = get_version_info().derived_version
+        version_line = t("cli.render.banner_version", version=plain_version, date=_release_date)
     else:
+        plain_version = ""
         version_line = format_banner_version_label()
 
     columns = shutil.get_terminal_size().columns
     if not (getattr(_skin, "banner_hero", "") or getattr(_skin, "banner_logo", "")):
         mark, _, rest = agent_name.partition(" ")
-        version = version_line.removeprefix("VAEL Agent ").split(" · ")[0]
+        # The fast-startup label is translated, so its version comes from the value, not from the text.
+        version = plain_version or version_line.removeprefix("VAEL Agent ").split(" · ")[0]
         head = (f"[bold {_color('status_bar_bg', '#12211C')} on {_color('status_bar_strong', '#18AA7F')}] {mark} [/]"
                 f" [bold {title_color}]{rest}[/]")
         fits = len(mark) + len(rest) + len(version) + 5 <= columns

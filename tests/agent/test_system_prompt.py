@@ -542,8 +542,8 @@ def test_coding_prompt_orders_shared_context_before_workspace(monkeypatch):
     expected = "\n\n".join((
         "IDENTITY",
         "HELP",
-        "STEER",
         CYBERAI_MENTOR_GUIDANCE,
+        "STEER",
         "CODING_STABLE",
         "SYSTEM_MESSAGE",
         "CONTEXT_FILES",

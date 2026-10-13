@@ -503,7 +503,8 @@ def apply_llm_output_transform(
         turn_id=turn_id,  # per-turn identity for the hook callback gate
     ):
         if isinstance(_hook_result, str) and _hook_result:
-            pre_transform, final_response, transformed = final_response, _hook_result, True
+            # A plugin may rewrite the reply; whatever it returns is scrubbed too.
+            pre_transform, final_response, transformed = final_response, withhold_flags(_hook_result), True
             break
     agent._llm_output_transform = (turn_id, transformed, pre_transform)
     return final_response, transformed, pre_transform
