@@ -518,7 +518,7 @@ def _resolve_use_tui(args) -> bool:
         return True
     try:
         from vael_cli.config import load_config
-        iface = (load_config().get("display", {}) or {}).get("interface", "cli")
+        iface = (load_config().get("display", {}) or {}).get("interface", "tui")
         return isinstance(iface, str) and iface.strip().lower() == "tui"
     except Exception:
         return False

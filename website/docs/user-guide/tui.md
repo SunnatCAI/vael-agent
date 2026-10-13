@@ -47,7 +47,7 @@ display:
   interface: tui   # "cli" (default) or "tui"
 ```
 
-With `display.interface: tui`, a bare `vael` (and `vael chat`) launches the TUI. Explicit flags always win — run `vael --cli` to drop back to the classic REPL for a single invocation, or `vael --tui` / `VAEL_TUI=1` to force the TUI when the config default is `cli`.
+By default (`display.interface: tui`), a bare `vael` (and `vael chat`) launches the TUI. Explicit flags always win — run `vael --cli` to drop back to the classic REPL for a single invocation, or `vael --tui` / `VAEL_TUI=1` to force the TUI when the config says `cli`.
 
 The classic CLI remains the shipped default. Anything documented in [CLI Interface](cli.md) — slash commands, quick commands, skill preloading, personalities, multi-line input, interrupts — works in the TUI identically.
 
@@ -303,7 +303,7 @@ If you want multiple surfaces to share one set of sessions, use the shared `~/.v
 
 ## Reverting to the classic CLI
 
-Launching `vael` (without `--tui`) stays on the classic CLI by default. To make a machine prefer the TUI, set `display.interface: tui` in `~/.vael/config.yaml` (persistent) or `VAEL_TUI=1` in your shell profile (per-shell). To go back, set `interface: cli` / unset the env var, or pass `vael --cli` for a one-off.
+Launching `vael` on a terminal opens the TUI by default: a full-screen app that stays in place instead of scrolling with the terminal. To prefer the classic scrolling REPL, set `display.interface: cli` in `~/.vael/config.yaml`, or pass `vael --cli` for a one-off. Piped runs (no TTY) always use the classic path.
 
 If the TUI fails to launch (no Node, missing bundle, TTY issue), VAEL prints a diagnostic and falls back — rather than leaving you stuck.
 

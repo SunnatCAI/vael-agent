@@ -838,9 +838,10 @@ DEFAULT_CONFIG = {
         # continues, Shift+Enter reported distinctly. False restores the c-j submit fallback for
         # POSIX PTYs whose plain Enter arrives as LF.
         "cli_multiline_shortcuts": True,
-        # Interface bare `vael`/`vael chat` launches: "cli" (prompt_toolkit REPL) | "tui" (Ink).
-        # Flags win: `--cli` forces the REPL, `--tui` / VAEL_TUI=1 forces the TUI.
-        "interface": "cli",
+        # Interface bare `vael`/`vael chat` launches: "tui" (Ink: a full-screen app that stays in place)
+        # | "cli" (prompt_toolkit REPL that scrolls with the terminal). Flags win: `--cli` forces the
+        # REPL, `--tui` / VAEL_TUI=1 forces the TUI. Piped runs (no TTY) always use the REPL.
+        "interface": "tui",
         # Native TUI uses the terminal's primary buffer and scrollback instead of the custom
         # alternate-screen viewport. Flags win: `--native` / `--tui-native` and `--cli`.
         "tui_native": False,

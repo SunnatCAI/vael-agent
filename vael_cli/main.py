@@ -257,7 +257,7 @@ def _config_default_interface_early() -> str:
     cfg_path = _early_interface_config_path()
     if _EARLY_INTERFACE_CACHE is not None and _EARLY_INTERFACE_CACHE[0] == cfg_path:
         return _EARLY_INTERFACE_CACHE[1]
-    value = "cli"
+    value = "tui"
     try:
         if os.path.exists(cfg_path):
             import vael_yaml as _yaml_iface
@@ -267,8 +267,8 @@ def _config_default_interface_early() -> str:
             disp = raw.get("display", {})
             if isinstance(disp, dict):
                 iface = disp.get("interface")
-                if isinstance(iface, str) and iface.strip().lower() == "tui":
-                    value = "tui"
+                if isinstance(iface, str) and iface.strip():
+                    value = "tui" if iface.strip().lower() == "tui" else "cli"
     except Exception:
         value = "cli"  # best-effort — default to classic REPL on any error
     _EARLY_INTERFACE_CACHE = (cfg_path, value)
