@@ -273,15 +273,24 @@ class CLIChatTurnMixin:
             # display_callback only when token streaming is off: with streaming on,
             # _stream_delta already renders the text and this would print it twice.
             def display_callback(sentence: str):
+                from vael_cli.banner import uses_journal_layout
+                journal = uses_journal_layout()
                 if not turn.box_opened:
                     turn.box_opened = True
-                    label = " VAEL "
-                    if self.show_timestamps:
-                        label = f"{label}{datetime.now().strftime(self.timestamp_format)} "
-                    w = self._scrollback_box_width(getattr(self.console, "width", 80))
-                    fill = w - 2 - self._status_bar_display_width(label)
-                    _cprint(f"\n{_ACCENT}╭─{label}{'─' * max(fill - 1, 0)}╮{_RST}")
-                _cprint(f"{_STREAM_PAD}{sentence.rstrip()}")
+                    if journal:
+                        _cprint("")
+                    else:
+                        label = " VAEL "
+                        if self.show_timestamps:
+                            label = f"{label}{datetime.now().strftime(self.timestamp_format)} "
+                        w = self._scrollback_box_width(getattr(self.console, "width", 80))
+                        fill = w - 2 - self._status_bar_display_width(label)
+                        _cprint(f"\n{_ACCENT}╭─{label}{'─' * max(fill - 1, 0)}╮{_RST}")
+                if journal:
+                    from vael_cli.journal import block_ansi
+                    _cprint(block_ansi(sentence.rstrip()))
+                else:
+                    _cprint(f"{_STREAM_PAD}{sentence.rstrip()}")
 
             turn.tts_thread = threading.Thread(
                 target=stream_tts_to_speaker, args=(turn.text_queue, turn.stop_event, self._voice_tts_done),
@@ -690,15 +699,22 @@ class CLIChatTurnMixin:
             already_streamed = (
                 (self._stream_started and self._stream_box_opened) or _interrupted_streamed
             ) and not is_error_response
+            from vael_cli.banner import uses_journal_layout
             if turn.use_streaming_tts and turn.box_opened and not is_error_response:
-                # Text already printed sentence-by-sentence; just close the box.
-                _cprint(f"\n{_ACCENT}╰{'─' * (self._scrollback_box_width() - 2)}╯{_RST}")
+                # Text already printed sentence-by-sentence; just close the box (journal: nothing to close).
+                if not uses_journal_layout():
+                    _cprint(f"\n{_ACCENT}╰{'─' * (self._scrollback_box_width() - 2)}╯{_RST}")
             elif already_streamed:
                 # _flush_stream() already closed the streamed box; a post-stream transform
                 # hook shows a suffix for append-only changes, else the full replacement.
                 _post_stream_text = _post_stream_transform_output(response, turn.result)
                 if _post_stream_text.strip():
                     _cprint(_post_stream_text)
+            elif uses_journal_layout():
+                from rich.console import Group
+                from vael_cli.journal import block_grid
+                ChatConsole().print(Group("", block_grid(
+                    _render_final_assistant_content(response, mode=self.final_response_markdown), "assistant")))
             else:
                 ChatConsole().print(Panel(
                     _render_final_assistant_content(response, mode=self.final_response_markdown),

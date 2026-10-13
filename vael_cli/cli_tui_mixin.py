@@ -114,34 +114,40 @@ class _Panel:
 
 class _MarginPanel:
     """The journal's form of an overlay panel: no frame, every row hung off the left margin, the
-    first one stamped with the time and the "waiting on you" glyph. Same interface as ``_Panel``."""
+    first one stamped with the time and the "waiting on you" glyph. A question that waits on the
+    reader is a warning-tinted block like the ones in the transcript: a bar after the margin and a
+    band behind the text, as wide as a message block. Same interface as ``_Panel``."""
 
     def __init__(self, title: str = "", title_style: str = ""):
-        from vael_cli.journal import GUTTER
-        self.lines, self._gutter, self._stamped = [], GUTTER, False
+        from vael_cli.journal import BLOCK_INDENT, MAX_WIDTH
+        self.lines, self._indent, self._stamped = [], BLOCK_INDENT, False
+        columns = min(shutil.get_terminal_size((100, 24)).columns, MAX_WIDTH)
+        self._room = max(0, columns - BLOCK_INDENT - 3)  # text cells after the bar and its space
         if title:
             self.row(title_style, title)
 
     def _margin(self) -> None:
         if self._stamped:
-            self.lines.append(("class:journal-margin", " " * self._gutter))
+            self.lines.append(("class:journal-margin", " " * self._indent))
             return
         self._stamped = True
         self.lines.append(("class:journal-margin", f" {time.strftime('%H:%M')} "))
         self.lines.append(("class:journal-margin-ask", "?"))
-        self.lines.append(("class:journal-margin", " "))
 
     def row(self, style: str, text: str) -> None:
+        from rich.cells import cell_len
         if not self._stamped:
             # The first row is the title. The glyph in the margin already says "needs you", so a
             # warning emoji in front of the title would only repeat it.
             text = re.sub(r"^[^\w]+", "", text)
         self._margin()
-        self.lines.append((style, f"  {text}\n"))
+        self.lines.append(("class:journal-block-bar", "▌ "))
+        self.lines.append((f"{style} class:journal-block-warn", text))
+        self.lines.append(("class:journal-block-warn", " " * max(1, self._room - cell_len(text))))
+        self.lines.append(("", "\n"))
 
     def blank(self) -> None:
-        self._margin()
-        self.lines.append(("", "\n"))
+        self.row("", "")
 
     def close(self) -> list:
         return self.lines
@@ -2386,6 +2392,8 @@ class CLITuiMixin:
             'sudo-text': '#D3DCD7',
             'journal-margin': 'bg:#12211C #8A9A93',
             'journal-margin-ask': 'bg:#12211C #E0A83C bold',
+            'journal-block-bar': '#E0A83C bg:#2B3120 bold',
+            'journal-block-warn': 'bg:#2B3120',
             'approval-border': '#2E6F5B',
             'approval-title': '#E0A83C bold',
             'approval-desc': '#D3DCD7 bold',

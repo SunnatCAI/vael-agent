@@ -543,6 +543,7 @@ _STYLE_TEMPLATES = {
     "approval-border": "{input_rule}", "approval-title": "{warn} bold", "approval-desc": "{text} bold",
     "approval-cmd": "{dim} italic", "approval-choice": "{dim}", "approval-selected": "{title} bold",
     "journal-margin": "bg:{status_bg} {status_dim}", "journal-margin-ask": "bg:{status_bg} {status_warn} bold",
+    "journal-block-bar": "{warn} bg:{warn_band} bold", "journal-block-warn": "bg:{warn_band}",
     "voice-status": "bg:{voice_bg} {label}", "voice-status-recording": "bg:{voice_bg} {error} bold"}
 
 
@@ -562,4 +563,7 @@ def get_prompt_toolkit_style_overrides() -> Dict[str, str]:
     palette["badge_bg"] = skin.colors.get(
         "status_bar_strong", skin.colors.get("banner_title", "#18AA7F"))
     palette["badge_fg"] = skin.colors.get("status_bar_bg", "#12211C")
+    # The band behind a question that waits on the reader: the margin field warmed toward the warning colour.
+    from vael_cli.journal import mix_colours
+    palette["warn_band"] = mix_colours(palette["status_bg"], palette["warn"], 0.12)
     return {cls: tpl.format(**palette) for cls, tpl in _STYLE_TEMPLATES.items()}

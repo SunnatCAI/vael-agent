@@ -4,6 +4,7 @@ import json
 import re
 
 import pytest
+from rich.cells import cell_len
 from rich.console import Console
 
 from agent.display import get_cute_tool_message, tool_completion_parts
@@ -61,8 +62,12 @@ def test_an_overlay_panel_follows_the_layout_of_the_active_skin():
     journal = text_of(_modal_panel("class:approval-border", 46))
     lines = journal.splitlines()
     assert not _FRAME & set(journal)
-    assert re.match(r" \d\d:\d\d \? {3}Dangerous Command$", lines[0])
-    assert lines[-1] == " " * (GUTTER + 2) + "rm -rf build"
+    # First row stamped and marked "waiting on you"; every row carries the bar in the ninth cell,
+    # and the band behind them is one width, so the question reads as one block.
+    assert re.match(r" \d\d:\d\d \?▌ Dangerous Command\s+$", lines[0])
+    assert all(line[GUTTER - 1] == "▌" for line in lines), lines
+    assert len({cell_len(line) for line in lines}) == 1, lines
+    assert lines[-1].startswith(" " * (GUTTER - 1) + "▌ rm -rf build")
 
     skin_engine.set_active_skin("ares")
     framed = text_of(_modal_panel("class:approval-border", 46))

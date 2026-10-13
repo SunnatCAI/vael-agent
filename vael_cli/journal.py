@@ -11,7 +11,7 @@ from __future__ import annotations
 
 import time
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, List, Optional, Union
+from typing import TYPE_CHECKING, List, Optional, Tuple, Union
 
 if TYPE_CHECKING:
     from rich.console import Console
@@ -20,6 +20,7 @@ if TYPE_CHECKING:
 GUTTER = 9       # pad · HH:MM · space · state glyph · pad
 LABEL = 11
 MAX_WIDTH = 100  # rows stop here on wide terminals, so a right-aligned hint stays beside its row
+BLOCK_INDENT = 8  # the margin's field before a message block's bar, so the bar sits in the ninth cell
 
 # state -> (glyph, ASCII stand-in, role on the margin field). A state is never colour alone.
 _STATES = {
@@ -50,6 +51,26 @@ class Palette:
     field_bad: str
     mark_bg: str
     mark_fg: str
+
+
+def mix_colours(a: str, b: str, share: float) -> str:
+    """``a`` moved ``share`` of the way toward ``b`` (both ``#RRGGBB``); ``a`` when either is not hex."""
+    try:
+        pa = [int(a[i:i + 2], 16) for i in (1, 3, 5)]
+        pb = [int(b[i:i + 2], 16) for i in (1, 3, 5)]
+    except (ValueError, IndexError, TypeError):
+        return a
+    return "#" + "".join(f"{round(x + (y - x) * share):02X}" for x, y in zip(pa, pb))
+
+
+def _block_colours(pal: Palette, role: str) -> Tuple[str, str]:
+    """``(bar, band)`` for a message block: the reader's own message and warnings take the accent and
+    the warning colour; the agent's reply sits in a quiet band with a dim bar."""
+    if role == "user":
+        return pal.accent, mix_colours(pal.field, pal.accent, 0.12)
+    if role == "warn":
+        return pal.warn, mix_colours(pal.field, pal.warn, 0.12)
+    return pal.dim, mix_colours(pal.field, pal.text, 0.06)
 
 
 def palette() -> Palette:
@@ -177,6 +198,30 @@ class Journal:
     def blank(self) -> "Text":
         return self._margin("", False, "")
 
+    def block(self, content: Content, role: str = "assistant", tag: str = "") -> List["Text"]:
+        """A message block: a bar in the margin's last cell and a tinted band behind the text, wrapped
+        to the page. The band runs the full width, so a block reads as one unit down the page. A
+        ``tag`` (a time, say) sits dim at the right edge of the first row when it fits."""
+        from rich.text import Text
+        bar, band = _block_colours(self.pal, role)
+        body = self.text(content, self.pal.text)
+        room = self.width - BLOCK_INDENT - 3
+        pieces = self._continue(body, room, room) if body.cell_len > room else [body]
+        out: List[Text] = []
+        for piece in pieces:
+            piece.rstrip()
+            piece.stylize(f"on {band}")
+            line = Text.assemble((" " * BLOCK_INDENT, f"on {self.pal.field}"),
+                                 ("|" if self.ascii else "▌", f"{bar} on {band}"), (" ", f"on {band}"))
+            line.append_text(piece)
+            gap = self.width - line.cell_len - len(tag) - 1
+            if tag and not out and gap >= 2:
+                line.append(" " * gap, style=f"on {band}")
+                line.append(tag, style=f"{self.pal.dim} on {band}")
+            line.append(" " * max(0, self.width - line.cell_len), style=f"on {band}")
+            out.append(line)
+        return out
+
     def tool_rows(self, parts: List[tuple], duration: float) -> List["Text"]:
         """A finished tool call: one stamped row per ``(verb, detail, failure)``, the failure
         reason and the duration at the right edge of the last one."""
@@ -233,6 +278,26 @@ def render_ansi(build, *, width: Optional[int] = None) -> List[str]:
     journal = Journal(console)
     journal.print(*build(journal))
     return buf.getvalue().rstrip("\n").split("\n")
+
+
+def block_ansi(line: str, role: str = "assistant", *, width: Optional[int] = None) -> str:
+    """One streamed line of a message block as an ANSI string (may span rows when it wraps)."""
+    return "\n".join(render_ansi(lambda j: j.block(line, role), width=width))
+
+
+def block_grid(renderable, role: str = "assistant"):
+    """A finished message block around a Rich renderable (the Markdown of a whole reply): the same bar
+    and band as ``Journal.block``, laid out as a full-width grid so the renderable wraps inside it."""
+    from rich.table import Table
+    pal = palette()
+    bar, band = _block_colours(pal, role)
+    grid = Table.grid(padding=0, expand=True)
+    grid.add_column(width=BLOCK_INDENT, style=f"on {pal.field}")
+    grid.add_column(width=1, style=f"{bar} on {band}")
+    grid.add_column(width=1, style=f"on {band}")
+    grid.add_column(ratio=1, style=f"on {band}")
+    grid.add_row("", "▌", "", renderable)
+    return grid
 
 
 def notice_ansi(label: str, value: str, hint: str = "", *, state: str = "notice", width: Optional[int] = None) -> str:
