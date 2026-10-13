@@ -590,8 +590,9 @@ without `eval`; a path that does not exist is an error, never an empty string. `
 metadata addresses and credential headers.
 
 The `vael` and `agent` nodes run this machine's VAEL Agent with your own keys. They get the `safe` toolset
-(web, vision, image generation — no terminal) unless you pass `--toolsets`: a headless run approves dangerous
-commands without asking, so widen it only for flows you trust.
+(web, vision, image generation — no terminal) unless you pass `--toolsets`. A headless run has nobody to ask,
+so dangerous commands follow `approvals.single_query_mode` (`deny` by default); widen the toolsets only for
+flows you trust.
 
 | Subcommand | Description |
 |--------|-------------|

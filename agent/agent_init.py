@@ -25,6 +25,7 @@ from urllib.parse import parse_qs, urlparse, urlunparse
 from agent.context_compressor import ContextCompressor
 from agent.agent_runtime_helpers import _ra
 from agent.iteration_budget import IterationBudget, normalize_budget_warning_ratio
+from agent.ctf_guard import StreamingFlagScrubber
 from agent.memory_manager import StreamingContextScrubber
 from agent.memory_provider import is_core_memory_provider
 from agent.session_activity import ActivityProvenance
@@ -632,6 +633,7 @@ _STREAM_STATE: Dict[str, Any] = {
     # per-delta regexes (both tags must be in one string).
     "_stream_context_scrubber": StreamingContextScrubber,
     "_stream_think_scrubber": StreamingThinkScrubber,
+    "_stream_flag_scrubber": StreamingFlagScrubber,  # CyberAI flags split across deltas
     "_current_streamed_assistant_text": "",  # so a later completed interim isn't re-sent
     "_delivered_interim_texts": set,  # interims this user turn (spans Codex continuations)
     # Single-writer guard for the delta sink: each attempt claims a monotonic writer token and

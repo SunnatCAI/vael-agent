@@ -6,8 +6,9 @@ each item and then continues from ``exit``. A node that fails stops the run with
 swallowed into an empty result.
 
 The ``vael`` and ``agent`` nodes run the local VAEL Agent, so they use the user's own keys. Without an
-explicit toolset they get ``safe`` (no terminal): a headless run approves dangerous commands without
-asking, so a flow gets terminal or file access only when the person running it asks for it.
+explicit toolset they get ``safe`` (no terminal): a headless run has nobody to ask, so dangerous commands
+are denied (or approved, if ``approvals.single_query_mode`` says so), and a flow gets terminal or file
+access only when the person running it asks for it.
 Nodes that need CyberAI itself (``telegram``, ``pc``) cannot run here and fail with that reason.
 """
 
