@@ -1,6 +1,7 @@
 import { Box, Text, useInput, wrapAnsi } from '@vael/ink'
-import { useEffect, useState } from 'react'
+import { type ReactNode, useEffect, useState } from 'react'
 
+import { BAR_BORDER, questionBlock } from '../domain/messageBlock.js'
 import { messages } from '../i18n/runtime.js'
 import { useT } from '../i18n/useT.js'
 import { clarifyAnswerText, clarifyRevisitState } from '../lib/text.js'
@@ -22,6 +23,33 @@ const approvalLabels = (): Record<ApprovalChoice, string> => {
 }
 
 const CMD_PREVIEW_LINES = 10
+
+/**
+ * The box a question that waits on the reader sits in: a bar down the left edge and a tinted band
+ * behind the rows, or the double frame for a skin that ships its own art.
+ */
+export function QuestionBox({ children, t, tone }: { children: ReactNode; t: Theme; tone: string }) {
+  const block = questionBlock(t, tone)
+
+  return block ? (
+    <Box
+      backgroundColor={block.band}
+      borderBottom={false}
+      borderColor={block.bar}
+      borderRight={false}
+      borderStyle={BAR_BORDER}
+      borderTop={false}
+      flexDirection="column"
+      paddingX={1}
+    >
+      {children}
+    </Box>
+  ) : (
+    <Box borderColor={tone} borderStyle="double" flexDirection="column" paddingX={1}>
+      {children}
+    </Box>
+  )
+}
 
 type ApprovalChoice = 'always' | 'deny' | 'once' | 'session'
 
@@ -116,7 +144,7 @@ export function ApprovalPrompt({ cols = 80, onChoice, req, t }: ApprovalPromptPr
   const overflow = rawLines.length - shown.length
 
   return (
-    <Box borderColor={t.color.warn} borderStyle="double" flexDirection="column" paddingX={1}>
+    <QuestionBox t={t} tone={t.color.warn}>
       <Text bold color={t.color.warn}>
         {T.prompt.approval.title} · {req.description}
       </Text>
@@ -143,7 +171,7 @@ export function ApprovalPrompt({ cols = 80, onChoice, req, t }: ApprovalPromptPr
       ))}
 
       <Text color={t.color.muted}>↑/↓ select · Enter confirm · 1-{opts.length} quick pick · Esc/Ctrl+C deny</Text>
-    </Box>
+    </QuestionBox>
   )
 }
 
@@ -417,7 +445,7 @@ export function ConfirmPrompt({ onCancel, onConfirm, req, t }: ConfirmPromptProp
   ]
 
   return (
-    <Box borderColor={accent} borderStyle="double" flexDirection="column" paddingX={1}>
+    <QuestionBox t={t} tone={accent}>
       <Text bold color={accent}>
         {req.danger ? '⚠' : '?'} {req.title}
       </Text>
@@ -440,7 +468,7 @@ export function ConfirmPrompt({ onCancel, onConfirm, req, t }: ConfirmPromptProp
       ))}
 
       <Text color={t.color.muted}>{T.prompt.confirm.hint}</Text>
-    </Box>
+    </QuestionBox>
   )
 }
 

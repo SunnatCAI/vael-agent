@@ -32,6 +32,19 @@ export interface MessageBlock {
 }
 
 /**
+ * The block a question that waits on the reader is drawn as — an approval, a confirmation — tinted
+ * with the tone of the question (the warning colour, or the error colour for a dangerous one). A
+ * skin that ships its own art keeps the framed box, as it does for the transcript.
+ */
+export function questionBlock(t: Theme, tone: string): MessageBlock | null {
+  if (t.bannerHero || t.bannerLogo) {
+    return null
+  }
+
+  return { band: mix(t.color.statusBg, tone, 0.12), bar: tone, glyph: false }
+}
+
+/**
  * The block a row is drawn as, or `null` for rows that stay as they were: system notes, tool
  * output, events, diffs, slash echoes — and every row of a skin that ships its own art, which keeps
  * its own look (the same split the welcome page makes). Only the reader's own messages and the
