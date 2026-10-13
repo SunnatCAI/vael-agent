@@ -40,7 +40,7 @@ def test_nested_text_is_scrubbed_and_non_text_passes_through():
     result = {"text_summary": "flag CYBERAI{x}", "parts": [{"type": "text", "text": "CYBERAI{y}"},
                                                         {"type": "image", "data": "AAAA{BBBB"}], "n": 3}
     out = withhold_flags(result)
-    assert "CYBERAI{x}" not in str(out) and "CYBERAI{y}" not in str(out)
+    assert out["text_summary"] == "flag " + WITHHELD and out["parts"][0]["text"] == WITHHELD
     assert out["parts"][1]["data"] == "AAAA{BBBB" and out["n"] == 3
     assert withhold_flags(None) is None
 

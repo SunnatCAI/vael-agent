@@ -65,7 +65,7 @@ def _cmd_validate(args) -> int:
     try:
         fe.validate_document(doc, fr.KNOWN_KINDS)
     except fe.FlowError as err:
-        print(f"Not runnable: {args.file}")
+        print(f"Not runnable: {_plain(args.file)}")
         for issue in err.issues or [str(err)]:
             print(f"  - {_plain(issue)}")
         return 1
@@ -90,7 +90,7 @@ def _cmd_run(args) -> int:
     try:
         result = fr.run_flow(doc, flow_input=flow_input, toolsets=args.toolsets, timeout_s=args.timeout, on_step=show)
     except fe.FlowError as err:
-        print(f"Not runnable: {err}", file=sys.stderr)
+        print(f"Not runnable: {_plain(err)}", file=sys.stderr)
         for issue in err.issues[1:]:
             print(f"  - {_plain(issue)}", file=sys.stderr)
         return 1
