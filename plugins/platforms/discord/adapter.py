@@ -5681,14 +5681,14 @@ class DiscordAdapter(DiscordMediaMixin, BasePlatformAdapter):
             default_hint = t("platform.discord.prompt.default_hint", default=default) if default else ""
             update_title = t("platform.discord.prompt.update_title")
             embed = discord.Embed(
-                title=_truncate_discord_component_text(f"☤ {update_title}", _DISCORD_EMBED_TITLE_LIMIT),
+                title=_truncate_discord_component_text(update_title, _DISCORD_EMBED_TITLE_LIMIT),
                 description=f"{prompt}{default_hint}", color=discord.Color.gold(),
             )
             view = UpdatePromptView(
                 session_key=session_key, allowed_user_ids=self._allowed_user_ids,
                 allowed_role_ids=self._allowed_role_ids,
             )
-            content = self._self_contained_prompt_content(f"☤ **{update_title}**", f"{prompt}{default_hint}")
+            content = self._self_contained_prompt_content(f"**{update_title}**", f"{prompt}{default_hint}")
             return {"content": content, "embed": embed, "view": view}, view
         result = await self._send_prompt(chat_id, metadata, _build)
         if result.success and _metadata_marks_nonconversational(metadata):

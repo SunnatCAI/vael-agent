@@ -117,7 +117,7 @@ class CLIBillingMixin:
         """Blank line, ``<icon> <bold title>`` via _cprint, then (optionally) the rule via print."""
         from cli import _cprint, _b
         print()
-        _cprint(f"  {icon} {_b(title)}")
+        _cprint(f"  {icon} {_b(title)}" if icon else f"  {_b(title)}")
         if rule:
             print(f"  {_RULE}")
 
@@ -285,7 +285,7 @@ class CLIBillingMixin:
             self._print_logged_out(state, t("cli.subscription.load_failed_label"), "/subscription")
             return
         if state.context == "team":  # no personal plan — teams run on a shared balance
-            self._block_header("☤", t("cli.subscription.team_header"))
+            self._block_header("", t("cli.subscription.team_header"))
             self._print_org_line(state)
             print(f"  {t('cli.subscription.team_connected', org=state.org_name or t('cli.subscription.a_team_org'))}")
             self._dim(t("cli.subscription.personal_note"))
@@ -338,7 +338,7 @@ class CLIBillingMixin:
                              when=_d(t("cli.subscription.scheduled_when", when=_when))))
             self._dim(t("cli.subscription.keep_until_then", plan=_from))
             _cprint("")
-        _cprint(f"  ☤ {_b(status)}")
+        _cprint(f"  {_b(status)}")
         print(f"  {_RULE}")
         for _bar_ln in self._usage_bar_lines(usage, plan_name):
             print(_bar_ln)
@@ -371,7 +371,7 @@ class CLIBillingMixin:
         if not tiers:
             self._subscription_open_portal(state, manage_url, verb=t("cli.subscription.start_subscription"))
             return
-        self._block_header("☤", t("cli.subscription.choose_plan"))
+        self._block_header("", t("cli.subscription.choose_plan"))
         for i, tier in enumerate(tiers, 1):
             print(f"  {i}. {format_tier_row(tier)}")
         self._dim(t("cli.subscription.start_opens_portal"))

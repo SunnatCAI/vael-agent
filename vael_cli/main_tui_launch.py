@@ -466,7 +466,7 @@ def _launch_tui(
     # preserve_inherited=False keeps --tui and other flags out of the subcommand.
     if code == 42:
         from vael_cli.relaunch import relaunch
-        print("\n☤ Launching update...\n")
+        print("\nLaunching update...\n")
         relaunch(["update"], preserve_inherited=False)
 
     sys.exit(code)

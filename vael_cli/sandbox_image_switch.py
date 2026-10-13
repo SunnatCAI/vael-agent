@@ -122,7 +122,7 @@ def offer_interactive(*, cprint, ask=input) -> Optional[bool]:
     if switch is None:
         return None
     cprint("")
-    cprint("☤ A new default sandbox image is available.")
+    cprint("A new default sandbox image is available.")
     for line in explain_lines(switch):
         cprint(f"  {line}")
     try:
