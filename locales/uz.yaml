@@ -2949,9 +2949,9 @@ cli:
       available: "Mavjud: none, {available}"
       scope_saved: "(sozlamaga saqlandi)"
       scope_session: "(faqat shu sessiya)"
-      cleared: "{face} Personalik tozalandi {scope}"
+      cleared: "Personalik tozalandi {scope}"
       cleared_note: "Personalik qatlamisiz — asosiy agent xatti-harakati ishlatilmoqda."
-      set_to: "{face} Personalik '{name}' qilib o'rnatildi {scope}"
+      set_to: "Personalik '{name}' qilib o'rnatildi {scope}"
     cron:
       repeat_must_be_integer: "--repeat butun son bo'lishi kerak"
       unknown_command: "Noma'lum cron buyrug'i: {subcommand}"

@@ -2,7 +2,7 @@
 
 The slash worker is a CLI subprocess whose ``self.agent`` is built lazily by the
 first chat prompt and never by a slash command, so its /context answers
-"(._.) No active agent -- send a message first." for ANY local session — active
+"No active agent -- send a message first." for ANY local session — active
 or idle (#93280). The gateway already renders the view from the live session
 (``_format_live_context_output``), with the desktop gauge's breakdown engine when
 a live agent exists; this pins that routing so the command never falls through

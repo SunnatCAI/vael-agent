@@ -1557,7 +1557,6 @@ class CLICommandsMixin:
             return print(f"  {_t('personality.available', available=', '.join(self.personalities.keys()))}")
         saved = persist_personality(name)
         scope = _t("personality.scope_saved") if saved else _t("personality.scope_session")
-        face = "(^_^)b" if saved else "(^_^)"
         if not name:
             # Neutral reset — fall back to the user-owned manual prompt.
             try:
@@ -1567,11 +1566,11 @@ class CLICommandsMixin:
             except Exception:
                 self.system_prompt = ""
             _retire_agent(self)  # Force re-init
-            _pr(_t("personality.cleared", face=face, scope=scope), f"  {_t('personality.cleared_note')}")
+            _pr(_t("personality.cleared", scope=scope), f"  {_t('personality.cleared_note')}")
         else:
             self.system_prompt = personality_prompt
             _retire_agent(self)  # Force re-init
-            _pr(_t("personality.set_to", face=face, name=name, scope=scope),
+            _pr(_t("personality.set_to", name=name, scope=scope),
                 f"  \"{_ellipsize(personality_prompt, 60)}\"")
 
     def _handle_pet_command(self, cmd: str):
