@@ -7,6 +7,7 @@ import { LONG_MSG } from '../config/limits.js'
 import { hasLeadGap } from '../domain/blockLayout.js'
 import { splitComposerHighlights } from '../domain/composerHighlights.js'
 import { sectionMode } from '../domain/details.js'
+import { BAR_BORDER, BLOCK_GUTTER, messageBlock } from '../domain/messageBlock.js'
 import { userDisplay } from '../domain/messages.js'
 import { ROLE } from '../domain/roles.js'
 import { useT } from '../i18n/useT.js'
@@ -163,7 +164,14 @@ export const MessageLine = memo(function MessageLine({
   }
 
   const { body, glyph, prefix } = ROLE[msg.role](t)
-  const gutterWidth = transcriptGutterWidth(msg.role, t.brand.prompt)
+  const block = messageBlock(t, msg)
+
+  // A block puts the bar (the row's left border) in front of the text. It swaps the glyph column
+  // for one cell of air, unless the skin set its own prompt symbol; the body takes whatever cells
+  // that frees, or gives up the bar's.
+  const glyphGutter = transcriptGutterWidth(msg.role, t.brand.prompt)
+  const gutterWidth = block ? 1 + (block.glyph ? glyphGutter : BLOCK_GUTTER) : glyphGutter
+  const bodyWidth = transcriptBodyWidth(cols, msg.role, t.brand.prompt, TERMUX_TUI_MODE) + glyphGutter - gutterWidth
 
   const showDetails =
     (toolsMode !== 'hidden' && Boolean(msg.tools?.length)) || (thinkingMode !== 'hidden' && Boolean(thinking))
@@ -201,8 +209,6 @@ export const MessageLine = memo(function MessageLine({
     }
 
     if (msg.role === 'assistant') {
-      const bodyWidth = transcriptBodyWidth(cols, msg.role, t.brand.prompt, TERMUX_TUI_MODE)
-
       return isStreaming ? (
         // Incremental markdown: split at the last stable block boundary so
         // only the in-flight tail re-tokenizes per delta. See
@@ -307,15 +313,34 @@ export const MessageLine = memo(function MessageLine({
         </Box>
       )}
 
-      <Box>
-        <NoSelect flexShrink={0} fromLeftEdge width={gutterWidth}>
-          <Text bold={msg.role === 'user'} color={prefix}>
-            {glyph}{' '}
-          </Text>
-        </NoSelect>
+      {block ? (
+        <Box
+          backgroundColor={block.band}
+          borderBottom={false}
+          borderColor={block.bar}
+          borderRight={false}
+          borderStyle={BAR_BORDER}
+          borderTop={false}
+        >
+          <NoSelect flexShrink={0} fromLeftEdge width={gutterWidth - 1}>
+            <Text bold={msg.role === 'user'} color={prefix}>
+              {block.glyph ? `${glyph} ` : ' '}
+            </Text>
+          </NoSelect>
 
-        <Box width={transcriptBodyWidth(cols, msg.role, t.brand.prompt, TERMUX_TUI_MODE)}>{content}</Box>
-      </Box>
+          <Box width={bodyWidth}>{content}</Box>
+        </Box>
+      ) : (
+        <Box>
+          <NoSelect flexShrink={0} fromLeftEdge width={gutterWidth}>
+            <Text bold={msg.role === 'user'} color={prefix}>
+              {glyph}{' '}
+            </Text>
+          </NoSelect>
+
+          <Box width={bodyWidth}>{content}</Box>
+        </Box>
+      )}
     </Box>
   )
 })
