@@ -20,6 +20,7 @@ export const chromeEn = {
   },
   composer: {
     interruptHint: 'Ctrl+C to interrupt…',
+    keyHints: { commands: 'commands', help: 'shortcuts', interrupt: 'interrupt' },
     placeholders: {
       ask: 'Ask me anything…',
       explain: 'Try "explain this codebase"',
