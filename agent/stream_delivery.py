@@ -58,7 +58,12 @@ class StreamDeliveryMixin:
         # Next stream re-reads plugins.stream_reasoning_deltas (config edits land per request).
         self._stream_reasoning_hooks_enabled = None
 
+        flag_scrubber = getattr(self, "_stream_flag_scrubber", None)
+
         def deliver(tail: str) -> None:
+            # A CyberAI flag split across deltas must not leave through the end-of-stream flush either.
+            if tail and flag_scrubber is not None:
+                tail = flag_scrubber.feed(tail)
             if tail:
                 self._deliver_to_stream_callbacks(tail)
                 self._record_streamed_assistant_text(tail)
@@ -77,6 +82,16 @@ class StreamDeliveryMixin:
             deliver(ctx_scrubber.feed(think_tail) if think_tail and ctx_scrubber is not None else think_tail)
         if ctx_scrubber is not None:
             deliver(ctx_scrubber.flush())
+        if flag_scrubber is not None:
+            held = flag_scrubber.flush()
+            if held:
+                self._deliver_to_stream_callbacks(held)
+                self._record_streamed_assistant_text(held)
+        reasoning_flag_scrubber = getattr(self, "_stream_reasoning_flag_scrubber", None)
+        if reasoning_flag_scrubber is not None:
+            held = reasoning_flag_scrubber.flush()
+            if held:
+                self._call_quietly(self.reasoning_callback, held)
         self._current_streamed_assistant_text = ""
 
     @property
@@ -322,6 +337,9 @@ class StreamDeliveryMixin:
             if hidden and not getattr(self, "_native_reasoning_streamed", False):
                 self._fire_reasoning_delta(hidden, inline=True)
             text = scrubber.feed(text) if scrubber is not None else sanitize_context(text)
+            flag_scrubber = getattr(self, "_stream_flag_scrubber", None)
+            if flag_scrubber is not None:
+                text = flag_scrubber.feed(text)
             # Only strip leading newlines on the first delta — mid-stream "\n" is legitimate markdown.
             # Check the parts list, not the joined property (joining per token copies the whole reply).
             if not prepended_break and not getattr(self, "_streamed_assistant_text_parts", None):
@@ -340,6 +358,11 @@ class StreamDeliveryMixin:
         provider reasoning delta and stops inline forwarding for the rest of this model response."""
         if not inline:
             self._native_reasoning_streamed = True
+        reasoning_flag_scrubber = getattr(self, "_stream_reasoning_flag_scrubber", None)
+        if reasoning_flag_scrubber is not None and isinstance(text, str):
+            text = reasoning_flag_scrubber.feed(text)
+            if not text:
+                return
         if self._stream_writer_superseded():
             # Single-writer guard (#65991): fence out a superseded stream's reasoning deltas the same way as
             # content deltas.

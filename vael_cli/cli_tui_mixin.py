@@ -8,6 +8,7 @@ import errno
 import json
 import os
 import queue
+import re
 import shutil
 import string
 import sys
@@ -25,6 +26,7 @@ from prompt_toolkit.layout import (
     ConditionalContainer,
     FormattedTextControl,
     Layout,
+    VSplit,
     Window,
     WindowAlign)
 from prompt_toolkit.layout.dimension import Dimension
@@ -110,6 +112,71 @@ class _Panel:
         return self.lines
 
 
+class _MarginPanel:
+    """The journal's form of an overlay panel: no frame, every row hung off the left margin, the
+    first one stamped with the time and the "waiting on you" glyph. A question that waits on the
+    reader is a warning-tinted block like the ones in the transcript: a bar after the margin and a
+    band behind the text, as wide as a message block. Same interface as ``_Panel``."""
+
+    def __init__(self, title: str = "", title_style: str = ""):
+        from vael_cli.journal import BLOCK_INDENT, MAX_WIDTH
+        self.lines, self._indent, self._stamped = [], BLOCK_INDENT, False
+        columns = min(_terminal_columns(), MAX_WIDTH)
+        self._room = max(0, columns - BLOCK_INDENT - 3)  # text cells after the bar and its space
+        if title:
+            self.row(title_style, title)
+
+    def _margin(self) -> None:
+        if self._stamped:
+            self.lines.append(("class:journal-margin", " " * self._indent))
+            return
+        self._stamped = True
+        self.lines.append(("class:journal-margin", f" {time.strftime('%H:%M')} "))
+        self.lines.append(("class:journal-margin-ask", "?"))
+
+    def row(self, style: str, text: str) -> None:
+        from rich.cells import cell_len
+        if not self._stamped:
+            # The first row is the title. The glyph in the margin already says "needs you", so a
+            # warning emoji in front of the title would only repeat it.
+            text = re.sub(r"^[^\w]+", "", text)
+        self._margin()
+        self.lines.append(("class:journal-block-bar", "▌ "))
+        self.lines.append((f"{style} class:journal-block-warn", text))
+        self.lines.append(("class:journal-block-warn", " " * max(1, self._room - cell_len(text))))
+        self.lines.append(("", "\n"))
+
+    def blank(self) -> None:
+        self.row("", "")
+
+    def close(self) -> list:
+        return self.lines
+
+
+def _terminal_columns() -> int:
+    """Width of the screen the overlay will draw on: the live prompt_toolkit output when an app is
+    running (it can differ from what ``shutil`` reports), else the process terminal."""
+    try:
+        from prompt_toolkit.application.current import get_app_or_none
+        app = get_app_or_none()
+        if app is not None:
+            return app.output.get_size().columns
+    except Exception:
+        pass
+    return shutil.get_terminal_size((100, 24)).columns
+
+
+def _modal_panel(border: str, box_width: int, title: str = "", title_style: str = ""):
+    """The panel an overlay draws in: the journal's margin form when that layout is active and the
+    terminal has room for the margin beside the wrapped text, else the framed one."""
+    from vael_cli.banner import uses_journal_layout
+    from vael_cli.journal import GUTTER
+    if uses_journal_layout() and box_width + GUTTER <= _terminal_columns():
+        # The state glyph in the margin says "needs you"; a warning emoji in the title would repeat it.
+        return _MarginPanel(title, title_style)
+    return _Panel(border, box_width, title, title_style)
+
+
 def _wrap_rows(wrap, items, width, indent) -> list[tuple[int, str]]:
     """``(index, wrapped_line)`` pairs so selected styling can be re-applied per row."""
     return [(i, w) for i, label in enumerate(items) for w in wrap(label, width, subsequent_indent=indent)]
@@ -142,6 +209,25 @@ class CLITuiMixin:
             return 1
         return 0 if self._use_minimal_tui_chrome(width=width) else 1
 
+    # Columns the input frame takes from the text: a margin cell, the edge and a pad, on each side.
+    _INPUT_FRAME_COLUMNS = 6
+
+    def _tui_input_framed(self) -> bool:
+        """True when the input area is drawn inside a rounded frame: the journal layout, on a
+        terminal roomy enough to keep both rules (the minimal chrome drops the bottom one)."""
+        from vael_cli.banner import uses_journal_layout
+        if self._tui_input_rule_height("bottom") == 0 or self._tui_input_rule_height("top") == 0:
+            return False
+        return uses_journal_layout()
+
+    def _tui_input_rule_fragments(self, position: str):
+        """One input rule: a plain line, or the frame's top / bottom edge with rounded corners."""
+        width = self._get_tui_terminal_width()
+        if not self._tui_input_framed():
+            return [("class:input-rule", "─" * width)]
+        left, right = ("╭", "╮") if position == "top" else ("╰", "╯")
+        return [("class:input-rule", f" {left}{'─' * max(0, width - 4)}{right} ")]
+
     def _get_slash_confirm_display_fragments(self):
         """Render the /new-/clear-style confirmation panel."""
         from cli import _panel_box_width, _wrap_panel_text_keep_ws
@@ -172,7 +258,7 @@ class CLITuiMixin:
         if len(detail_wrapped) > max_detail_rows:
             detail_wrapped = detail_wrapped[:max(1, max_detail_rows - 1)] + [t("cli.tui.detail_truncated")]
 
-        panel = _Panel('class:approval-border', box_width)
+        panel = _modal_panel('class:approval-border', box_width)
         panel.row('class:approval-title', title)
         panel.blank()
         for wrapped in detail_wrapped:
@@ -251,7 +337,7 @@ class CLITuiMixin:
 
         # Render title → command → choices → description; description last so any overflow
         # clips the least-critical content, never the command or choices.
-        panel = _Panel('class:approval-border', box_width)
+        panel = _modal_panel('class:approval-border', box_width)
         panel.row('class:approval-title', title)
         if not use_compact_chrome:
             panel.blank()
@@ -340,7 +426,7 @@ class CLITuiMixin:
         if self._command_running:
             return _state_fragment("class:prompt-working", self._command_spinner_frame())
         if self._agent_running:
-            return _state_fragment("class:prompt-working", "☤")
+            return _state_fragment("class:prompt-working", "▸")
         if self._voice_mode:
             return _state_fragment("class:voice-prompt", "🎤")
         return [("class:prompt", symbol)]
@@ -530,7 +616,7 @@ class CLITuiMixin:
         box_width = _panel_box_width(title, [header] + [text for _, text in preview_rows])
         rows = _status_rows(max(8, box_width - 2))
 
-        panel = _Panel('class:clarify-border', box_width, title, 'class:clarify-title')
+        panel = _modal_panel('class:clarify-border', box_width, title, 'class:clarify-title')
         panel.row('class:clarify-question', header)
         for style, text in rows:
             panel.row(style, text)
@@ -561,7 +647,7 @@ class CLITuiMixin:
             selected, state.get("_scroll_offset", 0), len(labels), term_rows)
         state["_scroll_offset"] = scroll_offset
 
-        panel = _Panel('class:clarify-border', box_width, title, 'class:clarify-title')
+        panel = _modal_panel('class:clarify-border', box_width, title, 'class:clarify-title')
         panel.blank()
         panel.row('class:clarify-hint', hint)
         panel.blank()
@@ -652,7 +738,7 @@ class CLITuiMixin:
         """Bordered ``sudo-*`` panel: blank, each body line, blank, body-final line, blank."""
         from cli import _panel_box_width
         box_width = _panel_box_width(title, body_lines)
-        panel = _Panel('class:sudo-border', box_width, title, 'class:sudo-title')
+        panel = _modal_panel('class:sudo-border', box_width, title, 'class:sudo-title')
         panel.blank()
         for i, text in enumerate(body_lines):
             if i == len(body_lines) - 1 and i > 0:
@@ -2139,11 +2225,17 @@ class CLITuiMixin:
             self._get_command_palette_display_fragments, "_command_palette_state")
         # Rules above/below the input; narrow terminals hide the bottom one to recover a row.
         input_rule_top = Window(
-            char='─', height=lambda: cli_ref._tui_input_rule_height("top"), style='class:input-rule',
-        )
+            content=FormattedTextControl(lambda: cli_ref._tui_input_rule_fragments("top")),
+            height=lambda: cli_ref._tui_input_rule_height("top"))
         input_rule_bot = Window(
-            char='─', height=lambda: cli_ref._tui_input_rule_height("bottom"), style='class:input-rule',
-        )
+            content=FormattedTextControl(lambda: cli_ref._tui_input_rule_fragments("bottom")),
+            height=lambda: cli_ref._tui_input_rule_height("bottom"))
+        # The frame's sides: present only while the frame is, so a plain-rule layout keeps every column.
+        framed = Condition(lambda: cli_ref._tui_input_framed())
+
+        def _side(text: str):
+            return ConditionalContainer(Window(char=text, width=1, style='class:input-rule'), filter=framed)
+        input_frame = VSplit([_side(' '), _side('│'), _side(' '), input_area, _side(' '), _side('│'), _side(' ')])
         image_bar = Window(
             content=FormattedTextControl(self._tui_image_bar_fragments),
             height=Condition(lambda: bool(cli_ref._attached_images)))
@@ -2182,7 +2274,7 @@ class CLITuiMixin:
             status_bar=status_bar,
             input_rule_top=input_rule_top,
             image_bar=image_bar,
-            input_area=input_area,
+            input_area=input_frame,
             input_rule_bot=input_rule_bot,
             voice_status_bar=voice_status_bar,
             completions_menu=CompletionsMenu(max_height=12, scroll_offset=1))))
@@ -2233,6 +2325,8 @@ class CLITuiMixin:
                     terminal_columns = get_app().output.get_size().columns
                 except Exception:
                     terminal_columns = shutil.get_terminal_size((80, 24)).columns
+                if self._tui_input_framed():
+                    terminal_columns -= self._INPUT_FRAME_COLUMNS
                 return _estimate_tui_input_height(doc.lines, self._get_tui_prompt_text(), terminal_columns)
             except Exception:
                 return 1
@@ -2277,46 +2371,50 @@ class CLITuiMixin:
             # Empty input/prompt styles inherit the terminal's own fg/bg so typed text is readable
             # in both light and dark schemes (a hardcoded near-white was invisible on light).
             'input-area': '',
-            'placeholder': '#888888 italic',
+            'placeholder': '#7C8B85 italic',
             'prompt': '',
-            'prompt-working': '#888888 italic',
-            'hint': '#888888 italic',
-            'status-bar': 'bg:#1a1a2e #C0C0C0',
-            'status-bar-strong': 'bg:#1a1a2e #FFD700 bold',
-            'status-bar-dim': 'bg:#1a1a2e #8B8682',
-            'status-bar-good': 'bg:#1a1a2e #8FBC8F bold',
-            'status-bar-warn': 'bg:#1a1a2e #FFD700 bold',
-            'status-bar-bad': 'bg:#1a1a2e #FF8C00 bold',
-            'status-bar-critical': 'bg:#1a1a2e #FF6B6B bold',
-            'status-bar-yolo': 'bg:#1a1a2e #FF4444 bold',
-            'status-bar-session-title': 'bg:#FFD700 #1a1a2e bold',
-            'input-rule': '#CD7F32',
+            'prompt-working': '#7C8B85 italic',
+            'hint': '#7C8B85 italic',
+            'status-bar': 'bg:#12211C #C0C0C0',
+            'status-bar-strong': 'bg:#12211C #F2F6F4 bold',
+            'status-bar-dim': 'bg:#12211C #8B8682',
+            'status-bar-good': 'bg:#12211C #8FBC8F bold',
+            'status-bar-warn': 'bg:#12211C #F2F6F4 bold',
+            'status-bar-bad': 'bg:#12211C #E0A83C bold',
+            'status-bar-critical': 'bg:#12211C #EF6B5E bold',
+            'status-bar-yolo': 'bg:#12211C #FF4444 bold',
+            'status-bar-session-title': 'bg:#F2F6F4 #12211C bold',
+            'input-rule': '#2E6F5B',
             'image-badge': '#87CEEB bold',
-            'completion-menu': 'bg:#1a1a2e #FFF8DC',
-            'completion-menu.completion': 'bg:#1a1a2e #FFF8DC',
-            'completion-menu.completion.current': 'bg:#333355 #FFD700',
-            'completion-menu.meta.completion': 'bg:#1a1a2e #888888',
-            'completion-menu.meta.completion.current': 'bg:#333355 #FFBF00',
-            'clarify-border': '#CD7F32',
-            'clarify-title': '#FFD700 bold',
-            'clarify-question': '#FFF8DC bold',
-            'clarify-choice': '#AAAAAA',
-            'clarify-selected': '#FFD700 bold',
-            'clarify-active-other': '#FFD700 italic',
+            'completion-menu': 'bg:#12211C #D3DCD7',
+            'completion-menu.completion': 'bg:#12211C #D3DCD7',
+            'completion-menu.completion.current': 'bg:#1F4A3C #F2F6F4',
+            'completion-menu.meta.completion': 'bg:#12211C #7C8B85',
+            'completion-menu.meta.completion.current': 'bg:#1F4A3C #5CC4A3',
+            'clarify-border': '#2E6F5B',
+            'clarify-title': '#F2F6F4 bold',
+            'clarify-question': '#D3DCD7 bold',
+            'clarify-choice': '#7C8B85',
+            'clarify-selected': '#F2F6F4 bold',
+            'clarify-active-other': '#F2F6F4 italic',
             'clarify-answer': '#98FB98',
-            'clarify-countdown': '#CD7F32',
-            'sudo-prompt': '#FF6B6B bold',
-            'sudo-border': '#CD7F32',
-            'sudo-title': '#FF6B6B bold',
-            'sudo-text': '#FFF8DC',
-            'approval-border': '#CD7F32',
-            'approval-title': '#FF8C00 bold',
-            'approval-desc': '#FFF8DC bold',
-            'approval-cmd': '#AAAAAA italic',
-            'approval-choice': '#AAAAAA',
-            'approval-selected': '#FFD700 bold',
+            'clarify-countdown': '#2E6F5B',
+            'sudo-prompt': '#EF6B5E bold',
+            'sudo-border': '#2E6F5B',
+            'sudo-title': '#EF6B5E bold',
+            'sudo-text': '#D3DCD7',
+            'journal-margin': 'bg:#12211C #8A9A93',
+            'journal-margin-ask': 'bg:#12211C #E0A83C bold',
+            'journal-block-bar': '#E0A83C bg:#2B3120 bold',
+            'journal-block-warn': 'bg:#2B3120',
+            'approval-border': '#2E6F5B',
+            'approval-title': '#E0A83C bold',
+            'approval-desc': '#D3DCD7 bold',
+            'approval-cmd': '#7C8B85 italic',
+            'approval-choice': '#7C8B85',
+            'approval-selected': '#F2F6F4 bold',
             'voice-prompt': '#87CEEB',
             'voice-recording': '#FF4444 bold',
             'voice-processing': '#FFA500 italic',
-            'voice-status': 'bg:#1a1a2e #87CEEB',
+            'voice-status': 'bg:#12211C #87CEEB',
             'voice-status-recording': 'bg:#1a1a2e #FF4444 bold'}

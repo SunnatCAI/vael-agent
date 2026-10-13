@@ -393,11 +393,11 @@ def _print_side_result_panel(cli, *, header_lines, body, title_suffix, empty_not
     try:
         from vael_cli.skin_engine import get_active_skin
         _skin = get_active_skin()
-        label = _skin.get_branding("response_label", "☤ VAEL")
+        label = _skin.get_branding("response_label", "VAEL")
         _resp_color = _maybe_remap_for_light_mode(_skin.get_color("response_border", "#CD7F32"))
         _resp_text = _maybe_remap_for_light_mode(_skin.get_color("banner_text", "#FFF8DC"))
     except Exception:
-        label, _resp_color, _resp_text = "☤ VAEL", "#CD7F32", "#FFF8DC"
+        label, _resp_color, _resp_text = "VAEL", "#18AA7F", "#D3DCD7"
     rich_console.print(Panel(
         _render_final_assistant_content(body, mode=cli.final_response_markdown),
         title=f"[{_resp_color} bold]{label} {title_suffix}[/]", title_align="left",
@@ -1557,7 +1557,6 @@ class CLICommandsMixin:
             return print(f"  {_t('personality.available', available=', '.join(self.personalities.keys()))}")
         saved = persist_personality(name)
         scope = _t("personality.scope_saved") if saved else _t("personality.scope_session")
-        face = "(^_^)b" if saved else "(^_^)"
         if not name:
             # Neutral reset — fall back to the user-owned manual prompt.
             try:
@@ -1567,11 +1566,11 @@ class CLICommandsMixin:
             except Exception:
                 self.system_prompt = ""
             _retire_agent(self)  # Force re-init
-            _pr(_t("personality.cleared", face=face, scope=scope), f"  {_t('personality.cleared_note')}")
+            _pr(_t("personality.cleared", scope=scope), f"  {_t('personality.cleared_note')}")
         else:
             self.system_prompt = personality_prompt
             _retire_agent(self)  # Force re-init
-            _pr(_t("personality.set_to", face=face, name=name, scope=scope),
+            _pr(_t("personality.set_to", name=name, scope=scope),
                 f"  \"{_ellipsize(personality_prompt, 60)}\"")
 
     def _handle_pet_command(self, cmd: str):

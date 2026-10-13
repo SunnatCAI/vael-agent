@@ -643,7 +643,7 @@ class CLISessionMixin:
         try:
             fmt = normalize_save_format(parts[0])
         except ValueError as e:
-            print(f"(._.) {e}")
+            print(f"{e}")
             print(SAVE_USAGE)
             return
         filename = parts[1] if len(parts) > 1 else None
@@ -952,7 +952,7 @@ class CLISessionMixin:
         _parts = (cmd_original or "").strip().split(None, 1)
         request = parse_compress_args(_parts[1] if len(_parts) > 1 else "")
         if request.aggressive:
-            print(f"(._.) {AGGRESSIVE_UNSUPPORTED}")
+            print(AGGRESSIVE_UNSUPPORTED)
             if not request.preview:
                 return
         if request.preview:

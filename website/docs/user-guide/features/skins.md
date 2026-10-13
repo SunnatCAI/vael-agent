@@ -32,7 +32,7 @@ display:
 
 | Skin | Description | Agent branding | Visual character |
 |------|-------------|----------------|------------------|
-| `default` | Classic VAEL — gold and kawaii | `VAEL Agent` | Warm gold borders, cornsilk text, kawaii faces in spinners. The familiar caduceus banner. Clean and inviting. |
+| `default` | VAEL — green on quiet neutrals | `VAEL Agent` | Green (`#18AA7F`) for the mark, commands and good states, amber for anything that needs you, neutrals tinted toward green. The welcome page is a journal: every row hangs off one left margin, with no frame and no art. Ships a paired light palette. |
 | `ares` | War-god theme — crimson and bronze | `Ares Agent` | Deep crimson borders with bronze accents. Aggressive spinner verbs ("forging", "marching", "tempering steel"). Custom sword-and-shield ASCII art banner. |
 | `mono` | Monochrome — clean grayscale | `VAEL Agent` | All grays — no color. Borders are `#555555`, text is `#c9d1d9`. Ideal for minimal terminal setups or screen recordings. |
 | `slate` | Cool blue — developer-focused | `VAEL Agent` | Royal blue borders (`#4169e1`), soft blue text. Calm and professional. No custom spinner — uses default faces. |
@@ -58,28 +58,28 @@ Controls all color values throughout the CLI. Values are hex color strings.
 
 | Key | Description | Default (`default` skin) |
 |-----|-------------|--------------------------|
-| `banner_border` | Panel border around the startup banner | `#CD7F32` (bronze) |
-| `banner_title` | Title text color in the banner | `#FFD700` (gold) |
-| `banner_accent` | Section headers in the banner (Available Tools, etc.) | `#FFBF00` (amber) |
-| `banner_dim` | Muted text in the banner (separators, secondary labels) | `#B8860B` (dark goldenrod) |
-| `banner_text` | Body text in the banner (tool names, skill names) | `#FFF8DC` (cornsilk) |
-| `ui_accent` | General UI accent color (highlights, active elements) | `#FFBF00` |
-| `ui_label` | UI labels and tags | `#DAA520` (goldenrod) |
-| `ui_ok` | Success indicators (checkmarks, completion) | `#4caf50` (green) |
-| `ui_error` | Error indicators (failures, blocked) | `#ef5350` (red) |
-| `ui_warn` | Warning indicators (caution, approval prompts) | `#ffa726` (orange) |
-| `prompt` | Interactive prompt text color | `#FFF8DC` |
-| `input_rule` | Horizontal rule above the input area | `#CD7F32` |
-| `response_border` | Border around the agent's response box (ANSI escape) | `#FFD700` |
-| `session_label` | Session label color | `#DAA520` |
-| `session_border` | Session ID dim border color | `#8B8682` |
-| `status_bar_bg` | Background color for the TUI status / usage bar | `#1a1a2e` |
-| `voice_status_bg` | Background color for the voice-mode status badge | `#1a1a2e` |
-| `selection_bg` | Background color for the TUI mouse-selection highlighter. Falls back to `completion_menu_current_bg` when unset. | `#3a3a55` |
-| `completion_menu_bg` | Background color for the completion menu list | `#1a1a2e` |
-| `completion_menu_current_bg` | Background color for the active completion row | `#333355` |
-| `completion_menu_meta_bg` | Background color for the completion meta column | `#1a1a2e` |
-| `completion_menu_meta_current_bg` | Background color for the active completion meta column | `#333355` |
+| `banner_border` | Panel border (the framed banner of a skin that ships art, `/help` panels) | `#2E6F5B` (muted green) |
+| `banner_title` | Strong text: section labels on the welcome page, titles | `#F2F6F4` (near-white) |
+| `banner_accent` | Commands and good states on the welcome page | `#18AA7F` (VAEL green) |
+| `banner_dim` | Muted text in the banner (separators, secondary labels) | `#7C8B85` (green-grey) |
+| `banner_text` | Body text in the banner (tool names, skill names) | `#D3DCD7` |
+| `ui_accent` | General UI accent color (highlights, active elements) | `#18AA7F` |
+| `ui_label` | UI labels and tags | `#5CC4A3` |
+| `ui_ok` | Success indicators (checkmarks, completion) | `#18AA7F` (green) |
+| `ui_error` | Error indicators (failures, blocked) | `#EF6B5E` (red) |
+| `ui_warn` | Warning indicators (caution, approval prompts) | `#E0A83C` (amber) |
+| `prompt` | Interactive prompt text color | `#18AA7F` |
+| `input_rule` | Horizontal rule above the input area | `#2E6F5B` |
+| `response_border` | Border around the agent's response box (ANSI escape) | `#18AA7F` |
+| `session_label` | Session label color | `#5CC4A3` |
+| `session_border` | Session ID dim border color | `#5E6B66` |
+| `status_bar_bg` | Background color for the status / usage bar and for the journal's left margin | `#12211C` |
+| `voice_status_bg` | Background color for the voice-mode status badge | `#12211C` |
+| `selection_bg` | Background color for the TUI mouse-selection highlighter. Falls back to `completion_menu_current_bg` when unset. | `#1F4A3C` |
+| `completion_menu_bg` | Background color for the completion menu list | `#12211C` |
+| `completion_menu_current_bg` | Background color for the active completion row | `#1F4A3C` |
+| `completion_menu_meta_bg` | Background color for the completion meta column | `#12211C` |
+| `completion_menu_meta_current_bg` | Background color for the active completion meta column | `#1F4A3C` |
 
 ### Spinner (`spinner:`)
 
@@ -92,7 +92,7 @@ Controls the animated spinner shown while waiting for API responses.
 | `thinking_verbs` | list of strings | Verbs shown in spinner messages | `["forging", "plotting", "hammering plans"]` |
 | `wings` | list of [left, right] pairs | Decorative brackets around the spinner | `[["⟪⚔", "⚔⟫"], ["⟪▲", "▲⟫"]]` |
 
-When spinner values are empty (like in `default` and `mono`), hardcoded defaults from `display.py` are used.
+The `default` skin uses one steady mark, `▸`, for both face lists, and a skin without a `spinner` block inherits it. Under the journal layout a finished tool call is printed as a row on the left margin (time, `✓` or `✗`, the verb, what it acted on, and the duration at the right edge) and `tool_emojis` is not used; a skin that ships `banner_hero` or `banner_logo` keeps the `┊` feed with its emoji.
 
 ### Branding (`branding:`)
 
@@ -101,11 +101,11 @@ Text strings used throughout the CLI interface.
 | Key | Description | Default |
 |-----|-------------|---------|
 | `agent_name` | Name shown in banner title and status display | `VAEL Agent` |
-| `welcome` | Welcome message shown at CLI startup | `Welcome to VAEL Agent! Type your message or /help for commands.` |
-| `goodbye` | Message shown on exit | `Goodbye! ☤` |
-| `response_label` | Label on the response box header | ` ☤ VAEL ` |
+| `welcome` | Hint shown under the welcome page at CLI startup | `Type a message, or / for commands.` |
+| `goodbye` | Message shown on exit | `Session closed.` |
+| `response_label` | Label on the response box header | ` VAEL ` |
 | `prompt_symbol` | Symbol before the user input prompt (bare token, renderers add a trailing space) | `❯` |
-| `help_header` | Header text for the `/help` command output | `(^_^)? Available Commands` |
+| `help_header` | Header text for the `/help` command output | `Commands` |
 
 ### Other top-level keys
 
@@ -113,8 +113,8 @@ Text strings used throughout the CLI interface.
 |-----|------|-------------|---------|
 | `tool_prefix` | string | Character prefixed to tool output lines in the CLI | `┊` |
 | `tool_emojis` | dict | Per-tool emoji overrides for spinners and progress (`{tool_name: emoji}`) | `{}` |
-| `banner_logo` | string | Rich-markup ASCII art logo (replaces the default VAEL_AGENT banner) | `""` |
-| `banner_hero` | string | Rich-markup hero art (replaces the default caduceus art) | `""` |
+| `banner_logo` | string | Rich-markup ASCII art logo printed above the banner on terminals of 95+ columns. Setting this or `banner_hero` switches the welcome page from the journal to the framed hero panel. | `""` |
+| `banner_hero` | string | Rich-markup hero art for the left column of the framed hero panel | `""` |
 | `customCSS` | string | Raw CSS injected into the desktop app and web dashboard while the skin is active (GUI surfaces only; ignored by the CLI/TUI). Capped at 32 KiB. | `""` |
 
 ## Custom skins

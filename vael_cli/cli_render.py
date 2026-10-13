@@ -300,6 +300,15 @@ def _install_skin_light_mode_hook() -> None:
     _orig_get_color = SkinConfig.get_color
 
     def _wrapped_get_color(self, key, fallback=""):
+        # A skin's own light palette outranks the hex remap: it is keyed, so a fill and the
+        # foregrounds that sit on it flip together instead of one side staying dark-tuned.
+        try:
+            if key in self.light_colors:
+                from cli import _detect_light_mode
+                if _detect_light_mode():
+                    return self.light_colors[key]
+        except Exception:
+            pass
         value = _orig_get_color(self, key, fallback)
         try:
             return _maybe_remap_for_light_mode(value)
@@ -902,7 +911,8 @@ class ChatConsole:
 
 
 def _build_compact_banner() -> str:
-    """Build a compact banner that fits the current terminal width."""
+    """Build a compact banner that fits the current terminal width: the journal's first row, or a
+    small frame for a skin that ships its own art."""
     try:
         from vael_cli.skin_engine import get_active_skin
         _skin = get_active_skin()
@@ -912,33 +922,40 @@ def _build_compact_banner() -> str:
     def _color(key, default):
         return _skin.get_color(key, default) if _skin else default
 
-    border_color = _color("banner_border", "#FFD700")
-    title_color = _color("banner_title", "#FFBF00")
-    dim_color = _color("banner_dim", "#B8860B")
-
-    if (getattr(_skin, "name", "default") if _skin else "default") == "default":
-        tiny_line = "☤ NOUS HERMES"
-    else:
-        tiny_line = _skin.get_branding("agent_name", "VAEL Agent") if _skin else "VAEL Agent"
-    line1 = t("cli.render.banner_tagline", name=tiny_line)
+    border_color = _color("banner_border", "#2E6F5B")
+    title_color = _color("banner_title", "#F2F6F4")
+    dim_color = _color("banner_dim", "#7C8B85")
+    agent_name = _skin.get_branding("agent_name", "VAEL Agent") if _skin else "VAEL Agent"
 
     if os.environ.get("VAEL_FAST_STARTUP_BANNER") == "1":
         from vael_cli import __release_date__ as _release_date
         from vael_cli.version_info import get_version_info
 
-        version_line = t("cli.render.banner_version", version=get_version_info().derived_version, date=_release_date)
+        plain_version = get_version_info().derived_version
+        version_line = t("cli.render.banner_version", version=plain_version, date=_release_date)
     else:
+        plain_version = ""
         version_line = format_banner_version_label()
 
-    w = min(shutil.get_terminal_size().columns - 2, 88)
+    columns = shutil.get_terminal_size().columns
+    if not (getattr(_skin, "banner_hero", "") or getattr(_skin, "banner_logo", "")):
+        mark, _, rest = agent_name.partition(" ")
+        # The fast-startup label is translated, so its version comes from the value, not from the text.
+        version = plain_version or version_line.removeprefix("VAEL Agent ").split(" · ")[0]
+        head = (f"[bold {_color('status_bar_bg', '#12211C')} on {_color('status_bar_strong', '#18AA7F')}] {mark} [/]"
+                f" [bold {title_color}]{rest}[/]")
+        fits = len(mark) + len(rest) + len(version) + 5 <= columns
+        return f"\n{head}" + (f" [dim {dim_color}]{version}[/]" if fits else "") + "\n"
+
+    w = min(columns - 2, 88)
     if w < 30:
-        return f"\n[{title_color}]{tiny_line}[/] [dim {dim_color}]- Nous Research[/]\n"
+        return f"\n[{title_color}]{agent_name}[/]\n"
 
     inner = w - 2  # inside the box border
     bar = "═" * w
     content_width = inner - 2
 
-    line1 = line1[:content_width].ljust(content_width)
+    line1 = t("cli.render.banner_tagline", name=agent_name)[:content_width].ljust(content_width)
     line2 = version_line[:content_width].ljust(content_width)
 
     return (

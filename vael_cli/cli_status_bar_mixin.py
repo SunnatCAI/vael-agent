@@ -155,11 +155,11 @@ class CLIStatusBarMixin:
     @staticmethod
     def _format_prompt_elapsed(
         prompt_start_time: Optional[float], prompt_duration: float, live: bool = False) -> str:
-        """Per-prompt elapsed time. Always a string (``⏲ 0s`` on fresh start); seconds stay
-        visible at every scale so it increments smoothly (``1m 59s → 2m → 2m 1s``). ⏱ while
-        live, ⏲ frozen — width-1 glyphs (no variation selector) keep the bar aligned."""
+        """Per-prompt elapsed time, or ``""`` before the first prompt (nothing has been timed, so
+        nothing is shown). Seconds stay visible at every scale so it increments smoothly
+        (``1m 59s → 2m → 2m 1s``). ``▸`` while live, ``■`` once the turn has stopped."""
         if prompt_start_time is None and prompt_duration == 0.0:
-            return "⏲ 0s"
+            return ""
         if prompt_start_time is not None:
             elapsed = max(0.0, time.time() - prompt_start_time)
         else:
@@ -178,7 +178,7 @@ class CLIStatusBarMixin:
                         else t("cli.shared.duration_m", minutes=minutes))
         else:
             time_str = t("cli.shared.duration_s", seconds=int(elapsed))
-        return f"{'⏱' if live else '⏲'} {time_str}"
+        return f"{'▸' if live else '■'} {time_str}"
 
     @staticmethod
     def _format_idle_since(last_finished_at: Optional[float], turn_live: bool) -> str:
@@ -206,6 +206,10 @@ class CLIStatusBarMixin:
             model_short = model_short[:-5]
         if len(model_short) > 26:
             model_short = f"{model_short[:23]}..."
+        configured = (getattr(agent, "model", None) or self.model or "").strip()
+        model_missing = not configured or configured.lower() == "unknown"
+        if model_missing:
+            model_short = t("cli.status_bar.no_model")
 
         prompt_start = getattr(self, "_prompt_start_time", None)
         turn_live = prompt_start is not None
@@ -213,6 +217,7 @@ class CLIStatusBarMixin:
         snapshot = {
             "model_name": model_name,
             "model_short": model_short,
+            "model_missing": model_missing,
             "duration": format_duration_compact(elapsed_seconds),
             "session_title": self._get_status_bar_session_title(),
             "prompt_elapsed": self._format_prompt_elapsed(
@@ -1041,10 +1046,9 @@ class CLIStatusBarMixin:
                 add(name, style(count) if callable(style) else style, f"{glyph} {count}")
 
         if _ok("model"):
-            if styled:
-                segs.append([(_SB, " ☤ "), (_STRONG, model_short)])
-            else:
-                segs.append([("", f"☤ {model_short}")])
+            # The bar opens on the model's name; an unconfigured session says so in the warn tone.
+            model_style = "class:status-bar-warn" if snapshot.get("model_missing") else _STRONG
+            segs.append([(_SB, " "), (model_style, model_short)] if styled else [("", model_short)])
         narrow, wide = width < 52, width >= 76
         if narrow:
             # Narrow bars put duration ahead of the goal segment; the other tiers reverse it.
@@ -1052,17 +1056,14 @@ class CLIStatusBarMixin:
         else:
             percent = snapshot["context_percent"]
             mark = "~" if snapshot.get("context_estimated") else ""
-            percent_label = f"{mark}{percent}%" if percent is not None else "--"
-            if wide and _ok("context_detail"):
-                if snapshot["context_length"]:
-                    ctx_total = _format_context_length(snapshot["context_length"])
-                    ctx_used = format_token_count_compact(snapshot["context_tokens"])
-                    pin = t("cli.status_bar.ctx_pinned") if snapshot.get("context_pinned") else ""
-                    context_label = f"{mark}{ctx_used}/{ctx_total}{pin}"
-                else:
-                    context_label = t("cli.status_bar.ctx_unknown")
-                segs.append([(_DIM, context_label)])
-            if _ok("context_pct"):
+            percent_label = f"{mark}{percent}%"
+            # A segment with nothing to report is left out, never filled with a placeholder.
+            if wide and _ok("context_detail") and snapshot["context_length"]:
+                ctx_total = _format_context_length(snapshot["context_length"])
+                ctx_used = format_token_count_compact(snapshot["context_tokens"])
+                pin = t("cli.status_bar.ctx_pinned") if snapshot.get("context_pinned") else ""
+                segs.append([(_DIM, f"{mark}{ctx_used}/{ctx_total}{pin}")])
+            if _ok("context_pct") and percent is not None:
                 bar_style = self._status_bar_context_style(percent)
                 if wide and styled:
                     segs.append([
@@ -1079,7 +1080,7 @@ class CLIStatusBarMixin:
                     label = snapshot.get(key) or ""
                     if label:
                         add(name, _DIM, f"{glyph} {label}")
-            add_count("compressions", "compressions", "🗜️", self._compression_count_style)
+            add_count("compressions", "compressions", "≡", self._compression_count_style)
             add_count("bg_tasks", "active_background_tasks", "▶")
             add_count("bg_processes", "active_background_processes", "⚙")
             add_count("bg_subagents", "active_background_subagents", "⛓")
@@ -1119,7 +1120,7 @@ class CLIStatusBarMixin:
             session_title = (snapshot.get("session_title") or "") if show_title else ""
             segs = self._status_bar_segments(
                 snapshot, width, field_set, self._is_session_yolo_active(), styled=False)
-            parts = ["".join(t for _, t in seg) for seg in segs] or [f"☤ {model_short}"]
+            parts = ["".join(t for _, t in seg) for seg in segs] or [model_short]
             # Narrow bars always join the battery with │; wider tiers use the tier separator.
             if battery_label:
                 parts.insert(0, battery_label)
@@ -1129,7 +1130,7 @@ class CLIStatusBarMixin:
                 text = (" · " if width < 76 else " │ ").join(parts)
             return self._right_align_status_title(text, session_title, width)
         except Exception:
-            return f"☤ {self.model if getattr(self, 'model', None) else 'VAEL'}"
+            return self.model if getattr(self, "model", None) else "VAEL"
 
     def _get_status_bar_fragments(self):
         if (
@@ -1152,7 +1153,7 @@ class CLIStatusBarMixin:
                 snapshot, width, field_set, self._is_session_yolo_active(), styled=True)
             sep = " · " if width < 76 else " │ "
             frags: list = []
-            for seg in segs or [[(_SB, " ☤ "), (_STRONG, snapshot["model_short"])]]:
+            for seg in segs or [[(_SB, " "), (_STRONG, snapshot["model_short"])]]:
                 if frags:
                     frags.append((_DIM, sep))
                 frags.extend(seg)
@@ -1165,7 +1166,7 @@ class CLIStatusBarMixin:
             if stash_indicator and _ok("stash"):
                 frags.extend([(_DIM, " · "), (_STRONG, stash_indicator)])
             frags.append((_SB, " "))  # one-cell right margin
-            # Battery is the first element when enabled: prepend ahead of the ☤ marker.
+            # Battery is the first element when enabled: prepend ahead of the model name.
             battery_label = snapshot.get("battery_label") or ""
             if battery_label and _ok("battery"):
                 battery_style = self._battery_status_style(snapshot.get("battery_category", "dim"))
@@ -1179,9 +1180,29 @@ class CLIStatusBarMixin:
             if total_width > width:
                 plain_text = "".join(text for _, text in frags)
                 return [(_SB, self._trim_status_bar_text(plain_text, width))]
-            return frags
+            return self._with_key_hints(frags, total_width, width, bool(session_title))
         except Exception:
             return [(_SB, f" {self._build_status_bar_text()} ")]
+
+    # Keys worth knowing at the prompt, shown at the bar's right edge when there is room.
+    _KEY_HINTS = (("/", "commands"), ("Ctrl+P", "palette"), ("/help", ""))
+
+    def _with_key_hints(self, frags: list, used: int, width: int, has_title: bool) -> list:
+        """``frags`` with the key hints right-aligned after them — journal layout only, and only
+        when nothing else claims the right edge and the whole row still fits."""
+        from vael_cli.banner import uses_journal_layout
+        if has_title or not uses_journal_layout():
+            return frags
+        hints: list = []
+        for key, what in self._KEY_HINTS:
+            if hints:
+                hints.append((_DIM, "  "))
+            hints.append((_STRONG, key))
+            if what:
+                hints.append((_DIM, f" {what}"))
+        hints.append((_SB, " "))
+        room = width - used - sum(len(text) for _, text in hints)
+        return frags if room < 3 else [*frags, (_SB, " " * room), *hints]
 
     # ── prompt stash panel ────────────────────────────────────────────────────
 

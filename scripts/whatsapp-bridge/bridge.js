@@ -126,7 +126,7 @@ const ALLOWED_USERS = parseAllowedUsers(process.env.WHATSAPP_ALLOWED_USERS || ''
 // Group authorization is by group JID, not by every participant's JID.  The
 // Python adapter still applies group policy and mention rules after intake.
 const GROUP_ALLOWED_USERS = parseAllowedUsers(process.env.WHATSAPP_GROUP_ALLOWED_USERS || '');
-const DEFAULT_REPLY_PREFIX = '☤ *VAEL Agent*\n────────────\n';
+const DEFAULT_REPLY_PREFIX = '*VAEL Agent*\n────────────\n';
 const REPLY_PREFIX = process.env.WHATSAPP_REPLY_PREFIX === undefined
   ? DEFAULT_REPLY_PREFIX
   : process.env.WHATSAPP_REPLY_PREFIX.replace(/\\n/g, '\n');

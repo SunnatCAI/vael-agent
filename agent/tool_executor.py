@@ -1076,8 +1076,10 @@ def _commit_tool_result(
     pre-persist content for UI previews) or ``None`` when the flush failed (stop the batch).
     """
     function_name, function_args, tool_call_id, effective_task_id = ref.name, ref.args, ref.call_id, ref.task_id
+    from agent.ctf_guard import withhold_flags
     from vael_cli.observability.shared_metrics_harness import observe_tool_outcome
 
+    function_result = withhold_flags(function_result)
     observe_tool_outcome(agent, function_name, is_error)
     if observed:
         if not blocked:

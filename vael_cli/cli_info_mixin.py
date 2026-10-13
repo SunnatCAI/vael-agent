@@ -568,11 +568,40 @@ class CLIInfoMixin:
             print(f"    {t('cli.gateway_status.step_config', path=f'{display_vael_home()}/config.yaml')}")
             print()
 
+    def _journal_print(self, build, *, stream: bool = False) -> bool:
+        """Print the journal rows ``build(journal)`` returns. ``False`` when the active skin ships
+        its own art and so keeps the framed hero layout — the caller prints its framed line then.
+
+        Once the prompt owns the terminal, and always for ``stream`` output (tool activity), rows
+        go through ``_cprint`` like every other stream line; before that, straight to the console."""
+        from vael_cli.banner import uses_journal_layout
+        if not uses_journal_layout():
+            return False
+        if stream or getattr(self, "_app", None):
+            from cli import _cprint
+            from vael_cli.journal import render_ansi
+            for line in render_ansi(build):
+                _cprint(line)
+        else:
+            from vael_cli.journal import Journal
+            journal = Journal(self.console)
+            journal.print(*build(journal))
+        return True
+
+    def _journal_note(self, label: str, value: str, command: str = "", *, state: str = "",
+                      stream: bool = False) -> bool:
+        """Print one journal row (dim unless it carries a state); see ``_journal_print``."""
+        return self._journal_print(
+            lambda j: j.rows(label, value if state else j.dim(value), j.cmd(command) if command else None,
+                             state=state, stamp=bool(state)), stream=stream)
+
     def _print_random_tip(self) -> None:
         """Best-effort discovery tip (startup + /clear); never raises."""
         try:
             from vael_cli.tips import get_random_tip
             _tip = get_random_tip()
+            if self._journal_note(t("cli.tip_label"), _tip):
+                return
             try:
                 from vael_cli.skin_engine import get_active_skin
                 _tip_color = get_active_skin().get_color("banner_dim", "#B8860B")

@@ -178,16 +178,12 @@ class CLIStreamMixin:
         if flush_text:
             self._emit_reasoning_preview(flush_text)
 
-    def _format_submitted_user_message_preview(self, user_input: str) -> str:
-        """Format the submitted user-message scrollback preview."""
-        from cli import _accent_hex, datetime
-        ts_suffix = (
-            f" [dim]{datetime.now().strftime(getattr(self, 'timestamp_format', '%H:%M'))}[/]"
-            if getattr(self, "show_timestamps", False) else "")
+    def _user_message_preview_parts(self, user_input: str) -> tuple:
+        """``(head, hidden_middle_count, tail)`` lines of a submitted message: a long one shows its
+        first and last few lines and counts the rest."""
         lines = user_input.split("\n")
         if len(lines) <= 1:
-            return f"[bold {_accent_hex()}]●[/] [bold]{_escape(user_input)}[/]{ts_suffix}"
-
+            return lines, 0, []
         first_lines = max(1, int(getattr(self, "user_message_preview_first_lines", 2)))
         last_lines = max(0, int(getattr(self, "user_message_preview_last_lines", 2)))
         head = lines[:first_lines]
@@ -195,8 +191,39 @@ class CLIStreamMixin:
         tail = lines[-tail_count:] if tail_count else []
         hidden_middle_count = len(lines) - len(head) - len(tail)
         if hidden_middle_count < 0:
-            hidden_middle_count = 0
-            tail = []
+            return head, 0, []
+        return head, hidden_middle_count, tail
+
+    def _user_message_block(self, user_input: str) -> str:
+        """The submitted message as a journal block (ANSI rows): its preview lines on the reader's
+        band, the time at the right edge when timestamps are on."""
+        from cli import datetime
+        from vael_cli.journal import render_ansi
+        head, hidden, tail = self._user_message_preview_parts(user_input)
+        tag = (datetime.now().strftime(getattr(self, "timestamp_format", "%H:%M"))
+               if getattr(self, "show_timestamps", False) else "")
+
+        def build(j):
+            rows = j.block(j.strong(head[0]), "user", tag=tag)
+            for line in head[1:]:
+                rows += j.block(j.strong(line), "user")
+            if hidden:
+                key = "cli.stream.preview_more_lines_one" if hidden == 1 else "cli.stream.preview_more_lines_other"
+                rows += j.block(j.dim(t(key, count=hidden)), "user")
+            for line in tail:
+                rows += j.block(j.strong(line), "user")
+            return rows
+        return "\n".join(render_ansi(build))
+
+    def _format_submitted_user_message_preview(self, user_input: str) -> str:
+        """Format the submitted user-message scrollback preview."""
+        from cli import _accent_hex, datetime
+        ts_suffix = (
+            f" [dim]{datetime.now().strftime(getattr(self, 'timestamp_format', '%H:%M'))}[/]"
+            if getattr(self, "show_timestamps", False) else "")
+        if "\n" not in user_input:
+            return f"[bold {_accent_hex()}]●[/] [bold]{_escape(user_input)}[/]{ts_suffix}"
+        head, hidden_middle_count, tail = self._user_message_preview_parts(user_input)
 
         preview_lines = [f"[bold {_accent_hex()}]●[/] [bold]{_escape(head[0])}[/]{ts_suffix}"]
         preview_lines.extend(f"[bold]{_escape(line)}[/]" for line in head[1:])
@@ -235,8 +262,14 @@ class CLIStreamMixin:
             render_notification(lambda: ChatConsole().print(f"[dim]◈ {_escape(user_input.display_text)}[/dim]"),
                                 platform="cli", diagnostic=user_input.notification_category == "diagnostic")
             return
-        ChatConsole().print(f"[{_accent_hex()}]{'─' * 40}[/]")
+        from cli import _cprint
+        from vael_cli.banner import uses_journal_layout
         text = str(user_input or "")
+        if uses_journal_layout():
+            _cprint("")
+            _cprint(self._user_message_block(text))
+            return
+        ChatConsole().print(f"[{_accent_hex()}]{'─' * 40}[/]")
         if "\n" in text:
             ChatConsole().print(self._format_submitted_user_message_preview(text))
         else:
@@ -397,6 +430,11 @@ class CLIStreamMixin:
     def _emit_stream_line(self, printed_line: str) -> None:
         """Print one response line with the skin's true-color text escape (if any)."""
         from cli import _RST, _STREAM_PAD, _cprint
+        from vael_cli.banner import uses_journal_layout
+        if uses_journal_layout():
+            from vael_cli.journal import block_ansi
+            _cprint(block_ansi(printed_line))
+            return
         _tc = getattr(self, "_stream_text_ansi", "")
         _cprint(
             f"{_STREAM_PAD}{_tc}{printed_line}{_RST}" if _tc else f"{_STREAM_PAD}{printed_line}")
@@ -423,6 +461,7 @@ class CLIStreamMixin:
         from agent.markdown_tables import is_table_divider, looks_like_table_row
         from cli import (
             VaelCLI, _ACCENT, _RST, _STREAM_PARTIAL_PREVIEW_LEN, _cprint, _strip_markdown_syntax, datetime)
+        from vael_cli.banner import uses_journal_layout
         if not text:
             return
         # Close a still-open reasoning box on the first content token so the answer streams
@@ -439,10 +478,10 @@ class CLIStreamMixin:
             try:
                 from vael_cli.skin_engine import get_active_skin
                 _skin = get_active_skin()
-                label = _skin.get_branding("response_label", "☤ VAEL")
+                label = _skin.get_branding("response_label", "VAEL")
                 _text_hex = _skin.get_color("banner_text", "#FFF8DC")
             except Exception:
-                label = "☤ VAEL"
+                label = "VAEL"
                 _text_hex = "#FFF8DC"
             try:  # true-color escape so streamed text matches the Rich Panel appearance
                 _r, _g, _b = (int(_text_hex[i:i + 2], 16) for i in (1, 3, 5))
@@ -451,9 +490,12 @@ class CLIStreamMixin:
                 self._stream_text_ansi = ""
             if self.show_timestamps:
                 label = f"{label} {datetime.now().strftime(getattr(self, 'timestamp_format', '%H:%M'))}"
-            w = self._scrollback_box_width()
-            fill = w - 2 - VaelCLI._status_bar_display_width(label)
-            _cprint(f"\n{_ACCENT}╭─{label}{'─' * max(fill - 1, 0)}╮{_RST}")
+            if uses_journal_layout():
+                _cprint("")  # the reply is a message block: its band marks it, no header rule
+            else:
+                w = self._scrollback_box_width()
+                fill = w - 2 - VaelCLI._status_bar_display_width(label)
+                _cprint(f"\n{_ACCENT}╭─{label}{'─' * max(fill - 1, 0)}╮{_RST}")
 
         # Turn-level record of what actually reached the screen; survives _reset_stream_state at
         # tool-call boundaries so an interrupted reply isn't re-rendered as a Panel (#65666).
@@ -519,7 +561,8 @@ class CLIStreamMixin:
             line = _strip_markdown_syntax(self._stream_buf) if self.final_response_markdown == "strip" else self._stream_buf
             self._emit_stream_line(line)
             self._stream_buf = ""
-        if self._stream_box_opened and getattr(self, "_stream_box_live", False):
+        from vael_cli.banner import uses_journal_layout
+        if self._stream_box_opened and getattr(self, "_stream_box_live", False) and not uses_journal_layout():
             w = self._scrollback_box_width()
             _cprint(f"{_ACCENT}╰{'─' * (w - 2)}╯{_RST}")
         self._stream_box_live = False
@@ -661,6 +704,9 @@ class CLIStreamMixin:
         announced.add(tool_name)
         from agent.display import bridge_generating_phrase, get_tool_emoji
         what = bridge_generating_phrase(tool_name) or tool_name
+        if self._journal_note("", t("cli.stream.tool_preparing", emoji="", what=what).strip(),
+                              state="running", stream=True):
+            return
         _cprint(f"  ┊ {t('cli.stream.tool_preparing', emoji=get_tool_emoji(tool_name, default='⚡'), what=what)}")
 
     def _on_tool_progress(self, event_type: str, function_name: str = None, preview: str = None, function_args: dict = None, **kwargs):
@@ -731,11 +777,20 @@ class CLIStreamMixin:
                     return
                 self._last_scrollback_tool = function_name
                 try:
-                    from agent.display import get_cute_tool_message
-                    line = get_cute_tool_message(function_name, stored_args, duration, result=kwargs.get("result"))
-                    _cprint(f"  {line}")
+                    from agent.display import tool_completion_parts
+                    if not self._journal_print(lambda j: j.tool_rows(
+                            tool_completion_parts(function_name, stored_args, kwargs.get("result")), duration),
+                            stream=True):
+                        from agent.display import get_cute_tool_message
+                        line = get_cute_tool_message(function_name, stored_args, duration, result=kwargs.get("result"))
+                        _cprint(f"  {line}")
                 except Exception:
-                    pass
+                    # Malformed tool arguments must not swallow the completion line.
+                    try:
+                        from agent.display import get_cute_tool_message
+                        _cprint(f"  {get_cute_tool_message(function_name, {}, duration)}")
+                    except Exception:
+                        pass
                 # One-time /verbose hint on the first long tool in the noisiest mode; latched
                 # on self and persisted to config.yaml.
                 try:
@@ -762,7 +817,9 @@ class CLIStreamMixin:
             _pl = get_tool_preview_max_len()
             if _pl > 0 and len(label) > _pl:
                 label = label[:_pl - 3] + "..."
-            self._spinner_text = f"{tool_row_emoji(function_name, function_args)} {label}"
+            from vael_cli.banner import uses_journal_layout
+            mark = "▸" if uses_journal_layout() else tool_row_emoji(function_name, function_args)
+            self._spinner_text = f"{mark} {label}"
             self._tool_start_time = time.monotonic()
             # Store args for stacked scrollback line on completion
             self._pending_tool_info.setdefault(function_name, []).append(

@@ -35,6 +35,7 @@ BUNDLED_LANGUAGE_INFO: dict[str, tuple[str, bool]] = {
     "ru": ("Русский", False),
     "tr": ("Türkçe", False),
     "uk": ("Українська", False),
+    "uz": ("O'zbekcha", False),
     "zh": ("简体中文", False),
     "zh-hant": ("繁體中文", False),
 }

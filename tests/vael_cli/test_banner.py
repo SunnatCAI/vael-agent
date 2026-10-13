@@ -38,7 +38,7 @@ def test_cprint_falls_back_to_plain_print_when_prompt_toolkit_has_no_console(cap
 def test_empty_model_shows_the_free_tier_route_when_it_carries_inference(tmp_path, monkeypatch):
     """The banner prints before credentials resolve, so ``model`` is empty on a fresh install. On the
     free tier the route is known locally (identity on disk + tier on): the banner shows its model.
-    When nothing resolves the red "no model configured" line stays."""
+    When nothing resolves the page says it is not ready."""
     monkeypatch.setenv("VAEL_HOME", str(tmp_path / ".vael"))
     (tmp_path / ".vael").mkdir()
     import vael_cli.anon_auth as anon_auth
@@ -56,8 +56,8 @@ def test_empty_model_shows_the_free_tier_route_when_it_carries_inference(tmp_pat
                                         enabled_toolsets=[], provider="auto")
         return console.export_text()
 
-    assert "welcome" in render(True) and "no model configured" not in render(True)
-    assert "no model configured" in render(False)
+    assert "welcome" in render(True) and "NOT READY" not in render(True)
+    assert "NOT READY" in render(False)
 
 
 def test_build_welcome_banner_does_not_center_pad_hero_art():

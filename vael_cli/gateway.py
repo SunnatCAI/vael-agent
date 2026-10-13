@@ -4638,7 +4638,7 @@ def run_gateway(verbose: int = 0, quiet: bool = False, replace: bool = False, fo
 
     from gateway.run import start_gateway
     print("┌─────────────────────────────────────────────────────────┐")
-    print("│           ☤ VAEL Gateway Starting...                   │")
+    print("│             VAEL Gateway Starting...                   │")
     print("├─────────────────────────────────────────────────────────┤")
     print("│  Messaging platforms + cron scheduler                    │")
     print("│  Press Ctrl+C to stop                                   │")

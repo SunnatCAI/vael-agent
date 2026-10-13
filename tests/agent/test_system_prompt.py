@@ -11,6 +11,7 @@ from zoneinfo import ZoneInfo
 
 import pytest
 
+from agent.ctf_guard import CYBERAI_MENTOR_GUIDANCE
 from agent.system_prompt import build_system_prompt, build_system_prompt_parts
 
 
@@ -541,6 +542,7 @@ def test_coding_prompt_orders_shared_context_before_workspace(monkeypatch):
     expected = "\n\n".join((
         "IDENTITY",
         "HELP",
+        CYBERAI_MENTOR_GUIDANCE,
         "STEER",
         "CODING_STABLE",
         "SYSTEM_MESSAGE",
@@ -569,7 +571,8 @@ def test_coding_prompt_orders_shared_context_before_workspace(monkeypatch):
         prompt = build_system_prompt(agent, system_message="SYSTEM_MESSAGE")
 
     assert prompt == expected
-    assert agent._cached_system_prompt_static == "\n\n".join(expected.split("\n\n")[:4])
+    # Static block = everything before the shared context: identity, help, steer, the CyberAI rule, coding.
+    assert agent._cached_system_prompt_static == "\n\n".join(expected.split("\n\n")[:5])
 
 
 class TestTelegramRichMessagesHint:

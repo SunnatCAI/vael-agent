@@ -274,7 +274,8 @@ class CLITuiRuntimeMixin:
             _welcome_color = _welcome_skin.get_color("banner_text", _welcome_color)
         except Exception:
             pass
-        self._console_print(f"[{_welcome_color}]{_welcome_text}[/]")
+        if not self._journal_note("", _welcome_text):
+            self._console_print(f"[{_welcome_color}]{_welcome_text}[/]")
 
         self._tui_startup_prewarm_and_warnings(_welcome_skin)
         self._print_random_tip()
@@ -283,8 +284,9 @@ class CLITuiRuntimeMixin:
         # Before the background preload is folded in (at agent init), show the REQUESTED names.
         _skills_for_line = self.preloaded_skills or list(self._preload_skills_requested or [])
         if _skills_for_line and not self._startup_skills_line_shown:
-            self._console_print(
-                f"[bold {_accent_hex()}]{t('cli.tui.activated_skills_label')}[/] {', '.join(_skills_for_line)}")
+            if not self._journal_note("skills", ", ".join(_skills_for_line), state="done"):
+                self._console_print(
+                    f"[bold {_accent_hex()}]{t('cli.tui.activated_skills_label')}[/] {', '.join(_skills_for_line)}")
             self._startup_skills_line_shown = True
         self._console_print()
 
@@ -324,13 +326,18 @@ class CLITuiRuntimeMixin:
         try:
             from agent.onboarding import (
                 OPENCLAW_RESIDUE_FLAG, detect_openclaw_residue, is_seen, mark_seen, openclaw_residue_hint_cli,
+                openclaw_residue_notice,
             )
             if not is_seen(self.config, OPENCLAW_RESIDUE_FLAG) and detect_openclaw_residue():
-                try:
-                    _resid_color = _welcome_skin.get_color("banner_dim", "#B8860B")
-                except Exception:
-                    _resid_color = "#B8860B"
-                self._console_print(f"[{_resid_color}]{openclaw_residue_hint_cli()}[/]")
+                _headline, _command, _detail = openclaw_residue_notice()
+                if self._journal_note("notice", _headline, _command, state="notice"):
+                    self._journal_note("", _detail)
+                else:
+                    try:
+                        _resid_color = _welcome_skin.get_color("banner_dim", "#7C8B85")
+                    except Exception:
+                        _resid_color = "#7C8B85"
+                    self._console_print(f"[{_resid_color}]{openclaw_residue_hint_cli()}[/]")
                 try:
                     from vael_cli.config import get_config_path as _get_cfg_path_resid
                     mark_seen(_get_cfg_path_resid(), OPENCLAW_RESIDUE_FLAG)

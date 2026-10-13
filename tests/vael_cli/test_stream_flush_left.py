@@ -32,7 +32,13 @@ def cli_stub(monkeypatch):
     emitted = []
     monkeypatch.setattr(climod, "_cprint", lambda s: emitted.append(s))
     monkeypatch.setattr(climod, "_terminal_width_for_streaming", lambda: 74)
-    return cli, emitted
+    # The framed box (flush-left, copy-friendly) is the hero skins' layout; the journal's message
+    # block has its own margin and is covered in test_journal_blocks.py.
+    from vael_cli import skin_engine
+    previous = skin_engine.get_active_skin_name()
+    skin_engine.set_active_skin("ares")
+    yield cli, emitted
+    skin_engine.set_active_skin(previous)
 
 
 

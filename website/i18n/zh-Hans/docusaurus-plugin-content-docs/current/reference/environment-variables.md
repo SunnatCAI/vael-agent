@@ -579,7 +579,6 @@ Graph 事件（Teams 会议、日历、聊天等）的入站变更通知监听�
 | `VAEL_OAUTH_TRACE` | 设为 `1` 可记录 OAuth token 交换和刷新尝试。包含脱敏的时序信息。 |
 | `VAEL_OAUTH_FILE` | 覆盖 OAuth 凭证存储路径（默认：`~/.vael/auth.json`）。 |
 | `VAEL_AGENT_HELP_GUIDANCE` | 为自定义部署在系统 prompt 中追加额外指导文本。 |
-| `VAEL_AGENT_LOGO` | 覆盖 CLI 启动时的 ASCII 横幅 logo。 |
 | `DELEGATION_MAX_CONCURRENT_CHILDREN` | 每个 `delegate_task` 批次的最大并行子 agent 数（默认：`3`，下限为 1，无上限）。也可通过 `config.yaml` 中的 `delegation.max_concurrent_children` 配置——config 值优先。 |
 
 ### VAEL_WRITE_SAFE_ROOT {#vael_write_safe_root}

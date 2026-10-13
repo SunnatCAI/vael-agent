@@ -251,12 +251,12 @@ describe('normalizeIndicatorStyle', () => {
     expect(normalizeIndicatorStyle('UNICODE')).toBe('unicode')
   })
 
-  it('defaults to kaomoji for missing/unknown values', () => {
-    expect(normalizeIndicatorStyle(undefined)).toBe('kaomoji')
-    expect(normalizeIndicatorStyle(null)).toBe('kaomoji')
-    expect(normalizeIndicatorStyle('')).toBe('kaomoji')
-    expect(normalizeIndicatorStyle('sparkle')).toBe('kaomoji')
-    expect(normalizeIndicatorStyle(42)).toBe('kaomoji')
+  it('defaults to the braille spinner for missing/unknown values', () => {
+    expect(normalizeIndicatorStyle(undefined)).toBe('unicode')
+    expect(normalizeIndicatorStyle(null)).toBe('unicode')
+    expect(normalizeIndicatorStyle('')).toBe('unicode')
+    expect(normalizeIndicatorStyle('sparkle')).toBe('unicode')
+    expect(normalizeIndicatorStyle(42)).toBe('unicode')
   })
 })
 

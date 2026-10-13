@@ -19,20 +19,17 @@ from typing import Any
 
 logger = logging.getLogger(__name__)
 
-# (label, enabled, send): the Desktop strip's three equal answers, in its order.
+# (label, enabled, send). VAEL has no service to receive shared metrics, so there is no "send"
+# answer: the upstream endpoint belongs to another company and nothing may be uploaded to it.
 OFFER_CHOICES = (
-    ("Collect and send to Nous", True, True),
     ("Collect locally only", True, False),
     ("No thanks", False, False),
 )
 _NO_THANKS = len(OFFER_CHOICES) - 1
-DOCS_URL = "https://hermes-agent.nousresearch.com/docs/developer-guide/relay-shared-metrics"
 _OFFER_DESCRIPTION = "\n".join((
-    "Shared metrics are bounded counters: activity, outcomes, error classes, model routes,",
+    "Local metrics are bounded counters: activity, outcomes, error classes, model routes,",
     "token totals, feature use and coarse machine facts. Never prompts, files, paths,",
-    "setting values or error text. Collection stays on this machine; sending to Nous is",
-    "a separate choice, and data from before you opt in is never sent.",
-    f"Details: {DOCS_URL}",
+    "setting values or error text. They stay on this machine; nothing is uploaded.",
     "Change it any time: vael setup telemetry",
 ))
 
@@ -49,7 +46,8 @@ def consent_state(raw_cfg: Any) -> dict:
     enabled = section.get("enabled") is True
     return {
         "enabled": enabled,
-        "send": enabled and section.get("send") is True,
+        # Never true: a ``send: true`` left in a config from an upstream install is not honoured.
+        "send": False,
         "decided": "enabled" in section or "send" in section,
     }
 
@@ -83,7 +81,7 @@ def save_consent(enabled: bool, send: bool, config: dict | None = None) -> None:
     if is_managed():
         managed_error("save configuration")
         return
-    send = enabled and send
+    send = False  # no upload destination exists for VAEL; see OFFER_CHOICES
     config_path = get_config_path()
     user_config = require_readable_config_before_write(config_path)
     _set_answer(user_config, enabled, send)
@@ -95,13 +93,12 @@ def save_consent(enabled: bool, send: bool, config: dict | None = None) -> None:
 
 
 def offer_consent(config: dict | None = None) -> bool:
-    """Ask once, with the Desktop strip's three answers; "No thanks" is the default so Enter never
-    opts anyone in. Esc leaves the question open (asked again next time). True when answered."""
+    """Ask once; "No thanks" is the default so Enter never opts anyone in. Esc leaves the question open (asked again next time). True when answered."""
     from vael_cli.cli_output import print_info, print_success
     from vael_cli.curses_ui import curses_radiolist
 
     idx = curses_radiolist(
-        "Help improve VAEL?", [label for label, _, _ in OFFER_CHOICES], selected=_NO_THANKS, cancel_returns=-1,
+        "Keep local usage metrics?", [label for label, _, _ in OFFER_CHOICES], selected=_NO_THANKS, cancel_returns=-1,
         description=_OFFER_DESCRIPTION,
     )
     if idx < 0:
@@ -109,8 +106,8 @@ def offer_consent(config: dict | None = None) -> bool:
         return False
     _, enabled, send = OFFER_CHOICES[idx]
     save_consent(enabled, send, config)
-    outcome = "collected and sent to Nous" if send else "collected on this machine only" if enabled else "off"
-    print_success(f"Shared metrics {outcome}. Change it any time with `vael setup telemetry`.")
+    outcome = "collected on this machine only" if enabled else "off"
+    print_success(f"Local metrics {outcome}. Change it any time with `vael setup telemetry`.")
     return True
 
 

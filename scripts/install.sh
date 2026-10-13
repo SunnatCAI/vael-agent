@@ -100,7 +100,7 @@ fail() { STAGE_REASON="$1"; log_error "$1"; exit 1; }
 print_banner() {
     printf '\n%s%s' "$C_MAGENTA" "$C_BOLD"
     printf '%s\n' "┌─────────────────────────────────────────────────────────┐"
-    printf '%s\n' "│             ☤ VAEL Agent Installer                      │"
+    printf '%s\n' "│               VAEL Agent Installer                      │"
     printf '%s\n' "├─────────────────────────────────────────────────────────┤"
     printf '%s\n' "│  An open source AI agent by Nous Research.              │"
     printf '%s\n' "└─────────────────────────────────────────────────────────┘"

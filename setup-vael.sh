@@ -41,7 +41,7 @@ cd "$SCRIPT_DIR"
 export UV_NO_CONFIG=1
 
 echo ""
-echo -e "${CYAN}☤ VAEL Agent Setup${NC}"
+echo -e "${CYAN}VAEL Agent Setup${NC}"
 echo ""
 
 # ============================================================================

@@ -838,9 +838,10 @@ DEFAULT_CONFIG = {
         # continues, Shift+Enter reported distinctly. False restores the c-j submit fallback for
         # POSIX PTYs whose plain Enter arrives as LF.
         "cli_multiline_shortcuts": True,
-        # Interface bare `vael`/`vael chat` launches: "cli" (prompt_toolkit REPL) | "tui" (Ink).
-        # Flags win: `--cli` forces the REPL, `--tui` / VAEL_TUI=1 forces the TUI.
-        "interface": "cli",
+        # Interface bare `vael`/`vael chat` launches: "tui" (Ink: a full-screen app that stays in place)
+        # | "cli" (prompt_toolkit REPL that scrolls with the terminal). Flags win: `--cli` forces the
+        # REPL, `--tui` / VAEL_TUI=1 forces the TUI. Piped runs (no TTY) always use the REPL.
+        "interface": "tui",
         # Native TUI uses the terminal's primary buffer and scrollback instead of the custom
         # alternate-screen viewport. Flags win: `--native` / `--tui-native` and `--cli`.
         "tui_native": False,
@@ -904,7 +905,7 @@ DEFAULT_CONFIG = {
         # responses/logs/tool outputs. en, zh, ja, de, es, fr, tr, uk; unknown → en.
         "language": "en",
         # TUI busy indicator: kaomoji | emoji | unicode (braille) | ascii. `/indicator <style>`.
-        "tui_status_indicator": "kaomoji",
+        "tui_status_indicator": "unicode",
         # Seconds between idle prompt_toolkit redraws in the classic CLI; keeps wall-clock
         # status-bar read-outs ticking and the bottom chrome from going stale. 0 disables it if it
         # fights terminal auto-scroll in non-fullscreen mode.
@@ -1622,7 +1623,7 @@ DEFAULT_CONFIG = {
     },
 
     "whatsapp": {
-        # reply_prefix: None = built-in "☤ *VAEL Agent*" header; "" disables; \n allowed.
+        # reply_prefix: None = built-in "*VAEL Agent*" header; "" disables; \n allowed.
     },
 
     "telegram": {

@@ -575,6 +575,8 @@ class TestStreamingCallbacks:
         agent._interrupt_requested = False
 
         agent._interruptible_streaming_api_call({})
+        # A trailing "c" could still become a CyberAI flag, so it is held until the end-of-stream flush.
+        agent._reset_stream_delivery_tracking()
 
         assert deltas == ["a", "b", "c"]
 

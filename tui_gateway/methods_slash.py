@@ -20,7 +20,7 @@ _ISOLATED_SESSION_READ_COMMANDS = frozenset({"context", "tools", "help"})
 
 # /context on a LOCAL session is answered in-process: the slash worker is a CLI
 # subprocess whose ``self.agent`` is built lazily by the first chat prompt and
-# never by a slash command, so its /context answers "(._.) No active agent" for
+# never by a slash command, so its /context answers "No active agent" for
 # any local session, active or idle (#81251 / #93280). With a live agent we render
 # the full Cursor-style breakdown (the desktop gauge's engine); without one we
 # fall back to the persisted-state view. ``tools``/``help`` keep the old routing:
@@ -28,7 +28,7 @@ _ISOLATED_SESSION_READ_COMMANDS = frozenset({"context", "tools", "help"})
 # for an agentless session would answer worse, not better.
 _CONTEXT_LOCAL_IN_PROCESS = frozenset({"context"})
 
-_NO_AGENT_USAGE = "(._.) No active agent -- send a message first."
+_NO_AGENT_USAGE = "No active agent -- send a message first."
 _NO_AGENT = "No active agent -- send a message first."
 
 

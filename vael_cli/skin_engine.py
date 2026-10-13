@@ -25,8 +25,8 @@ class SkinConfig:
     branding: Dict[str, str] = field(default_factory=dict)
     tool_prefix: str = "┊"
     tool_emojis: Dict[str, str] = field(default_factory=dict)  # per-tool emoji overrides
-    banner_logo: str = ""    # Rich-markup ASCII art logo (replaces VAEL_AGENT_LOGO)
-    banner_hero: str = ""    # Rich-markup hero art (replaces VAEL_CADUCEUS)
+    banner_logo: str = ""    # Rich-markup ASCII art logo, printed above the hero panel
+    banner_hero: str = ""    # Rich-markup hero art; either art key selects the framed hero layout
     custom_css: str = ""     # Raw CSS injected as a <style> tag on the desktop GUI (32 KiB cap)
 
     def get_color(self, key: str, fallback: str = "") -> str:
@@ -42,11 +42,12 @@ class SkinConfig:
 
 
 def _branding(who: str, symbol: str, goodbye: str, prompt: str = "", help_header: str = "") -> Dict[str, str]:
-    """Branding block for a "<who> Agent" persona keyed by its glyph."""
+    """Branding block for a "<who> Agent" persona keyed by its glyph (``symbol=""``: the name alone)."""
+    mark = f"{symbol} " if symbol else ""
     return {
         "agent_name": f"{who} Agent",
         "welcome": f"Welcome to {who} Agent! Type your message or /help for commands.",
-        "goodbye": goodbye, "response_label": f" {symbol} {who} ", "prompt_symbol": prompt or symbol,
+        "goodbye": goodbye, "response_label": f" {mark}{who} ", "prompt_symbol": prompt or symbol,
         "help_header": help_header or f"({symbol}) Available Commands"}
 
 
@@ -56,42 +57,47 @@ def _wings(*glyphs) -> List[List[str]]:
             for g in glyphs]
 
 
-# Branding shared by every VAEL-named built-in (mono/daylight override help_header).
-_VAEL_BRANDING: Dict[str, str] = _branding(
-    "VAEL", "☤", "Goodbye! ☤", prompt="❯", help_header="(^_^)? Available Commands")
+# Branding shared by every VAEL-named built-in. The mark is the name itself, so there is no glyph.
+_VAEL_BRANDING: Dict[str, str] = {
+    **_branding("VAEL", "", "Session closed.", prompt="❯", help_header="Commands"),
+    "welcome": "Type a message, or / for commands."}
 
 _BUILTIN_SKINS: Dict[str, Dict[str, Any]] = {
     "default": {
-        "name": "default", "description": "Classic VAEL — gold and kawaii",
-        # Dark-authored; values match the TUI's DARK_THEME so both render the same gold.
+        "name": "default", "description": "VAEL — green on quiet neutrals",
+        # Dark-authored; values match the TUI's DARK_THEME so both render the same green.
+        # #18AA7F is the brand colour: 6.6:1 on a black terminal, 5.6:1 on the status-bar field.
         "colors": {
-            "banner_border": "#CD7F32", "banner_title": "#FFD700", "banner_accent": "#FFBF00",
-            "banner_dim": "#B8860B", "banner_text": "#FFF8DC", "ui_accent": "#FFBF00",
-            "ui_label": "#DAA520", "ui_ok": "#4caf50", "ui_error": "#ef5350", "ui_warn": "#ffa726",
-            "prompt": "#FFF8DC", "input_rule": "#CD7F32", "response_border": "#FFD700",
-            "status_bar_bg": "#1a1a2e", "status_bar_text": "#C0C0C0",
-            "status_bar_strong": "#FFD700", "status_bar_dim": "#8A7A4A",
-            "status_bar_good": "#8FBC8F", "status_bar_warn": "#FFD700", "status_bar_bad": "#FF8C00",
-            "status_bar_critical": "#FF6B6B", "session_label": "#DAA520",
-            "session_border": "#8B8682", "completion_menu_bg": "#1a1a2e",
-            "completion_menu_current_bg": "#333355", "selection_bg": "#3a3a55",
-            "shell_dollar": "#4dabf7", "voice_status_bg": "#1a1a2e"},
-        # Light overlay (merged onto `colors`). Goldenrod ladder: on white the vivid
-        # #FFD700/#FFBF00 read as glare and WCAG-darkened mustard (#867000) as mud; the
-        # statusbar's goldenrod family (#B8860B/#DAA520) keeps the hue, tames saturation.
-        # Hierarchy on white: ink body 8.9:1 > fade 5.2 > label 3.7 > muted 3.3 > title 2.7 >
-        # headers 2.4. Fills (*_bg) flip the dark navy surfaces to light polarity.
+            "banner_border": "#2E6F5B", "banner_title": "#F2F6F4", "banner_accent": "#18AA7F",
+            "banner_dim": "#7C8B85", "banner_text": "#D3DCD7", "ui_accent": "#18AA7F",
+            "ui_primary": "#18AA7F",
+            "ui_label": "#5CC4A3", "ui_ok": "#18AA7F", "ui_error": "#EF6B5E", "ui_warn": "#E0A83C",
+            "prompt": "#18AA7F", "input_rule": "#2E6F5B", "response_border": "#18AA7F",
+            "status_bar_bg": "#12211C", "status_bar_text": "#C5D1CB",
+            "status_bar_strong": "#18AA7F", "status_bar_dim": "#8A9A93",
+            "status_bar_good": "#18AA7F", "status_bar_warn": "#E0A83C", "status_bar_bad": "#E8843C",
+            "status_bar_critical": "#F0786C", "session_label": "#5CC4A3",
+            "session_border": "#5E6B66", "completion_menu_bg": "#12211C",
+            "completion_menu_current_bg": "#1F4A3C", "selection_bg": "#1F4A3C",
+            "shell_dollar": "#4dabf7", "voice_status_bg": "#12211C"},
+        # Light overlay (merged onto `colors`). #18AA7F is 2.9:1 on white, so text takes the
+        # deeper #0A6B4F (6.5:1) and the brand colour stays out of running text. Fills (*_bg)
+        # flip to a pale green field; every foreground that sits on it is listed with it.
         "light_colors": {
-            "banner_title": "#C8961E", "banner_accent": "#D89B04", "banner_dim": "#B8860B",
-            "banner_text": "#5C4718", "ui_accent": "#D89B04", "ui_label": "#A97E10",
-            "ui_ok": "#2E7D32", "ui_error": "#C62828", "ui_warn": "#D97706", "prompt": "#5C4718",
-            "response_border": "#C8961E", "session_label": "#A97E10", "status_bar_text": "#6F6F6F",
-            "status_bar_strong": "#C8961E", "status_bar_dim": "#9A8A5A",
-            "status_bar_good": "#2E7D32", "status_bar_warn": "#C8961E", "status_bar_bad": "#C2410C",
-            "status_bar_critical": "#B91C1C", "shell_dollar": "#1E6FC0",
-            "completion_menu_bg": "#F5F5F5", "completion_menu_current_bg": "#E0D1BF",
-            "selection_bg": "#D4E4F7", "status_bar_bg": "#F5F5F5", "voice_status_bg": "#F5F5F5"},
-        "spinner": {},  # empty = hardcoded defaults in display.py
+            "banner_border": "#9CC7B8", "banner_title": "#0B1210", "banner_accent": "#0A6B4F",
+            "banner_dim": "#5F6D67", "banner_text": "#1B2420", "ui_accent": "#0A6B4F",
+            "ui_label": "#0A6B4F", "ui_ok": "#0A6B4F", "ui_error": "#B3261E", "ui_warn": "#8A5A06",
+            "prompt": "#0A6B4F", "input_rule": "#9CC7B8", "response_border": "#0A6B4F",
+            "session_label": "#0A6B4F", "session_border": "#8A9690",
+            "status_bar_bg": "#E2F1EB", "status_bar_text": "#33403B",
+            "status_bar_strong": "#0A6B4F", "status_bar_dim": "#5A6862",
+            "status_bar_good": "#0A6B4F", "status_bar_warn": "#8A5A06", "status_bar_bad": "#A6420B",
+            "status_bar_critical": "#B3261E", "shell_dollar": "#1E6FC0",
+            "completion_menu_bg": "#F1F6F4", "completion_menu_current_bg": "#CFE8DE",
+            "selection_bg": "#CFE8DE", "voice_status_bg": "#E2F1EB"},
+        # One steady mark, the journal's "running" glyph, instead of display.py's faces. Skins
+        # without a spinner block inherit it.
+        "spinner": {"waiting_faces": ["▸"], "thinking_faces": ["▸"]},
         "branding": _VAEL_BRANDING,
         "tool_prefix": "┊"},
     "ares": {
@@ -153,7 +159,7 @@ _BUILTIN_SKINS: Dict[str, Dict[str, Any]] = {
             "completion_menu_current_bg": "#464646", "selection_bg": "#505050",
             "shell_dollar": "#aaaaaa", "voice_status_bg": "#1F1F1F"},
         "spinner": {},
-        "branding": {**_VAEL_BRANDING, "help_header": "[?] Available Commands"},
+        "branding": _VAEL_BRANDING,
         "tool_prefix": "┊"},
     "slate": {
         "name": "slate", "description": "Cool blue — developer-focused",
@@ -187,7 +193,7 @@ _BUILTIN_SKINS: Dict[str, Dict[str, Any]] = {
             "completion_menu_meta_current_bg": "#BFDBFE", "selection_bg": "#D3E0FB",
             "shell_dollar": "#2563EB", "voice_status_bg": "#E5EDF8"},
         "spinner": {},
-        "branding": {**_VAEL_BRANDING, "help_header": "[?] Available Commands"},
+        "branding": _VAEL_BRANDING,
         "tool_prefix": "│"},
     "warm-lightmode": {
         "name": "warm-lightmode",
@@ -487,27 +493,27 @@ def get_active_prompt_symbol(fallback: str = "❯") -> str:
     return f"{cleaned or fallback.strip()} "
 
 
-def get_active_help_header(fallback: str = "(^_^)? Available Commands") -> str:
+def get_active_help_header(fallback: str = "Commands") -> str:
     return _active_branding("help_header", fallback)
 
 
-def get_active_goodbye(fallback: str = "Goodbye! ☤") -> str:
+def get_active_goodbye(fallback: str = "Session closed.") -> str:
     return _active_branding("goodbye", fallback)
 
 
 # Palette resolution order for prompt_toolkit styles: (name, skin color key, fallback). A
 # fallback starting with "@" names an earlier entry (so a missing key inherits its remapped value).
 _STYLE_PALETTE = (
-    ("prompt", "prompt", ""), ("input_rule", "input_rule", "#CD7F32"),
-    ("title", "banner_title", "#FFD700"), ("text", "banner_text", "#FFF8DC"),
-    ("dim", "banner_dim", "#555555"), ("label", "ui_label", "@title"), ("warn", "ui_warn", "#FF8C00"),
-    ("error", "ui_error", "#FF6B6B"), ("status_bg", "status_bar_bg", "#1a1a2e"),
+    ("prompt", "prompt", ""), ("input_rule", "input_rule", "#2E6F5B"),
+    ("title", "banner_title", "#F2F6F4"), ("text", "banner_text", "#D3DCD7"),
+    ("dim", "banner_dim", "#7C8B85"), ("label", "ui_label", "@title"), ("warn", "ui_warn", "#E0A83C"),
+    ("error", "ui_error", "#EF6B5E"), ("status_bg", "status_bar_bg", "#12211C"),
     ("status_text", "status_bar_text", "@text"), ("status_strong", "status_bar_strong", "@title"),
-    ("status_dim", "status_bar_dim", "@dim"), ("ok", "ui_ok", "#8FBC8F"),
+    ("status_dim", "status_bar_dim", "@dim"), ("ok", "ui_ok", "#18AA7F"),
     ("status_good", "status_bar_good", "@ok"), ("status_warn", "status_bar_warn", "@warn"),
     ("accent", "banner_accent", "@warn"), ("status_bad", "status_bar_bad", "@accent"),
     ("status_critical", "status_bar_critical", "@error"), ("voice_bg", "voice_status_bg", "@status_bg"),
-    ("menu_bg", "completion_menu_bg", "#1a1a2e"), ("menu_current_bg", "completion_menu_current_bg", "#333355"),
+    ("menu_bg", "completion_menu_bg", "#12211C"), ("menu_current_bg", "completion_menu_current_bg", "#1F4A3C"),
     ("menu_meta_bg", "completion_menu_meta_bg", "@menu_bg"),
     ("menu_meta_current_bg", "completion_menu_meta_current_bg", "@menu_current_bg"))
 
@@ -536,6 +542,8 @@ _STYLE_TEMPLATES = {
     "sudo-text": "{text}",
     "approval-border": "{input_rule}", "approval-title": "{warn} bold", "approval-desc": "{text} bold",
     "approval-cmd": "{dim} italic", "approval-choice": "{dim}", "approval-selected": "{title} bold",
+    "journal-margin": "bg:{status_bg} {status_dim}", "journal-margin-ask": "bg:{status_bg} {status_warn} bold",
+    "journal-block-bar": "{warn} bg:{warn_band} bold", "journal-block-warn": "bg:{warn_band}",
     "voice-status": "bg:{voice_bg} {label}", "voice-status-recording": "bg:{voice_bg} {error} bold"}
 
 
@@ -553,6 +561,9 @@ def get_prompt_toolkit_style_overrides() -> Dict[str, str]:
         palette[name] = skin.get_color(key, palette[fallback[1:]] if fallback.startswith("@") else fallback)
     # This badge paints both sides; foreground-only light remapping destroys its contrast.
     palette["badge_bg"] = skin.colors.get(
-        "status_bar_strong", skin.colors.get("banner_title", "#FFD700"))
-    palette["badge_fg"] = skin.colors.get("status_bar_bg", "#1a1a2e")
+        "status_bar_strong", skin.colors.get("banner_title", "#18AA7F"))
+    palette["badge_fg"] = skin.colors.get("status_bar_bg", "#12211C")
+    # The band behind a question that waits on the reader: the margin field warmed toward the warning colour.
+    from vael_cli.journal import mix_colours
+    palette["warn_band"] = mix_colours(palette["status_bg"], palette["warn"], 0.12)
     return {cls: tpl.format(**palette) for cls, tpl in _STYLE_TEMPLATES.items()}

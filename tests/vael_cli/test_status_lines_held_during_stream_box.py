@@ -28,7 +28,13 @@ def cli_stub(monkeypatch):
     monkeypatch.setattr(climod, "_cprint", lambda s: emitted.append(s))
     monkeypatch.setattr(climod, "_terminal_width_for_streaming", lambda: 74)
     monkeypatch.setattr(VaelCLI, "_scrollback_box_width", lambda self: 74)
-    return cli, emitted
+    # These tests pin the framed box's footer; that box is the hero skins' layout. The journal's
+    # message block has no footer and is covered in test_journal_blocks.py.
+    from vael_cli import skin_engine
+    previous = skin_engine.get_active_skin_name()
+    skin_engine.set_active_skin("ares")
+    yield cli, emitted
+    skin_engine.set_active_skin(previous)
 
 
 def test_answer_streams_before_turn_end_after_reasoning(cli_stub):

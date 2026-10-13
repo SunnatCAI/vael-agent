@@ -15,6 +15,7 @@ import { INLINE_MODE, NATIVE_MODE, SHOW_FPS, TERMUX_TUI_MODE } from '../config/e
 import { placeholder } from '../content/placeholders.js'
 import { prevRenderedMsg } from '../domain/blockLayout.js'
 import { useT } from '../i18n/useT.js'
+import { COMPOSER_FRAME_COLS, composerFramed } from '../lib/composerFrame.js'
 import {
   COMPOSER_PROMPT_GAP_WIDTH,
   composerPromptWidth,
@@ -34,6 +35,7 @@ import { FpsOverlay } from './fpsOverlay.js'
 import { GoalBar } from './goalBar.js'
 import { HelpHint } from './helpHint.js'
 import { Journey } from './journey.js'
+import { KeyHints } from './keyHints.js'
 import { MessageLine } from './messageLine.js'
 import { PetKitty, PetSprite } from './petSprite.js'
 import { QueuedMessages } from './queuedMessages.js'
@@ -318,7 +320,9 @@ const ComposerPane = memo(function ComposerPane({
 
   const promptWidth = composerPromptWidth(promptText)
   const promptBlank = ' '.repeat(promptWidth)
-  const inputColumns = stableComposerColumns(composer.cols, promptWidth, TERMUX_TUI_MODE)
+  const framed = composerFramed(ui.theme, composer.cols, TERMUX_TUI_MODE)
+  const frameCols = framed ? COMPOSER_FRAME_COLS : 0
+  const inputColumns = stableComposerColumns(composer.cols - frameCols, promptWidth, TERMUX_TUI_MODE)
   const inputHeight = inputVisualHeight(composer.input, inputColumns)
   const inputMouseRef = useRef<null | TextInputMouseApi>(null)
 
@@ -419,7 +423,10 @@ const ComposerPane = memo(function ComposerPane({
         {!nativeMode && composer.input === '?' && !composer.inputBuf.length && <HelpHint t={ui.theme} />}
 
         {!isBlocked && (
-          <>
+          <Box
+            flexDirection="column"
+            {...(framed ? { borderColor: ui.theme.color.border, borderStyle: 'round' as const, paddingX: 1 } : {})}
+          >
             {composer.inputBuf.map((line, i) => (
               <Box key={i}>
                 <Box width={promptWidth}>
@@ -439,7 +446,7 @@ const ComposerPane = memo(function ComposerPane({
               onMouseDrag={dragFromPromptRow}
               onMouseUp={endInputDrag}
               position="relative"
-              width={Math.max(1, composer.cols - 2)}
+              width={Math.max(1, composer.cols - 2 - frameCols)}
             >
               <Box width={promptWidth}>
                 {sh ? (
@@ -478,15 +485,21 @@ const ComposerPane = memo(function ComposerPane({
                 <GoodVibesHeart t={ui.theme} tick={status.goodVibesTick} />
               </Box>
             </Box>
-          </>
+          </Box>
         )}
+
+        {!isBlocked && framed && <KeyHints busy={ui.busy} t={ui.theme} />}
       </Box>
 
       {nativeMode && <FloatingOverlays {...floatingOverlayProps} nativeMode />}
 
       {nativeMode && composer.input === '?' && !composer.inputBuf.length && <HelpHint nativeMode t={ui.theme} />}
 
-      {!composer.empty && !ui.sid && <Text color={ui.theme.color.muted}>☤ {ui.status}</Text>}
+      {!composer.empty && !ui.sid && (
+        <Text color={ui.theme.color.muted}>
+          {ui.theme.brand.icon} {ui.status}
+        </Text>
+      )}
 
       <AmbientDock placement="dock-bottom" />
       <StatusRulePane at="bottom" composer={composer} nativeMode={nativeMode} status={status} />

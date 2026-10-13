@@ -86,4 +86,10 @@ def resolve_send_config(config: dict | None) -> SendConfig:
         )
         return SendConfig(enabled=enabled, send=False, endpoint=endpoint)
 
+    # The built-in endpoint belongs to the upstream project, not to VAEL: a ``send: true`` carried
+    # over from an upstream install must never upload there. Only an endpoint the owner configured
+    # themselves can receive anything.
+    if endpoint == DEFAULT_ENDPOINT:
+        return SendConfig(enabled=enabled, send=False, endpoint=endpoint)
+
     return SendConfig(enabled=enabled, send=send_requested, endpoint=endpoint)

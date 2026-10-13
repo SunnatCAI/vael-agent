@@ -253,12 +253,12 @@ export function themeToneHex(tone: string): string {
 
 const BRAND: ThemeBrand = {
   name: 'VAEL Agent',
-  icon: '☤',
+  icon: '▌',
   prompt: '❯',
-  welcome: 'Type your message or /help for commands.',
-  goodbye: 'Goodbye! ☤',
+  welcome: 'Type a message, or / for commands.',
+  goodbye: 'Session closed.',
   tool: '┊',
-  helpHeader: '(^_^)? Commands'
+  helpHeader: 'Commands'
 }
 
 const cleanPromptSymbol = (s: string | undefined, fallback: string) => {
@@ -347,7 +347,7 @@ export function buildPalette(seeds: ThemeSeeds, isLight: boolean): ThemeColors {
     // but are independently skinnable.
     syntaxString: seeds.accent,
     syntaxNumber: seeds.text,
-    syntaxKeyword: seeds.border ?? tones.border,
+    syntaxKeyword: seeds.warn,
     syntaxComment: muted,
 
     prompt: seeds.prompt ?? seeds.text,
@@ -370,51 +370,53 @@ export function buildPalette(seeds: ThemeSeeds, isLight: boolean): ThemeColors {
 }
 
 export const DARK_SEEDS: ThemeSeeds = {
-  accent: '#FFBF00',
-  // The classic VAEL navy surfaces are IDENTITY, not derivation drift —
-  // keep them as explicit fill seeds (the ladder derives them for skins
-  // that don't care).
-  activeRow: '#333355',
+  // #18AA7F is the brand colour (6.6:1 on a black terminal); it carries the
+  // mark, commands and good states. Values match the default skin in
+  // vael_cli/skin_engine.py so the classic CLI and the TUI render the same.
+  accent: '#18AA7F',
+  // The deep-green surfaces are IDENTITY, not derivation drift — keep them
+  // as explicit fill seeds (the ladder derives them for skins that don't
+  // care).
+  activeRow: '#1F4A3C',
   bg: '#101014',
-  border: '#CD7F32',
-  error: '#ef5350',
-  ok: '#4caf50',
-  primary: '#FFD700',
-  prompt: '#FFF8DC',
-  selection: '#3a3a55',
+  border: '#2E6F5B',
+  error: '#EF6B5E',
+  // Derived muted lands on a mid green at 4.3:1; the skin's own dim tone reads better.
+  muted: '#7C8B85',
+  ok: '#18AA7F',
+  primary: '#18AA7F',
+  prompt: '#18AA7F',
+  selection: '#1F4A3C',
   shellDollar: '#4dabf7',
-  statusBad: '#FF8C00',
-  statusCritical: '#FF6B6B',
-  statusGood: '#8FBC8F',
-  statusWarn: '#FFD700',
-  surface: '#1a1a2e',
-  text: '#FFF8DC',
-  warn: '#ffa726'
+  statusBad: '#E8843C',
+  statusCritical: '#F0786C',
+  statusGood: '#18AA7F',
+  statusWarn: '#E0A83C',
+  surface: '#12211C',
+  text: '#D3DCD7',
+  warn: '#E0A83C'
 }
 
-// Light-terminal seeds: darker golds/ambers that stay legible on white.
-// The classic light-mode VAEL look was never hand-authored: for years the
-// TUI emitted the DARK golds and hosts with xterm's minimumContrastRatio
-// (Cursor defaults to 4.5) lifted them against white — hue and saturation
-// kept, luminance clamped. These seeds are those exact lifts
-// (liftForContrast(dark, '#ffffff', 4.5)), so hosts WITHOUT a contrast pass
-// render the same thing Cursor always showed. Text/prompt stay ink — body
-// copy historically rendered in the terminal's default near-black fg.
+// Light-terminal seeds. #18AA7F is 2.9:1 on white, so text takes the deeper
+// #0A6B4F (6.5:1) and the brand colour stays out of running text; amber and
+// red are darkened the same way. Values match the default skin's
+// `light_colors`.
 export const LIGHT_SEEDS: ThemeSeeds = {
-  accent: '#956E00',
+  accent: '#0A6B4F',
   bg: '#ffffff',
-  border: '#A56628',
-  error: '#C14240',
-  ok: '#367E39',
-  primary: '#867000',
-  prompt: '#2B2014',
-  shellDollar: '#377BB3',
-  statusBad: '#A65A00',
-  statusCritical: '#B94D4D',
-  statusGood: '#5C7A5C',
-  statusWarn: '#867000',
-  text: '#3D2F13',
-  warn: '#956115'
+  border: '#9CC7B8',
+  error: '#B3261E',
+  muted: '#5F6D67',
+  ok: '#0A6B4F',
+  primary: '#0A6B4F',
+  prompt: '#0A6B4F',
+  shellDollar: '#1E6FC0',
+  statusBad: '#A6420B',
+  statusCritical: '#B3261E',
+  statusGood: '#0A6B4F',
+  statusWarn: '#8A5A06',
+  text: '#1B2420',
+  warn: '#8A5A06'
 }
 
 export const DARK_THEME: Theme = {

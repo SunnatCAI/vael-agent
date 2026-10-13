@@ -17,6 +17,7 @@ import re
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
+from agent.ctf_guard import CYBERAI_MENTOR_GUIDANCE
 from agent.delegation_context import owned_kanban_task
 from agent.prompt_builder import (
     ASYNC_HANDOFF_GUIDANCE, DEFAULT_AGENT_IDENTITY, EXECUTION_GUIDANCE_MODELS, GOOGLE_MODEL_OPERATIONAL_GUIDANCE,
@@ -561,6 +562,8 @@ def _guidance_parts(agent: Any) -> List[str]:
             ) if getattr(agent, flag, True)
         ]
     parts.append(_tool_guidance_block(agent))  # None/empty entries are dropped by _join_tier
+    # Every agent, with or without tools, is told to mentor rather than solve CyberAI challenges.
+    parts.append(CYBERAI_MENTOR_GUIDANCE)
     if not agent.valid_tool_names:
         return parts
     # Steering only lands inside tool results, so only reachable with tools.

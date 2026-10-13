@@ -559,7 +559,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             {sessions_html}
             
             <footer>
-                Built with ☤ VAEL Agent • Generated on {generated_at}
+                Built with VAEL Agent • Generated on {generated_at}
             </footer>
         </div>
     </div>

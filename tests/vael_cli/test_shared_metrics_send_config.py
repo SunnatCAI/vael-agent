@@ -43,9 +43,11 @@ class TestSendRequiresCollection:
         assert resolved.enabled is True
         assert resolved.send is False
 
-    def test_send_with_collection_sends(self):
-        resolved = resolve_send_config(_config(enabled=True, send=True))
-        assert resolved.send is True
+    def test_send_with_collection_sends_only_to_an_endpoint_the_owner_set(self):
+        """The built-in endpoint is the upstream project's; opting in never uploads there."""
+        own = resolve_send_config(_config(enabled=True, send=True, endpoint="https://metrics.example.test/v1"))
+        assert own.send is True
+        assert resolve_send_config(_config(enabled=True, send=True)).send is False
 
     def test_send_without_collection_is_refused(self):
         resolved = resolve_send_config(_config(enabled=False, send=True))

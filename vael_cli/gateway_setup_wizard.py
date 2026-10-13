@@ -768,7 +768,7 @@ def _setup_service_action(
 
 _WIZARD_BANNER = (
     "┌─────────────────────────────────────────────────────────┐",
-    "│             ☤ Gateway Setup                            │",
+    "│               Gateway Setup                            │",
     "├─────────────────────────────────────────────────────────┤",
     "│  Configure messaging platforms and the gateway service. │",
     "│  Press Ctrl+C at any time to exit.                     │",

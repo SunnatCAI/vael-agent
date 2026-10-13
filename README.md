@@ -2,7 +2,7 @@
   <img src="assets/banner.png" alt="VAEL Agent" width="100%">
 </p>
 
-# VAEL Agent ☤
+# VAEL Agent
 <p align="center">
   <a href="https://hermes-agent.nousresearch.com/">VAEL Agent</a> | <a href="https://hermes-agent.nousresearch.com/">VAEL Desktop</a>
 </p>

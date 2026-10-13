@@ -78,7 +78,7 @@ class TestHandleIndicatorCommand(unittest.TestCase):
 
     def test_status_argument_shows_status(self):
         cli_mod = _import_cli()
-        stub = self._stub()  # no display config -> default kaomoji
+        stub = self._stub()  # no display config -> the default style
         with (
             patch.object(cli_mod, "_cprint") as mock_cprint,
             patch.object(cli_mod, "save_config_value") as mock_save,
@@ -87,7 +87,8 @@ class TestHandleIndicatorCommand(unittest.TestCase):
 
         mock_save.assert_not_called()
         printed = " ".join(str(c) for c in mock_cprint.call_args_list)
-        self.assertIn("kaomoji", printed)
+        from vael_constants import DEFAULT_INDICATOR_STYLE
+        self.assertIn(DEFAULT_INDICATOR_STYLE, printed)
 
     def test_valid_style_saves_to_config_key(self):
         cli_mod = _import_cli()
