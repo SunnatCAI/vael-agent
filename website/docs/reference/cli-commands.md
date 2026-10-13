@@ -62,6 +62,7 @@ The install also ships `vael-agent`, a minimal runner that sends one query and e
 | `vael login` / `logout` | **Deprecated** — use `vael auth` instead. |
 | `vael send` | Send a one-shot message to a configured messaging platform (Telegram, Discord, Slack, Signal, SMS, …). Useful from shell scripts, cron jobs, CI hooks, and monitoring daemons — no agent loop, no LLM. |
 | `vael peer` | Register peer VAEL gateways on other machines and DM their agents' canonical Bot Chats (`vael peer dm <peer>[/<agent>] "…"`). The transport behind cross-machine bot-to-bot messaging. |
+| `vael flow` | Validate and run n8n-style flow documents (the CyberAI flow format) on this machine; `vael` and `agent` nodes use your own agent and keys. |
 | `vael secrets` | Manage external secret sources (currently Bitwarden Secrets Manager) for pulling API keys at process startup instead of from `~/.vael/.env`. |
 | `vael migrate` | Diagnose and (optionally) rewrite `config.yaml` to replace references to retired models or deprecated settings (e.g. `migrate xai`). |
 | `vael codex-runtime` | Noninteractive counterpart of `/codex-runtime`: `migrate [--dry-run] [--json]` regenerates the VAEL-managed block in `~/.codex/config.toml` for the selected profile. See [Codex app-server runtime](../user-guide/features/codex-app-server-runtime.md#running-the-migration-from-a-script). |
@@ -569,6 +570,36 @@ cross-machine teammates without SOUL edits. See
 [Bot Mode](../user-guide/bot-mode.md).
 
 Exit codes: `0` on success, `1` on delivery/peer failure, `2` on usage errors.
+
+## `vael flow`
+
+```bash
+vael flow new <file> [--name NAME]
+vael flow validate <file>
+vael flow run <file> [--input KEY=VALUE]... [--input-json JSON] [--toolsets SETS] [--timeout SECONDS] [--json]
+```
+
+Run n8n-style automations on this machine. A flow is a node-and-edge JSON document — the same format the
+CyberAI flow editor saves, so a flow drawn there runs here and the other way round. Nodes: `start`, `action`,
+`transform`, `delay`, `condition` (`true`/`false` branches), `loop` (`loop`/`exit` ports), `http`, and the
+two that call the agent, `vael` (a prompt) and `agent` (a task). The `telegram` and `pc` nodes need CyberAI
+itself and stop the run with that reason.
+
+`{{input.key}}`, `{{steps.<nodeId>.output.<path>}}`, `{{loop.item}}` and `{{loop.index0}}` are resolved
+without `eval`; a path that does not exist is an error, never an empty string. `http` refuses private and
+metadata addresses and credential headers.
+
+The `vael` and `agent` nodes run this machine's VAEL Agent with your own keys. They get the `safe` toolset
+(web, vision, image generation — no terminal) unless you pass `--toolsets`: a headless run approves dangerous
+commands without asking, so widen it only for flows you trust.
+
+| Subcommand | Description |
+|--------|-------------|
+| `new <file>` | Write a starter flow (`start` → `vael`). Refuses to overwrite without `--force`. |
+| `validate <file>` | Check the document and list every problem: unknown node types, edges to missing nodes, cycles outside a loop, nodes nothing leads to. |
+| `run <file>` | Run it. Steps go to stderr, the last output to stdout; `--json` prints every step. |
+
+Exit codes: `0` on success, `1` when the flow is invalid or a step fails, `2` on usage errors.
 
 ## `vael secrets`
 
