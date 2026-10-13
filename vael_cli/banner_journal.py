@@ -132,7 +132,8 @@ def _head(j: Journal, w: Welcome) -> List["Text"]:
     if ready:
         about.append("  ·  ", style=pal.dim)
         about.append_text(_model_text(j, w))
-    lines.append(about)
+    # The summary can be longer than the 64-80 column header; wrap it instead of letting it overflow.
+    lines.extend(about.wrap(j.console, max(10, j.width - 1)) if about.cell_len > j.width - 1 else [about])
     room = j.width - 3
     for piece in j._continue(j.dim(w.cwd), room, room):  # a long path continues, it is never cut
         lines.append(Text.assemble(("  ", ""), piece))

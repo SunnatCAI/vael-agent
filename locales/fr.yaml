@@ -2812,6 +2812,7 @@ cli:
     exit_label_duration: "Durée :         {duration}"
     exit_label_messages: "Messages :      {count} ({user} utilisateur, {tool_calls} appels d'outil)"
   status_bar:
+    no_model: "aucun modèle"
     vim_insert: "INSERTION"
     vim_replace: "REMPLACEMENT"
     vim_normal: "NORMAL"
@@ -3391,6 +3392,7 @@ cli:
       enabled_in_config: "Mot d'activation activé dans la configuration (wake_word.enabled: true)."
       disabled_in_config: "Mot d'activation désactivé dans la configuration (wake_word.enabled: false)."
   tip_line: "✦ Astuce : {tip}"
+  tip_label: "Astuce"
   banner:
     context_too_low: "⚠️  La longueur de contexte n'est que de {tokens} tokens — c'est probablement trop peu pour un usage agentique avec des outils."
     context_minimum: "VAEL a besoin d'au moins {tokens} tokens. Les schémas d'outils et le prompt système occupent un préfixe fixe volumineux."

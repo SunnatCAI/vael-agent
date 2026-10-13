@@ -346,7 +346,7 @@ export function SessionPanel({ info, maxWidth, sid, t }: SessionPanelProps) {
         // No hero column (narrow, or the skin ships no art): surface name, model, cwd and session
         // here so they aren't lost.
         <Box flexDirection="column" marginBottom={1}>
-          {!framed && (
+          {(!framed || !t.bannerHero) && (
             <Text bold color={t.color.primary} wrap="truncate-end">
               {t.brand.name}
               {info.version ? ` v${info.version}` : ''}

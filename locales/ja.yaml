@@ -2534,6 +2534,7 @@ cli:
     exit_label_duration: "所要時間:       {duration}"
     exit_label_messages: "メッセージ:       {count} (ユーザー {user}、ツール呼び出し {tool_calls})"
   status_bar:
+    no_model: "モデルなし"
     vim_insert: "INSERT"
     vim_replace: "REPLACE"
     vim_normal: "NORMAL"
@@ -3084,6 +3085,7 @@ cli:
       enabled_in_config: "設定でウェイクワードが有効になっています (wake_word.enabled: true)。"
       disabled_in_config: "設定でウェイクワードが無効になっています (wake_word.enabled: false)。"
   tip_line: "✦ ヒント: {tip}"
+  tip_label: "ヒント"
   banner:
     context_too_low: "⚠️  コンテキスト長がわずか {tokens} トークンです — ツールを使うエージェント用途には低すぎる可能性があります。"
     context_minimum: "VAEL には少なくとも {tokens} トークンが必要です。ツールスキーマとシステムプロンプトが大きな固定プレフィックスを占めます。"

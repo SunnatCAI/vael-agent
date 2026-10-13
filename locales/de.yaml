@@ -2534,6 +2534,7 @@ cli:
     exit_label_duration: "Dauer:          {duration}"
     exit_label_messages: "Nachrichten:    {count} ({user} Benutzer, {tool_calls} Tool-Aufrufe)"
   status_bar:
+    no_model: "kein Modell"
     vim_insert: "EINFÜGEN"
     vim_replace: "ERSETZEN"
     vim_normal: "NORMAL"
@@ -3084,6 +3085,7 @@ cli:
       enabled_in_config: "Wake-Word in der Konfiguration aktiviert (wake_word.enabled: true)."
       disabled_in_config: "Wake-Word in der Konfiguration deaktiviert (wake_word.enabled: false)."
   tip_line: "✦ Tipp: {tip}"
+  tip_label: "Tipp"
   banner:
     context_too_low: "⚠️  Die Kontextlänge beträgt nur {tokens} Tokens — das ist wahrscheinlich zu wenig für den Agent-Einsatz mit Tools."
     context_minimum: "VAEL benötigt mindestens {tokens} Tokens. Tool-Schemas und System-Prompt belegen ein großes festes Präfix."

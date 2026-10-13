@@ -2534,6 +2534,7 @@ cli:
     exit_label_duration: "Тривалість:     {duration}"
     exit_label_messages: "Повідомлень:    {count} ({user} від користувача, {tool_calls} викликів інструментів)"
   status_bar:
+    no_model: "немає моделі"
     vim_insert: "ВСТАВКА"
     vim_replace: "ЗАМІНА"
     vim_normal: "ЗВИЧАЙНИЙ"
@@ -3084,6 +3085,7 @@ cli:
       enabled_in_config: "Слово активації увімкнено в конфігурації (wake_word.enabled: true)."
       disabled_in_config: "Слово активації вимкнено в конфігурації (wake_word.enabled: false)."
   tip_line: "✦ Порада: {tip}"
+  tip_label: "Порада"
   banner:
     context_too_low: "⚠️  Довжина контексту лише {tokens} токенів — цього, ймовірно, надто мало для роботи агента з інструментами."
     context_minimum: "VAEL потребує щонайменше {tokens} токенів. Схеми інструментів + системний промпт займають великий фіксований префікс."

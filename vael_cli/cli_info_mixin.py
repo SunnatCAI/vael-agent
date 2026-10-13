@@ -600,7 +600,7 @@ class CLIInfoMixin:
         try:
             from vael_cli.tips import get_random_tip
             _tip = get_random_tip()
-            if self._journal_note("tip", _tip):
+            if self._journal_note(t("cli.tip_label"), _tip):
                 return
             try:
                 from vael_cli.skin_engine import get_active_skin

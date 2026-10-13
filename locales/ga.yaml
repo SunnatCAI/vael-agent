@@ -2534,6 +2534,7 @@ cli:
     exit_label_duration: "Fad:            {duration}"
     exit_label_messages: "Teachtaireachtaí: {count} ({user} úsáideoir, {tool_calls} glao uirlise)"
   status_bar:
+    no_model: "gan samhail"
     vim_insert: "IONSÁIGH"
     vim_replace: "IONADAIGH"
     vim_normal: "GNÁTH"
@@ -3084,6 +3085,7 @@ cli:
       enabled_in_config: "Focal múscailte cumasaithe sa chumraíocht (wake_word.enabled: true)."
       disabled_in_config: "Focal múscailte díchumasaithe sa chumraíocht (wake_word.enabled: false)."
   tip_line: "✦ Leid: {tip}"
+  tip_label: "Leid"
   banner:
     context_too_low: "⚠️  Níl fad an chomhthéacs ach {tokens} comhartha — is dócha go bhfuil sé sin ró-íseal d'úsáid ghníomhaire le huirlisí."
     context_minimum: "Teastaíonn {tokens} comhartha ar a laghad ó VAEL. Úsáideann scéimrí uirlisí + leid an chórais réimír sheasta mhór."

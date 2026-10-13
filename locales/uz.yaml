@@ -2634,6 +2634,7 @@ cli:
     exit_label_duration: "Davomiyligi:    {duration}"
     exit_label_messages: "Xabarlar:       {count} ({user} ta foydalanuvchi, {tool_calls} ta vosita chaqiruvi)"
   status_bar:
+    no_model: "model yo'q"
     vim_insert: "INSERT"
     vim_replace: "REPLACE"
     vim_normal: "NORMAL"
@@ -3184,6 +3185,7 @@ cli:
       enabled_in_config: "Uyg'otuvchi so'z sozlamada yoqildi (wake_word.enabled: true)."
       disabled_in_config: "Uyg'otuvchi so'z sozlamada o'chirildi (wake_word.enabled: false)."
   tip_line: "✦ Maslahat: {tip}"
+  tip_label: "Maslahat"
   banner:
     context_too_low: "⚠️  Kontekst uzunligi atigi {tokens} token — bu vositalar bilan agent ishlatish uchun juda kam bo'lishi mumkin."
     context_minimum: "VAEL kamida {tokens} token talab qiladi. Vosita sxemalari + tizim prompti katta qat'iy prefiksdan foydalanadi."

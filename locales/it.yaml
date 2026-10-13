@@ -2534,6 +2534,7 @@ cli:
     exit_label_duration: "Durata:         {duration}"
     exit_label_messages: "Messaggi:       {count} ({user} utente, {tool_calls} chiamate a strumenti)"
   status_bar:
+    no_model: "nessun modello"
     vim_insert: "INSERT"
     vim_replace: "REPLACE"
     vim_normal: "NORMAL"
@@ -3084,6 +3085,7 @@ cli:
       enabled_in_config: "Parola di attivazione attiva nella configurazione (wake_word.enabled: true)."
       disabled_in_config: "Parola di attivazione disattivata nella configurazione (wake_word.enabled: false)."
   tip_line: "✦ Suggerimento: {tip}"
+  tip_label: "Suggerimento"
   banner:
     context_too_low: "⚠️  La lunghezza del contesto è di soli {tokens} token — probabilmente troppo bassa per un agente che usa strumenti."
     context_minimum: "VAEL richiede almeno {tokens} token. Gli schemi degli strumenti e il prompt di sistema occupano un prefisso fisso molto ampio."

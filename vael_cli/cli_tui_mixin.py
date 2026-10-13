@@ -121,7 +121,7 @@ class _MarginPanel:
     def __init__(self, title: str = "", title_style: str = ""):
         from vael_cli.journal import BLOCK_INDENT, MAX_WIDTH
         self.lines, self._indent, self._stamped = [], BLOCK_INDENT, False
-        columns = min(shutil.get_terminal_size((100, 24)).columns, MAX_WIDTH)
+        columns = min(_terminal_columns(), MAX_WIDTH)
         self._room = max(0, columns - BLOCK_INDENT - 3)  # text cells after the bar and its space
         if title:
             self.row(title_style, title)
@@ -153,12 +153,25 @@ class _MarginPanel:
         return self.lines
 
 
+def _terminal_columns() -> int:
+    """Width of the screen the overlay will draw on: the live prompt_toolkit output when an app is
+    running (it can differ from what ``shutil`` reports), else the process terminal."""
+    try:
+        from prompt_toolkit.application.current import get_app_or_none
+        app = get_app_or_none()
+        if app is not None:
+            return app.output.get_size().columns
+    except Exception:
+        pass
+    return shutil.get_terminal_size((100, 24)).columns
+
+
 def _modal_panel(border: str, box_width: int, title: str = "", title_style: str = ""):
     """The panel an overlay draws in: the journal's margin form when that layout is active and the
     terminal has room for the margin beside the wrapped text, else the framed one."""
     from vael_cli.banner import uses_journal_layout
     from vael_cli.journal import GUTTER
-    if uses_journal_layout() and box_width + GUTTER <= shutil.get_terminal_size((100, 24)).columns:
+    if uses_journal_layout() and box_width + GUTTER <= _terminal_columns():
         # The state glyph in the margin says "needs you"; a warning emoji in the title would repeat it.
         return _MarginPanel(title, title_style)
     return _Panel(border, box_width, title, title_style)

@@ -1271,7 +1271,7 @@ def tool_completion_parts(tool_name: str, args: dict, result: str | None = None)
     ``get_cute_tool_message`` prints, unformatted, for a layout that places the parts itself.
     ``failure`` is the bare reason (``exit 1``) or ``""``."""
     rows, suffixes = _cute_rows(tool_name, args, result)
-    return [(getattr(row, "verb", "") or tool_name, getattr(row, "detail", str(row)),
+    return [(getattr(row, "verb", "") or tool_name[:9], getattr(row, "detail", str(row)),
              suffix.strip().removeprefix("[").removesuffix("]")) for row, suffix in zip(rows, suffixes)]
 
 

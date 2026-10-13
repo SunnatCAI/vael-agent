@@ -2534,6 +2534,7 @@ cli:
     exit_label_duration: "持續時間：    {duration}"
     exit_label_messages: "訊息：        {count}（使用者 {user} 則，工具呼叫 {tool_calls} 次）"
   status_bar:
+    no_model: "無模型"
     vim_insert: "INSERT"
     vim_replace: "REPLACE"
     vim_normal: "NORMAL"
@@ -3084,6 +3085,7 @@ cli:
       enabled_in_config: "已在設定中啟用喚醒詞（wake_word.enabled: true）。"
       disabled_in_config: "已在設定中停用喚醒詞（wake_word.enabled: false）。"
   tip_line: "✦ 提示：{tip}"
+  tip_label: "提示"
   banner:
     context_too_low: "⚠️  上下文長度只有 {tokens} tokens — 對於搭配工具使用的代理而言可能太低。"
     context_minimum: "VAEL 至少需要 {tokens} tokens。工具結構描述加系統提示詞會佔用很大的固定前綴。"

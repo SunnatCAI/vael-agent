@@ -125,6 +125,8 @@ def resolve_ref(ref: str, scope: Scope) -> Any:
             "unknown_root", f'Unknown template root "{root}" (allowed: {", ".join(ALLOWED_ROOTS)}): {{{{{ref}}}}}.')
     if root == "env":
         name = parts[1] if len(parts) > 1 else ""
+        if len(parts) != 2:
+            raise ResolveError("forbidden_segment", f"env takes exactly one name ({', '.join(ENV_ALLOWLIST)}): {{{{{ref}}}}}.")
         if name not in ENV_ALLOWLIST:
             raise ResolveError(
                 "forbidden_segment", f"env.{name} is not allowed ({', '.join(ENV_ALLOWLIST)}): {{{{{ref}}}}}.")
@@ -467,7 +469,9 @@ def validate_document(doc: Any, known_kinds: Sequence[str]) -> str:
         issues.append(f"Exactly one start node is required (found {len(starts)}).")
     good_edges = []
     for edge in edges:
-        if not isinstance(edge, dict) or edge.get("source") not in ids or edge.get("target") not in ids:
+        endpoints_ok = (isinstance(edge, dict) and isinstance(edge.get("source"), str)
+                        and isinstance(edge.get("target"), str))
+        if not endpoints_ok or edge["source"] not in ids or edge["target"] not in ids:
             issues.append(f"Edge points at a node that does not exist ({edge.get('id') if isinstance(edge, dict) else edge!r}).")
         elif edge["source"] == edge["target"]:
             issues.append(f"Node connects to itself: {edge['source']}.")

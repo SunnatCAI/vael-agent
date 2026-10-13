@@ -74,8 +74,20 @@ def _block_colours(pal: Palette, role: str) -> Tuple[str, str]:
 
 
 def palette() -> Palette:
-    from vael_cli.skin_engine import get_active_skin
-    color = get_active_skin().get_color
+    try:
+        from vael_cli.skin_engine import get_active_skin
+        skin_color = get_active_skin().get_color
+    except Exception:  # a skin bug must never break the banner or the session
+        skin_color = None
+
+    def color(key: str, default: str) -> str:
+        if skin_color is None:
+            return default
+        try:
+            return skin_color(key, default)
+        except Exception:
+            return default
+
     return Palette(
         accent=color("banner_accent", "#18AA7F"), warn=color("ui_warn", "#E0A83C"),
         error=color("ui_error", "#EF6B5E"), text=color("banner_text", "#D3DCD7"),
@@ -181,7 +193,9 @@ class Journal:
         """Split ``body`` over rows: ``first_room`` cells on the first, ``room`` on the rest. A value
         with no space to break at (a path) is cut after a separator rather than mid-name."""
         pieces: List["Text"] = []
-        rest, limit = body, first_room
+        # A narrow terminal or a long label can leave no room at all; one cell still makes progress.
+        room = max(1, room)
+        rest, limit = body, max(1, first_room)
         while rest.cell_len > limit:
             first = rest.wrap(self.console, limit)[0]
             cut = len(first.plain)
@@ -288,16 +302,27 @@ def block_ansi(line: str, role: str = "assistant", *, width: Optional[int] = Non
 def block_grid(renderable, role: str = "assistant"):
     """A finished message block around a Rich renderable (the Markdown of a whole reply): the same bar
     and band as ``Journal.block``, laid out as a full-width grid so the renderable wraps inside it."""
-    from rich.table import Table
-    pal = palette()
-    bar, band = _block_colours(pal, role)
-    grid = Table.grid(padding=0, expand=True)
-    grid.add_column(width=BLOCK_INDENT, style=f"on {pal.field}")
-    grid.add_column(width=1, style=f"{bar} on {band}")
-    grid.add_column(width=1, style=f"on {band}")
-    grid.add_column(ratio=1, style=f"on {band}")
-    grid.add_row("", "▌", "", renderable)
-    return grid
+    return _BlockGrid(renderable, role)
+
+
+class _BlockGrid:
+    """The grid is built when it is printed, so the bar follows the console it lands on (ASCII-only
+    consoles get ``|`` as ``Journal.block`` does)."""
+
+    def __init__(self, renderable, role: str) -> None:
+        self.renderable, self.role = renderable, role
+
+    def __rich_console__(self, console, options):
+        from rich.table import Table
+        pal = palette()
+        bar, band = _block_colours(pal, self.role)
+        grid = Table.grid(padding=0, expand=True)
+        grid.add_column(width=BLOCK_INDENT, style=f"on {pal.field}")
+        grid.add_column(width=1, style=f"{bar} on {band}")
+        grid.add_column(width=1, style=f"on {band}")
+        grid.add_column(ratio=1, style=f"on {band}")
+        grid.add_row("", "|" if options.ascii_only else "▌", "", self.renderable)
+        yield grid
 
 
 def notice_ansi(label: str, value: str, hint: str = "", *, state: str = "notice", width: Optional[int] = None) -> str:

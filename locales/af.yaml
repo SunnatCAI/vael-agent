@@ -2534,6 +2534,7 @@ cli:
     exit_label_duration: "Duur:           {duration}"
     exit_label_messages: "Boodskappe:     {count} ({user} gebruiker, {tool_calls} gereedskapsoproepe)"
   status_bar:
+    no_model: "geen model"
     vim_insert: "INVOEG"
     vim_replace: "VERVANG"
     vim_normal: "NORMAAL"
@@ -3084,6 +3085,7 @@ cli:
       enabled_in_config: "Wekwoord in konfigurasie geaktiveer (wake_word.enabled: true)."
       disabled_in_config: "Wekwoord in konfigurasie gedeaktiveer (wake_word.enabled: false)."
   tip_line: "✦ Wenk: {tip}"
+  tip_label: "Wenk"
   banner:
     context_too_low: "⚠️  Kontekslengte is slegs {tokens} tokens — dit is waarskynlik te laag vir agentgebruik met gereedskap."
     context_minimum: "VAEL benodig ten minste {tokens} tokens. Gereedskapskemas + stelselprompt gebruik 'n groot vaste voorvoegsel."

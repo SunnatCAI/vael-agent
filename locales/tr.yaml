@@ -2534,6 +2534,7 @@ cli:
     exit_label_duration: "Süre:           {duration}"
     exit_label_messages: "Mesajlar:       {count} ({user} kullanıcı, {tool_calls} araç çağrısı)"
   status_bar:
+    no_model: "model yok"
     vim_insert: "EKLE"
     vim_replace: "DEĞİŞTİR"
     vim_normal: "NORMAL"
@@ -3084,6 +3085,7 @@ cli:
       enabled_in_config: "Uyandırma sözcüğü yapılandırmada etkinleştirildi (wake_word.enabled: true)."
       disabled_in_config: "Uyandırma sözcüğü yapılandırmada devre dışı bırakıldı (wake_word.enabled: false)."
   tip_line: "✦ İpucu: {tip}"
+  tip_label: "İpucu"
   banner:
     context_too_low: "⚠️  Bağlam uzunluğu yalnızca {tokens} token — bu, araçlarla ajan kullanımı için büyük olasılıkla çok düşük."
     context_minimum: "VAEL en az {tokens} token gerektirir. Araç şemaları + sistem istemi büyük ve sabit bir ön ek kullanır."

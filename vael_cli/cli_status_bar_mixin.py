@@ -209,7 +209,7 @@ class CLIStatusBarMixin:
         configured = (getattr(agent, "model", None) or self.model or "").strip()
         model_missing = not configured or configured.lower() == "unknown"
         if model_missing:
-            model_short = "no model"
+            model_short = t("cli.status_bar.no_model")
 
         prompt_start = getattr(self, "_prompt_start_time", None)
         turn_live = prompt_start is not None

@@ -785,7 +785,12 @@ class CLIStreamMixin:
                         line = get_cute_tool_message(function_name, stored_args, duration, result=kwargs.get("result"))
                         _cprint(f"  {line}")
                 except Exception:
-                    pass
+                    # Malformed tool arguments must not swallow the completion line.
+                    try:
+                        from agent.display import get_cute_tool_message
+                        _cprint(f"  {get_cute_tool_message(function_name, {}, duration)}")
+                    except Exception:
+                        pass
                 # One-time /verbose hint on the first long tool in the noisiest mode; latched
                 # on self and persisted to config.yaml.
                 try:

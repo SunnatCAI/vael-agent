@@ -2,7 +2,7 @@
 name: agent-flows
 description: Build n8n-style flows and teams of cooperating agents.
 version: 1.0.0
-author: Sunnatilla, VAEL Agent
+author: Sunnatilla (sunnatilla0717), VAEL Agent
 license: MIT
 platforms: [linux, macos, windows]
 metadata:
@@ -32,7 +32,7 @@ agents that hand work to each other. It does not solve CyberAI challenges: for t
 
 ## How to Run
 
-Write the file with `write_file`, then check and run it with `terminal`:
+Start from the starter file, edit it with `patch` or `write_file`, then check and run it with `terminal`:
 
 ```bash
 vael flow new digest.json --name "Daily digest"

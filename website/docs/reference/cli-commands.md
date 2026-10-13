@@ -587,7 +587,9 @@ itself and stop the run with that reason.
 
 `{{input.key}}`, `{{steps.<nodeId>.output.<path>}}`, `{{loop.item}}` and `{{loop.index0}}` are resolved
 without `eval`; a path that does not exist is an error, never an empty string. `http` refuses private and
-metadata addresses and credential headers.
+metadata addresses, does not follow redirects, and rejects the `Authorization`, `Proxy-Authorization`,
+`Cookie`, `Set-Cookie`, `Host` and `X-Forwarded-For` headers (other credential headers such as `X-API-Key`
+are not detected, so keep secrets out of flow files).
 
 The `vael` and `agent` nodes run this machine's VAEL Agent with your own keys. They get the `safe` toolset
 (web, vision, image generation — no terminal) unless you pass `--toolsets`. A headless run has nobody to ask,
@@ -600,7 +602,7 @@ flows you trust.
 | `validate <file>` | Check the document and list every problem: unknown node types, edges to missing nodes, cycles outside a loop, nodes nothing leads to. |
 | `run <file>` | Run it. Steps go to stderr, the last output to stdout; `--json` prints every step. |
 
-Exit codes: `0` on success, `1` when the flow is invalid or a step fails, `2` on usage errors.
+Exit codes: `0` on success, `1` when the flow is invalid, a step fails, or `new` would overwrite an existing file, `2` on usage errors.
 
 ## `vael secrets`
 

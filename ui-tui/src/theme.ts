@@ -347,7 +347,7 @@ export function buildPalette(seeds: ThemeSeeds, isLight: boolean): ThemeColors {
     // but are independently skinnable.
     syntaxString: seeds.accent,
     syntaxNumber: seeds.text,
-    syntaxKeyword: seeds.border ?? tones.border,
+    syntaxKeyword: seeds.warn,
     syntaxComment: muted,
 
     prompt: seeds.prompt ?? seeds.text,

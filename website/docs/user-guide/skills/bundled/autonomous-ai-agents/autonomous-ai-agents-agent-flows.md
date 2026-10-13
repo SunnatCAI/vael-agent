@@ -17,7 +17,7 @@ Build n8n-style flows and teams of cooperating agents.
 | Source | Bundled (installed by default) |
 | Path | `skills/autonomous-ai-agents/agent-flows` |
 | Version | `1.0.0` |
-| Author | Sunnatilla, VAEL Agent |
+| Author | Sunnatilla (sunnatilla0717), VAEL Agent |
 | License | MIT |
 | Platforms | linux, macos, windows |
 | Tags | `flows`, `automation`, `orchestration`, `multi-agent`, `cyberai` |
@@ -49,7 +49,7 @@ agents that hand work to each other. It does not solve CyberAI challenges: for t
 
 ## How to Run
 
-Write the file with `write_file`, then check and run it with `terminal`:
+Start from the starter file, edit it with `patch` or `write_file`, then check and run it with `terminal`:
 
 ```bash
 vael flow new digest.json --name "Daily digest"
@@ -78,7 +78,8 @@ Document: `{"schemaVersion": 1, "name": "...", "nodes": [...], "edges": [...]}`.
 | `delay` | `durationMs` (max 30000) | `out` |
 | `http` | `url`, `method`, `headers` (JSON text), `body` | `out` |
 
-References: `{{input.key}}`, `{{steps.<nodeId>.output.<path>}}`, `{{loop.item}}`, `{{loop.index0}}`.
+References: `{{input.key}}`, `{{steps.<nodeId>.output.<path>}}`, `{{loop.item}}`, `{{loop.index}}`
+(position from 0) and `{{loop.index0}}` (position from 1; the names are CyberAI's, kept so flows port).
 A path that does not exist is an error.
 `telegram` and `pc` nodes only run inside CyberAI.
 

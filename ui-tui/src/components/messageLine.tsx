@@ -171,7 +171,11 @@ export const MessageLine = memo(function MessageLine({
   // that frees, or gives up the bar's.
   const glyphGutter = transcriptGutterWidth(msg.role, t.brand.prompt)
   const gutterWidth = block ? 1 + (block.glyph ? glyphGutter : BLOCK_GUTTER) : glyphGutter
-  const bodyWidth = transcriptBodyWidth(cols, msg.role, t.brand.prompt, TERMUX_TUI_MODE) + glyphGutter - gutterWidth
+
+  const bodyWidth = Math.max(
+    1,
+    transcriptBodyWidth(cols, msg.role, t.brand.prompt, TERMUX_TUI_MODE) + glyphGutter - gutterWidth
+  )
 
   const showDetails =
     (toolsMode !== 'hidden' && Boolean(msg.tools?.length)) || (thinkingMode !== 'hidden' && Boolean(thinking))

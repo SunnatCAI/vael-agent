@@ -26,12 +26,14 @@ state; the reader can read down that margin and know what ran, when, and what wa
 
 1. **Welcome.** The braille mark beside the VAEL wordmark, then name, version, model and place; then
    tools grouped by purpose, skills as counted groups, links, notices. Below 64 cells (classic) or 57
-   (TUI) the name on the margin's green field (classic) or as text (TUI) stands in. The TUI session
-   facts are frameless.
+   (TUI) the name on the margin's green field (classic) or as text (TUI) stands in; the TUI shows no banner
+   below 34 cells. In the TUI, journal-layout skins show the session facts frameless; a skin that ships
+   `bannerHero` or `bannerLogo` keeps them framed.
 2. **Message blocks.** A reply, your message and a question that waits on you are one form: a bar and a
    tinted band behind the text. Agent reply: dim bar, quiet band. Your message: accent bar, accent band,
    time at the right edge when timestamps are on. Question (approval, confirmation, clarify, sudo):
-   warning bar and band (error colour for a dangerous one); the first row carries the time and `?`.
+   warning bar and band (error colour for a dangerous one). In the classic CLI the first row carries the
+   time and `?` in the margin; the TUI prompt has the bar and band but no timestamp margin.
 3. **Tool rows.** One stamped row per finished call: verb and detail, duration (and failure reason) at
    the right edge.
 4. **Input.** A rounded frame around prompt and text; the keys worth knowing in a dim row beneath

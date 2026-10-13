@@ -2534,6 +2534,7 @@ cli:
     exit_label_duration: "المدة:       {duration}"
     exit_label_messages: "الرسائل:       {count} ({user} من المستخدم، {tool_calls} استدعاء أداة)"
   status_bar:
+    no_model: "لا نموذج"
     vim_insert: "إدراج"
     vim_replace: "استبدال"
     vim_normal: "عادي"
@@ -3084,6 +3085,7 @@ cli:
       enabled_in_config: "كلمة التنبيه مفعّلة في الإعدادات (wake_word.enabled: true)."
       disabled_in_config: "كلمة التنبيه معطّلة في الإعدادات (wake_word.enabled: false)."
   tip_line: "✦ نصيحة: {tip}"
+  tip_label: "نصيحة"
   banner:
     context_too_low: "⚠️  طول السياق {tokens} رمزًا فقط — وهذا على الأرجح أقل مما يلزم لاستخدام الوكيل مع الأدوات."
     context_minimum: "يحتاج VAEL إلى {tokens} رمزًا على الأقل. تستهلك مخططات الأدوات وموجّه النظام بادئة ثابتة كبيرة."
