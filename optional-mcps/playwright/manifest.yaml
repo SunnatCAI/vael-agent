@@ -1,0 +1,41 @@
+# Approved MCP catalog entry.
+# Presence in this directory = approval. Merged via PR review.
+manifest_version: 1
+
+name: playwright
+description: Drive a real browser through page snapshots - navigate, click, type, fill forms, read pages.
+source: https://github.com/microsoft/playwright-mcp
+
+# Official Microsoft Playwright MCP server, launched locally through npx. Pinned to an exact
+# version (catalog rule: nothing VAEL launches may float on a dist-tag). It works from the
+# page's accessibility snapshot rather than screenshots, so it needs no vision model.
+# Requires Node.js; the first run downloads the browser build it drives.
+
+transport:
+  type: stdio
+  command: npx
+  args:
+    - -y
+    - "@playwright/mcp@0.0.83"
+  version: 0.0.83
+
+auth:
+  type: none
+
+suggest:
+  keywords:
+    - playwright
+    - browser automation
+    - web scraping
+  examples:
+    - Open a page, fill in a form and read the result
+    - Click through a site and extract what is on it
+
+post_install: |
+  No account or credentials needed. Needs Node.js on PATH; the first call
+  downloads the browser build, so it can take a minute. Tools are available
+  as soon as the session restarts.
+
+  The server opens a visible browser window. For a hidden one add "--headless"
+  to mcp_servers.playwright.args in config.yaml; "--isolated" keeps each
+  session's cookies out of the shared browser profile.

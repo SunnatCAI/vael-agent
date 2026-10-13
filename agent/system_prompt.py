@@ -17,6 +17,7 @@ import re
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
+from agent.ctf_guard import CYBERAI_MENTOR_GUIDANCE
 from agent.delegation_context import owned_kanban_task
 from agent.prompt_builder import (
     ASYNC_HANDOFF_GUIDANCE, DEFAULT_AGENT_IDENTITY, EXECUTION_GUIDANCE_MODELS, GOOGLE_MODEL_OPERATIONAL_GUIDANCE,
@@ -580,6 +581,7 @@ def _guidance_parts(agent: Any) -> List[str]:
     # blocks so their "keep working" rule cannot turn the required yield into no-op/polling activity.
     if "delegate_task" in agent.valid_tool_names:
         parts.append(ASYNC_HANDOFF_GUIDANCE)
+    parts.append(CYBERAI_MENTOR_GUIDANCE)
     return parts
 
 

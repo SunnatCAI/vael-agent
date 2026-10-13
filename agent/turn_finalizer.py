@@ -481,6 +481,9 @@ def apply_llm_output_transform(
     rewritten (prompt-cache invariant)."""
     if logger is None:
         from agent.conversation_loop import logger
+    from agent.ctf_guard import withhold_flags
+
+    final_response = withhold_flags(final_response)
     recorded = getattr(agent, "_llm_output_transform", None)
     if isinstance(recorded, tuple) and len(recorded) == 3 and recorded[0] == turn_id:
         _, transformed, pre_transform = recorded
