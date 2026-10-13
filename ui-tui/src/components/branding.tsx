@@ -3,7 +3,7 @@ import { mix } from '@vael/shared/color'
 import { useEffect, useState } from 'react'
 import unicodeSpinners from 'unicode-animations'
 
-import { artWidth, caduceus, CADUCEUS_WIDTH, logo, LOGO_WIDTH } from '../banner.js'
+import { artWidth, logo, LOGO_WIDTH, skinHero } from '../banner.js'
 import { useT } from '../i18n/useT.js'
 import { flat } from '../lib/text.js'
 import type { Theme } from '../theme.js'
@@ -50,57 +50,13 @@ export function ArtLines({ lines }: { lines: [string, string][] }) {
   )
 }
 
-// Responsive Banner: full art → compact rule → text → hidden.
+// Responsive Banner: mark + wordmark → name and tagline → hidden.
 //
 // Terminals can't scale glyphs, so "responsive" means picking a layout that
-// fits the available columns. Thresholds are picked so each tier reads
-// comfortably without forcing wrap or truncation drift on box-drawing edges.
-// Taglines live in the catalog (chatBits.branding.tagFull/tagMid); the tiny
-// tier is the bare brand name and stays untranslated.
-const TAG_TINY = 'Nous Research'
+// fits the available columns. The art is 55 columns wide; below that the name
+// stands in, and below HIDE_BELOW nothing fits. The tagline lives in the
+// catalog (chatBits.branding.tagFull/tagMid).
 const HIDE_BELOW = 34
-const COMPACT_FROM = 58
-
-const clip = (s: string, w: number) => (w <= 0 ? '' : s.length > w ? `${s.slice(0, Math.max(0, w - 1))}…` : s)
-
-const centerIn = (s: string, w: number) => {
-  const f = clip(s, w)
-  const slack = Math.max(0, w - f.length)
-  const left = slack >> 1
-
-  return `${' '.repeat(left)}${f}${' '.repeat(slack - left)}`
-}
-
-const ruleIn = (label: string, w: number) => {
-  const f = clip(label, Math.max(1, w - 4))
-  const slack = Math.max(0, w - f.length - 2)
-  const left = slack >> 1
-
-  return `${'─'.repeat(left)} ${f} ${'─'.repeat(slack - left)}`
-}
-
-function CompactBanner({ cols, t }: { cols: number; t: Theme }) {
-  const T = useT().chatBits.branding
-  // -4 keeps a margin so exact-edge rows don't trip terminal pending-wrap.
-  const w = Math.max(28, cols - 4)
-
-  // No `opaque` (see ArtLines): the dashed rules are glyphs and the tagline's
-  // centering spaces carry the text's own fg style, so every cell paints with
-  // a real see-through background. The opaque fill was writing default-bg
-  // spaces that a transparent terminal renders as black bars.
-  // NOT bold: on Cursor's transparent-background terminal, a full-width run
-  // of BOLD box-drawing dashes renders with an opaque black cell background
-  // (the plain-dash rule right below renders clean — pixel-diffed live; the
-  // only stylistic delta was bold). Bold on short label runs is fine; bold on
-  // full-width box-drawing rows is what triggers the slab.
-  return (
-    <Box flexDirection="column" height={3} marginBottom={1} width={w}>
-      <Text color={t.color.primary}>{ruleIn(t.brand.name, w)}</Text>
-      <Text color={t.color.muted}>{centerIn(T.tagFull, w)}</Text>
-      <Text color={t.color.primary}>{'─'.repeat(w)}</Text>
-    </Box>
-  )
-}
 
 export function Banner({ maxWidth, t }: { maxWidth?: number; t: Theme }) {
   const T = useT().chatBits.branding
@@ -133,7 +89,7 @@ export function Banner({ maxWidth, t }: { maxWidth?: number; t: Theme }) {
             {
               children: (
                 <Text color={t.color.muted} wrap="truncate-end">
-                  {t.brand.icon} {T.tagFull}
+                  {T.tagFull}
                 </Text>
               ),
               id: 'banner-tagline'
@@ -144,22 +100,7 @@ export function Banner({ maxWidth, t }: { maxWidth?: number; t: Theme }) {
     )
   }
 
-  if (cols >= COMPACT_FROM) {
-    return (
-      <WidgetGrid
-        cols={cols}
-        columns={1}
-        gap={0}
-        paddingX={0}
-        paddingY={0}
-        rowGap={0}
-        widgets={[{ children: <CompactBanner cols={cols} t={t} />, id: 'banner-compact' }]}
-      />
-    )
-  }
-
   const name = cols >= 52 ? t.brand.name : (t.brand.name.split(' ')[0] ?? t.brand.name)
-  const tag = cols >= 64 ? T.tagFull : cols >= 46 ? T.tagMid : TAG_TINY
 
   return (
     <Box flexDirection="column" marginBottom={1}>
@@ -174,19 +115,23 @@ export function Banner({ maxWidth, t }: { maxWidth?: number; t: Theme }) {
           {
             children: (
               <Text bold color={t.color.primary} wrap="truncate-end">
-                {t.brand.icon} {name}
+                {name}
               </Text>
             ),
             id: 'banner-name'
           },
-          {
-            children: (
-              <Text color={t.color.muted} wrap="truncate-end">
-                {t.brand.icon} {tag}
-              </Text>
-            ),
-            id: 'banner-tag'
-          }
+          ...(cols >= 46
+            ? [
+                {
+                  children: (
+                    <Text color={t.color.muted} wrap="truncate-end">
+                      {T.tagMid}
+                    </Text>
+                  ),
+                  id: 'banner-tag'
+                }
+              ]
+            : [])
         ]}
       />
     </Box>
@@ -216,10 +161,13 @@ export function SessionPanel({ info, maxWidth, sid, t }: SessionPanelProps) {
   const T = useT().chatBits.branding
   const term = useStdout().stdout?.columns ?? 100
   const cols = Math.max(20, Math.min(term, maxWidth ?? term))
-  const heroLines = caduceus(t.color, t.bannerHero || undefined)
-  const leftW = Math.min((artWidth(heroLines) || CADUCEUS_WIDTH) + 4, Math.floor(cols * 0.4))
-  const wide = cols >= 90 && leftW + 40 < cols
-  const w = Math.max(20, wide ? cols - leftW - 14 : cols - 12)
+  // A skin that ships its own art keeps the framed panel with the art beside the facts; every other
+  // skin gets the same facts frameless (the mark and wordmark are already in the Banner above).
+  const framed = Boolean(t.bannerHero || t.bannerLogo)
+  const heroLines = t.bannerHero ? skinHero(t.bannerHero) : []
+  const leftW = Math.min(artWidth(heroLines) + 4, Math.floor(cols * 0.4))
+  const wide = heroLines.length > 0 && cols >= 90 && leftW + 40 < cols
+  const w = Math.max(20, wide ? cols - leftW - 14 : cols - (framed ? 12 : 4))
   const lineBudget = Math.max(12, w - 2)
   const strip = (s: string) => (s.endsWith('_tools') ? s.slice(0, -6) : s)
 
@@ -369,10 +317,7 @@ export function SessionPanel({ info, maxWidth, sid, t }: SessionPanelProps) {
       <ArtLines lines={heroLines} />
       <Text />
 
-      <Text color={t.color.accent}>
-        {(info.model ?? '').split('/').pop()}
-        <Text color={t.color.muted}> · Nous Research</Text>
-      </Text>
+      <Text color={t.color.accent}>{(info.model ?? '').split('/').pop()}</Text>
 
       <Text color={t.color.muted} wrap="truncate-end">
         {info.cwd || process.cwd()}
@@ -398,12 +343,18 @@ export function SessionPanel({ info, maxWidth, sid, t }: SessionPanelProps) {
           </Text>
         </Box>
       ) : (
-        // Narrow layout hides the hero column; surface model/cwd/session
+        // No hero column (narrow, or the skin ships no art): surface name, model, cwd and session
         // here so they aren't lost.
         <Box flexDirection="column" marginBottom={1}>
+          {!framed && (
+            <Text bold color={t.color.primary} wrap="truncate-end">
+              {t.brand.name}
+              {info.version ? ` v${info.version}` : ''}
+              {info.release_date ? ` (${info.release_date})` : ''}
+            </Text>
+          )}
           <Text color={t.color.accent} wrap="truncate-end">
             {(info.model ?? '').split('/').pop()}
-            <Text color={t.color.muted}> · Nous Research</Text>
           </Text>
           <Text color={t.color.muted} wrap="truncate-end">
             {info.cwd || process.cwd()}
@@ -510,8 +461,12 @@ export function SessionPanel({ info, maxWidth, sid, t }: SessionPanelProps) {
     </Box>
   )
 
+  const frame = framed
+    ? { borderColor: t.color.border, borderStyle: 'round' as const, paddingX: 2, paddingY: 1 }
+    : { paddingX: 0, paddingY: 0 }
+
   return (
-    <Box borderColor={t.color.border} borderStyle="round" marginBottom={1} paddingX={2} paddingY={1}>
+    <Box marginBottom={1} {...frame}>
       <WidgetGrid
         cols={wide ? leftW + 2 + w : w}
         columns={wide ? [leftW, { fr: 1 }] : 1}

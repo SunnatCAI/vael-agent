@@ -253,7 +253,7 @@ export function themeToneHex(tone: string): string {
 
 const BRAND: ThemeBrand = {
   name: 'VAEL Agent',
-  icon: '☤',
+  icon: '▌',
   prompt: '❯',
   welcome: 'Type a message, or / for commands.',
   goodbye: 'Session closed.',
